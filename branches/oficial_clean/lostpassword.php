@@ -40,11 +40,11 @@ $mailData = array(
     );
 
 includeLang('lostpassword');
-
+$post = filter_input_array(INPUT_POST);
 $username = NULL;
-if (!empty($_POST)) {
-    if(isset($_POST['pseudo']) && !empty($_POST['pseudo'])) {
-        $username = mysql_real_escape_string($_POST['pseudo']);
+if (!empty($post)) {
+    if(isset($post['pseudo']) && !empty($post['pseudo'])) {
+        $username = mysql_real_escape_string($post['pseudo']);
         $sql =<<<EOF
 SELECT users.email, users.username
   FROM {{table}} AS users
@@ -52,12 +52,12 @@ SELECT users.email, users.username
   LIMIT 1
 EOF;
         if (!($result = doquery($sql, 'users', true))) {
-            message("Cet utilisateur n'existe pas", 'Erreur', 'lostpassword.php');
+            message($lang['Lost_FailUser'], $lang['Lost_Error'], 'lostpassword.php');
             die();
         }
         list($mailData['recipient'], $username) = $result;
-    } else if(isset($_POST['email']) && !empty($_POST['email'])) {
-        $email = mysql_real_escape_string($_POST['email']);
+    } else if(isset($post['email']) && !empty($post['email'])) {
+        $email = mysql_real_escape_string($post['email']);
         $sql =<<<EOF
 SELECT users.email, users.username
   FROM {{table}} AS users
@@ -65,12 +65,12 @@ SELECT users.email, users.username
   LIMIT 1
 EOF;
         if (!($result = doquery($sql, 'users', true))) {
-            message("Cet email n'est utilisé par aucun joueur", 'Erreur', 'lostpassword.php');
+            message("Cet email n'est utilisé par aucun joueur", $lang['Lost_Error'], 'lostpassword.php');
             die();
         }
         list($mailData['recipient'], $username) = $result;
     } else {
-        message('Veuillez entrer votre login ou votre email.', 'Erreur', 'lostpassword.php');
+        message('Veuillez entrer votre login ou votre email.', $lang['Lost_Error'], 'lostpassword.php');
         die();
     }
 
@@ -112,4 +112,4 @@ EOF;
 
 $parse = $lang;
 $page = parsetemplate(gettemplate('lostpassword'), $parse);
-display($page, $lang['registry']);
+display($page, $lang['ResetPass']);

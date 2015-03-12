@@ -36,5 +36,5 @@ $lang['pseudo']    = "Nickname";
 $lang['email']    = "E-Mail";
 $lang['ButtonSendPass'] = "Send";
 $lang['PassForm'] = "Form";
-
-?>
+$lang['Lost_FailUser'] = 'This player does not exist.<br><a href=login.php>Return</a>';
+$lang['Lost_Error'] = 'Error';
