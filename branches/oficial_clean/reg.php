@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,24 +28,22 @@
  * documentation for further information about customizing XNova.
  *
  */
-
-define('INSIDE' , true);
-define('INSTALL' , false);
+define('INSIDE', true);
+define('INSTALL', false);
 define('DISABLE_IDENTITY_CHECK', true);
-require_once dirname(__FILE__) .'/common.php';
+require_once dirname(__FILE__) . '/common.php';
 
 //on demarre la session qui ne sers ici que pour le code de secu
-if(!isset($_SESSION)) { 
-    session_start(); 
+if (!isset($_SESSION)) {
+    session_start();
 } else {
     session_destroy();
-    session_start(); 
+    session_start();
 }
 
 includeLang('reg');
 
-function sendpassemail($emailaddress, $password)
-{
+function sendpassemail($emailaddress, $password) {
     global $lang;
 
     $parse['gameurl'] = GAMEURL;
@@ -54,8 +53,7 @@ function sendpassemail($emailaddress, $password)
     return $status;
 }
 
-function mymail($to, $title, $body, $from = '')
-{
+function mymail($to, $title, $body, $from = '') {
     $from = trim($from);
 
     if (!$from) {
@@ -79,17 +77,20 @@ function mymail($to, $title, $body, $from = '')
 
     return mail($to, $title, $body, $head);
 }
-$post = filter_input_array(INPUT_POST);
+
 if ($post) {
     $errors = 0;
     $errorlist = "";
 
 //si la secu est active
 
-if ( $game_config['secu'] == 1 ){
-echo $_session['secu'];
-if (!$post['secu'] || $post['secu'] != $_SESSION['secu'] ) { $errorlist .= $lang['error_secu']; $errors++; }
-}
+    if ($game_config['secu'] == 1) {
+        echo $_session['secu'];
+        if (!$post['secu'] || $post['secu'] != $_SESSION['secu']) {
+            $errorlist .= $lang['error_secu'];
+            $errors++;
+        }
+    }
 
     $post['email'] = strip_tags($post['email']);
     if (!is_email($post['email'])) {
@@ -145,12 +146,12 @@ if (!$post['secu'] || $post['secu'] != $_SESSION['secu'] ) { $errorlist .= $lang
     }
 
     if ($errors != 0) {
-        message ($errorlist, $lang['Register']);
+        message($errorlist, $lang['Register']);
     } else {
         $newpass = $post['passwrd'];
-        $UserName = CheckInputStrings ($post['character']);
-        $UserEmail = CheckInputStrings ($post['email']);
-        $UserPlanet = CheckInputStrings (addslashes($post['planet']));
+        $UserName = CheckInputStrings($post['character']);
+        $UserEmail = CheckInputStrings($post['email']);
+        $UserPlanet = CheckInputStrings(addslashes($post['planet']));
 
         $md5newpass = md5($newpass);
         // Creation de l'utilisateur
@@ -159,7 +160,7 @@ if (!$post['secu'] || $post['secu'] != $_SESSION['secu'] ) { $errorlist .= $lang
         $QryInsertUser .= "`email` = '" . mysql_real_escape_string($UserEmail) . "', ";
         $QryInsertUser .= "`email_2` = '" . mysql_real_escape_string($UserEmail) . "', ";
         $QryInsertUser .= "`sex` = '" . mysql_real_escape_string($post['sex']) . "', ";
-	$QryInsertUser .= "`ip_at_reg` = '" . filter_input(INPUT_SERVER, 'REMOTE_ADDR') . "', ";
+        $QryInsertUser .= "`ip_at_reg` = '" . filter_input(INPUT_SERVER, 'REMOTE_ADDR') . "', ";
         $QryInsertUser .= "`id_planet` = '0', ";
         $QryInsertUser .= "`register_time` = '" . time() . "', ";
         $QryInsertUser .= "`password`='" . $md5newpass . "';";
@@ -175,7 +176,7 @@ if (!$post['secu'] || $post['secu'] != $_SESSION['secu'] ) { $errorlist .= $lang
             for ($Galaxy = $LastSettedGalaxyPos; $Galaxy <= MAX_GALAXY_IN_WORLD; $Galaxy++) {
                 for ($System = $LastSettedSystemPos; $System <= MAX_SYSTEM_IN_GALAXY; $System++) {
                     for ($Posit = $LastSettedPlanetPos; $Posit <= 4; $Posit++) {
-                        $Planet = round (rand (4, 12));
+                        $Planet = round(rand(4, 12));
 
                         switch ($LastSettedPlanetPos) {
                             case 1:
@@ -217,7 +218,7 @@ if (!$post['secu'] || $post['secu'] != $_SESSION['secu'] ) { $errorlist .= $lang
             }
 
             if (!$GalaxyRow) {
-                CreateOnePlanetRecord ($Galaxy, $System, $Planet, $NewUser['id'], $UserPlanet, true);
+                CreateOnePlanetRecord($Galaxy, $System, $Planet, $NewUser['id'], $UserPlanet, true);
                 $newpos_checked = true;
             }
             if ($newpos_checked) {
@@ -258,19 +259,18 @@ if (!$post['secu'] || $post['secu'] != $_SESSION['secu'] ) { $errorlist .= $lang
         }
         message($Message, $lang['reg_welldone']);
     }
-} elseif ( $game_config['secu'] == 1 ){
+} elseif ($game_config['secu'] == 1) {
 
-$parse = $lang;
-$_SESSION['nombre1']= rand(0,50);
-$_SESSION['nombre2']= rand(0,50);
-$_SESSION['secu'] = $_SESSION['nombre1'] + $_SESSION['nombre2'];
+    $parse = $lang;
+    $_SESSION['nombre1'] = rand(0, 50);
+    $_SESSION['nombre2'] = rand(0, 50);
+    $_SESSION['secu'] = $_SESSION['nombre1'] + $_SESSION['nombre2'];
 
     $parse['servername'] = '<img src="images/xnova.png" align="top" border="0" >';
     $parse['code_secu'] = "<th>" . $lang['code_secu'] . ": </th>";
-    $parse['affiche'] = $_SESSION['nombre1']." + ".$_SESSION['nombre2']." = <input name='secu' size='3' maxlength='3' type='text'>";
+    $parse['affiche'] = $_SESSION['nombre1'] . " + " . $_SESSION['nombre2'] . " = <input name='secu' size='3' maxlength='3' type='text'>";
     $page = parsetemplate(gettemplate('registry_form'), $parse);
-
-    }else{
+} else {
 
     // Afficher le formulaire d'enregistrement
     $parse = $lang;
@@ -279,7 +279,7 @@ $_SESSION['secu'] = $_SESSION['nombre1'] + $_SESSION['nombre2'];
     $parse['servername'] = '<img src="images/xnova.png" align="top" border="0" >';
     $page = parsetemplate(gettemplate('registry_form'), $parse);
 }
-    display ($page, $lang['registry'], false);
+display($page, $lang['registry'], false);
 
 // -----------------------------------------------------------------------------------------------------------
 // History version

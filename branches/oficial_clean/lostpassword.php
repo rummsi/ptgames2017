@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,9 +28,8 @@
  * documentation for further information about customizing XNova.
  *
  */
-
-define('INSIDE' , true);
-define('INSTALL' , false);
+define('INSIDE', true);
+define('INSTALL', false);
 define('DISABLE_IDENTITY_CHECK', true);
 require_once dirname(__FILE__) . '/common.php';
 
@@ -37,15 +37,15 @@ $mailData = array(
     'recipient' => NULL,
     'sender' => 'no-reply',
     'subject' => 'XNova:Legacies - Changement de mot de passe'
-    );
+);
 
 includeLang('lostpassword');
-$post = filter_input_array(INPUT_POST);
+
 $username = NULL;
 if (!empty($post)) {
-    if(isset($post['pseudo']) && !empty($post['pseudo'])) {
+    if (isset($post['pseudo']) && !empty($post['pseudo'])) {
         $username = mysql_real_escape_string($post['pseudo']);
-        $sql =<<<EOF
+        $sql = <<<EOF
 SELECT users.email, users.username
   FROM {{table}} AS users
   WHERE users.username="{$username}"
@@ -56,9 +56,9 @@ EOF;
             die();
         }
         list($mailData['recipient'], $username) = $result;
-    } else if(isset($post['email']) && !empty($post['email'])) {
+    } else if (isset($post['email']) && !empty($post['email'])) {
         $email = mysql_real_escape_string($post['email']);
-        $sql =<<<EOF
+        $sql = <<<EOF
 SELECT users.email, users.username
   FROM {{table}} AS users
   WHERE users.email="{$email}"
@@ -82,7 +82,7 @@ EOF;
             $randomPass .= $characters[rand(0, strlen($characters) - 1)];
         }
 
-        $message =<<<EOF
+        $message = <<<EOF
 Votre mot de passe a été modifié, veuillez trouver ci-dessous vos informations de connexion :
 login : $username
 mot de passe : $randomPass
@@ -91,14 +91,14 @@ A bientôt sur XNova:Legacies
 EOF;
 
         $version = VERSION;
-        $headers =<<<EOF
+        $headers = <<<EOF
 From: {$mailData['sender']}
 X-Sender: Legacies/{$version}
 
 EOF;
         mail($mailData['recipient'], $mailData['subject'], $message, $headers);
 
-        $sql =<<<EOF
+        $sql = <<<EOF
 UPDATE {{table}} AS users
   SET users.password="{$randomPass}"
   WHERE users.username="$username"

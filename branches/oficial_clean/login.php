@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,21 +28,20 @@
  * documentation for further information about customizing XNova.
  *
  */
-
-define('INSIDE' , true);
-define('INSTALL' , false);
-define('LOGIN'   , true);
+define('INSIDE', true);
+define('INSTALL', false);
+define('LOGIN', true);
 define('DISABLE_IDENTITY_CHECK', true);
-require_once dirname(__FILE__) .'/common.php';
+require_once dirname(__FILE__) . '/common.php';
 
 includeLang('login');
-$post = filter_input_array(INPUT_POST);
+
 if (!empty($post)) {
     $userData = array(
         'username' => mysql_real_escape_string($post['username']),
         'password' => mysql_real_escape_string($post['password'])
     );
-    $sql =<<<EOF
+    $sql = <<<EOF
 SELECT
     users.id,
     users.username,
@@ -55,9 +55,9 @@ EOF;
 
     $login = doquery($sql, '', true);
 
-    if($login['banaday'] <= time() & $login['banaday'] !='0' ){
-        doquery("UPDATE {{table}} SET `banaday` = '0', `bana` = '0', `urlaubs_modus` ='0'  WHERE `username` = '".$login['username']."' LIMIT 1;", 'users');
-        doquery("DELETE FROM {{table}} WHERE `who` = '".$login['username']."'",'banned');
+    if ($login['banaday'] <= time() & $login['banaday'] != '0') {
+        doquery("UPDATE {{table}} SET `banaday` = '0', `bana` = '0', `urlaubs_modus` ='0'  WHERE `username` = '" . $login['username'] . "' LIMIT 1;", 'users');
+        doquery("DELETE FROM {{table}} WHERE `who` = '" . $login['username'] . "'", 'banned');
     }
 
     if ($login) {
@@ -66,7 +66,7 @@ EOF;
                 setcookie('nova-cookie', serialize(array('id' => $login['id'], 'key' => $login['login_rememberme'])), time() + 2592000);
             }
 
-            $sql =<<<EOF
+            $sql = <<<EOF
 UPDATE {{table}} AS users
   SET users.onlinetime=UNIX_TIMESTAMP()
   WHERE users.id={$login['id']}
@@ -83,23 +83,23 @@ EOF;
         message($lang['Login_FailUser'], $lang['Login_Error']);
     }
 } else {
-    $parse                 = $lang;
-    $Count                 = doquery('SELECT COUNT(DISTINCT users.id) AS `players` FROM {{table}} AS users WHERE users.authlevel < 3', 'users', true);
-    $LastPlayer            = doquery('SELECT users.`username` FROM {{table}} AS users ORDER BY `register_time` DESC LIMIT 1', 'users', true);
-    $parse['last_user']    = $LastPlayer['username'];
-    $PlayersOnline         = doquery("SELECT COUNT(DISTINCT id) AS `onlinenow` FROM {{table}} AS users WHERE `onlinetime` > (UNIX_TIMESTAMP()-900) AND users.authlevel < 3", 'users', true);
+    $parse = $lang;
+    $Count = doquery('SELECT COUNT(DISTINCT users.id) AS `players` FROM {{table}} AS users WHERE users.authlevel < 3', 'users', true);
+    $LastPlayer = doquery('SELECT users.`username` FROM {{table}} AS users ORDER BY `register_time` DESC LIMIT 1', 'users', true);
+    $parse['last_user'] = $LastPlayer['username'];
+    $PlayersOnline = doquery("SELECT COUNT(DISTINCT id) AS `onlinenow` FROM {{table}} AS users WHERE `onlinetime` > (UNIX_TIMESTAMP()-900) AND users.authlevel < 3", 'users', true);
     $parse['online_users'] = $PlayersOnline['onlinenow'];
     $parse['users_amount'] = $Count['players'];
-    $parse['servername']   = $game_config['game_name'];
-    $parse['forum_url']    = $game_config['forum_url'];
+    $parse['servername'] = $game_config['game_name'];
+    $parse['forum_url'] = $game_config['forum_url'];
     $parse['PasswordLost'] = $lang['PasswordLost'];
 
     $page = parsetemplate(gettemplate('login_body'), $parse);
-    $get = filter_input_array(INPUT_GET);
+
     // Test pour prendre le nombre total de joueur et le nombre de joueurs connect�s
     if (isset($get['ucount']) && $get['ucount'] == 1) {
-        $page = $PlayersOnline['onlinenow']."/".$Count['players'];
-        die ( $page );
+        $page = $PlayersOnline['onlinenow'] . "/" . $Count['players'];
+        die($page);
     } else {
         display($page, $lang['Login']);
     }

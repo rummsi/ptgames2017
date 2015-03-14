@@ -34,7 +34,7 @@ require_once dirname(__FILE__) . '/common.php';
 
 $open = true;
 
-$raportrow = doquery("SELECT * FROM {{table}} WHERE `rid` = '" . (mysql_escape_string($get["raport"])) . "';", 'rw', true);
+$raportrow = doquery("SELECT * FROM {{table}} WHERE `rid` = '" . (mysql_real_escape_string($get["raport"])) . "';", 'rw', true);
 
 if (($raportrow["id_owner1"] == $user["id"]) or ( $raportrow["id_owner2"] == $user["id"]) or
         $open) {

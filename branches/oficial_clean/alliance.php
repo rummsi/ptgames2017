@@ -86,7 +86,7 @@ $sort = intval($get['sort']);
 $sendmail = intval($get['sendmail']);
 $t = $get['t'];
 $a = intval($get['a']);
-$tag = mysql_escape_string($get['tag']);
+$tag = mysql_real_escape_string($get['tag']);
 
 includeLang('alliance');
 
@@ -101,7 +101,7 @@ includeLang('alliance');
 
 if ($get['mode'] == 'ainfo') {
     $a = intval($get['a']);
-    $tag = mysql_escape_string($get['tag']);
+    $tag = mysql_real_escape_string($get['tag']);
     // Evitamos errores casuales xD
     // query
     $lang['Alliance_information'] = "Information Alliance";
@@ -257,7 +257,7 @@ if ($user['ally_id'] == 0) { // Sin alianza
         extract($allyrow);
 
         if ($post['further'] == $lang['Send']) { // esta parte es igual que el buscador de search.php...
-            doquery("UPDATE {{table}} SET `ally_request`='" . intval($allyid) . "', ally_request_text='" . mysql_escape_string(strip_tags($post['text'])) . "', ally_register_time='" . time() . "' WHERE `id`='" . $user['id'] . "'", "users");
+            doquery("UPDATE {{table}} SET `ally_request`='" . intval($allyid) . "', ally_request_text='" . mysql_real_escape_string(strip_tags($post['text'])) . "', ally_register_time='" . time() . "' WHERE `id`='" . $user['id'] . "'", "users");
             // mensaje de cuando se envia correctamente el mensaje
             message($lang['apply_registered'], $lang['your_apply']);
             // mensaje de cuando falla el envio
@@ -293,7 +293,7 @@ if ($user['ally_id'] == 0) { // Sin alianza
             $lang['button_text'] = $lang['Delete_apply'];
             $page = parsetemplate(gettemplate('alliance_apply_waitform'), $lang);
         }
-        // mysql_escape_string(strip_tags());
+        // mysql_real_escape_string(strip_tags());
         display($page, "Deine Anfrage");
     } else { // Vista sin allianza
         /*
@@ -502,7 +502,7 @@ elseif ($user['ally_id'] != 0 && $user['ally_request'] == 0) { // Con alianza
 
         if ($sendmail == 1) {
             $post['r'] = intval($post['r']);
-            $post['text'] = mysql_escape_string(strip_tags($post['text']));
+            $post['text'] = mysql_real_escape_string(strip_tags($post['text']));
 
             if ($post['r'] == 0) {
                 $sq = doquery("SELECT id,username FROM {{table}} WHERE ally_id='{$user['ally_id']}'", "users");
@@ -551,7 +551,7 @@ elseif ($user['ally_id'] != 0 && $user['ally_request'] == 0) { // Con alianza
         if ($ally['ally_owner'] != $user['id'] && !$user_can_edit_rights) {
             message($lang['Denied_access'], $lang['Members_list']);
         } elseif (!empty($post['newrangname'])) {
-            $name = mysql_escape_string(strip_tags($post['newrangname']));
+            $name = mysql_real_escape_string(strip_tags($post['newrangname']));
 
             $allianz_raenge[] = array('name' => $name,
                 'mails' => 0,
@@ -726,11 +726,11 @@ elseif ($user['ally_id'] != 0 && $user['ally_request'] == 0) { // Con alianza
         }
 
         if ($post['options']) {
-            $ally['ally_owner_range'] = mysql_escape_string(htmlspecialchars(strip_tags($post['owner_range'])));
+            $ally['ally_owner_range'] = mysql_real_escape_string(htmlspecialchars(strip_tags($post['owner_range'])));
 
-            $ally['ally_web'] = mysql_escape_string(htmlspecialchars(strip_tags($post['web'])));
+            $ally['ally_web'] = mysql_real_escape_string(htmlspecialchars(strip_tags($post['web'])));
 
-            $ally['ally_image'] = mysql_escape_string(htmlspecialchars(strip_tags($post['image'])));
+            $ally['ally_image'] = mysql_real_escape_string(htmlspecialchars(strip_tags($post['image'])));
 
             $ally['ally_request_notallow'] = intval($post['request_notallow']);
 
@@ -747,18 +747,18 @@ elseif ($user['ally_id'] != 0 && $user['ally_request'] == 0) { // Con alianza
 			WHERE `id`='{$ally['id']}'", "alliance");
         } elseif ($post['t']) {
             if ($t == 3) {
-                $ally['ally_request'] = mysql_escape_string(strip_tags($post['text']));
+                $ally['ally_request'] = mysql_real_escape_string(strip_tags($post['text']));
 
                 doquery("UPDATE {{table}} SET
 				`ally_request`='{$ally['ally_request']}'
 				WHERE `id`='{$ally['id']}'", "alliance");
             } elseif ($t == 2) {
-                $ally['ally_text'] = mysql_escape_string(strip_tags($post['text']));
+                $ally['ally_text'] = mysql_real_escape_string(strip_tags($post['text']));
                 doquery("UPDATE {{table}} SET
 				`ally_text`='{$ally['ally_text']}'
 				WHERE `id`='{$ally['id']}'", "alliance");
             } else {
-                $ally['ally_description'] = mysql_escape_string(strip_tags(stripslashes($post['text'])));
+                $ally['ally_description'] = mysql_real_escape_string(strip_tags(stripslashes($post['text'])));
 
                 doquery("UPDATE {{table}} SET
 				`ally_description`='" . $ally['ally_description'] . "'
@@ -849,7 +849,7 @@ elseif ($user['ally_id'] != 0 && $user['ally_request'] == 0) { // Con alianza
             $q = doquery("SELECT * FROM {{table}} WHERE id='{$u}' LIMIT 1", 'users', true);
 
             if ((isset($ally_ranks[$post['newrang'] - 1]) || $post['newrang'] == 0) && $q['id'] != $ally['ally_owner']) {
-                doquery("UPDATE {{table}} SET `ally_rank_id`='" . mysql_escape_string(strip_tags($post['newrang'])) . "' WHERE `id`='" . intval($id) . "'", 'users');
+                doquery("UPDATE {{table}} SET `ally_rank_id`='" . mysql_real_escape_string(strip_tags($post['newrang'])) . "' WHERE `id`='" . intval($id) . "'", 'users');
             }
         }
         // obtenemos las template row
@@ -971,7 +971,7 @@ elseif ($user['ally_id'] != 0 && $user['ally_request'] == 0) { // Con alianza
         }
 
         if ($post['action'] == "Accepter") {
-            $post['text'] = mysql_escape_string(strip_tags($post['text']));
+            $post['text'] = mysql_real_escape_string(strip_tags($post['text']));
 
             $u = doquery("SELECT * FROM {{table}} WHERE id=$show", 'users', true);
             // agrega los puntos al unirse el user a la alianza
@@ -1001,7 +1001,7 @@ elseif ($user['ally_id'] != 0 && $user['ally_request'] == 0) { // Con alianza
             header('Location:alliance.php?mode=admin&edit=requests');
             die();
         } elseif ($post['action'] == "Refuser" && $post['action'] != '') {
-            $post['text'] = mysql_escape_string(strip_tags($post['text']));
+            $post['text'] = mysql_real_escape_string(strip_tags($post['text']));
 
             doquery("UPDATE {{table}} SET ally_request_text='',ally_request='0',ally_id='0',new_message=new_message+1, mnl_alliance=mnl_alliance+1 WHERE id='{$show}'", 'users');
             // Se envia un mensaje avizando...
@@ -1068,7 +1068,7 @@ elseif ($user['ally_id'] != 0 && $user['ally_request'] == 0) { // Con alianza
 
         if ($post['newname']) {
             // Y a le nouveau Nom
-            $ally['ally_name'] = mysql_escape_string(strip_tags($post['newname']));
+            $ally['ally_name'] = mysql_real_escape_string(strip_tags($post['newname']));
             doquery("UPDATE {{table}} SET `ally_name` = '" . $ally['ally_name'] . "' WHERE `id` = '" . $user['ally_id'] . "';", 'alliance');
             doquery("UPDATE {{table}} SET `ally_name` = '" . $ally['ally_name'] . "' WHERE `ally_id` = '" . $ally['id'] . "';", 'users');
         }
@@ -1093,7 +1093,7 @@ elseif ($user['ally_id'] != 0 && $user['ally_request'] == 0) { // Con alianza
 
         if ($post['newtag']) {
             // Y a le nouveau TAG
-            $ally['ally_tag'] = mysql_escape_string(strip_tags($post['newtag']));
+            $ally['ally_tag'] = mysql_real_escape_string(strip_tags($post['newtag']));
             doquery("UPDATE {{table}} SET `ally_tag` = '" . $ally['ally_tag'] . "' WHERE `id` = '" . $user['ally_id'] . "';", 'alliance');
         }
 

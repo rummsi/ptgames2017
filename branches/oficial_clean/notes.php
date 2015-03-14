@@ -46,8 +46,8 @@ $lang['PHP_SELF'] = 'notes.' . PHPEXT;
 if ($post["s"] == 1 || $post["s"] == 2) {//Edicion y agregar notas
     $time = time();
     $priority = $post["u"];
-    $title = ($post["title"]) ? mysql_escape_string(strip_tags($post["title"])) : $lang['NoTitle'];
-    $text = ($post["text"]) ? mysql_escape_string(strip_tags($post["text"])) : $lang['NoText'];
+    $title = ($post["title"]) ? mysql_real_escape_string(strip_tags($post["title"])) : $lang['NoTitle'];
+    $text = ($post["text"]) ? mysql_real_escape_string(strip_tags($post["text"])) : $lang['NoText'];
 
     if ($post["s"] == 1) {
         doquery("INSERT INTO {{table}} SET owner={$user['id']}, time=$time, priority=$priority, title='$title', text='$text'", "notes");

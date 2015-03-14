@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -33,29 +34,28 @@
  *
  * @todo Clean up source code
  */
-class Nova_Core_Debug
-{
-    const CRITICAL      = 0x80;
-    const ERROR         = 0x40;
-    const WARNING       = 0x20;
-    const INFO          = 0x10;
-    const MESSAGE       = 0x08;
-    const AUDIT_FAILED  = 0x04;
-    const AUDIT_SUCCESS = 0x02;
-    const DEBUG         = 0x01;
+class Nova_Core_Debug {
 
+    const CRITICAL = 0x80;
+    const ERROR = 0x40;
+    const WARNING = 0x20;
+    const INFO = 0x10;
+    const MESSAGE = 0x08;
+    const AUDIT_FAILED = 0x04;
+    const AUDIT_SUCCESS = 0x02;
+    const DEBUG = 0x01;
     const DEFAULT_LOGFILE = 'var/log/system.log';
 
     protected $_logLevelNames = array(
-        self::CRITICAL      => 'CRITICAL',
-        self::ERROR         => 'ERROR',
-        self::WARNING       => 'WARNING',
-        self::INFO          => 'INFO',
-        self::MESSAGE       => 'MESSAGE',
-        self::AUDIT_FAILED  => 'AUDIT_FAILED',
+        self::CRITICAL => 'CRITICAL',
+        self::ERROR => 'ERROR',
+        self::WARNING => 'WARNING',
+        self::INFO => 'INFO',
+        self::MESSAGE => 'MESSAGE',
+        self::AUDIT_FAILED => 'AUDIT_FAILED',
         self::AUDIT_SUCCESS => 'AUDIT_SUCCESS',
-        self::DEBUG         => 'DEBUG'
-        );
+        self::DEBUG => 'DEBUG'
+    );
 
     /**
      * Clean logging method
@@ -65,9 +65,8 @@ class Nova_Core_Debug
      * @param int $level
      * @return unknown_type
      */
-    public function log($message, $resource = self::DEFAULT_LOGFILE, $level = self::DEBUG)
-    {
-        if(!($fp = fopen($resource, 'a'))) {
+    public function log($message, $resource = self::DEFAULT_LOGFILE, $level = self::DEBUG) {
+        if (!($fp = fopen($resource, 'a'))) {
             trigger_error('Unable to open logs.', E_USER_ERROR);
             trigger_error($message, E_USER_ERROR);
             return false;
@@ -76,24 +75,23 @@ class Nova_Core_Debug
         fclose($fp);
         return true;
     }
+
 }
 
 /**
  * @deprecated
  * @todo Clean up source code
  */
-class Debug
-    extends Nova_Core_Debug
-{
+class Debug extends Nova_Core_Debug {
+
     protected $_logMessages = array();
 
-	/**
+    /**
      * @deprecated
      * @param string $message
      * @return void
      */
-    function add($message)
-    {
+    function add($message) {
         $this->log($message);
         $this->_logMessages[] = $message;
     }
@@ -102,10 +100,9 @@ class Debug
      * @deprecated
      * @return void
      */
-    function echo_log()
-    {
+    function echo_log() {
         $messages = implode(PHP_EOL, $this->_logMessages);
-        echo  <<<EOF
+        echo <<<EOF
 <dl class="k">
   <dt>
     <a href="admin/settings.php">Debug Log</a>:
@@ -125,33 +122,34 @@ EOF;
      * @param $title
      * @return unknown_type
      */
-    function error($message, $title)
-    {
+    function error($message, $title) {
         global $link, $game_config;
 
-        if($game_config['debug']==1){
+        if ($game_config['debug'] == 1) {
             echo "<h2>$title</h2><br><font color=red>$message</font><br><hr>";
-            echo  "<table>".$this->log."</table>";
+            echo "<table>" . $this->log . "</table>";
         }
 
         global $user;
         $config = include ROOT_PATH . 'config.' . PHPEXT;
-        if(!$link) die('La base de donnee n est pas disponible pour le moment, desole pour la gene occasionnee...');
+        if (!$link)
+            die('La base de donnee n est pas disponible pour le moment, desole pour la gene occasionnee...');
         $query = "INSERT INTO {{table}} SET
             `error_sender` = '{$user['id']}' ,
-            `error_time` = '".time()."' ,
+            `error_time` = '" . time() . "' ,
             `error_type` = '{$title}' ,
-            `error_text` = '".mysql_escape_string($message)."';";
-        $sqlquery = mysql_query(str_replace("{{table}}", $dbsettings["prefix"].'errors',$query))
-            or die('error fatal');
+            `error_text` = '" . mysql_real_escape_string($message) . "';";
+        $sqlquery = mysql_query(str_replace("{{table}}", $dbsettings["prefix"] . 'errors', $query))
+                or die('error fatal');
         $query = "explain select * from {{table}}";
-        $q = mysql_fetch_array(mysql_query(str_replace("{{table}}", $dbsettings["prefix"].
-            'errors', $query))) or die('error fatal: ');
+        $q = mysql_fetch_array(mysql_query(str_replace("{{table}}", $dbsettings["prefix"] .
+                                'errors', $query))) or die('error fatal: ');
 
         if (!function_exists('message')) {
-            echo "Erreur, merci de contacter l'admin. Erreur n�: <b>".$q['rows']."</b>";
+            echo "Erreur, merci de contacter l'admin. Erreur n�: <b>" . $q['rows'] . "</b>";
         } else {
-            message("Erreur, merci de contacter l'admin. Erreur n�: <b>".$q['rows']."</b>", "Erreur");
+            message("Erreur, merci de contacter l'admin. Erreur n�: <b>" . $q['rows'] . "</b>", "Erreur");
         }
     }
+
 }
