@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,43 +28,41 @@
  * documentation for further information about customizing XNova.
  *
  */
-
-define('INSIDE' , true);
-define('INSTALL' , false);
+define('INSIDE', true);
+define('INSTALL', false);
 define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
+require_once dirname(dirname(__FILE__)) . '/common.php';
 
-	if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
-		includeLang('admin/addmoon');
+if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
+    includeLang('admin/addmoon');
 
-		$mode      = $_POST['mode'];
+    $mode = $post['mode'];
 
-		$PageTpl   = gettemplate("admin/add_moon");
-		$parse     = $lang;
+    $PageTpl = gettemplate("admin/add_moon");
+    $parse = $lang;
 
-		if ($mode == 'addit') {
-			$PlanetID  = $_POST['user'];
-			$MoonName  = $_POST['name'];
+    if ($mode == 'addit') {
+        $PlanetID = $post['user'];
+        $MoonName = $post['name'];
 
-			$QrySelectPlanet  = "SELECT * FROM {{table}} ";
-			$QrySelectPlanet .= "WHERE ";
-			$QrySelectPlanet .= "`id` = '". $PlanetID ."';";
-			$PlanetSelected = doquery ( $QrySelectPlanet, 'planets', true);
+        $QrySelectPlanet = "SELECT * FROM {{table}} ";
+        $QrySelectPlanet .= "WHERE ";
+        $QrySelectPlanet .= "`id` = '" . $PlanetID . "';";
+        $PlanetSelected = doquery($QrySelectPlanet, 'planets', true);
 
-			$Galaxy    = $PlanetSelected['galaxy'];
-			$System    = $PlanetSelected['system'];
-			$Planet    = $PlanetSelected['planet'];
-            $Owner     = $PlanetSelected['id_owner'];
-			$MoonID    = time();
+        $Galaxy = $PlanetSelected['galaxy'];
+        $System = $PlanetSelected['system'];
+        $Planet = $PlanetSelected['planet'];
+        $Owner = $PlanetSelected['id_owner'];
+        $MoonID = time();
 
-			CreateOneMoonRecord ( $Galaxy, $System, $Planet, $Owner, $MoonID, $MoonName, 20 );
+        CreateOneMoonRecord($Galaxy, $System, $Planet, $Owner, $MoonID, $MoonName, 20);
 
-			AdminMessage ( $lang['addm_done'], $lang['addm_title'] );
-		}
-		$Page = parsetemplate($PageTpl, $parse);
+        AdminMessage($lang['addm_done'], $lang['addm_title']);
+    }
+    $Page = parsetemplate($PageTpl, $parse);
 
-		display ($Page, $lang['addm_title'], false, '', true);
-	} else {
-		AdminMessage ( $lang['sys_noalloaw'], $lang['sys_noaccess'] );
-	}
-?>
+    display($Page, $lang['addm_title'], false, '', true);
+} else {
+    AdminMessage($lang['sys_noalloaw'], $lang['sys_noaccess']);
+}

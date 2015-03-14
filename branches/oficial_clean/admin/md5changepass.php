@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,34 +28,31 @@
  * documentation for further information about customizing XNova.
  *
  */
-
-define('INSIDE' , true);
-define('INSTALL' , false);
+define('INSIDE', true);
+define('INSTALL', false);
 define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
-	if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERATOR))) {
-		includeLang('admin/changepass');
+require_once dirname(dirname(__FILE__)) . '/common.php';
+if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERATOR))) {
+    includeLang('admin/changepass');
 
-		$parse   = $lang;
+    $parse = $lang;
 
-		if ($_POST['md5q'] != "") {
+    if ($post['md5q'] != "") {
 
-			doquery ("UPDATE {{table}} SET `password` = '" . md5 ($_POST['md5q']) . "' WHERE `username` = '".$_POST['user']."';", 'users');
-			//$QueryUpdatePass = "UPDATE {{table}} SET ";
-			//$QueryUpdatePass .= "`password` = '" . md5 ($_POST['md5q']) . "', ";
-			//$QueryUpdatePass = "WHERE ";
-	        //$QueryUpdatePass .= "`username`=" . $_POST['user'] . "";
-      //  doquery($QueryUpdatePass, 'users');
-		} else {
+        doquery("UPDATE {{table}} SET `password` = '" . md5($post['md5q']) . "' WHERE `username` = '" . $post['user'] . "';", 'users');
+        //$QueryUpdatePass = "UPDATE {{table}} SET ";
+        //$QueryUpdatePass .= "`password` = '" . md5 ($post['md5q']) . "', ";
+        //$QueryUpdatePass = "WHERE ";
+        //$QueryUpdatePass .= "`username`=" . $post['user'] . "";
+        //  doquery($QueryUpdatePass, 'users');
+    } else {
+        
+    }
 
-		}
+    $PageTpl = gettemplate("admin/changepass");
+    $Page = parsetemplate($PageTpl, $parse);
 
-		$PageTpl = gettemplate("admin/changepass");
-		$Page    = parsetemplate( $PageTpl, $parse);
-
-		display( $Page, $lang['md5_title'], false, '', true );
-	} else {
-		message( $lang['sys_noalloaw'], $lang['sys_noaccess'] );
-	}
-
-?>
+    display($Page, $lang['md5_title'], false, '', true);
+} else {
+    message($lang['sys_noalloaw'], $lang['sys_noaccess']);
+}

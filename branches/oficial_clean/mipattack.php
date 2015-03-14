@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,20 +28,19 @@
  * documentation for further information about customizing XNova.
  *
  */
-
-define('INSIDE' , true);
-define('INSTALL' , false);
-require_once dirname(__FILE__) .'/common.php';
+define('INSIDE', true);
+define('INSTALL', false);
+require_once dirname(__FILE__) . '/common.php';
 // Recup des variables
-$Attaquant = $_GET['current'];
-$NbreMip   = $_POST['SendMI'];
+$Attaquant = $get['current'];
+$NbreMip = $post['SendMI'];
 
-$Galaxy    = $_GET['galaxy'];
-$System    = $_GET['system'];
-$Planet    = $_GET['planet'];
+$Galaxy = $get['galaxy'];
+$System = $get['system'];
+$Planet = $get['planet'];
 
 $PlaneteAttaquant = doquery("SELECT * FROM {{table}} WHERE `id`='" . $Attaquant . "'", "planets", true);
-$PlaneteAdverse   = doquery("SELECT * FROM {{table}} WHERE galaxy = " . $Galaxy . " AND system = " . $System . " AND planet = " . $Planet . "", "planets", true);
+$PlaneteAdverse = doquery("SELECT * FROM {{table}} WHERE galaxy = " . $Galaxy . " AND system = " . $System . " AND planet = " . $Planet . "", "planets", true);
 
 $MipAttaquant = $PlaneteAttaquant['interplanetary_misil'];
 if ($MipAttaquant < $NbreMip) {
@@ -48,7 +48,7 @@ if ($MipAttaquant < $NbreMip) {
 }
 
 $AntiMipAdverse = $PlaneteAdverse['interceptor_misil'];
-$MipRestant     = $NbreMip - $AntiMipAdverse;
+$MipRestant = $NbreMip - $AntiMipAdverse;
 $AntiMipRestant = $$AntiMipAdverse - $NbreMip;
 
 echo $MipRestant;
@@ -58,24 +58,22 @@ if ($MipRestant <= 0) {
     doquery("UPDATE {{table}} SET `interplanetary_misil`='0' WHERE `id`='" . $Attaquant . "'", "planets");
     doquery("UPDATE {{table}} SET `interceptor_misil`='" . $AntiMipRestant . "' WHERE `id`='" . $PlaneteAdverse['id_owner'] . "'", "planets");
     // Message � l'attaquant
-    $Owner    = $user['id'];
-    $Sender   = "0";
-    $Time     = time();
-    $Type     = 3;
-    $From     = "Quartier G&eacute;n&eacute;ral";
-    $Subject  = "Rapport d'attaque par MIP";
-    $Message  = "Malheureusement tout vos missiles interplan&eacute;taire ont &eacute;t&eacute; d&eacute;truits par le syst&egrave;me de d&eacute;fense adverse.";
+    $Owner = $user['id'];
+    $Sender = "0";
+    $Time = time();
+    $Type = 3;
+    $From = "Quartier G&eacute;n&eacute;ral";
+    $Subject = "Rapport d'attaque par MIP";
+    $Message = "Malheureusement tout vos missiles interplan&eacute;taire ont &eacute;t&eacute; d&eacute;truits par le syst&egrave;me de d&eacute;fense adverse.";
     SendSimpleMessage($Owner, $Sender, $Time, $Type, $From, $Subject, $Message);
 
     // Message a l'attaqu�
-    $Owner2   = $PlaneteAdverse['id_owner'];
+    $Owner2 = $PlaneteAdverse['id_owner'];
     $Message2 = "Vous avez d&eacute;truit " . $NbreMip . " Missiles Interplan&eacute;taire adverse. <br>Il vous reste " . $AntiMipRestant . " Missiles d'interception";
     SendSimpleMessage($Owner2, $Sender, $Time, $Type, $From, $Subject, $Message2);
 }
 
-if($MipRestant > 0){
-	$Id = $PlaneteAdverse['id'];
-	MipAttack($NbreMip, $Id);
+if ($MipRestant > 0) {
+    $Id = $PlaneteAdverse['id'];
+    MipAttack($NbreMip, $Id);
 }
-
-?>

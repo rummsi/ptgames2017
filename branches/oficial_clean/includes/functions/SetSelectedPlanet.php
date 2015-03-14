@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,27 +28,23 @@
  * documentation for further information about customizing XNova.
  *
  */
-
-function SetSelectedPlanet ( &$CurrentUser )
-{
-    if (!isset($_GET['cp']) || !isset($_GET['re'])) {
+function SetSelectedPlanet(&$CurrentUser) {
+    if (!isset($get['cp']) || !isset($get['re'])) {
         return;
     }
-	$SelectPlanet  = $_GET['cp'];
-	$RestorePlanet = $_GET['re'];
+    $SelectPlanet = $get['cp'];
+    $RestorePlanet = $get['re'];
 
-	if (isset($SelectPlanet)      &&
-		is_numeric($SelectPlanet) &&
-		isset($RestorePlanet)     &&
-		$RestorePlanet == 0) {
-		$IsPlanetMine   = doquery("SELECT `id` FROM {{table}} WHERE `id` = '". $SelectPlanet ."' AND `id_owner` = '". $CurrentUser['id'] ."';", 'planets', true);
-		if ($IsPlanetMine) {
-			// Ouaip elle est a moi ... Donc ... on met la met comme planete courrante
-			$CurrentUser['current_planet'] = $SelectPlanet;
-			// Puis tant qu'a faire ... On l'enregistre aussi sait on jamais
-			doquery("UPDATE {{table}} SET `current_planet` = '". $SelectPlanet ."' WHERE `id` = '".$CurrentUser['id']."';", 'users');
-		}
-	}
+    if (isset($SelectPlanet) &&
+            is_numeric($SelectPlanet) &&
+            isset($RestorePlanet) &&
+            $RestorePlanet == 0) {
+        $IsPlanetMine = doquery("SELECT `id` FROM {{table}} WHERE `id` = '" . $SelectPlanet . "' AND `id_owner` = '" . $CurrentUser['id'] . "';", 'planets', true);
+        if ($IsPlanetMine) {
+            // Ouaip elle est a moi ... Donc ... on met la met comme planete courrante
+            $CurrentUser['current_planet'] = $SelectPlanet;
+            // Puis tant qu'a faire ... On l'enregistre aussi sait on jamais
+            doquery("UPDATE {{table}} SET `current_planet` = '" . $SelectPlanet . "' WHERE `id` = '" . $CurrentUser['id'] . "';", 'users');
+        }
+    }
 }
-
-?>

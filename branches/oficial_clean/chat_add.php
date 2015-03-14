@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,27 +28,24 @@
  * documentation for further information about customizing XNova.
  *
  */
+define('INSIDE', true);
+define('INSTALL', false);
+require_once dirname(__FILE__) . '/common.php';
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-require_once dirname(__FILE__) .'/common.php';
+// On récupère les informations du message et de l'envoyeur
+if (isset($post["msg"]) && isset($user['username'])) {
+    $nick = trim(str_replace("+", "plus", $user['username']));
+    $msg = trim(str_replace("+", "plus", $post["msg"]));
+    $msg = addslashes($post["msg"]);
+    $nick = addslashes($user['username']);
+} else {
+    $msg = "";
+    $nick = "";
+}
 
-	// On récupère les informations du message et de l'envoyeur
-	if (isset($_POST["msg"]) && isset($user['username'])) {
-	   $nick = trim (str_replace ("+","plus",$user['username']));
-	   $msg  = trim (str_replace ("+","plus",$_POST["msg"]));
-	   $msg  = addslashes ($_POST["msg"]);
-	   $nick = addslashes ($user['username']);
-	}
-	else {
-	   $msg="";
-	   $nick="";
-	}
-
-	// Ajout du message dans la database
-	if ($msg!="" && $nick!="") {
-	   $query = doquery("INSERT INTO {{table}}(user, message, timestamp) VALUES ('".$nick."', '".$msg."', '".time()."')", "chat");
-	}
+// Ajout du message dans la database
+if ($msg != "" && $nick != "") {
+    $query = doquery("INSERT INTO {{table}}(user, message, timestamp) VALUES ('" . $nick . "', '" . $msg . "', '" . time() . "')", "chat");
+}
 
 // Shoutbox by e-Zobar - Copyright XNova Team 2008
-?>

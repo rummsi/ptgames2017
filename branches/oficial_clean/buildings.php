@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,42 +28,40 @@
  * documentation for further information about customizing XNova.
  *
  */
+define('INSIDE', true);
+define('INSTALL', false);
+require_once dirname(__FILE__) . '/common.php';
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-require_once dirname(__FILE__) .'/common.php';
+includeLang('buildings');
 
-	includeLang('buildings');
+// Mise a jour de la liste de construction si necessaire
+UpdatePlanetBatimentQueueList($planetrow, $user);
+$IsWorking = HandleTechnologieBuild($planetrow, $user);
 
-	// Mise a jour de la liste de construction si necessaire
-	UpdatePlanetBatimentQueueList ( $planetrow, $user );
-	$IsWorking = HandleTechnologieBuild ( $planetrow, $user );
+switch ($get['mode']) {
+    case 'fleet':
+        // --------------------------------------------------------------------------------------------------
+        FleetBuildingPage($planetrow, $user);
+        break;
 
-	switch ($_GET['mode']) {
-		case 'fleet':
-			// --------------------------------------------------------------------------------------------------
-			FleetBuildingPage ( $planetrow, $user );
-			break;
+    case 'research':
+        // --------------------------------------------------------------------------------------------------
+        ResearchBuildingPage($planetrow, $user, $IsWorking['OnWork'], $IsWorking['WorkOn']);
+        break;
 
-		case 'research':
-			// --------------------------------------------------------------------------------------------------
-			ResearchBuildingPage ( $planetrow, $user, $IsWorking['OnWork'], $IsWorking['WorkOn'] );
-			break;
+    case 'defense':
+        // --------------------------------------------------------------------------------------------------
+        DefensesBuildingPage($planetrow, $user);
+        break;
 
-		case 'defense':
-			// --------------------------------------------------------------------------------------------------
-			DefensesBuildingPage ( $planetrow, $user );
-			break;
-
-		default:
-			// --------------------------------------------------------------------------------------------------
-			BatimentBuildingPage ( $planetrow, $user );
-			break;
-	}
+    default:
+        // --------------------------------------------------------------------------------------------------
+        BatimentBuildingPage($planetrow, $user);
+        break;
+}
 
 // -----------------------------------------------------------------------------------------------------------
 // History version
 // 1.0 - Nettoyage modularisation
 // 1.1 - Mise au point, mise en fonction pour lin�arisation du fonctionnement
 // 1.2 - Liste de construction batiments
-?>

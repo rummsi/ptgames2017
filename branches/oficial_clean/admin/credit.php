@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,47 +28,42 @@
  * documentation for further information about customizing XNova.
  *
  */
-
-define('INSIDE' , true);
-define('INSTALL' , false);
+define('INSIDE', true);
+define('INSTALL', false);
 define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
+require_once dirname(dirname(__FILE__)) . '/common.php';
 includeLang('credit');
-$parse   = $lang;
+$parse = $lang;
 
 if (in_array($user['authlevel'], array(LEVEL_ADMIN))) {
-	if ($_POST['opt_save'] == "1") {
-		// Extended copyright is activated?
-		if (isset($_POST['ExtCopyFrame']) && $_POST['ExtCopyFrame'] == 'on') {
-			$game_config['ExtCopyFrame'] = "1";
-			$game_config['ExtCopyOwner'] = $_POST['ExtCopyOwner'];
-			$game_config['ExtCopyFunct'] = $_POST['ExtCopyFunct'];
-		} else {
-			$game_config['ExtCopyFrame'] = "0";
-			$game_config['ExtCopyOwner'] = "";
-			$game_config['ExtCopyFunct'] = "";
-		}
+    if ($post['opt_save'] == "1") {
+        // Extended copyright is activated?
+        if (isset($post['ExtCopyFrame']) && $post['ExtCopyFrame'] == 'on') {
+            $game_config['ExtCopyFrame'] = "1";
+            $game_config['ExtCopyOwner'] = $post['ExtCopyOwner'];
+            $game_config['ExtCopyFunct'] = $post['ExtCopyFunct'];
+        } else {
+            $game_config['ExtCopyFrame'] = "0";
+            $game_config['ExtCopyOwner'] = "";
+            $game_config['ExtCopyFunct'] = "";
+        }
 
-		// Update values
-		doquery("UPDATE {{table}} SET `config_value` = '". $game_config['ExtCopyFrame'] ."' WHERE `config_name` = 'ExtCopyFrame';", 'config');
-		doquery("UPDATE {{table}} SET `config_value` = '". $game_config['ExtCopyOwner'] ."' WHERE `config_name` = 'ExtCopyOwner';", 'config');
-		doquery("UPDATE {{table}} SET `config_value` = '". $game_config['ExtCopyFunct'] ."' WHERE `config_name` = 'ExtCopyFunct';", 'config');
+        // Update values
+        doquery("UPDATE {{table}} SET `config_value` = '" . $game_config['ExtCopyFrame'] . "' WHERE `config_name` = 'ExtCopyFrame';", 'config');
+        doquery("UPDATE {{table}} SET `config_value` = '" . $game_config['ExtCopyOwner'] . "' WHERE `config_name` = 'ExtCopyOwner';", 'config');
+        doquery("UPDATE {{table}} SET `config_value` = '" . $game_config['ExtCopyFunct'] . "' WHERE `config_name` = 'ExtCopyFunct';", 'config');
 
-		AdminMessage ($lang['cred_done'], $lang['cred_ext']);
+        AdminMessage($lang['cred_done'], $lang['cred_ext']);
+    } else {
+        //View values
+        $parse['ExtCopyFrame'] = ($game_config['ExtCopyFrame'] == 1) ? " checked = 'checked' " : "";
+        $parse['ExtCopyOwnerVal'] = $game_config['ExtCopyOwner'];
+        $parse['ExtCopyFunctVal'] = $game_config['ExtCopyFunct'];
 
-	} else {
-		//View values
-		$parse['ExtCopyFrame'] = ($game_config['ExtCopyFrame'] == 1) ? " checked = 'checked' ":"";
-		$parse['ExtCopyOwnerVal'] = $game_config['ExtCopyOwner'];
-		$parse['ExtCopyFunctVal'] = $game_config['ExtCopyFunct'];
-
-		$BodyTPL = gettemplate('admin/credit_body');
-		$page = parsetemplate($BodyTPL, $parse);
-		display($page, $lang['cred_credit'], false);
-	}
-
+        $BodyTPL = gettemplate('admin/credit_body');
+        $page = parsetemplate($BodyTPL, $parse);
+        display($page, $lang['cred_credit'], false);
+    }
 } else {
-	message( $lang['sys_noalloaw'], $lang['sys_noaccess'] );
+    message($lang['sys_noalloaw'], $lang['sys_noaccess']);
 }
-
-?>

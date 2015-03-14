@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,33 +28,28 @@
  * documentation for further information about customizing XNova.
  *
  */
-
-define('INSIDE' , true);
-define('INSTALL' , false);
+define('INSIDE', true);
+define('INSTALL', false);
 define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
+require_once dirname(dirname(__FILE__)) . '/common.php';
 
-	if (in_array($user['authlevel'], array(LEVEL_ADMIN))) {
-		includeLang('admin/Queries');
+if (in_array($user['authlevel'], array(LEVEL_ADMIN))) {
+    includeLang('admin/Queries');
 
-		$parse   = $lang;
+    $parse = $lang;
 
-		if ($_POST['really_do_it'] == 'on') {
+    if ($post['really_do_it'] == 'on') {
 
-			mysql_query ($_POST['qry_sql']);
-			AdminMessage ($lang['qry_succesful'], 'Succes', '?');
+        mysql_query($post['qry_sql']);
+        AdminMessage($lang['qry_succesful'], 'Succes', '?');
+    } else {
+        
+    }
 
-		} else {
+    $PageTpl = gettemplate("admin/exec_query");
+    $Page = parsetemplate($PageTpl, $parse);
 
-
-		}
-
-		$PageTpl = gettemplate("admin/exec_query");
-		$Page    = parsetemplate( $PageTpl, $parse);
-
-		display( $Page, $lang['qry_title'], false, '', true );
-	} else {
-		message( $lang['sys_noalloaw'], $lang['sys_noaccess'] );
-	}
-
-?>
+    display($Page, $lang['qry_title'], false, '', true);
+} else {
+    message($lang['sys_noalloaw'], $lang['sys_noaccess']);
+}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,41 +28,36 @@
  * documentation for further information about customizing XNova.
  *
  */
-
-define('INSIDE' , true);
-define('INSTALL' , false);
-require_once dirname(__FILE__) .'/common.php';
+define('INSIDE', true);
+define('INSTALL', false);
+require_once dirname(__FILE__) . '/common.php';
 
 includeLang('messages');
 includeLang('system');
 
 
-$Mode = $_GET['mode'];
+$Mode = $get['mode'];
 
 
 if ($Mode != 'add') {
 
-    $parse['Declaration']     = $lang['Declaration'];
+    $parse['Declaration'] = $lang['Declaration'];
     $parse['DeclarationText'] = $lang['DeclarationText'];
 
     $page = parsetemplate(gettemplate('multi'), $parse);
     display($page, $lang['messages']);
-
 }
 if ($mode == 'add') {
-    $Texte = $_POST['texte'];
+    $Texte = $post['texte'];
     $Joueur = $user['username'];
 
     $SQLAjoutDeclaration = "INSERT INTO {{table}} SET ";
-    $SQLAjoutDeclaration .= "`player` = '". $Joueur ."', ";
-	$SQLAjoutDeclaration .= "`text` = '". $Texte ."';";
+    $SQLAjoutDeclaration .= "`player` = '" . $Joueur . "', ";
+    $SQLAjoutDeclaration .= "`text` = '" . $Texte . "';";
     doquery($SQLAjoutDeclaration, 'multi');
 
 
-    message($lang['sys_request_ok'],$lang['sys_ok']);
-
+    message($lang['sys_request_ok'], $lang['sys_ok']);
 }
 // D�claration des multi compte
 // Par Tom pour XNova
-?>
-

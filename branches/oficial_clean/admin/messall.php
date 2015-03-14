@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,49 +28,47 @@
  * documentation for further information about customizing XNova.
  *
  */
-
-define('INSIDE' , true);
-define('INSTALL' , false);
+define('INSIDE', true);
+define('INSTALL', false);
 define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
+require_once dirname(dirname(__FILE__)) . '/common.php';
 
-	if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERATOR))) {
-		if ($_POST && $mode == "change") {
-			if (isset($_POST["tresc"]) && $_POST["tresc"] != '') {
-				$game_config['tresc'] = $_POST['tresc'];
-			}
-			if (isset($_POST["temat"]) && $_POST["temat"] != '') {
-				$game_config['temat'] = $_POST['temat'];
-			}
-			if ($user['authlevel'] == LEVEL_ADMIN) {
-				$kolor = 'red';
-				$ranga = 'Administrator';
-			} elseif ($user['authlevel'] == LEVEL_OPERATOR) {
-				$kolor = 'skyblue';
-				$ranga = 'Operator';
-			} elseif ($user['authlevel'] == LEVEL_MODERATOR) {
-				$kolor = 'yellow';
-				$ranga = 'Moderator';
-			}
-			if ($game_config['tresc'] != '' and $game_config['temat']) {
-				$sq      = doquery("SELECT `id` FROM {{table}}", "users");
-				$Time    = time();
-				$From    = "<font color=\"". $kolor ."\">". $ranga ." ".$user['username']."</font>";
-				$Subject = "<font color=\"". $kolor ."\">". $game_config['temat'] ."</font>";
-				$Message = "<font color=\"". $kolor ."\"><b>". $game_config['tresc'] ."</b></font>";
-				while ($u = mysql_fetch_array($sq)) {
-					SendSimpleMessage ( $u['id'], $user['id'], $Time, 97, $From, $Subject, $Message);
-				}
-				message("<font color=\"lime\">Wys�a�e� wiadomo�� do wszystkich graczy</font>", "Complete", "../overview." . PHPEXT, 3);
-			}
-		} else {
-			$parse = $game_config;
-			$parse['dpath'] = $dpath;
-			$parse['debug'] = ($game_config['debug'] == 1) ? " checked='checked'/":'';
-			$page .= parsetemplate(gettemplate('admin/messall_body'), $parse);
-			display($page, '', false,'', true);
-		}
-	} else {
-		message($lang['sys_noalloaw'], $lang['sys_noaccess']);
-	}
-?>
+if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERATOR))) {
+    if ($post && $mode == "change") {
+        if (isset($post["tresc"]) && $post["tresc"] != '') {
+            $game_config['tresc'] = $post['tresc'];
+        }
+        if (isset($post["temat"]) && $post["temat"] != '') {
+            $game_config['temat'] = $post['temat'];
+        }
+        if ($user['authlevel'] == LEVEL_ADMIN) {
+            $kolor = 'red';
+            $ranga = 'Administrator';
+        } elseif ($user['authlevel'] == LEVEL_OPERATOR) {
+            $kolor = 'skyblue';
+            $ranga = 'Operator';
+        } elseif ($user['authlevel'] == LEVEL_MODERATOR) {
+            $kolor = 'yellow';
+            $ranga = 'Moderator';
+        }
+        if ($game_config['tresc'] != '' and $game_config['temat']) {
+            $sq = doquery("SELECT `id` FROM {{table}}", "users");
+            $Time = time();
+            $From = "<font color=\"" . $kolor . "\">" . $ranga . " " . $user['username'] . "</font>";
+            $Subject = "<font color=\"" . $kolor . "\">" . $game_config['temat'] . "</font>";
+            $Message = "<font color=\"" . $kolor . "\"><b>" . $game_config['tresc'] . "</b></font>";
+            while ($u = mysql_fetch_array($sq)) {
+                SendSimpleMessage($u['id'], $user['id'], $Time, 97, $From, $Subject, $Message);
+            }
+            message("<font color=\"lime\">Wys�a�e� wiadomo�� do wszystkich graczy</font>", "Complete", "../overview." . PHPEXT, 3);
+        }
+    } else {
+        $parse = $game_config;
+        $parse['dpath'] = $dpath;
+        $parse['debug'] = ($game_config['debug'] == 1) ? " checked='checked'/" : '';
+        $page .= parsetemplate(gettemplate('admin/messall_body'), $parse);
+        display($page, '', false, '', true);
+    }
+} else {
+    message($lang['sys_noalloaw'], $lang['sys_noaccess']);
+}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,16 +28,14 @@
  * documentation for further information about customizing XNova.
  *
  */
+define('INSIDE', true);
+define('INSTALL', false);
+require_once dirname(__FILE__) . '/common.php';
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-require_once dirname(__FILE__) .'/common.php';
+$actions = $get['action'];
 
-$actions = $_GET['action'];
-
-if($actions == 2)
-{
-$page .=<<<HTML
+if ($actions == 2) {
+    $page .=<<<HTML
 <center>
 <br>
 <table width="600">
@@ -57,6 +56,5 @@ $page .=<<<HTML
 </table>
 HTML;
 
-display($page);
+    display($page);
 }
-?>
