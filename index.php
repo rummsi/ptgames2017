@@ -1,12 +1,8 @@
 <?php
+
 /**
- * This file is part of XNova:Legacies
- *
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
- * @see http://www.xnova-ng.org/
- *
- * Copyright (c) 2009-Present, XNova Support Team <http://www.xnova-ng.org>
- * All rights reserved.
+ *  2Moons
+ *  Copyright (C) 2012 Jan Kröpke
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,16 +17,49 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *                                --> NOTICE <--
- *  This file is part of the core development branch, changing its contents will
- * make you unable to use the automatic updates manager. Please refer to the
- * documentation for further information about customizing XNova.
- *
+ * @package 2Moons
+ * @author Jan Kröpke <info@2moons.cc>
+ * @copyright 2012 Jan Kröpke <info@2moons.cc>
+ * @license http://www.gnu.org/licenses/gpl.html GNU GPLv3 License
+ * @version 1.7.3 (2013-05-19)
+ * @info $Id: index.php 2749 2013-05-19 11:43:20Z slaver7 $
+ * @link http://2moons.cc/
  */
 
-if (filesize('config.php') == 0) {
-	header('location: install/');
-	exit();
+define('MODE', 'LOGIN');
+define('ROOT_PATH', str_replace('\\', '/',dirname(__FILE__)).'/');
+set_include_path(ROOT_PATH);
+
+require('includes/pages/login/AbstractPage.class.php');
+require('includes/pages/login/ShowErrorPage.class.php');
+require('includes/common.php');
+
+$page 		= HTTP::_GP('page', 'index');
+$mode 		= HTTP::_GP('mode', 'show');
+$page		= str_replace(array('_', '\\', '/', '.', "\0"), '', $page);
+$pageClass	= 'Show'.ucwords($page).'Page';
+
+if(!file_exists('includes/pages/login/'.$pageClass.'.class.php')) {
+	ShowErrorPage::printError($LNG['page_doesnt_exist']);
 }
 
-header('location: frames.php');
+// Added Autoload in feature Versions
+require('includes/pages/login/'.$pageClass.'.class.php');
+
+$pageObj	= new $pageClass;
+// PHP 5.2 FIX
+// can't use $pageObj::$requireModule
+$pageProps	= get_class_vars(get_class($pageObj));
+
+if(isset($pageProps['requireModule']) && $pageProps['requireModule'] !== 0 && !isModulAvalible($pageProps['requireModule'])) {
+	ShowErrorPage::printError($LNG['sys_module_inactive']);
+}
+
+if(!is_callable(array($pageObj, $mode))) {	
+	if(!isset($pageProps['defaultController']) || !is_callable(array($pageObj, $pageProps['defaultController']))) {
+		ShowErrorPage::printError($LNG['page_doesnt_exist']);
+	}
+	$mode	= $pageProps['defaultController'];
+}
+
+$pageObj->{$mode}();

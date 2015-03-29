@@ -1,12 +1,8 @@
 <?php
+
 /**
- * This file is part of XNova:Legacies
- *
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
- * @see http://www.xnova-ng.org/
- *
- * Copyright (c) 2009-2010, XNova Support Team <http://www.xnova-ng.org>
- * All rights reserved.
+ *  2Moons
+ *  Copyright (C) 2012 Jan Kröpke
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,41 +17,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *                                --> NOTICE <--
- *  This file is part of the core development branch, changing its contents will
- * make you unable to use the automatic updates manager. Please refer to the
- * documentation for further information about customizing XNova.
- *
+ * @package 2Moons
+ * @author Jan Kröpke <info@2moons.cc>
+ * @copyright 2012 Jan Kröpke <info@2moons.cc>
+ * @license http://www.gnu.org/licenses/gpl.html GNU GPLv3 License
+ * @version 1.7.3 (2013-05-19)
+ * @info $Id: vars.php 2749 2013-05-19 11:43:20Z slaver7 $
+ * @link http://2moons.cc/
  */
 
-if (!defined('ROOT_PATH')) {
-    die('Hacking attempt');
-}
+// VARS DB -> SCRIPT WRAPPER
 
-require_once ROOT_PATH . 'includes/classes/Legacies/Empire.php';
+$CACHE->add('vars', 'VarsBuildCache');
+extract($CACHE->get('vars'));
+$resource[901] = 'metal';
+$resource[902] = 'crystal';
+$resource[903] = 'deuterium';
+$resource[911] = 'energy';
+$resource[921] = 'darkmatter';
 
-// Liste de champs pour l'indication des messages en attante
-$messfields = array (
-    0   => "mnl_spy",
-    1   => "mnl_joueur",
-    2   => "mnl_alliance",
-    3   => "mnl_attaque",
-    4   => "mnl_exploit",
-    5   => "mnl_transport",
-    15  => "mnl_expedition",
-    97  => "mnl_general",
-    99  => "mnl_buildlist",
-    100 => "new_message"
-    );
-
-$resource = include ROOT_PATH . 'includes/data/fields-alias.php';
-
-$requirements = include ROOT_PATH . 'includes/data/requirements.php';
-
-$pricelist = include ROOT_PATH . 'includes/data/prices.php';
-
-$CombatCaps = include ROOT_PATH . 'includes/data/combat.php';
-
-$ProdGrid = include ROOT_PATH . 'includes/data/production.php';
-
-$reslist = include ROOT_PATH . 'includes/data/types.php';
+$reslist['ressources']  = array(901, 902, 903, 911, 921);
+$reslist['resstype'][1] = array(901, 902, 903);
+$reslist['resstype'][2] = array(911);
+$reslist['resstype'][3] = array(921);

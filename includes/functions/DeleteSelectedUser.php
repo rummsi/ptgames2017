@@ -1,12 +1,8 @@
 <?php
+
 /**
- * This file is part of XNova:Legacies
- *
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
- * @see http://www.xnova-ng.org/
- *
- * Copyright (c) 2009-Present, XNova Support Team <http://www.xnova-ng.org>
- * All rights reserved.
+ *  2Moons
+ *  Copyright (C) 2012 Jan Kröpke
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,48 +17,84 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *                                --> NOTICE <--
- *  This file is part of the core development branch, changing its contents will
- * make you unable to use the automatic updates manager. Please refer to the
- * documentation for further information about customizing XNova.
- *
+ * @package 2Moons
+ * @author Jan Kröpke <info@2moons.cc>
+ * @copyright 2012 Jan Kröpke <info@2moons.cc>
+ * @license http://www.gnu.org/licenses/gpl.html GNU GPLv3 License
+ * @version 1.7.3 (2013-05-19)
+ * @info $Id: DeleteSelectedUser.php 2749 2013-05-19 11:43:20Z slaver7 $
+ * @link http://2moons.cc/
  */
 
-function DeleteSelectedUser ( $UserID ) {
+require_once('includes/classes/class.FleetFunctions.php');
+ 
+function DeleteSelectedUser($userID)
+{
+	global $db ,$CONF;
+	
+	if(ROOT_USER == $userID) {
+		return false;
+	}
+	
+	$userData = $GLOBALS['DATABASE']->getFirstRow("SELECT universe, ally_id FROM ".USERS." WHERE id = '".$userID."';");
+	$SQL 	 = "";
+	
+	if ($userData['ally_id'] != 0)
+	{
+		$memberCount =  $GLOBALS['DATABASE']->getFirstCell("SELECT ally_members FROM ".ALLIANCE." WHERE id = ".$userData['ally_id'].";");
 
-	$TheUser = doquery ( "SELECT * FROM {{table}} WHERE `id` = '" . $UserID . "';", 'users', true );
-	if ( $TheUser['ally_id'] != 0 ) {
-		$TheAlly = doquery ( "SELECT * FROM {{table}} WHERE `id` = '" . $TheUser['ally_id'] . "';", 'alliance', true );
-		$TheAlly['ally_members'] -= 1;
-		if ( $TheAlly['ally_members'] > 0 ) {
-			doquery ( "UPDATE {{table}} SET `ally_members` = '" . $TheAlly['ally_members'] . "' WHERE `id` = '" . $TheAlly['id'] . "';", 'alliance' );
-		} else {
-			doquery ( "DELETE FROM {{table}} WHERE `id` = '" . $TheAlly['id'] . "';", 'alliance' );
-			doquery ( "DELETE FROM {{table}} WHERE `stat_type` = '2' AND `id_owner` = '" . $TheAlly['id'] . "';", 'statpoints' );
+		if ($memberCount >= 2)
+		{
+			$SQL .= "UPDATE ".ALLIANCE." SET ally_members = ally_members - 1 WHERE id = ".$userData['ally_id'].";";
+		}
+		else
+		{
+			$SQL .= "DELETE FROM ".ALLIANCE." WHERE id = ".$userData['ally_id'].";";
+			$SQL .= "DELETE FROM ".STATPOINTS." WHERE stat_type = '2' AND id_owner = ".$userID.";";
+			$SQL .= "UPDATE ".STATPOINTS." SET id_ally = 0 WHERE id_ally = ".$userData['ally_id'].";";
 		}
 	}
-	doquery ( "DELETE FROM {{table}} WHERE `stat_type` = '1' AND `id_owner` = '" . $UserID . "';", 'statpoints' );
-
-	$ThePlanets = doquery ( "SELECT * FROM {{table}} WHERE `id_owner` = '" . $UserID . "';", 'planets' );
-	while ( $OnePlanet = mysql_fetch_assoc ( $ThePlanets ) ) {
-		if ( $OnePlanet['planet_type'] == 1 ) {
-			doquery ( "DELETE FROM {{table}} WHERE `galaxy` = '" . $OnePlanet['galaxy'] . "' AND `system` = '" . $OnePlanet['system'] . "' AND `planet` = '" . $OnePlanet['planet'] . "';", 'galaxy' );
-		} elseif ( $OnePlanet['planet_type'] == 3 ) {
-			doquery ( "DELETE FROM {{table}} WHERE `galaxy` = '" . $OnePlanet['galaxy'] . "' AND `system` = '" . $OnePlanet['system'] . "' AND `lunapos` = '" . $OnePlanet['planet'] . "';", 'lunas' );
-		}
-		doquery ( "DELETE FROM {{table}} WHERE `id` = '" . $OnePlanet['id'] . "';", 'planets' );
+	
+	$SQL .= "DELETE FROM ".ALLIANCE_REQUEST." WHERE userID = ".$userID.";";
+	$SQL .= "DELETE FROM ".BUDDY." WHERE owner = ".$userID." OR sender = ".$userID.";";
+	$SQL .= "DELETE FROM ".FLEETS." WHERE fleet_owner = ".$userID.";";
+	$SQL .= "DELETE FROM ".MESSAGES." WHERE message_owner = ".$userID.";";
+	$SQL .= "DELETE FROM ".NOTES." WHERE owner = ".$userID.";";
+	$SQL .= "DELETE FROM ".PLANETS." WHERE id_owner = ".$userID.";";
+	$SQL .= "DELETE FROM ".USERS." WHERE id = ".$userID.";";
+	$SQL .= "DELETE FROM ".STATPOINTS." WHERE stat_type = '1' AND id_owner = ".$userID.";";
+	$GLOBALS['DATABASE']->multi_query($SQL);
+	
+	$fleetData	= $GLOBALS['DATABASE']->query("SELECT fleet_id FROM ".FLEETS." WHERE fleet_target_owner = ".$userID.";");
+	
+	while($FleetID = $GLOBALS['DATABASE']->fetch_array($fleetData)) {
+		FleetFunctions::SendFleetBack($userID, $FleetID['fleet_id']);
 	}
-	doquery ( "DELETE FROM {{table}} WHERE `message_sender` = '" . $UserID . "';", 'messages' );
-	doquery ( "DELETE FROM {{table}} WHERE `message_owner` = '" . $UserID . "';", 'messages' );
-	doquery ( "DELETE FROM {{table}} WHERE `owner` = '" . $UserID . "';", 'notes' );
-	doquery ( "DELETE FROM {{table}} WHERE `fleet_owner` = '" . $UserID . "';", 'fleets' );
-	doquery ( "DELETE FROM {{table}} WHERE `id_owner1` = '" . $UserID . "';", 'rw' );
-	doquery ( "DELETE FROM {{table}} WHERE `id_owner2` = '" . $UserID . "';", 'rw' );
-	doquery ( "DELETE FROM {{table}} WHERE `sender` = '" . $UserID . "';", 'buddy' );
-	doquery ( "DELETE FROM {{table}} WHERE `owner` = '" . $UserID . "';", 'buddy' );
-	doquery ( "DELETE FROM {{table}} WHERE `user` = '" . $UserID . "';", 'annonce' );
-	doquery ( "DELETE FROM {{table}} WHERE `id` = '" . $UserID . "';", 'users' );
-
+	
+	$GLOBALS['DATABASE']->free_result($fleetData);
+	
+	Config::update(array('users_amount' => Config::get('users_amount') - 1), $userData['universe']);
 }
 
-?>
+function DeleteSelectedPlanet($planetID)
+{
+	$planetData = $GLOBALS['DATABASE']->getFirstRow("SELECT planet_type FROM ".PLANETS." WHERE id = ".$planetID." AND id NOT IN (SELECT id_planet FROM ".USERS.");");
+	
+	if(empty($planetData)) {
+		return false;
+	}
+	
+	$fleetData	= $GLOBALS['DATABASE']->query("SELECT fleet_id FROM ".FLEETS." WHERE fleet_end_id = ".$planetID.";");
+	
+	while($FleetID = $GLOBALS['DATABASE']->fetch_array($fleetData)) {
+		FleetFunctions::SendFleetBack($$planetID, $FleetID['fleet_id']);
+	}
+	
+	$GLOBALS['DATABASE']->free_result($fleetData);
+	
+	if ($planetData['planet_type'] == 3) {
+		$GLOBALS['DATABASE']->multi_query("DELETE FROM ".PLANETS." WHERE id = ".$planetID.";UPDATE ".PLANETS." SET id_luna = 0 WHERE id_luna = ".$planetID.";");
+	} else {
+		$GLOBALS['DATABASE']->query("DELETE FROM ".PLANETS." WHERE id = ".$planetID." OR id_luna = ".$planetID.";");
+	}
+}

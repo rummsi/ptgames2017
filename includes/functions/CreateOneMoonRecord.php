@@ -1,12 +1,8 @@
 <?php
+
 /**
- * This file is part of XNova:Legacies
- *
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
- * @see http://www.xnova-ng.org/
- *
- * Copyright (c) 2009-Present, XNova Support Team <http://www.xnova-ng.org>
- * All rights reserved.
+ *  2Moons
+ *  Copyright (C) 2012 Jan Kröpke
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,98 +17,65 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *                                --> NOTICE <--
- *  This file is part of the core development branch, changing its contents will
- * make you unable to use the automatic updates manager. Please refer to the
- * documentation for further information about customizing XNova.
- *
+ * @package 2Moons
+ * @author Jan Kröpke <info@2moons.cc>
+ * @copyright 2012 Jan Kröpke <info@2moons.cc>
+ * @license http://www.gnu.org/licenses/gpl.html GNU GPLv3 License
+ * @version 1.7.3 (2013-05-19)
+ * @info $Id: CreateOneMoonRecord.php 2749 2013-05-19 11:43:20Z slaver7 $
+ * @link http://2moons.cc/
  */
 
-function CreateOneMoonRecord ( $Galaxy, $System, $Planet, $Owner, $MoonID, $MoonName, $Chance ) {
-	global $lang;
+function CreateOneMoonRecord($Galaxy, $System, $Planet, $Universe, $Owner, $MoonName, $Chance, $time = 0, $Size = 0)
+{
+	global $USER;
 
-	$PlanetName            = "";
+	$SQL  = "SELECT id_luna,planet_type,id,name,temp_max,temp_min FROM ".PLANETS." ";
+	$SQL .= "WHERE ";
+	$SQL .= "universe = '".$Universe."' AND ";
+	$SQL .= "galaxy = '".$Galaxy."' AND ";
+	$SQL .= "system = '".$System."' AND ";
+	$SQL .= "planet = '".$Planet."' AND ";
+	$SQL .= "planet_type = '1';";
+	$MoonPlanet = $GLOBALS['DATABASE']->getFirstRow($SQL);
 
-	$QryGetMoonPlanetData  = "SELECT * FROM {{table}} ";
-	$QryGetMoonPlanetData .= "WHERE ";
-	$QryGetMoonPlanetData .= "`galaxy` = '". $Galaxy ."' AND ";
-	$QryGetMoonPlanetData .= "`system` = '". $System ."' AND ";
-	$QryGetMoonPlanetData .= "`planet` = '". $Planet ."';";
-	$MoonPlanet = doquery ( $QryGetMoonPlanetData, 'planets', true);
+	if ($MoonPlanet['id_luna'] != 0)
+		return false;
 
-	$QryGetMoonGalaxyData  = "SELECT * FROM {{table}} ";
-	$QryGetMoonGalaxyData .= "WHERE ";
-	$QryGetMoonGalaxyData .= "`galaxy` = '". $Galaxy ."' AND ";
-	$QryGetMoonGalaxyData .= "`system` = '". $System ."' AND ";
-	$QryGetMoonGalaxyData .= "`planet` = '". $Planet ."';";
-	$MoonGalaxy = doquery ( $QryGetMoonGalaxyData, 'galaxy', true);
-
-	if ($MoonGalaxy['id_luna'] == 0) {
-		if ($MoonPlanet['id'] != 0) {
-			$SizeMin                = 2000 + ( $Chance * 100 );
-			$SizeMax                = 6000 + ( $Chance * 200 );
-
-			$PlanetName             = $MoonPlanet['name'];
-
-			$maxtemp                = $MoonPlanet['temp_max'] - rand(10, 45);
-			$mintemp                = $MoonPlanet['temp_min'] - rand(10, 45);
-			$size                   = rand ($SizeMin, $SizeMax);
-
-			$QryInsertMoonInLunas   = "INSERT INTO {{table}} SET ";
-			$QryInsertMoonInLunas  .= "`name` = '". ( ($MoonName == '') ? $lang['sys_moon'] : $MoonName ) ."', ";
-			$QryInsertMoonInLunas  .= "`galaxy` = '".   $Galaxy  ."', ";
-			$QryInsertMoonInLunas  .= "`system` = '".   $System  ."', ";
-			$QryInsertMoonInLunas  .= "`lunapos` = '".  $Planet  ."', ";
-			$QryInsertMoonInLunas  .= "`id_owner` = '". $Owner   ."', ";
-			$QryInsertMoonInLunas  .= "`temp_max` = '". $maxtemp ."', ";
-			$QryInsertMoonInLunas  .= "`temp_min` = '". $mintemp ."', ";
-			$QryInsertMoonInLunas  .= "`diameter` = '". $size    ."', ";
-			$QryInsertMoonInLunas  .= "`id_luna` = '".  $MoonID  ."';";
-			doquery( $QryInsertMoonInLunas , 'lunas' );
-
-			$QryGetMoonIdFromLunas  = "SELECT * FROM {{table}} ";
-			$QryGetMoonIdFromLunas .= "WHERE ";
-			$QryGetMoonIdFromLunas .= "`galaxy` = '".  $Galaxy ."' AND ";
-			$QryGetMoonIdFromLunas .= "`system` = '".  $System ."' AND ";
-			$QryGetMoonIdFromLunas .= "`lunapos` = '". $Planet ."';";
-			$lunarow = doquery( $QryGetMoonIdFromLunas , 'lunas', true);
-
-			$QryUpdateMoonInGalaxy  = "UPDATE {{table}} SET ";
-			$QryUpdateMoonInGalaxy .= "`id_luna` = '". $lunarow['id'] ."', ";
-			$QryUpdateMoonInGalaxy .= "`luna` = '0' ";
-			$QryUpdateMoonInGalaxy .= "WHERE ";
-			$QryUpdateMoonInGalaxy .= "`galaxy` = '". $Galaxy ."' AND ";
-			$QryUpdateMoonInGalaxy .= "`system` = '". $System ."' AND ";
-			$QryUpdateMoonInGalaxy .= "`planet` = '". $Planet ."';";
-			doquery( $QryUpdateMoonInGalaxy , 'galaxy');
-
-			$QryInsertMoonInPlanet  = "INSERT INTO {{table}} SET ";
-			$QryInsertMoonInPlanet .= "`name` = '" .$lang['sys_moon'] ."', ";
-			$QryInsertMoonInPlanet .= "`id_owner` = '". $Owner ."', ";
-			$QryInsertMoonInPlanet .= "`galaxy` = '". $Galaxy ."', ";
-			$QryInsertMoonInPlanet .= "`system` = '". $System ."', ";
-			$QryInsertMoonInPlanet .= "`planet` = '". $Planet ."', ";
-			$QryInsertMoonInPlanet .= "`last_update` = '". time() ."', ";
-			$QryInsertMoonInPlanet .= "`planet_type` = '3', ";
-			$QryInsertMoonInPlanet .= "`image` = 'mond', ";
-			$QryInsertMoonInPlanet .= "`diameter` = '". $size ."', ";
-			$QryInsertMoonInPlanet .= "`field_max` = '1', ";
-			$QryInsertMoonInPlanet .= "`temp_min` = '". $maxtemp ."', ";
-			$QryInsertMoonInPlanet .= "`temp_max` = '". $mintemp ."', ";
-			$QryInsertMoonInPlanet .= "`metal` = '0', ";
-			$QryInsertMoonInPlanet .= "`metal_perhour` = '0', ";
-			$QryInsertMoonInPlanet .= "`metal_max` = '".BASE_STORAGE_SIZE."', ";
-			$QryInsertMoonInPlanet .= "`crystal` = '0', ";
-			$QryInsertMoonInPlanet .= "`crystal_perhour` = '0', ";
-			$QryInsertMoonInPlanet .= "`crystal_max` = '".BASE_STORAGE_SIZE."', ";
-			$QryInsertMoonInPlanet .= "`deuterium` = '0', ";
-			$QryInsertMoonInPlanet .= "`deuterium_perhour` = '0', ";
-			$QryInsertMoonInPlanet .= "`deuterium_max` = '".BASE_STORAGE_SIZE."';";
-			doquery( $QryInsertMoonInPlanet , 'planets');
-		}
+	if($Size == 0) {
+		$size	= floor(pow(mt_rand(10, 20) + 3 * $Chance, 0.5) * 1000); # New Calculation - 23.04.2011
+	} else {
+		$size	= $Size;
 	}
+	
+	$maxtemp	= $MoonPlanet['temp_max'] - mt_rand(10, 45);
+	$mintemp	= $MoonPlanet['temp_min'] - mt_rand(10, 45);
 
-	return $PlanetName;
+	$GLOBALS['DATABASE']->multi_query("INSERT INTO ".PLANETS." SET
+					  name = '".$MoonName."',
+					  id_owner = ".$Owner.",
+					  universe = ".$Universe.",
+					  galaxy = ".$Galaxy.",
+					  system = ".$System.",
+					  planet = ".$Planet.",
+					  last_update = ".TIMESTAMP.",
+					  planet_type = '3',
+					  image = 'mond',
+					  diameter = ".$size.",
+					  field_max = '1',
+					  temp_min = ".$mintemp.",
+					  temp_max = ".$maxtemp.",
+					  metal = 0,
+					  metal_perhour = 0,
+					  crystal = 0,
+					  crystal_perhour = 0,
+					  deuterium = 0,
+					  deuterium_perhour = 0;
+					  SET @moonID = LAST_INSERT_ID();
+					  UPDATE ".PLANETS." SET
+					  id_luna = @moonID
+					  WHERE
+					  id = ".$MoonPlanet['id'].";");
+
+	return true;
 }
-
-?>
