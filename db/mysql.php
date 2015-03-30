@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,39 +28,32 @@
  * documentation for further information about customizing XNova.
  *
  */
+class Database {
 
-class Database
-{
     static $dbHandle = NULL;
     static $config = NULL;
+
 }
 
-function doquery($query, $table, $fetch = false)
-{
+function doquery($query, $table, $fetch = false) {
     if (!isset(Database::$config)) {
         $config = require dirname(dirname(__FILE__)) . '/config.php';
     }
 
-    if(!isset(Database::$dbHandle))
-    {
-        Database::$dbHandle = mysql_connect(
-            $config['global']['database']['options']['hostname'],
-            $config['global']['database']['options']['username'],
-            $config['global']['database']['options']['password'])
-                or trigger_error(mysql_error() . "$query<br />" . PHP_EOL, E_USER_WARNING);
-
-        mysql_select_db($config['global']['database']['options']['database'], Database::$dbHandle)
-            or trigger_error(mysql_error()."$query<br />" . PHP_EOL, E_USER_WARNING);
+    if (!isset(Database::$dbHandle)) {
+        Database::$dbHandle = mysqli_connect(
+                $config['global']['database']['options']['hostname'], $config['global']['database']['options']['username'], $config['global']['database']['options']['password'], $config['global']['database']['options']['database'])
+                or trigger_error(mysqli_connect_error() . "$query<br />" . PHP_EOL, E_USER_WARNING);
     }
     $sql = str_replace("{{table}}", "{$config['global']['database']['table_prefix']}{$table}", $query);
 
-    if (false === ($sqlQuery = mysql_query($sql, Database::$dbHandle))) {
-        trigger_error(mysql_error() . PHP_EOL . "<br /><pre></code>$sql<code></pre><br />" . PHP_EOL, E_USER_WARNING);
+    if (false === ($sqlQuery = mysqli_query(Database::$dbHandle, $sql))) {
+        trigger_error(mysqli_connect_error() . PHP_EOL . "<br /><pre></code>$sql<code></pre><br />" . PHP_EOL, E_USER_WARNING);
     }
 
-    if($fetch) {
+    if ($fetch) {
         return mysql_fetch_array($sqlQuery);
-    }else{
+    } else {
         return $sqlQuery;
     }
 }
