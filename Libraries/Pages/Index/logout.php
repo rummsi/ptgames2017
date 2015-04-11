@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,14 +28,9 @@
  * documentation for further information about customizing XNova.
  *
  */
-
-define('INSIDE' , true);
-define('INSTALL' , false);
-require_once dirname(__FILE__) . '/common.php';
-
 includeLang('logout');
 
 session_destroy();
 setcookie('nova-cookie', NULL, 0);
 
-message($lang['see_you'], $lang['session_closed'], 'login.php');
+message($lang['see_you'], $lang['session_closed'], header('Refresh: 5; URL=index.php'));
