@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,20 +28,12 @@
  * documentation for further information about customizing XNova.
  *
  */
+includeLang('rules');
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-require_once dirname(__FILE__) .'/common.php';
+$parse = $lang;
+$parse['servername'] = $game_config['game_name'];
 
-	includeLang('rules');
+$PageTPL = gettemplate('rules_body');
+$page = parsetemplate($PageTPL, $parse);
 
-	$parse = $lang;
-	$parse['servername']   = $game_config['game_name'];
-
-	$PageTPL  = gettemplate('rules_body');
-	$page     = parsetemplate( $PageTPL, $parse);
-
-	display($page, $lang['rules'], false);
-
-
-?>
+display($page, $lang['rules'], false);

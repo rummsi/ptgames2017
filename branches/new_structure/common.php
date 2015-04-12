@@ -115,7 +115,7 @@ while ($row = mysql_fetch_array($_fleets)) {
 
 unset($_fleets);
 
-include(ROOT_PATH . 'rak.' . PHPEXT);
+include(ROOT_PATH . 'Libraries/Pages/Game/rak.' . PHPEXT);
 if (!defined('IN_ADMIN')) {
     $dpath = (isset($user['dpath']) && !empty($user["dpath"])) ? $user['dpath'] : DEFAULT_SKINPATH;
 } else {

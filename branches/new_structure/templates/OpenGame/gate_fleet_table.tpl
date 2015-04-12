@@ -1,6 +1,6 @@
 <br>
 {gate_time_script}
-<form action="jumpgate.php" method="post">
+<form action="game.php?page=jumpgate" method="post">
 <table border="1">
 <tbody>
 <tr>
@@ -26,7 +26,7 @@
 	<table width="100%">
 	<tbody>
 	<tr>
-		<td style=\"background-color: transparent;\" align="right">{gate_wait_time}</td>
+		<td style="background-color: transparent;" align="right">{gate_wait_time}</td>
 	</tr>
 	</tbody>
 	</table>

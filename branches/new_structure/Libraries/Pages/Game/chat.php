@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,19 +28,13 @@
  * documentation for further information about customizing XNova.
  *
  */
+includeLang('chat');
+$BodyTPL = gettemplate('chat_body');
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-require_once dirname(__FILE__) .'/common.php';
+$nick = $user['username'];
+$parse = $lang;
 
-	includeLang('chat');
-	$BodyTPL = gettemplate('chat_body');
-
-	$nick = $user['username'];
-	$parse = $lang;
-
-	$page = parsetemplate($BodyTPL, $parse);
-	display($page, $lang['Chat'], false);
+$page = parsetemplate($BodyTPL, $parse);
+Game::display($page, $lang['Chat'], false);
 
 // Shoutbox by e-Zobar - Copyright XNova Team 2008
-?>
