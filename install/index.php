@@ -53,7 +53,7 @@ include(ROOT_PATH . 'includes/vars.' . PHPEXT);
 include(ROOT_PATH . 'includes/db.' . PHPEXT);
 include(ROOT_PATH . 'includes/strings.' . PHPEXT);
 
-include(ROOT_PATH . 'includes/databaseinfos.php');
+include(ROOT_PATH . 'includes/databasegame.php?page=infos');
 include(ROOT_PATH . 'includes/migrateinfo.php');
 
 $mode     = isset($_GET['mode']) ? strval($_GET['mode']) : 'intro';

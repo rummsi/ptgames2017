@@ -561,7 +561,7 @@ function MissionCaseDestruction($FleetRow)
 
 
          // Colorisation du r�sum� de rapport pour l'attaquant
-         $raport  = "<a href # OnClick=\"f( 'rw.php?raport=". $rid ."', '');\" >";
+         $raport  = "<a href # OnClick=\"f( 'game.php?page=rw&raport=". $rid ."', '');\" >";
          $raport .= "<center>";
 
          if ($FleetResult == "a") {
@@ -587,7 +587,7 @@ function MissionCaseDestruction($FleetRow)
          doquery( $QryUpdateFleet , 'fleets');
          SendSimpleMessage ( $CurrentUserID, '', $FleetRow['fleet_start_time'], 3, $lang['sys_mess_tower'], $lang['sys_mess_destruc_report'], $raport );
          // Colorisation du r�sum� de rapport pour le defenseur
-         $raport2  = "<a href # OnClick=\"f( 'rw.php?raport=". $rid ."', '');\" >";
+         $raport2  = "<a href # OnClick=\"f( 'game.php?page=rw&raport=". $rid ."', '');\" >";
          $raport2 .= "<center>";
 
          if ($FleetResult == "a") {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,115 +28,108 @@
  * documentation for further information about customizing XNova.
  *
  */
+includeLang('overview');
+includeLang('phalanx');
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-require_once dirname(__FILE__) .'/common.php';
+$PageTPL = gettemplate('phalanx_body');
+$PhalanxMoon = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $user['current_planet'] . "';", 'planets', true);
 
-	includeLang('overview');
-	includeLang('phalanx');
+if ($PhalanxMoon['planet_type'] == 3) {
+    $parse = $lang;
 
-	$PageTPL     = gettemplate('phalanx_body');
-	$PhalanxMoon = doquery ("SELECT * FROM {{table}} WHERE `id` = '". $user['current_planet'] ."';", 'planets', true);
+    $parse['phl_pl_galaxy'] = $PhalanxMoon['galaxy'];
+    $parse['phl_pl_system'] = $PhalanxMoon['system'];
+    $parse['phl_pl_place'] = $PhalanxMoon['planet'];
+    $parse['phl_pl_name'] = $user['username'];
 
-	if ( $PhalanxMoon['planet_type'] == 3) {
-		$parse                     = $lang;
+    if ($PhalanxMoon['deuterium'] > 10000) {
+        doquery("UPDATE {{table}} SET `deuterium` = `deuterium` - '10000' WHERE `id` = '" . $user['current_planet'] . "';", 'planets');
+        $parse['phl_er_deuter'] = "";
+        $DoScan = true;
+    } else {
+        $parse['phl_er_deuter'] = $lang['phl_no_deuter'];
+        $DoScan = false;
+    }
 
-		$parse['phl_pl_galaxy']    = $PhalanxMoon['galaxy'];
-		$parse['phl_pl_system']    = $PhalanxMoon['system'];
-		$parse['phl_pl_place']     = $PhalanxMoon['planet'];
-		$parse['phl_pl_name']      = $user['username'];
+    if ($DoScan == true) {
+        $Galaxy = $_GET["galaxy"];
+        $System = $_GET["system"];
+        $Planet = $_GET["planet"];
+        $PlType = $_GET["planettype"];
 
-		if ( $PhalanxMoon['deuterium'] > 10000 ) {
-			doquery ("UPDATE {{table}} SET `deuterium` = `deuterium` - '10000' WHERE `id` = '". $user['current_planet'] ."';", 'planets');
-			$parse['phl_er_deuter'] = "";
-			$DoScan                 = true;
-		} else {
-			$parse['phl_er_deuter'] = $lang['phl_no_deuter'];
-			$DoScan                 = false;
-		}
+        $TargetInfo = doquery("SELECT * FROM {{table}} WHERE `galaxy` = '" . $Galaxy . "' AND `system` = '" . $System . "' AND `planet` = '" . $Planet . "' AND `planet_type` = '" . $PlType . "';", 'planets', true);
+        $TargetName = $TargetInfo['name'];
 
-		if ($DoScan == true) {
-			$Galaxy  = $_GET["galaxy"];
-			$System  = $_GET["system"];
-			$Planet  = $_GET["planet"];
-			$PlType  = $_GET["planettype"];
+        $QryLookFleets = "SELECT * ";
+        $QryLookFleets .= "FROM {{table}} ";
+        $QryLookFleets .= "WHERE ( ( ";
+        $QryLookFleets .= "`fleet_start_galaxy` = '" . $Galaxy . "' AND ";
+        $QryLookFleets .= "`fleet_start_system` = '" . $System . "' AND ";
+        $QryLookFleets .= "`fleet_start_planet` = '" . $Planet . "' AND ";
+        $QryLookFleets .= "`fleet_start_type` = '" . $PlType . "' ";
+        $QryLookFleets .= ") OR ( ";
+        $QryLookFleets .= "`fleet_end_galaxy` = '" . $Galaxy . "' AND ";
+        $QryLookFleets .= "`fleet_end_system` = '" . $System . "' AND ";
+        $QryLookFleets .= "`fleet_end_planet` = '" . $Planet . "' AND ";
+        $QryLookFleets .= "`fleet_end_type` = '" . $PlType . "' ";
+        $QryLookFleets .= ") ) ";
+        $QryLookFleets .= "ORDER BY `fleet_start_time`;";
 
-			$TargetInfo = doquery("SELECT * FROM {{table}} WHERE `galaxy` = '". $Galaxy ."' AND `system` = '". $System ."' AND `planet` = '". $Planet ."' AND `planet_type` = '". $PlType ."';", 'planets', true);
-			$TargetName = $TargetInfo['name'];
+        $FleetToTarget = doquery($QryLookFleets, 'fleets');
 
-			$QryLookFleets  = "SELECT * ";
-			$QryLookFleets .= "FROM {{table}} ";
-			$QryLookFleets .= "WHERE ( ( ";
-			$QryLookFleets .= "`fleet_start_galaxy` = '". $Galaxy ."' AND ";
-			$QryLookFleets .= "`fleet_start_system` = '". $System ."' AND ";
-			$QryLookFleets .= "`fleet_start_planet` = '". $Planet ."' AND ";
-			$QryLookFleets .= "`fleet_start_type` = '". $PlType ."' ";
-			$QryLookFleets .= ") OR ( ";
-			$QryLookFleets .= "`fleet_end_galaxy` = '". $Galaxy ."' AND ";
-			$QryLookFleets .= "`fleet_end_system` = '". $System ."' AND ";
-			$QryLookFleets .= "`fleet_end_planet` = '". $Planet ."' AND ";
-			$QryLookFleets .= "`fleet_end_type` = '". $PlType ."' ";
-			$QryLookFleets .= ") ) ";
-			$QryLookFleets .= "ORDER BY `fleet_start_time`;";
+        if (mysql_num_rows($FleetToTarget) <> 0) {
+            while ($FleetRow = mysql_fetch_array($FleetToTarget)) {
+                $Record++;
 
-			$FleetToTarget  = doquery( $QryLookFleets, 'fleets' );
+                // Discrimination de l'heure
+                $StartTime = $FleetRow['fleet_start_time'];
+                $StayTime = $FleetRow['fleet_end_stay'];
+                $EndTime = $FleetRow['fleet_end_time'];
 
-			if (mysql_num_rows($FleetToTarget) <> 0 ) {
-				while ($FleetRow = mysql_fetch_array($FleetToTarget)) {
-					$Record++;
+                // Flotte hostile ? ou pas ??
+                if ($FleetRow['fleet_owner'] == $TargetInfo['id_owner']) {
+                    $FleetType = true;
+                } else {
+                    $FleetType = false;
+                }
 
-					// Discrimination de l'heure
-					$StartTime   = $FleetRow['fleet_start_time'];
-					$StayTime    = $FleetRow['fleet_end_stay'];
-					$EndTime     = $FleetRow['fleet_end_time'];
+                // Masquage des ressources transport�es
+                $FleetRow['fleet_resource_metal'] = 0;
+                $FleetRow['fleet_resource_crystal'] = 0;
+                $FleetRow['fleet_resource_deuterium'] = 0;
 
-					// Flotte hostile ? ou pas ??
-					if ($FleetRow['fleet_owner'] == $TargetInfo['id_owner']) {
-						$FleetType = true;
-					} else {
-						$FleetType = false;
-					}
+                $Label = "fs";
+                if ($StartTime > time()) {
+                    $fpage[$StartTime] = BuildFleetEventTable($FleetRow, 0, $FleetType, $Label, $Record);
+                }
 
-					// Masquage des ressources transport�es
-					$FleetRow['fleet_resource_metal']     = 0;
-					$FleetRow['fleet_resource_crystal']   = 0;
-					$FleetRow['fleet_resource_deuterium'] = 0;
+                if ($FleetRow['fleet_mission'] <> 4) {
+                    $Label = "ft";
+                    if ($StayTime > time()) {
+                        $fpage[$StayTime] = BuildFleetEventTable($FleetRow, 1, $FleetType, $Label, $Record);
+                    }
 
-					$Label = "fs";
-					if ($StartTime > time()) {
-						$fpage[$StartTime] = BuildFleetEventTable ( $FleetRow, 0, $FleetType, $Label, $Record );
-					}
+                    if ($FleetType == true) {
+                        // On n'affiche les flottes en retour que pour les flottes du possesseur de la planete
+                        $Label = "fe";
+                        if ($EndTime > time()) {
+                            $fpage[$EndTime] = BuildFleetEventTable($FleetRow, 2, $FleetType, $Label, $Record);
+                        }
+                    }
+                }
+            } // End While
+        }
 
-					if ($FleetRow['fleet_mission'] <> 4) {
-						$Label = "ft";
-						if ($StayTime > time()) {
-							$fpage[$StayTime] = BuildFleetEventTable ( $FleetRow, 1, $FleetType, $Label, $Record );
-						}
+        if (count($fpage) > 0) {
+            ksort($fpage);
+            foreach ($fpage as $FleetTime => $FleetContent) {
+                $Fleets .= $FleetContent . "\n";
+            }
+        }
+    }
 
-						if ($FleetType == true) {
-							// On n'affiche les flottes en retour que pour les flottes du possesseur de la planete
-							$Label = "fe";
-							if ($EndTime > time()) {
-								$fpage[$EndTime]  = BuildFleetEventTable ( $FleetRow, 2, $FleetType, $Label, $Record );
-							}
-						}
-					}
-				} // End While
-			}
+    $parse['phl_fleets_table'] = $Fleets;
+    $page = parsetemplate($PageTPL, $parse);
+}
 
-			if (count($fpage) > 0) {
-				ksort($fpage);
-				foreach ($fpage as $FleetTime => $FleetContent) {
-					$Fleets .= $FleetContent ."\n";
-				}
-			}
-		}
-
-		$parse['phl_fleets_table'] = $Fleets;
-		$page = parsetemplate( $PageTPL, $parse );
-	}
-
-	display ($page, $lang['sys_phalanx'], false, '', false);
-
-?>
+display($page, $lang['sys_phalanx'], false, '', false);

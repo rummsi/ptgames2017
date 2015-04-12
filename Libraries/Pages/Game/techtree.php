@@ -52,7 +52,7 @@ foreach ($lang['tech'] as $Element => $ElementName) {
                 $parse['required_list'] .= $lang['tech'][$ResClass] . " (" . $lang['level'] . " " . $Level . ")";
                 $parse['required_list'] .= "</font><br>";
             }
-            $parse['tt_detail'] = "<a href=\"techdetails.php?techid=" . $Element . "\">" . $lang['treeinfo'] . "</a>";
+            $parse['tt_detail'] = "<a href=\"game.php?page=techdetails&techid=" . $Element . "\">" . $lang['treeinfo'] . "</a>";
         } else {
             $parse['required_list'] = "";
             $parse['tt_detail'] = "";

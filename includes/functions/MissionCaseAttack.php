@@ -343,7 +343,7 @@ function MissionCaseAttack ($FleetRow)
             $QryInsertRapport .= "`raport` = '" . addslashes ($raport) . "';";
             doquery($QryInsertRapport , 'rw');
             // Colorisation du résumé de rapport pour l'attaquant
-            $raport = "<a href # OnClick=\"f( 'rw.php?raport=" . $rid . "', '');\" >";
+            $raport = "<a href # OnClick=\"f( 'game.php?page=rw&raport=" . $rid . "', '');\" >";
             $raport .= "<center>";
             if ($FleetResult == "a") {
                 $raport .= "<font color=\"green\">";
@@ -402,7 +402,7 @@ function MissionCaseAttack ($FleetRow)
                 doquery($QryUpdateRaidsCompteur, 'users');
             }
             // Colorisation du résumé de rapport pour l'attaquant
-            $raport2 = "<a href # OnClick=\"f( 'rw.php?raport=" . $rid . "', '');\" >";
+            $raport2 = "<a href # OnClick=\"f( 'game.php?page=rw&raport=" . $rid . "', '');\" >";
             $raport2 .= "<center>";
             if ($FleetResult == "a") {
                 $raport2 .= "<font color=\"green\">";
