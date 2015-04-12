@@ -96,7 +96,7 @@ class Game {
         //Maintenant le marchand
         if ($game_config['enable_marchand'] == 1) {
             $parse['marchand_link'] = "
-			<td colspan=\"2\"><div><a href=\"marchand.php\" target=\"_self\">Marchand</a></div></td>";
+			<td colspan=\"2\"><div><a href=\"game.php?page=marchand\" target=\"_self\">Marchand</a></div></td>";
         } else {
             $parse['marchand_link'] = "";
         }
@@ -104,7 +104,7 @@ class Game {
         if ($game_config['enable_notes'] == 1) {
             $parse['notes_link'] = "
 		<tr>
-			<td colspan=\"2\"><div><a href=\"#\" onClick=\"f('notes.php', '');\" accesskey=\"c\">Notes</a></div></td>
+			<td colspan=\"2\"><div><a href=\"#\" onClick=\"f('game.php?page=notes', '');\" accesskey=\"c\">Notes</a></div></td>
 		</tr>";
         } else {
             $parse['notes_link'] = "";

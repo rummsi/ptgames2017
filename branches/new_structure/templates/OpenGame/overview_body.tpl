@@ -30,7 +30,7 @@
 	<th>{Temperature}</th>
 	<th colspan="3">{ov_temp_from} {planet_temp_min}{ov_temp_unit} {ov_temp_to} {planet_temp_max}{ov_temp_unit}</th></tr>
 	<tr><th>{Position}</th>
-	<th colspan="3"><a href="galaxy.php?mode=0&galaxy={galaxy_galaxy}&system={galaxy_system}">[{galaxy_galaxy}:{galaxy_system}:{galaxy_planet}]</a></th></tr>
+	<th colspan="3"><a href="game.php?page=galaxy&mode=0&galaxy={galaxy_galaxy}&system={galaxy_system}">[{galaxy_galaxy}:{galaxy_system}:{galaxy_planet}]</a></th></tr>
 	<tr><th>{ov_local_cdr}</th>
 	<th colspan="3">{Metal} : {metal_debris} / {Crystal} : {crystal_debris}{get_link}</th></tr>
 	<tr><th>{Points}</th>

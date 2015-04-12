@@ -251,21 +251,21 @@ function includeLang($filename, $extension = '.mo')
 //
 // Affiche une adresse de depart sous forme de lien
 function GetStartAdressLink ( $FleetRow, $FleetType ) {
-    $Link  = "<a href=\"galaxy.php?mode=3&galaxy=".$FleetRow['fleet_start_galaxy']."&system=".$FleetRow['fleet_start_system']."\" ". $FleetType ." >";
+    $Link  = "<a href=\"game.php?page=galaxy&mode=3&galaxy=".$FleetRow['fleet_start_galaxy']."&system=".$FleetRow['fleet_start_system']."\" ". $FleetType ." >";
     $Link .= "[".$FleetRow['fleet_start_galaxy'].":".$FleetRow['fleet_start_system'].":".$FleetRow['fleet_start_planet']."]</a>";
     return $Link;
 }
 
 // Affiche une adresse de cible sous forme de lien
 function GetTargetAdressLink ( $FleetRow, $FleetType ) {
-    $Link  = "<a href=\"galaxy.php?mode=3&galaxy=".$FleetRow['fleet_end_galaxy']."&system=".$FleetRow['fleet_end_system']."\" ". $FleetType ." >";
+    $Link  = "<a href=\"game.php?page=galaxy&mode=3&galaxy=".$FleetRow['fleet_end_galaxy']."&system=".$FleetRow['fleet_end_system']."\" ". $FleetType ." >";
     $Link .= "[".$FleetRow['fleet_end_galaxy'].":".$FleetRow['fleet_end_system'].":".$FleetRow['fleet_end_planet']."]</a>";
     return $Link;
 }
 
 // Affiche une adresse de planete sous forme de lien
 function BuildPlanetAdressLink ( $CurrentPlanet ) {
-    $Link  = "<a href=\"galaxy.php?mode=3&galaxy=".$CurrentPlanet['galaxy']."&system=".$CurrentPlanet['system']."\">";
+    $Link  = "<a href=\"game.php?page=galaxy&mode=3&galaxy=".$CurrentPlanet['galaxy']."&system=".$CurrentPlanet['system']."\">";
     $Link .= "[".$CurrentPlanet['galaxy'].":".$CurrentPlanet['system'].":".$CurrentPlanet['planet']."]</a>";
     return $Link;
 }
@@ -276,7 +276,7 @@ function BuildHostileFleetPlayerLink ( $FleetRow ) {
 
     $PlayerName = doquery ("SELECT `username` FROM {{table}} WHERE `id` = '". $FleetRow['fleet_owner']."';", 'users', true);
     $Link  = $PlayerName['username']. " ";
-    $Link .= "<a href=\"messages.php?mode=write&id=".$FleetRow['fleet_owner']."\">";
+    $Link .= "<a href=\"game.php?page=messages&mode=write&id=".$FleetRow['fleet_owner']."\">";
     $Link .= "<img src=\"".$dpath."/img/m.gif\" alt=\"". $lang['ov_message']."\" title=\"". $lang['ov_message']."\" border=\"0\"></a>";
     return $Link;
 }
