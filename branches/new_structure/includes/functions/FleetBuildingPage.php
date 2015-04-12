@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,11 +28,9 @@
  * documentation for further information about customizing XNova.
  *
  */
-
 require_once ROOT_PATH . 'includes/classes/Legacies/Empire/Shipyard.php';
 
-function FleetBuildingPage(&$currentPlanet, &$currentUser)
-{
+function FleetBuildingPage(&$currentPlanet, &$currentUser) {
     global $lang, $resource, $dpath;
 
     // S'il n'y a pas de Chantier
@@ -68,14 +67,13 @@ function FleetBuildingPage(&$currentPlanet, &$currentUser)
     foreach ($types[Legacies_Empire::TYPE_SHIP] as $shipId) {
         if ($shipyard->checkAvailability($shipId)) {
             // Disponible à la construction
-
             // On regarde si on peut en acheter au moins 1
-            $CanBuildOne         = IsElementBuyable($currentUser, $currentPlanet, $shipId, false);
+            $CanBuildOne = IsElementBuyable($currentUser, $currentPlanet, $shipId, false);
             // On regarde combien de temps il faut pour construire l'element
             $BuildOneElementTime = $shipyard->getBuildTime($shipId, 1);
             // Disponibilité actuelle
-            $shipIdCount        = $currentPlanet[$resource[$shipId]];
-            $shipIdNbre         = ($shipIdCount == 0) ? "" : " (".$lang['dispo'].": " . pretty_number($shipIdCount) . ")";
+            $shipIdCount = $currentPlanet[$resource[$shipId]];
+            $shipIdNbre = ($shipIdCount == 0) ? "" : " (" . $lang['dispo'] . ": " . pretty_number($shipIdCount) . ")";
 
             // Construction des 3 cases de la ligne d'un element dans la page d'achat !
             // Début de ligne
@@ -83,14 +81,14 @@ function FleetBuildingPage(&$currentPlanet, &$currentUser)
 
             // Imagette + Link vers la page d'info
             $PageTable .= "<th class=l>";
-            $PageTable .= "<a href=infos.".PHPEXT."?gid=".$shipId.">";
-            $PageTable .= "<img border=0 src=\"".$dpath."gebaeude/".$shipId.".gif\" align=top width=120 height=120></a>";
+            $PageTable .= "<a href=infos." . PHPEXT . "?gid=" . $shipId . ">";
+            $PageTable .= "<img border=0 src=\"" . $dpath . "gebaeude/" . $shipId . ".gif\" align=top width=120 height=120></a>";
             $PageTable .= "</th>";
 
             // Description
             $PageTable .= "<td class=l>";
-            $PageTable .= "<a href=infos.".PHPEXT."?gid=".$shipId.">".$shipIdName."</a> ".$shipIdNbre."<br />";
-            $PageTable .= "".$lang['res']['descriptions'][$shipId]."<br />";
+            $PageTable .= "<a href=infos." . PHPEXT . "?gid=" . $shipId . ">" . $shipIdName . "</a> " . $shipIdNbre . "<br />";
+            $PageTable .= "" . $lang['res']['descriptions'][$shipId] . "<br />";
             // On affiche le 'prix' avec eventuellement ce qui manque en ressource
             $PageTable .= GetElementPrice($currentUser, $currentPlanet, $shipId, false);
             // On affiche le temps de construction (c'est toujours tellement plus joli)
@@ -99,10 +97,10 @@ function FleetBuildingPage(&$currentPlanet, &$currentUser)
 
             // Case nombre d'elements a construire
             $PageTable .= "<th class=k>";
-                // Si ... Et Seulement si je peux construire je mets la p'tite zone de saisie
+            // Si ... Et Seulement si je peux construire je mets la p'tite zone de saisie
             if ($CanBuildOne) {
-               $tableIndex++;
-               $PageTable .= "<input type=text id=\"fmenge:{$shipId}\" name=fmenge[".$shipId."] alt='".$lang['tech'][$shipId]."' value=0 tabindex=".$tableIndex.">";
+                $tableIndex++;
+                $PageTable .= "<input type=text id=\"fmenge:{$shipId}\" name=fmenge[" . $shipId . "] alt='" . $lang['tech'][$shipId] . "' value=0 tabindex=" . $tableIndex . ">";
             }
 
             $maxElements = $shipyard->getMaximumBuildableElementsCount($shipId);
@@ -112,7 +110,7 @@ function FleetBuildingPage(&$currentPlanet, &$currentUser)
             }
 
             if ($CanBuildOne) {
-                $PageTable .= '<br /><a onclick="document.getElementById(\'fmenge:'.$shipId.'\').value=\''.strval($maxElements).'\';" style="cursor:pointer;">Nombre max ('.number_format($maxElements, 0, ',', '.').')</a>';
+                $PageTable .= '<br /><a onclick="document.getElementById(\'fmenge:' . $shipId . '\').value=\'' . strval($maxElements) . '\';" style="cursor:pointer;">Nombre max (' . number_format($maxElements, 0, ',', '.') . ')</a>';
             }
 
             // Fin de ligne (les 3 cases sont construites !!
@@ -126,20 +124,20 @@ function FleetBuildingPage(&$currentPlanet, &$currentUser)
             $data[] = array_merge($item, array(
                 'label' => $lang['tech'][$item['ship_id']],
                 'speed' => $shipyard->getBuildTime($item['ship_id'], 1)
-                ));
+            ));
         }
         $parse = array(
             'data' => json_encode($data)
-            );
+        );
         $BuildQueue = parsetemplate(gettemplate('buildings_script'), $parse);
     }
 
     $parse = $lang;
     // La page se trouve dans $PageTable;
-    $parse['buildlist']    = $PageTable;
+    $parse['buildlist'] = $PageTable;
     // Et la liste de constructions en cours dans $BuildQueue;
     $parse['buildinglist'] = $BuildQueue;
     $page .= parsetemplate(gettemplate('buildings_fleet'), $parse);
 
-    display($page, $lang['Fleet']);
+    Game::display($page, $lang['Fleet']);
 }
