@@ -11,7 +11,7 @@ function f(target_url,win_name) {
 <br>
 <table width="130" cellspacing="0" cellpadding="0">
 <tr>
-	<td colspan="2" style="border-top: 1px #545454 solid"><div><center>{servername}<br>(<a href="changelog.php" target={mf}><font color=red>{XNovaRelease}</font></a>)<center></div></td>
+	<td colspan="2" style="border-top: 1px #545454 solid"><div><center>{servername}<br>(<a href="game.php?page=changelog" target={mf}><font color=red>{XNovaRelease}</font></a>)<center></div></td>
 </tr><tr>
 	<td colspan="2" background="{dpath}img/bg1.gif"><center>{devlp}</center></td>
 </tr><tr>
@@ -60,19 +60,19 @@ function f(target_url,win_name) {
 </tr><tr>
 	<td colspan="2"><div><a href="search.php" accesskey="b" target="{mf}">{Search}</a></div></td>
 </tr><tr>
-	<td colspan="2"><div><a href="banned.php" accesskey="3" target="{mf}">{blocked}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=banned" accesskey="3" target="{mf}">{blocked}</a></div></td>
 </tr>{announce_link}<tr>
 
 
 	<td colspan="2" background="{dpath}img/bg1.gif"><center>{commun}</center></td>
 	</tr><tr>
-	<td colspan="2"><div><a href="#" onClick="f('buddy.php', '');" accesskey="c">{Buddylist}</a></div></td>
+	<td colspan="2"><div><a href="#" onClick="f('game.php?page=buddy', '');" accesskey="c">{Buddylist}</a></div></td>
 </tr></tr>{notes_link}<tr><tr>
 	<td colspan="2"><div><a href="chat.php" accesskey="a" target="{mf}">{Chat}</a></div></td>
 </tr><tr>
 	<td colspan="2"><div><a href="{forum_url}" accesskey="1" target="{mf}">{Board}</a></div></td>
 </tr><tr>
-	<td colspan="2"><div><a href="add_declare.php" accesskey="1" target="{mf}">{multi}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=add_declare" accesskey="1" target="{mf}">{multi}</a></div></td>
 </tr><tr>
 	<td colspan="2"><div><a href="rules.php"  accesskey="c" target="{mf}">{Rules}</a></div></td>
 </tr><tr>
