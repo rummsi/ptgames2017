@@ -15,7 +15,7 @@ function f(target_url,win_name) {
 </tr><tr>
 	<td colspan="2" background="{dpath}img/bg1.gif"><center>{devlp}</center></td>
 </tr><tr>
-	<td colspan="2"><div><a href="overview.php" accesskey="g" target="{mf}">{Overview}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=overview" accesskey="g" target="{mf}">{Overview}</a></div></td>
 </tr><tr>
 
 	<td height="1px" colspan="2" style="background-color:#FFFFFF"></td>
