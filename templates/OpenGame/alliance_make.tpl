@@ -1,5 +1,5 @@
 <br>
-<form action="?mode=make&yes=1" method="POST">
+<form action="game.php?page=alliance&mode=make&yes=1" method="POST">
 
 <table width=519>
 	<tr>

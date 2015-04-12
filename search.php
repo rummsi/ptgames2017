@@ -85,11 +85,11 @@ if(isset($searchtext) && isset($type)){
 /*			$farray = mysql_fetch_array($pquery);*/
 			$s['planet_name'] = $s['name'];
 			$s['username'] = $pquery['username'];
-			$s['ally_name'] = ($pquery['ally_name']!='')?"<a href=\"alliance.php?mode=ainfo&tag={$pquery['ally_name']}\">{$pquery['ally_name']}</a>":'';
+			$s['ally_name'] = ($pquery['ally_name']!='')?"<a href=\"game.php?page=alliance&mode=ainfo&tag={$pquery['ally_name']}\">{$pquery['ally_name']}</a>":'';
 			}else{
 			$pquery = doquery("SELECT name FROM {{table}} WHERE id = {$s['id_planet']}","planets",true);
 			$s['planet_name'] = $pquery['name'];
-			$s['ally_name'] = ($aquery['ally_name']!='')?"<a href=\"alliance.php?mode=ainfo&tag={$aquery['ally_name']}\">{$aquery['ally_name']}</a>":'';
+			$s['ally_name'] = ($aquery['ally_name']!='')?"<a href=\"game.php?page=alliance&mode=ainfo&tag={$aquery['ally_name']}\">{$aquery['ally_name']}</a>":'';
 			}
 			//ahora la alianza
 			if($s['ally_id']!=0&&$s['ally_request']==0){
@@ -111,7 +111,7 @@ if(isset($searchtext) && isset($type)){
 
 			$s['ally_points'] = pretty_number($s['ally_points']);
 
-			$s['ally_tag'] = "<a href=\"alliance.php?mode=ainfo&tag={$s['ally_tag']}\">{$s['ally_tag']}</a>";
+			$s['ally_tag'] = "<a href=\"game.php?page=alliance&mode=ainfo&tag={$s['ally_tag']}\">{$s['ally_tag']}</a>";
 			$result_list .= parsetemplate($row, $s);
 		}
 	}

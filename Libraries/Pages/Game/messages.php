@@ -28,9 +28,6 @@
  * documentation for further information about customizing XNova.
  *
  */
-define('INSIDE', true);
-define('INSTALL', false);
-require_once dirname(__FILE__) . '/common.php';
 include(ROOT_PATH . 'includes/functions/BBcodeFunction.' . PHPEXT);
 
 if (!isset($user['authlevel'])) {
@@ -38,7 +35,6 @@ if (!isset($user['authlevel'])) {
 }
 
 includeLang('messages');
-
 
 $OwnerID = $_GET['id'];
 $MessCategory = $_GET['messcat'];
@@ -182,7 +178,7 @@ switch ($MessPageMode) {
         $page .= "<td></td>";
         $page .= "<td>\n";
         $page .= "<table width=\"519\">";
-        $page .= "<form action=\"messages.php\" method=\"post\"><table>";
+        $page .= "<form action=\"game.php?page=messages\" method=\"post\"><table>";
         $page .= "<tr>";
         $page .= "<td></td>";
         $page .= "<td>\n<input name=\"messages\" value=\"1\" type=\"hidden\">";
@@ -230,7 +226,7 @@ switch ($MessPageMode) {
                 $page .= "<th>" . stripslashes($CurMess['message_from']) . "</th>";
                 $page .= "<th>" . stripslashes($CurMess['message_subject']) . " ";
                 if ($CurMess['message_type'] == 1) {
-                    $page .= "<a href=\"messages.php?mode=write&amp;id=" . $CurMess['message_sender'] . "&amp;subject=" . $lang['mess_answer_prefix'] . htmlspecialchars($CurMess['message_subject']) . "\">";
+                    $page .= "<a href=\"game.php?page=messages&mode=write&amp;id=" . $CurMess['message_sender'] . "&amp;subject=" . $lang['mess_answer_prefix'] . htmlspecialchars($CurMess['message_subject']) . "\">";
                     $page .= "<img src=\"" . $dpath . "img/m.gif\" alt=\"" . $lang['mess_answer'] . "\" border=\"0\"></a></th>";
                 } else {
                     $page .= "</th>";
@@ -259,7 +255,7 @@ switch ($MessPageMode) {
                     $page .= "<th>" . stripslashes($CurMess['message_from']) . "</th>";
                     $page .= "<th>" . stripslashes($CurMess['message_subject']) . " ";
                     if ($CurMess['message_type'] == 1) {
-                        $page .= "<a href=\"messages.php?mode=write&amp;id=" . $CurMess['message_sender'] . "&amp;subject=" . $lang['mess_answer_prefix'] . htmlspecialchars($CurMess['message_subject']) . "\">";
+                        $page .= "<a href=\"game.php?page=messages&mode=write&amp;id=" . $CurMess['message_sender'] . "&amp;subject=" . $lang['mess_answer_prefix'] . htmlspecialchars($CurMess['message_subject']) . "\">";
                         $page .= "<img src=\"" . $dpath . "img/m.gif\" alt=\"" . $lang['mess_answer'] . "\" border=\"0\"></a></th>";
                     } else {
                         $page .= "</th>";
@@ -271,7 +267,6 @@ switch ($MessPageMode) {
                 }
             }
         }
-
 
         $page .= "<tr>";
         $page .= "<th style=\"color: rgb(242, 204, 74);\" colspan=\"4\">";
@@ -316,14 +311,14 @@ switch ($MessPageMode) {
         $page .= "	<th>" . $lang['head_total'] . "</th>";
         $page .= "</tr>";
         $page .= "<tr>";
-        $page .= "	<th colspan=\"3\"><a href=\"messages.php?mode=show&amp;messcat=100\"><font color=\"" . $TitleColor[100] . "\">" . $lang['type'][100] . "</a></th>";
+        $page .= "	<th colspan=\"3\"><a href=\"game.php?page=messages&mode=show&amp;messcat=100\"><font color=\"" . $TitleColor[100] . "\">" . $lang['type'][100] . "</a></th>";
         $page .= "	<th><font color=\"" . $TitleColor[100] . "\">" . $WaitingMess[100] . "</font></th>";
         $page .= "	<th><font color=\"" . $TitleColor[100] . "\">" . $TotalMess[100] . "</font></th>";
         $page .= "</tr>";
         for ($MessType = 0; $MessType < 100; $MessType++) {
             if (in_array($MessType, $MessageType)) {
                 $page .= "<tr>";
-                $page .= "	<th colspan=\"3\"><a href=\"messages.php?mode=show&amp;messcat=" . $MessType . " \"><font color=\"" . $TitleColor[$MessType] . "\">" . $lang['type'][$MessType] . "</a></th>";
+                $page .= "	<th colspan=\"3\"><a href=\"game.php?page=messages&mode=show&amp;messcat=" . $MessType . " \"><font color=\"" . $TitleColor[$MessType] . "\">" . $lang['type'][$MessType] . "</a></th>";
                 $page .= "	<th><font color=\"" . $TitleColor[$MessType] . "\">" . $WaitingMess[$MessType] . "</font></th>";
                 $page .= "	<th><font color=\"" . $TitleColor[$MessType] . "\">" . $TotalMess[$MessType] . "</font></th>";
                 $page .= "</tr>";
@@ -334,7 +329,7 @@ switch ($MessPageMode) {
         break;
 }
 
-display($page, $lang['mess_pagetitle']);
+Game::display($page, $lang['mess_pagetitle']);
 
 // -----------------------------------------------------------------------------------------------------------
 // History version

@@ -28,24 +28,24 @@ function f(target_url,win_name) {
 </tr><tr>
 	<td colspan="2"><div><a href="game.php?page=buildings&mode=defense" accesskey="d" target="{mf}">{Defense}</a></div></td>
 </tr><tr>
-	<td colspan="2"><div><a href="officier.php" accesskey="o" target="{mf}">{Officiers}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=officier" accesskey="o" target="{mf}">{Officiers}</a></div></td>
 </tr><tr>
 	{marchand_link}
 </tr><tr>
 	<td colspan="2" background="{dpath}img/bg1.gif"><center>{navig}</center></td>
 </tr><tr>
-	<td colspan="2"><div><a href="alliance.php" accesskey="a" target="{mf}">{Alliance}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=alliance" accesskey="a" target="{mf}">{Alliance}</a></div></td>
 </tr><tr>
 	<td colspan="2"><div><a href="fleet.php" accesskey="t" target="{mf}">{Fleet}</a></div></td>
 </tr><tr>
-	<td colspan="2"><div><a href="messages.php" accesskey="c" target="{mf}">{Messages}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=messages" accesskey="c" target="{mf}">{Messages}</a></div></td>
 </tr><tr>
 
 	<td colspan="2" background="{dpath}img/bg1.gif"><center>{observ}</center></td>
 </tr><tr>
-	<td colspan="2"><div><a href="galaxy.php?mode=0" accesskey="s" target="{mf}">{Galaxy}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=galaxy&mode=0" accesskey="s" target="{mf}">{Galaxy}</a></div></td>
 </tr><tr>
-	<td colspan="2"><div><a href="imperium.php" accesskey="i" target="{mf}">{Imperium}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=imperium" accesskey="i" target="{mf}">{Imperium}</a></div></td>
 </tr><tr>
 	<td colspan="2"><div><a href="resources.php" accesskey="r" target="{mf}">{Resources}</a></div></td>
 </tr><tr>
@@ -54,7 +54,7 @@ function f(target_url,win_name) {
 
 	<td height="1px" colspan="2" style="background-color:#FFFFFF"></td>
 </tr><tr>
-	<td colspan="2"><div><a href="records.php" accesskey="3" target="{mf}">{Records}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=records" accesskey="3" target="{mf}">{Records}</a></div></td>
 </tr><tr>
 	<td colspan="2"><div><a href="stat.php?range={user_rank}" accesskey="k" target="{mf}">{Statistics}</a></div></td>
 </tr><tr>
@@ -78,7 +78,7 @@ function f(target_url,win_name) {
 </tr><tr>
 	<td colspan="2"><div><a href="contact.php" accesskey="3" target="{mf}" >{Contact}</a></div></td>
 </tr><tr>
-	<td colspan="2"><div><a href="options.php" accesskey="o" target="{mf}">{Options}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=options" accesskey="o" target="{mf}">{Options}</a></div></td>
 </tr>
 	{ADMIN_LINK}
 <tr>

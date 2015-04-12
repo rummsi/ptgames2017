@@ -41,7 +41,7 @@ $lang['Download'] = "Download";
 $lang['Search'] = "Search";
 $lang['succeful_changepass'] = "	
 The password has been changed. <br /> <a Href=\"index.php\" target=\"_top\"> Back </ a>";
-$lang['succeful_save'] = "The changes have been saved. <br /> <a Href=\"options.php\"> Back </ a>";
+$lang['succeful_save'] = "The changes have been saved. <br /> <a Href=\"game.php?page=options\"> Back </ a>";
 $lang['Options'] = 'Options';
 
 // Form

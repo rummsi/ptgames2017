@@ -28,13 +28,9 @@
  * documentation for further information about customizing XNova.
  *
  */
-define('INSIDE', true);
-define('INSTALL', false);
-require_once dirname(__FILE__) . '/common.php';
-
 includeLang('options');
 
-$lang['PHP_SELF'] = 'options.' . PHPEXT;
+$lang['PHP_SELF'] = 'game.php?page=options';
 
 $dpath = (!$user["dpath"]) ? DEFAULT_SKINPATH : $user["dpath"];
 $mode = $_GET['mode'];
@@ -64,11 +60,11 @@ if ($_POST && $mode == "exit") { // Array ( [db_character]
         }
 
         $dpath = (!$user["dpath"]) ? DEFAULT_SKINPATH : $user["dpath"];
-        message($lang['succeful_save'], $lang['Options'], "options.php", 1);
+        message($lang['succeful_save'], $lang['Options'], header('Refresh: 1; URL=game.php?page=options'));
     } else {
         $urlaubs_modus = "1";
         $dpath = (!$user["dpath"]) ? DEFAULT_SKINPATH : $user["dpath"];
-        message($lang['You_cant_exit_vmode'], $lan['Error'], "options.php", 1);
+        message($lang['You_cant_exit_vmode'], $lan['Error'], header('Refresh: 1; URL=game.php?page=options'));
     }
 }
 if ($_POST && $mode == "change") { // Array ( [db_character]
@@ -246,7 +242,7 @@ if ($_POST && $mode == "change") { // Array ( [db_character]
             $newpass = md5($_POST["newpass1"]);
             doquery("UPDATE {{table}} SET `password` = '{$newpass}' WHERE `id` = '{$user['id']}' LIMIT 1", "users");
             setcookie(COOKIE_NAME, "", time() - 100000, "/", "", 0); //le da el expire
-            message($lang['succeful_changepass'], $lang['changue_pass'], "index.php", 1);
+            message($lang['succeful_changepass'], $lang['changue_pass'], header('Refresh: 1; URL=index.php'));
         }
     }
     if ($user['username'] != $_POST["db_character"]) {
@@ -254,10 +250,10 @@ if ($_POST && $mode == "change") { // Array ( [db_character]
         if (!$query) {
             doquery("UPDATE {{table}} SET username='{$username}' WHERE id='{$user['id']}' LIMIT 1", "users");
             setcookie(COOKIE_NAME, "", time() - 100000, "/", "", 0); //le da el expire
-            message($lang['succeful_changename'], $lang['changue_name'], "index.php", 1);
+            message($lang['succeful_changename'], $lang['changue_name'], header('Refresh: 1; URL=index.php'));
         }
     }
-    message($lang['succeful_save'], $lang['Options'], "options.php", 1);
+    message($lang['succeful_save'], $lang['Options'], header('Refresh: 1; URL=game.php?page=options'));
 } else {
     $parse = $lang;
 
@@ -306,9 +302,9 @@ if ($_POST && $mode == "change") { // Array ( [db_character]
 
     if ($user['urlaubs_modus']) {
 
-        display(parsetemplate(gettemplate('options_body_vmode'), $parse), 'Options', false);
+        Game::display(parsetemplate(gettemplate('options_body_vmode'), $parse), 'Options', false);
     } else {
-        display(parsetemplate(gettemplate('options_body'), $parse), 'Options', false);
+        Game::display(parsetemplate(gettemplate('options_body'), $parse), 'Options', false);
     }
     die();
 }

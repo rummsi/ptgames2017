@@ -61,12 +61,12 @@ $lang['Reset'] = 'Azzera';
 //mensajes
 $lang['ThereIsNoNote'] = 'Non ci sono note';
 
-$lang['NoteUpdated'] = 'La nota &egrave; stata aggiornata, <a href="notes.php"><blink>redirection...</blink></a>';
+$lang['NoteUpdated'] = 'La nota &egrave; stata aggiornata, <a href="game.php?page=notes"><blink>redirection...</blink></a>';
 
-$lang['NoteAdded'] = 'La nota &egrave; stata creata, <a href="notes.php"><blink>redirection...</blink></a>';
+$lang['NoteAdded'] = 'La nota &egrave; stata creata, <a href="game.php?page=notes"><blink>redirection...</blink></a>';
 
-$lang['NoteDeleted'] = 'La nota &egrave; stata eliminata, <a href="notes.php"><blink>redirection...</blink></a>';
-$lang['NoteDeleteds'] = 'Le note sono state eliminate, <a href="notes.php"><blink>redirection...</blink></a>';
+$lang['NoteDeleted'] = 'La nota &egrave; stata eliminata, <a href="game.php?page=notes"><blink>redirection...</blink></a>';
+$lang['NoteDeleteds'] = 'Le note sono state eliminate, <a href="game.php?page=notes"><blink>redirection...</blink></a>';
 
 // Created by Perberos. All rights reversed (C) 2006 
 ?>
