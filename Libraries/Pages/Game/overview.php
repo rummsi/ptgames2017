@@ -395,7 +395,7 @@ switch ($mode) {
             $parse['metal_debris'] = pretty_number($galaxyrow['metal']);
             $parse['crystal_debris'] = pretty_number($galaxyrow['crystal']);
             if (($galaxyrow['metal'] != 0 || $galaxyrow['crystal'] != 0) && $planetrow[$resource[209]] != 0) {
-                $parse['get_link'] = " (<a href=\"quickfleet.php?mode=8&g=" . $galaxyrow['galaxy'] . "&s=" . $galaxyrow['system'] . "&p=" . $galaxyrow['planet'] . "&t=2\">" . $lang['type_mission'][8] . "</a>)";
+                $parse['get_link'] = " (<a href=\"quickgame.php?page=fleet&mode=8&g=" . $galaxyrow['galaxy'] . "&s=" . $galaxyrow['system'] . "&p=" . $galaxyrow['planet'] . "&t=2\">" . $lang['type_mission'][8] . "</a>)";
             } else {
                 $parse['get_link'] = '';
             }
