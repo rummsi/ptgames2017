@@ -109,7 +109,7 @@ function GalaxyRowUser ( $GalaxyRow, $GalaxyRowPlanet, $GalaxyRowUser, $Galaxy, 
 			$Result .= "<td><a href=game.php?page=buddy&a=2&u=".$GalaxyRowUser['id'].">".$lang['gl_buddyreq']."</a></td>";
 			$Result .= "</tr><tr>";
 		}
-		$Result .= "<td><a href=stat.php?who=player&start=".$Systemtart.">".$lang['gl_stats']."</a></td>";
+		$Result .= "<td><a href=game.php?page=stat&who=player&start=".$Systemtart.">".$lang['gl_stats']."</a></td>";
 		$Result .= "</tr>";
 		$Result .= "</table>\"";
 		$Result .= ", STICKY, MOUSEOFF, DELAY, 750, CENTER, OFFSETX, -40, OFFSETY, -40 );'";

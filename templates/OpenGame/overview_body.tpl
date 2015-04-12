@@ -43,7 +43,7 @@
 		<td align="left" width="50%" style="background-color: transparent;"><b>{player_points_tech}</b></td></tr>
 		<tr><td align="right" width="50%" style="background-color: transparent;"><b>{ov_pts_total} :</b></td>
 		<td align="left" width="50%" style="background-color: transparent;"><b>{total_points}</b></td></tr>
-		<tr><td colspan="2" align="center" width="100%" style="background-color: transparent;"><b>({Rank} <a href="stat.php?range={u_user_rank}">{user_rank}</a> {of} {max_users})</b></td></tr></tbody></table></th></tr>
+		<tr><td colspan="2" align="center" width="100%" style="background-color: transparent;"><b>({Rank} <a href="game.php?page=stat&range={u_user_rank}">{user_rank}</a> {of} {max_users})</b></td></tr></tbody></table></th></tr>
 	<th>{Raids}</th>
 	<th colspan="3"><table border="0" width="100%"><tbody><tr>
 		<td align="right" width="50%" style="background-color: transparent;"><b>{NumberOfRaids} :</b></td>

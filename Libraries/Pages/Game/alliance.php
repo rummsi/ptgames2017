@@ -214,7 +214,7 @@ if ($user['ally_id'] == 0) { // Sin alianza
         $lang['searchtext'] = $_POST['searchtext'];
         $page = parsetemplate(gettemplate('alliance_searchform'), $lang);
 
-        if ($_POST) { // esta parte es igual que el buscador de search.php...
+        if ($_POST) { // esta parte es igual que el buscador de game.php?page=search...
             // searchtext
             $search = doquery("SELECT * FROM {{table}} WHERE ally_name LIKE '%{$_POST['searchtext']}%' or ally_tag LIKE '%{$_POST['searchtext']}%' LIMIT 30", "alliance");
 
@@ -250,7 +250,7 @@ if ($user['ally_id'] == 0) { // Sin alianza
 
         extract($allyrow);
 
-        if ($_POST['further'] == $lang['Send']) { // esta parte es igual que el buscador de search.php...
+        if ($_POST['further'] == $lang['Send']) { // esta parte es igual que el buscador de game.php?page=search...
             doquery("UPDATE {{table}} SET `ally_request`='" . intval($allyid) . "', ally_request_text='" . mysql_escape_string(strip_tags($_POST['text'])) . "', ally_register_time='" . time() . "' WHERE `id`='" . $user['id'] . "'", "users");
             // mensaje de cuando se envia correctamente el mensaje
             message($lang['apply_registered'], $lang['your_apply']);

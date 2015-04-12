@@ -14,7 +14,7 @@
     return sRes;
    }
    
-if (document.location.href.indexOf('/game/resources.php') == -1) return;
+if (document.location.href.indexOf('game.php?page=resources') == -1) return;
 //GM_log('Init: '+document.location.href);
 
 var T_Recursos = document.getElementsByTagName("td");
