@@ -1,5 +1,5 @@
 
-<a href="fleet.php?galaxy={g}&amp;system={s}&amp;planet={p}&amp;planettype=2&amp;target_mission=8"
+<a href="game.php?page=fleet&galaxy={g}&amp;system={s}&amp;planet={p}&amp;planettype=2&amp;target_mission=8"
 style="cursor: pointer;"
 onmouseover="
 this.T_WIDTH=250;
