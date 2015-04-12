@@ -47,18 +47,18 @@ function f(target_url,win_name) {
 </tr><tr>
 	<td colspan="2"><div><a href="game.php?page=imperium" accesskey="i" target="{mf}">{Imperium}</a></div></td>
 </tr><tr>
-	<td colspan="2"><div><a href="resources.php" accesskey="r" target="{mf}">{Resources}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=resources" accesskey="r" target="{mf}">{Resources}</a></div></td>
 </tr><tr>
-	<td colspan="2"><div><a href="techtree.php" accesskey="g" target="{mf}">{Technology}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=techtree" accesskey="g" target="{mf}">{Technology}</a></div></td>
 </tr><tr>
 
 	<td height="1px" colspan="2" style="background-color:#FFFFFF"></td>
 </tr><tr>
 	<td colspan="2"><div><a href="game.php?page=records" accesskey="3" target="{mf}">{Records}</a></div></td>
 </tr><tr>
-	<td colspan="2"><div><a href="stat.php?range={user_rank}" accesskey="k" target="{mf}">{Statistics}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=stat&range={user_rank}" accesskey="k" target="{mf}">{Statistics}</a></div></td>
 </tr><tr>
-	<td colspan="2"><div><a href="search.php" accesskey="b" target="{mf}">{Search}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=search" accesskey="b" target="{mf}">{Search}</a></div></td>
 </tr><tr>
 	<td colspan="2"><div><a href="game.php?page=banned" accesskey="3" target="{mf}">{blocked}</a></div></td>
 </tr>{announce_link}<tr>
