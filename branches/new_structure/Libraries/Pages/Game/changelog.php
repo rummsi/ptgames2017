@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,23 +28,16 @@
  * documentation for further information about customizing XNova.
  *
  */
-
-define('INSIDE' , true);
-define('INSTALL' , false);
-require_once dirname(__FILE__) .'/common.php';
 includeLang('changelog');
 
 $template = gettemplate('changelog_table');
 
+foreach ($lang['changelog'] as $a => $b) {
 
-foreach($lang['changelog'] as $a => $b)
-{
+    $parse['version_number'] = $a;
+    $parse['description'] = nl2br($b);
 
-	$parse['version_number'] = $a;
-	$parse['description'] = nl2br($b);
-
-	$body .= parsetemplate($template, $parse);
-
+    $body .= parsetemplate($template, $parse);
 }
 
 $parse = $lang;
@@ -51,7 +45,6 @@ $parse['body'] = $body;
 
 $page .= parsetemplate(gettemplate('changelog_body'), $parse);
 
-display($page,"Change Log");
+Game::display($page, "Change Log");
 
 // Created by Perberos. All rights reversed (C) 2006
-?>
