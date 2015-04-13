@@ -47,7 +47,7 @@ if ($_POST["s"] == 1 || $_POST["s"] == 2) {//Edicion y agregar notas
 
     if ($_POST["s"] == 1) {
         doquery("INSERT INTO {{table}} SET owner={$user['id']}, time=$time, priority=$priority, title='$title', text='$text'", "notes");
-        message($lang['NoteAdded'], $lang['Please_Wait'], 'game.php?page=notes', "3");
+        message($lang['NoteAdded'], $lang['Please_Wait'], header('Refresh: 3; URL=game.php?page=notes'));
     } elseif ($_POST["s"] == 2) {
         /*
           pequeño query para averiguar si la nota que se edita es del propio jugador
@@ -113,7 +113,7 @@ if ($_POST["s"] == 1 || $_POST["s"] == 2) {//Edicion y agregar notas
         $note = doquery("SELECT * FROM {{table}} WHERE owner={$user['id']} AND id=$n", 'notes', true);
 
         if (!$note) {
-            message($lang['notpossiblethisway'], $lang['Error']);
+            message($lang['notpossiblethisway'], $lang['Error'], header('Refresh: 3; URL=game.php?page=notes'));
         }
 
         $cntChars = strlen($note['text']);

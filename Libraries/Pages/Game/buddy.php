@@ -60,13 +60,13 @@ if ($s == 1 && isset($_GET['bid'])) {
 
     if (!$buddy) {
         if (strlen($_POST['text']) > 5000) {
-            message("Le texte ne doit pas faire plus de 5000 caract&egrave;res !", "Erreur");
+            message("Le texte ne doit pas faire plus de 5000 caract&egrave;res !", "Erreur", header('Refresh: 5; URL=game.php?page=buddy'));
         }
         $text = mysql_escape_string(strip_tags($_POST['text']));
         doquery("INSERT INTO {{table}} SET sender={$uid}, owner={$u}, active=0, text='{$text}'", 'buddy');
-        message($lang['Request_sent'], $lang['Buddy_request'], 'game.php?page=buddy');
+        message($lang['Request_sent'], $lang['Buddy_request'], header('Refresh: 5; URL=game.php?page=buddy'));
     } else {
-        message($lang['A_request_exists_already_for_this_user'], $lang['Buddy_request']);
+        message($lang['A_request_exists_already_for_this_user'], $lang['Buddy_request'], header('Refresh: 5; URL=game.php?page=buddy'));
     }
 }
 
@@ -102,9 +102,9 @@ if ($a == 2 && isset($u)) {
 		</center>
 		</body>
 		</html>";
-        display($page, 'buddy');
+        Game::display($page, 'buddy');
     } elseif ($u["id"] == $user["id"]) {
-        message($lang['You_cannot_ask_yourself_for_a_request'], $lang['Buddy_request']);
+        message($lang['You_cannot_ask_yourself_for_a_request'], $lang['Buddy_request'], header('Refresh: 5; URL=game.php?page=buddy'));
     }
 }
 // con a indicamos las solicitudes y con e las distiguimos
@@ -122,9 +122,9 @@ $page .= "
 if (!isset($a)) {
     $page .= "
 	<tr>
-		<th colspan=6><a href=?a=1>{$lang['Requests']}</a></th>
+		<th colspan=6><a href=game.php?page=buddy&a=1>{$lang['Requests']}</a></th>
 	</tr><tr>
-		<th colspan=6><a href=?a=1&e=1>{$lang['My_requests']}</a></th>
+		<th colspan=6><a href=game.php?page=buddy&a=1&e=1>{$lang['My_requests']}</a></th>
 	</tr><tr>
 		<td class=c></td>
 		<td class=c>{$lang['Name']}</td>
@@ -184,12 +184,12 @@ while ($b = mysql_fetch_array($buddyrow)) {
     }
 
     if (isset($a) && isset($e)) {
-        $UserCommand = "<a href=?s=1&bid=" . $b["id"] . ">{$lang['Delete_request']}</a>";
+        $UserCommand = "<a href=game.php?page=buddy&s=1&bid=" . $b["id"] . ">{$lang['Delete_request']}</a>";
     } elseif (isset($a)) {
-        $UserCommand = "<a href=?s=1&bid=" . $b["id"] . ">{$lang['Ok']}</a><br/>";
-        $UserCommand .= "<a href=?a=1&s=1&bid=" . $b["id"] . ">{$lang['Reject']}</a></a>";
+        $UserCommand = "<a href=game.php?page=buddy&s=1&bid=" . $b["id"] . ">{$lang['Ok']}</a><br/>";
+        $UserCommand .= "<a href=game.php?page=buddy&a=1&s=1&bid=" . $b["id"] . ">{$lang['Reject']}</a></a>";
     } else {
-        $UserCommand = "<a href=?s=1&bid=" . $b["id"] . ">{$lang['Delete']}</a>";
+        $UserCommand = "<a href=game.php?page=buddy&s=1&bid=" . $b["id"] . ">{$lang['Delete']}</a>";
     }
 
     $page .= "
@@ -221,5 +221,5 @@ $page .= "
 	</table>
 	</center>";
 
-display($page, $lang['Buddy_list'], false);
+Game::display($page, $lang['Buddy_list'], false);
 // Created by Perberos. All rights reversed (C) 2006

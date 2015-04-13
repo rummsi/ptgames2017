@@ -27,7 +27,7 @@
  * documentation for further information about customizing XNova.
  *
  */
-
+/*
 define('INSIDE' , true);
 define('INSTALL' , false);
 
@@ -61,4 +61,5 @@ $page .= "</frameset>";
 $page .= "</html>";
 
 echo $page;
-
+*/
+header('location: game.php?page=overview');
