@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,41 +28,33 @@
  * documentation for further information about customizing XNova.
  *
  */
+if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
+    includeLang('admin');
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
+    $mode = $_POST['mode'];
 
-	if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
-		includeLang('admin');
+    $PageTpl = gettemplate("admin/add_money");
+    $parse = $lang;
 
-		$mode      = $_POST['mode'];
+    if ($mode == 'addit') {
+        $id = $_POST['id'];
+        $metal = $_POST['metal'];
+        $cristal = $_POST['cristal'];
+        $deut = $_POST['deut'];
 
-		$PageTpl   = gettemplate("admin/add_money");
-		$parse     = $lang;
+        $QryUpdatePlanet = "UPDATE {{table}} SET ";
+        $QryUpdatePlanet .= "`metal` = `metal` + '" . $metal . "', ";
+        $QryUpdatePlanet .= "`crystal` = `crystal` + '" . $cristal . "', ";
+        $QryUpdatePlanet .= "`deuterium` = `deuterium` + '" . $deut . "' ";
+        $QryUpdatePlanet .= "WHERE ";
+        $QryUpdatePlanet .= "`id` = '" . $id . "' ";
+        doquery($QryUpdatePlanet, "planets");
 
-		if ($mode == 'addit') {
-			$id          = $_POST['id'];
-			$metal       = $_POST['metal'];
-			$cristal     = $_POST['cristal'];
-			$deut        = $_POST['deut'];
+        AdminMessage($lang['adm_am_done'], $lang['adm_am_ttle'], header('Refresh: 5; URL=admin.php?page=add_money'));
+    }
+    $Page = parsetemplate($PageTpl, $parse);
 
-			$QryUpdatePlanet  = "UPDATE {{table}} SET ";
-			$QryUpdatePlanet .= "`metal` = `metal` + '". $metal ."', ";
-			$QryUpdatePlanet .= "`crystal` = `crystal` + '". $cristal ."', ";
-			$QryUpdatePlanet .= "`deuterium` = `deuterium` + '". $deut ."' ";
-			$QryUpdatePlanet .= "WHERE ";
-			$QryUpdatePlanet .= "`id` = '". $id ."' ";
-			doquery( $QryUpdatePlanet, "planets");
-
-			AdminMessage ( $lang['adm_am_done'], $lang['adm_am_ttle'] );
-		}
-		$Page = parsetemplate($PageTpl, $parse);
-
-		display ($Page, $lang['adm_am_ttle'], false, '', true);
-	} else {
-		AdminMessage ( $lang['sys_noalloaw'], $lang['sys_noaccess'] );
-	}
-
-?>
+    Game::displayadmin($Page, $lang['adm_am_ttle'], false, '', true);
+} else {
+    AdminMessage($lang['sys_noalloaw'], $lang['sys_noaccess']);
+}

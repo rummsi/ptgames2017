@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,40 +28,32 @@
  * documentation for further information about customizing XNova.
  *
  */
+if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
+    includeLang('admin');
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
+    $parse = $lang;
+    $parse['dpath'] = $dpath;
+    $parse['mf'] = $mf;
 
-	if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
-		includeLang('admin');
+    $PageTPL = gettemplate('admin/activeplanet_body');
+    $AllActivPlanet = doquery("SELECT * FROM {{table}} WHERE `last_update` >= '" . (time() - 15 * 60) . "' ORDER BY `id` ASC", 'planets');
+    $Count = 0;
 
-		$parse          = $lang;
-		$parse['dpath'] = $dpath;
-		$parse['mf']    = $mf;
+    while ($ActivPlanet = mysql_fetch_array($AllActivPlanet)) {
+        $parse['online_list'] .= "<tr>";
+        $parse['online_list'] .= "<td class=b><center><b>" . $ActivPlanet['name'] . "</b></center></td>";
+        $parse['online_list'] .= "<td class=b><center><b>[" . $ActivPlanet['galaxy'] . ":" . $ActivPlanet['system'] . ":" . $ActivPlanet['planet'] . "]</b></center></td>";
+        $parse['online_list'] .= "<td class=m><center><b>" . pretty_number($ActivPlanet['points'] / 1000) . "</b></center></td>";
+        $parse['online_list'] .= "<td class=b><center><b>" . pretty_time(time() - $ActivPlanet['last_update']) . "</b></center></td>";
+        $parse['online_list'] .= "</tr>";
+        $Count++;
+    }
+    $parse['online_list'] .= "<tr>";
+    $parse['online_list'] .= "<th class=\"b\" colspan=\"4\">" . $lang['adm_pl_they'] . " " . $Count . " " . $lang['adm_pl_apla'] . "</th>";
+    $parse['online_list'] .= "</tr>";
 
-		$PageTPL        = gettemplate('admin/activeplanet_body');
-		$AllActivPlanet = doquery("SELECT * FROM {{table}} WHERE `last_update` >= '". (time()-15 * 60) ."' ORDER BY `id` ASC", 'planets');
-		$Count          = 0;
-
-		while ($ActivPlanet = mysql_fetch_array($AllActivPlanet)) {
-			$parse['online_list'] .= "<tr>";
-			$parse['online_list'] .= "<td class=b><center><b>". $ActivPlanet['name'] ."</b></center></td>";
-			$parse['online_list'] .= "<td class=b><center><b>[". $ActivPlanet['galaxy'] .":". $ActivPlanet['system'] .":". $ActivPlanet['planet'] ."]</b></center></td>";
-			$parse['online_list'] .= "<td class=m><center><b>". pretty_number($ActivPlanet['points'] / 1000) ."</b></center></td>";
-			$parse['online_list'] .= "<td class=b><center><b>". pretty_time(time() - $ActivPlanet['last_update']) . "</b></center></td>";
-			$parse['online_list'] .= "</tr>";
-			$Count++;
-		}
-		$parse['online_list'] .= "<tr>";
-		$parse['online_list'] .= "<th class=\"b\" colspan=\"4\">". $lang['adm_pl_they'] ." ". $Count ." ". $lang['adm_pl_apla'] ."</th>";
-		$parse['online_list'] .= "</tr>";
-
-		$page = parsetemplate( $PageTPL	, $parse );
-		display( $page, $lang['adm_pl_title'], false, '', true );
-	} else {
-		message( $lang['sys_noalloaw'], $lang['sys_noaccess'] );
-	}
-
-?>
+    $page = parsetemplate($PageTPL, $parse);
+    Game::displayadmin($page, $lang['adm_pl_title'], false, '', true);
+} else {
+    message($lang['sys_noalloaw'], $lang['sys_noaccess']);
+}
