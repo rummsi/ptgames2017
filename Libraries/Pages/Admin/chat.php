@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,40 +28,32 @@
  * documentation for further information about customizing XNova.
  *
  */
-
-define('INSIDE' , true);
-define('INSTALL' , false);
-define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
 includeLang('admin');
 $parse = $lang;
 
-	if (in_array($user['authlevel'], array(LEVEL_ADMIN))) {
+if (in_array($user['authlevel'], array(LEVEL_ADMIN))) {
 
-		// Système de suppression
-		extract($_GET);
-		if (isset($delete)) {
-			doquery("DELETE FROM {{table}} WHERE `messageid`=$delete", 'chat');
-		} elseif ($deleteall == 'yes') {
-			doquery("DELETE FROM {{table}}", 'chat');
-		}
+    // Système de suppression
+    extract($_GET);
+    if (isset($delete)) {
+        doquery("DELETE FROM {{table}} WHERE `messageid`=$delete", 'chat');
+    } elseif ($deleteall == 'yes') {
+        doquery("DELETE FROM {{table}}", 'chat');
+    }
 
-		// Affichage des messages
-		$query = doquery("SELECT * FROM {{table}} ORDER BY messageid DESC LIMIT 25", 'chat');
-		$i = 0;
-		while ($e = mysql_fetch_array($query)) {
-			$i++;
-			$parse['msg_list'] .= stripslashes("<tr><th class=b>" . date('h:i:s', $e['timestamp']) . "</th>".
-			"<th class=b>". $e['user'] . "</th>".
-			"<td class=b>" . nl2br($e['message']) . "</td>".
-			"<th class=b><a href=?delete=".$e['messageid']."><img src=\"../images/r1.png\" border=\"0\"></a></th></tr>");
-		}
-		$parse['msg_list'] .= "<tr><th class=b colspan=4>{$i} ".$lang['adm_ch_nbs']."</th></tr>";
+    // Affichage des messages
+    $query = doquery("SELECT * FROM {{table}} ORDER BY messageid DESC LIMIT 25", 'chat');
+    $i = 0;
+    while ($e = mysql_fetch_array($query)) {
+        $i++;
+        $parse['msg_list'] .= stripslashes("<tr><th class=b>" . date('h:i:s', $e['timestamp']) . "</th>" .
+                "<th class=b>" . $e['user'] . "</th>" .
+                "<td class=b>" . nl2br($e['message']) . "</td>" .
+                "<th class=b><a href=admin.php?page=chat&delete=" . $e['messageid'] . "><img src=\"images/r1.png\" border=\"0\"></a></th></tr>");
+    }
+    $parse['msg_list'] .= "<tr><th class=b colspan=4>{$i} " . $lang['adm_ch_nbs'] . "</th></tr>";
 
-		display(parsetemplate(gettemplate('admin/chat_body'), $parse), "Chat", false, '', true);
-
-	} else {
-		message( $lang['sys_noalloaw'], $lang['sys_noaccess'] );
-	}
-
-?>
+    Game::displayadmin(parsetemplate(gettemplate('admin/chat_body'), $parse), "Chat", false, '', true);
+} else {
+    message($lang['sys_noalloaw'], $lang['sys_noaccess']);
+}
