@@ -28,7 +28,7 @@
  * documentation for further information about customizing XNova.
  *
  */
-include(ROOT_PATH . 'includes/functions/BBcodeFunction.' . PHPEXT);
+include(ROOT_PATH . 'includes/functions/BBcodeFunction.php');
 
 if (!isset($user['authlevel'])) {
     header("Location: index.php");

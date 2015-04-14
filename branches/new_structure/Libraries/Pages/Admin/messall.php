@@ -55,7 +55,7 @@ if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERA
             while ($u = mysql_fetch_array($sq)) {
                 SendSimpleMessage($u['id'], $user['id'], $Time, 97, $From, $Subject, $Message);
             }
-            message("<font color=\"lime\">Wys�a�e� wiadomo�� do wszystkich graczy</font>", "Complete", "../overview." . PHPEXT, 3);
+            message("<font color=\"lime\">Wys�a�e� wiadomo�� do wszystkich graczy</font>", "Complete", "admin.php?page=messal", 3);
         }
     } else {
         $parse = $game_config;

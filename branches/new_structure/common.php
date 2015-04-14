@@ -37,7 +37,6 @@ if (in_array(strtolower(getenv('DEBUG')), array('1', 'on', 'true'))) {
 !defined('DEBUG') || @error_reporting(E_ALL | E_STRICT);
 
 define('ROOT_PATH', realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
-define('PHPEXT', require 'extension.inc');
 
 define('VERSION', '2009.4');
 
@@ -56,17 +55,17 @@ define('TEMPLATE_DIR', realpath(ROOT_PATH . '/templates/'));
 define('TEMPLATE_NAME', 'OpenGame');
 define('DEFAULT_LANG', 'fr');
 
-include(ROOT_PATH . 'includes/debug.class.' . PHPEXT);
+include(ROOT_PATH . 'includes/debug.class.php');
 $debug = new Debug();
 
-include(ROOT_PATH . 'includes/constants.' . PHPEXT);
-include(ROOT_PATH . 'includes/functions.' . PHPEXT);
-include(ROOT_PATH . 'includes/unlocalised.' . PHPEXT);
-include(ROOT_PATH . 'includes/todofleetcontrol.' . PHPEXT);
+include(ROOT_PATH . 'includes/constants.php');
+include(ROOT_PATH . 'includes/functions.php');
+include(ROOT_PATH . 'includes/unlocalised.php');
+include(ROOT_PATH . 'includes/todofleetcontrol.php');
 include(ROOT_PATH . 'language/' . DEFAULT_LANG . '/lang_info.cfg');
-include(ROOT_PATH . 'includes/vars.' . PHPEXT);
-include(ROOT_PATH . 'includes/db.' . PHPEXT);
-include(ROOT_PATH . 'includes/strings.' . PHPEXT);
+include(ROOT_PATH . 'includes/vars.php');
+include(ROOT_PATH . 'includes/db.php');
+include(ROOT_PATH . 'includes/strings.php');
 
 $query = doquery('SELECT * FROM {{table}}', 'config');
 while ($row = mysql_fetch_assoc($query)) {
@@ -115,7 +114,7 @@ while ($row = mysql_fetch_array($_fleets)) {
 
 unset($_fleets);
 
-include(ROOT_PATH . 'Libraries/Pages/Game/rak.' . PHPEXT);
+include(ROOT_PATH . 'Libraries/Pages/Game/rak.php');
 if (!defined('IN_ADMIN')) {
     $dpath = (isset($user['dpath']) && !empty($user["dpath"])) ? $user['dpath'] : DEFAULT_SKINPATH;
 } else {
