@@ -22,6 +22,8 @@ parent.frames['Hauptframe'].location.replace("admin.php?page=overview");
 </tr><tr>
 	<td><div><a href="admin.php?page=XNovaResetUnivers" accesskey="e" target="{mf}">{adm_reset}</a></div></td>
 </tr><tr>
+	<td><div><a href="admin.php?page=messall" accesskey="v" target="{mf}">Message G&eacute;n&eacute;ral</a></div></td>
+</tr><tr>
 	<td background="{dpath}img/bg1.gif"><center>{player}</center></td>
 </tr><tr>
 	<td><div><a href="admin.php?page=userlist" accesskey="a" target="{mf}">{adm_plrlst}</a></div></td>
