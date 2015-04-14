@@ -103,7 +103,7 @@ if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERA
     $parse['adm_ov_data_count'] = $Count;
     $Page = parsetemplate($PageTPL, $parse);
 
-    Game::display($Page, $lang['sys_overview'], false, '', true);
+    Game::displayadmin($Page, $lang['sys_overview'], false, '', true);
 } else {
     AdminMessage($lang['sys_noalloaw'], $lang['sys_noaccess'], header('Refresh: 5; URL=admin.php?page=overview'));
 }

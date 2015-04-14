@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,21 +28,13 @@
  * documentation for further information about customizing XNova.
  *
  */
+if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERATOR))) {
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
+    $parse['phpinfo'] = phpinfo();
 
-	if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERATOR))) {
+    $Page = parsetemplate($PageTPL, $parse);
 
-				$parse['phpinfo'] = phpinfo();
-
-		$Page = parsetemplate($PageTPL, $parse);
-
-		display ( $Page, "PhpInfo", false, '', true);
-	} else {
-		AdminMessage ( $lang['sys_noalloaw'], $lang['sys_noaccess'] );
-	}
-
-?>
+    Game::displayadmin($Page, "PhpInfo", false, '', true);
+} else {
+    AdminMessage($lang['sys_noalloaw'], $lang['sys_noaccess']);
+}

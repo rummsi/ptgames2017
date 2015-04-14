@@ -127,5 +127,5 @@ if ($mode == 'reset') {
     XNovaResetUnivers($user);
 } else {
     $Page = parsetemplate($PageTpl, $parse);
-    Game::display($Page, $lang['Reset'], false, '', true);
+    Game::displayadmin($Page, $lang['Reset'], false, '', true);
 }
