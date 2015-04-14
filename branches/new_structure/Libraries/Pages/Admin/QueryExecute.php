@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,33 +28,23 @@
  * documentation for further information about customizing XNova.
  *
  */
+if (in_array($user['authlevel'], array(LEVEL_ADMIN))) {
+    includeLang('admin/Queries');
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
+    $parse = $lang;
 
-	if (in_array($user['authlevel'], array(LEVEL_ADMIN))) {
-		includeLang('admin/Queries');
+    if ($_POST['really_do_it'] == 'on') {
 
-		$parse   = $lang;
+        mysql_query($_POST['qry_sql']);
+        AdminMessage($lang['qry_succesful'], 'Succes', '?');
+    } else {
+        
+    }
 
-		if ($_POST['really_do_it'] == 'on') {
+    $PageTpl = gettemplate("admin/exec_query");
+    $Page = parsetemplate($PageTpl, $parse);
 
-			mysql_query ($_POST['qry_sql']);
-			AdminMessage ($lang['qry_succesful'], 'Succes', '?');
-
-		} else {
-
-
-		}
-
-		$PageTpl = gettemplate("admin/exec_query");
-		$Page    = parsetemplate( $PageTpl, $parse);
-
-		display( $Page, $lang['qry_title'], false, '', true );
-	} else {
-		message( $lang['sys_noalloaw'], $lang['sys_noaccess'] );
-	}
-
-?>
+    Game::displayadmin($Page, $lang['qry_title'], false, '', true);
+} else {
+    message($lang['sys_noalloaw'], $lang['sys_noaccess']);
+}

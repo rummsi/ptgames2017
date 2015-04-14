@@ -32,14 +32,30 @@ class Game {
 
     static function display($page, $title = '', $metatags = '') {
         global $link, $game_config, $debug, $user, $planetrow;
-        if (defined(IN_ADMIN)) {
-            $Menu = self::ShowLeftMenu();
-        } else {
-            $Menu = self::ShowAdminMenu();
-        }
+
         $DisplayPage = self::gameHeader($title, $metatags);
         $DisplayPage .= ShowTopNavigationBar($user, $planetrow);
-        $DisplayPage .= $Menu;
+        $DisplayPage .= self::ShowLeftMenu();
+        $DisplayPage .= "<center>\n" . $page . "\n</center>\n";
+        if (isset($user['authlevel']) && in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
+            if ($game_config['debug'] == 1) {
+                $debug->echo_log();
+            }
+        }
+        $DisplayPage .= StdFooter();
+        if (isset($link)) {
+            mysql_close($link);
+        }
+        echo $DisplayPage;
+        die();
+    }
+
+    static function displayadmin($page, $title = '', $metatags = '') {
+        global $link, $game_config, $debug, $user, $planetrow;
+
+        $DisplayPage = self::gameHeader($title, $metatags);
+        $DisplayPage .= ShowTopNavigationBar($user, $planetrow);
+        $DisplayPage .= self::ShowAdminMenu();
         $DisplayPage .= "<center>\n" . $page . "\n</center>\n";
         if (isset($user['authlevel']) && in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
             if ($game_config['debug'] == 1) {

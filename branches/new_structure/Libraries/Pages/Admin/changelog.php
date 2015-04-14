@@ -45,4 +45,4 @@ $parse['body'] = $body;
 
 $page .= parsetemplate(gettemplate('changelog_body'), $parse);
 
-Game::display($page, "Changelog", false, '', true);
+Game::displayadmin($page, "Changelog", false, '', true);

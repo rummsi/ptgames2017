@@ -24,15 +24,15 @@ parent.frames['Hauptframe'].location.replace("admin.php?page=overview");
 </tr><tr>
 	<td background="{dpath}img/bg1.gif"><center>{player}</center></td>
 </tr><tr>
-	<td><div><a href="userlist.php" accesskey="a" target="{mf}">{adm_plrlst}</a></div></td>
+	<td><div><a href="admin.php?page=userlist" accesskey="a" target="{mf}">{adm_plrlst}</a></div></td>
 </tr><tr>
-    <td><div><a href="multi.php" accesskey="a" target="{mf}">{adm_multi}</a></div></td>
+    <td><div><a href="admin.php?page=multi" accesskey="a" target="{mf}">{adm_multi}</a></div></td>
 </tr><tr>
-	<td><div><a href="paneladmina.php" accesskey="k" target="{mf}">{adm_plrsch}</a></div></td>
+	<td><div><a href="admin.php?page=paneladmina" accesskey="k" target="{mf}">{adm_plrsch}</a></div></td>
 </tr><tr>
-	<td><div><a href="QueryExecute.php" accesskey="k" target="{mf}">{qry}</a></div></td>
+	<td><div><a href="admin.php?page=QueryExecute" accesskey="k" target="{mf}">{qry}</a></div></td>
 </tr><tr>
-	<td><div><a href="variables.php" accesskey="k" target="{mf}">PhpInfo</a></div></td>
+	<td><div><a href="admin.php?page=variables" accesskey="k" target="{mf}">PhpInfo</a></div></td>
 </tr><tr>
 	<td><div><a href="add_money.php" accesskey="k" target="{mf}">{adm_addres}</a></div></td>
 </tr><tr>
@@ -80,7 +80,7 @@ parent.frames['Hauptframe'].location.replace("admin.php?page=overview");
 </tr><tr>
 	<td><div><a href="http://www.xnova-ng.org/forum/index.php" accesskey="3" target="{mf}">{adm_help}</a></div></td>
 </tr><tr>
-	<td><div><a href="../frames.php" accesskey="i" target="_top" style="color:red">{adm_back}</a></div></td>
+	<td><div><a href="game.php?page=overview" accesskey="i" target="_top" style="color:red">{adm_back}</a></div></td>
 </tr><tr>
 	<td background="{dpath}img/bg1.gif"><center>{infog}</center></td>
 </tr>

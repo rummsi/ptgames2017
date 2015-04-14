@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,39 +28,30 @@
  * documentation for further information about customizing XNova.
  *
  */
+if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERATOR))) {
+    includeLang('admin/multi');
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
+    $query = doquery("SELECT * FROM {{table}}", 'multi');
 
-	if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERATOR))) {
-		includeLang('admin/multi');
+    $parse = $lang;
+    $parse['adm_mt_table'] = "";
+    $i = 0;
 
-		$query   = doquery("SELECT * FROM {{table}}", 'multi');
+    $RowsTPL = gettemplate('admin/multi_rows');
+    $PageTPL = gettemplate('admin/multi_body');
 
-		$parse                 = $lang;
-		$parse['adm_mt_table'] = "";
-		$i                     = 0;
+    while ($infos = mysql_fetch_assoc($query)) {
+        $Bloc['player'] = $infos['player'];
+        $Bloc['text'] = $infos['text'];
 
-		$RowsTPL = gettemplate('admin/multi_rows');
-		$PageTPL = gettemplate('admin/multi_body');
+        $parse['adm_mt_table'] .= parsetemplate($RowsTPL, $Bloc);
+        $i++;
+    }
 
-		while ($infos = mysql_fetch_assoc($query)) {
-			$Bloc['player'] = $infos['player'];
-			$Bloc['text']   = $infos['text'];
+    $parse['adm_mt_count'] = $i;
 
-			$parse['adm_mt_table'] .= parsetemplate( $RowsTPL, $Bloc );
-			$i++;
-		}
-
-		$parse['adm_mt_count'] = $i;
-
-		$page = parsetemplate( $PageTPL, $parse );
-		display( $page, $lang['adm_mt_title'], false, '', true);
-
-	} else {
-		message( $lang['sys_noalloaw'], $lang['sys_noaccess'] );
-	}
-
-?>
+    $page = parsetemplate($PageTPL, $parse);
+    Game::displayadmin($page, $lang['adm_mt_title'], false, '', true);
+} else {
+    message($lang['sys_noalloaw'], $lang['sys_noaccess'], header('Refresh: 5; URL=admin.php?page=multi'));
+}

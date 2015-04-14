@@ -284,7 +284,7 @@ function DisplayGameSettingsPage($CurrentUser) {
             $PageTPL = gettemplate('admin/options_body');
             $Page .= parsetemplate($PageTPL, $parse);
 
-            Game::display($Page, $lang['adm_opt_title'], false, '', true);
+            Game::displayadmin($Page, $lang['adm_opt_title'], false, '', true);
         }
     } else {
         AdminMessage($lang['sys_noalloaw'], $lang['sys_noaccess'], header('Refresh: 5; URL=admin.php?page=settings'));
