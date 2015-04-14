@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,37 +28,30 @@
  * documentation for further information about customizing XNova.
  *
  */
+if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
+    $parse = $lang;
+    $query = doquery("SELECT * FROM {{table}} WHERE planet_type='1'", "planets");
+    $i = 0;
+    while ($u = mysql_fetch_array($query)) {
+        $parse['planetes'] .= "<tr>"
+                . "<td class=b><center><b>" . $u[0] . "</center></b></td>"
+                . "<td class=b><center><b>" . $u[1] . "</center></b></td>"
+                . "<td class=b><center><b>" . $u[4] . "</center></b></td>"
+                . "<td class=b><center><b>" . $u[5] . "</center></b></td>"
+                . "<td class=b><center><b>" . $u[6] . "</center></b></td>"
+                . "</tr>";
+        $i++;
+    }
 
-	if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
+    if ($i == "1")
+        $parse['planetes'] .= "<tr><th class=b colspan=5>Il y a qu'une seule plan&egrave;te</th></tr>";
+    else
+        $parse['planetes'] .= "<tr><th class=b colspan=5>Il y a {$i} plan&egrave;tes</th></tr>";
 
-		$parse = $lang;
-		$query = doquery("SELECT * FROM {{table}} WHERE planet_type='1'", "planets");
-		$i = 0;
-		while ($u = mysql_fetch_array($query)) {
-			$parse['planetes'] .= "<tr>"
-			. "<td class=b><center><b>" . $u[0] . "</center></b></td>"
-			. "<td class=b><center><b>" . $u[1] . "</center></b></td>"
-			. "<td class=b><center><b>" . $u[4] . "</center></b></td>"
-			. "<td class=b><center><b>" . $u[5] . "</center></b></td>"
-			. "<td class=b><center><b>" . $u[6] . "</center></b></td>"
-			. "</tr>";
-			$i++;
-		}
-
-		if ($i == "1")
-			$parse['planetes'] .= "<tr><th class=b colspan=5>Il y a qu'une seule plan&egrave;te</th></tr>";
-		else
-			$parse['planetes'] .= "<tr><th class=b colspan=5>Il y a {$i} plan&egrave;tes</th></tr>";
-
-		display(parsetemplate(gettemplate('admin/planetlist_body'), $parse), 'Planetlist', false, '', true);
-	} else {
-		message($lang['sys_noalloaw'], $lang['sys_noaccess']);
-	}
+    Game::displayadmin(parsetemplate(gettemplate('admin/planetlist_body'), $parse), 'Planetlist', false, '', true);
+} else {
+    message($lang['sys_noalloaw'], $lang['sys_noaccess']);
+}
 
 // Created by e-Zobar. All rights reversed (C) XNova Team 2008
-?>
