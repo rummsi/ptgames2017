@@ -50,5 +50,5 @@ if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERA
 
     Game::displayadmin($Page, $lang['md5_title'], false, '', true);
 } else {
-    message($lang['sys_noalloaw'], $lang['sys_noaccess'], header('Refresh: 5; URL=admin.php?page=md5changepass');
+    message($lang['sys_noalloaw'], $lang['sys_noaccess'], header('Refresh: 5; URL=admin.php?page=md5changepass'));
 }

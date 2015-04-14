@@ -72,7 +72,7 @@ if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERA
         doquery($QryUpdateUser, 'users');
 
         $DoneMessage = $lang['adm_bn_thpl'] . " " . $name . " " . $lang['adm_bn_isbn'];
-        AdminMessage($DoneMessage, $lang['adm_bn_ttle'], header('Refresh: 5; URL=admin.php?page=banned');
+        AdminMessage($DoneMessage, $lang['adm_bn_ttle'], header('Refresh: 5; URL=admin.php?page=banned'));
     }
 
     $Page = parsetemplate($PageTpl, $parse);

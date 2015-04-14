@@ -53,7 +53,7 @@ if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
 
         CreateOneMoonRecord($Galaxy, $System, $Planet, $Owner, $MoonID, $MoonName, 20);
 
-        AdminMessage($lang['addm_done'], $lang['addm_title'], header('Refresh: 5; URL=admin.php?page=add_moon');
+        AdminMessage($lang['addm_done'], $lang['addm_title'], header('Refresh: 5; URL=admin.php?page=add_moon'));
     }
     $Page = parsetemplate($PageTpl, $parse);
 
