@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,34 +28,27 @@
  * documentation for further information about customizing XNova.
  *
  */
+if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERATOR))) {
+    includeLang('admin/changepass');
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
-	if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERATOR))) {
-		includeLang('admin/changepass');
+    $parse = $lang;
 
-		$parse   = $lang;
+    if ($_POST['md5q'] != "") {
 
-		if ($_POST['md5q'] != "") {
+        doquery("UPDATE {{table}} SET `password` = '" . md5($_POST['md5q']) . "' WHERE `username` = '" . $_POST['user'] . "';", 'users');
+        //$QueryUpdatePass = "UPDATE {{table}} SET ";
+        //$QueryUpdatePass .= "`password` = '" . md5 ($_POST['md5q']) . "', ";
+        //$QueryUpdatePass = "WHERE ";
+        //$QueryUpdatePass .= "`username`=" . $_POST['user'] . "";
+        //  doquery($QueryUpdatePass, 'users');
+    } else {
+        
+    }
 
-			doquery ("UPDATE {{table}} SET `password` = '" . md5 ($_POST['md5q']) . "' WHERE `username` = '".$_POST['user']."';", 'users');
-			//$QueryUpdatePass = "UPDATE {{table}} SET ";
-			//$QueryUpdatePass .= "`password` = '" . md5 ($_POST['md5q']) . "', ";
-			//$QueryUpdatePass = "WHERE ";
-	        //$QueryUpdatePass .= "`username`=" . $_POST['user'] . "";
-      //  doquery($QueryUpdatePass, 'users');
-		} else {
+    $PageTpl = gettemplate("admin/changepass");
+    $Page = parsetemplate($PageTpl, $parse);
 
-		}
-
-		$PageTpl = gettemplate("admin/changepass");
-		$Page    = parsetemplate( $PageTpl, $parse);
-
-		display( $Page, $lang['md5_title'], false, '', true );
-	} else {
-		message( $lang['sys_noalloaw'], $lang['sys_noaccess'] );
-	}
-
-?>
+    Game::displayadmin($Page, $lang['md5_title'], false, '', true);
+} else {
+    message($lang['sys_noalloaw'], $lang['sys_noaccess'], header('Refresh: 5; URL=admin.php?page=md5changepass');
+}
