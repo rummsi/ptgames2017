@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,31 +28,23 @@
  * documentation for further information about customizing XNova.
  *
  */
+if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERATOR))) {
+    includeLang('admin/md5enc');
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
+    $parse = $lang;
 
-	if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERATOR))) {
-		includeLang('admin/md5enc');
+    if ($_POST['md5q'] != "") {
+        $parse['md5_md5'] = $_POST['md5q'];
+        $parse['md5_enc'] = md5($_POST['md5q']);
+    } else {
+        $parse['md5_md5'] = "";
+        $parse['md5_enc'] = md5("");
+    }
 
-		$parse   = $lang;
+    $PageTpl = gettemplate("admin/md5enc");
+    $Page = parsetemplate($PageTpl, $parse);
 
-		if ($_POST['md5q'] != "") {
-			$parse['md5_md5'] = $_POST['md5q'];
-			$parse['md5_enc'] = md5 ($_POST['md5q']);
-		} else {
-			$parse['md5_md5'] = "";
-			$parse['md5_enc'] = md5 ("");
-		}
-
-		$PageTpl = gettemplate("admin/md5enc");
-		$Page    = parsetemplate( $PageTpl, $parse);
-
-		display( $Page, $lang['md5_title'], false, '', true );
-	} else {
-		message( $lang['sys_noalloaw'], $lang['sys_noaccess'] );
-	}
-
-?>
+    Game::displayadmin($Page, $lang['md5_title'], false, '', true);
+} else {
+    message($lang['sys_noalloaw'], $lang['sys_noaccess']);
+}

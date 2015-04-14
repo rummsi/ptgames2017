@@ -28,11 +28,6 @@
  *
  */
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
-
 includeLang('admin');
 $parse = $lang;
 
@@ -62,9 +57,7 @@ $parse = $lang;
 			<th class=b colspan=5>". $i ." ". $lang['adm_er_nbs'] ."</th>
 		</tr>";
 
-		display(parsetemplate(gettemplate('admin/errors_body'), $parse), "Bledy", false, '', true);
+		Game::displayadmin(parsetemplate(gettemplate('admin/errors_body'), $parse), "Bledy", false, '', true);
 	} else {
-		message( $lang['sys_noalloaw'], $lang['sys_noaccess'] );
+		message( $lang['sys_noalloaw'], $lang['sys_noaccess'], header('Refresh: 5; URL=admin.php?page=errors') );
 	}
-
-?>
