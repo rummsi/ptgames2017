@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tis file is part of XNova:Legacies
  *
@@ -27,31 +28,23 @@
  * documentation for further information about customizing XNova.
  *
  */
+if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-define('IN_ADMIN', true);
-require_once dirname(dirname(__FILE__)) .'/common.php';
+    $parse['dpath'] = $dpath;
+    $parse = $lang;
 
-	if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
+    $mode = $_GET['mode'];
 
-		$parse['dpath'] = $dpath;
-		$parse = $lang;
+    if ($mode != 'change') {
+        $parse['Name'] = "Nom du joueur";
+    } elseif ($mode == 'change') {
+        $nam = $_POST['nam'];
+        doquery("DELETE FROM {{table}} WHERE who2='{$nam}'", 'banned');
+        doquery("UPDATE {{table}} SET bana=0, banaday=0 WHERE username='{$nam}'", "users");
+        message("Le joueur {$nam} a bien &eacute;t&eacute; d&eacute;banni!", 'Information');
+    }
 
-		$mode = $_GET['mode'];
-
-		if ($mode != 'change') {
-			$parse['Name'] = "Nom du joueur";
-		} elseif ($mode == 'change') {
-			$nam = $_POST['nam'];
-			doquery("DELETE FROM {{table}} WHERE who2='{$nam}'", 'banned');
-			doquery("UPDATE {{table}} SET bana=0, banaday=0 WHERE username='{$nam}'", "users");
-			message("Le joueur {$nam} a bien &eacute;t&eacute; d&eacute;banni!", 'Information');
-		}
-
-		display(parsetemplate(gettemplate('admin/unbanned'), $parse), "Overview", false, '', true);
-	} else {
-		message( $lang['sys_noalloaw'], $lang['sys_noaccess'] );
-	}
-
-?>
+    Game::displayadmin(parsetemplate(gettemplate('admin/unbanned'), $parse), "Overview", false, '', true);
+} else {
+    message($lang['sys_noalloaw'], $lang['sys_noaccess'], header('Refresh: 5; URL=admin.php?page=unbanned'));
+}
