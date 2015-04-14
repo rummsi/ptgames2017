@@ -81,7 +81,7 @@ if (is_numeric($_POST['fleetid'])) {
     }
 }
 
-message("<font color=\"" . $TxtColor . "\">" . $BoxMessage . "</font>", $BoxTitle, "fleet." . PHPEXT, 2);
+message("<font color=\"" . $TxtColor . "\">" . $BoxMessage . "</font>", $BoxTitle, "fleet.php", 2);
 
 // -----------------------------------------------------------------------------------------------------------
 // History version

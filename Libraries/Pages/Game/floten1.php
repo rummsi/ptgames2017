@@ -84,7 +84,7 @@ foreach ($reslist['fleet'] as $n => $i) {
 }
 
 if (!$fleet['fleetlist']) {
-    message($lang['fl_unselectall'], $lang['fl_error'], "fleet." . PHPEXT, 1);
+    message($lang['fl_unselectall'], $lang['fl_error'], "fleet.php", 1);
 } else {
     $speedallsmin = min($speedalls);
 }
