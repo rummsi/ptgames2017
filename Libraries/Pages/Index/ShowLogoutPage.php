@@ -39,9 +39,10 @@ class ShowLogoutPage extends AbstractIndexPage {
         global $lang;
         includeLang('logout');
 
-session_destroy();
-setcookie('nova-cookie', NULL, 0);
+        session_destroy();
+        setcookie('nova-cookie', NULL, 0);
 
-message($lang['see_you'], $lang['session_closed'], header('Refresh: 5; URL=index.php'));
+        message($lang['see_you'], $lang['session_closed'], header('Refresh: 5; URL=index.php'));
     }
+
 }
