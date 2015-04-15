@@ -28,10 +28,12 @@
  * documentation for further information about customizing XNova.
  *
  */
-//on demarre la session qui ne sers ici que pour le code de secu
-session_start();
+class ShowRegPage extends AbstractIndexPage {
 
-includeLang('reg');
+    function __construct() {
+        parent::__construct();
+        $this->tplObj->compile_id = 'register';
+    }
 
 function sendpassemail($emailaddress, $password) {
     global $lang;
@@ -39,7 +41,7 @@ function sendpassemail($emailaddress, $password) {
     $parse['gameurl'] = GAMEURL;
     $parse['password'] = $password;
     $email = parsetemplate($lang['mail_welcome'], $parse);
-    $status = mymail($emailaddress, $lang['mail_title'], $email);
+    $status = self::mymail($emailaddress, $lang['mail_title'], $email);
     return $status;
 }
 
@@ -67,6 +69,14 @@ function mymail($to, $title, $body, $from = '') {
 
     return mail($to, $title, $body, $head);
 }
+
+    function show() {
+        global $lang, $game_config, $newpos_checked, $Time;
+
+//on demarre la session qui ne sers ici que pour le code de secu
+session_start();
+
+includeLang('reg');
 
 if ($_POST) {
     $errors = 0;
@@ -241,7 +251,7 @@ if ($_POST) {
         doquery("UPDATE {{table}} SET `config_value` = `config_value` + '1' WHERE `config_name` = 'users_amount' LIMIT 1;", 'config');
 
         $Message = $lang['thanksforregistry'];
-        if (sendpassemail($_POST['email'], "$newpass")) {
+        if (self::sendpassemail($_POST['email'], "$newpass")) {
             $Message .= " (" . htmlentities($_POST["email"]) . ")";
         } else {
             $Message .= " (" . htmlentities($_POST["email"]) . ")";
@@ -276,3 +286,5 @@ display($page, $lang['registry'], false);
 // 1.0 - Version originelle
 // 1.1 - Menage + rangement + utilisation fonction de creation planete nouvelle generation
 // 1.2 - Ajout securite activable ou non
+    }
+}

@@ -28,9 +28,20 @@
  * documentation for further information about customizing XNova.
  *
  */
-includeLang('logout');
+class ShowLogoutPage extends AbstractIndexPage {
+
+    function __construct() {
+        parent::__construct();
+        $this->tplObj->compile_id = 'logout';
+    }
+
+    function show() {
+        global $lang;
+        includeLang('logout');
 
 session_destroy();
 setcookie('nova-cookie', NULL, 0);
 
 message($lang['see_you'], $lang['session_closed'], header('Refresh: 5; URL=index.php'));
+    }
+}

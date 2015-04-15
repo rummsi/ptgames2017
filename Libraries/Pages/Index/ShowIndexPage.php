@@ -28,6 +28,16 @@
  * documentation for further information about customizing XNova.
  *
  */
+class ShowIndexPage extends AbstractIndexPage {
+
+    public function __construct() {
+        parent::__construct();
+        $this->tplObj->compile_id = 'login';
+    }
+
+    function show() {
+        global $lang, $game_config;
+        
 define('LOGIN', true);
 
 includeLang('login');
@@ -98,5 +108,7 @@ EOF;
         die($page);
     } else {
         display($page, $lang['Login']);
+    }
+    }
     }
 }
