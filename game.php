@@ -31,9 +31,9 @@ $page = filter_input(INPUT_GET, 'page');
 $mode1 = filter_input(INPUT_GET, 'mode');
 $mode = str_replace(array('_', '\\', '/', '.', "\0"), '', $mode1);
 
-$pageClass = ucwords($page);
+$pageClass = 'Show' . ucwords($page) . 'Page';
 if (empty($page)) {
-    $pageClass = 'overview';
+    $pageClass = 'ShowOverviewPage';
 }
 includeLang('login');
 
