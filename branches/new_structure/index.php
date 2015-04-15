@@ -27,6 +27,7 @@ define('INSIDE', true);
 define('INSTALL', false);
 define('DISABLE_IDENTITY_CHECK', true);
 require_once dirname(__FILE__) . '/common.php';
+include 'Libraries/Classes/AbstractIndexPage.php';
 
 $page = filter_input(INPUT_GET, 'page');
 $mode1 = filter_input(INPUT_GET, 'mode');
