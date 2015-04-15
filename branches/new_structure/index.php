@@ -29,14 +29,12 @@ define('DISABLE_IDENTITY_CHECK', true);
 require_once dirname(__FILE__) . '/common.php';
 include 'Libraries/Classes/AbstractIndexPage.php';
 
-$page = filter_input(INPUT_GET, 'page');
-$mode1 = filter_input(INPUT_GET, 'mode');
+$page = HTTP::_GP('page', 'index');
+$mode1 = HTTP::_GP('mode', 'show');
 $mode = str_replace(array('_', '\\', '/', '.', "\0"), '', $mode1);
 
 $pageClass = 'Show' . ucwords($page) . 'Page';
-if (empty($page)) {
-    $pageClass = 'ShowLoginPage';
-}
+
 includeLang('login');
 
 // Added Autoload in feature Versions
