@@ -28,6 +28,15 @@
  * documentation for further information about customizing XNova.
  *
  */
+class ShowContactPage extends AbstractIndexPage {
+
+    function __construct() {
+        parent::__construct();
+        $this->tplObj->compile_id = 'contact';
+    }
+
+    function show() {
+        global $lang;
 includeLang('contact');
 
 $BodyTPL = gettemplate('contact_body');
@@ -52,3 +61,5 @@ display($page, $lang['ctc_title'], false);
 // -----------------------------------------------------------------------------------------------------------
 // History version
 // 1.0 - Mise au propre (Virer tout ce qui ne sert pas a une prise de contact en fait)
+    }
+}

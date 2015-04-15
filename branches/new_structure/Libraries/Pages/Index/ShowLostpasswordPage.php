@@ -28,6 +28,15 @@
  * documentation for further information about customizing XNova.
  *
  */
+class ShowLostpasswordPage extends AbstractIndexPage {
+
+    function __construct() {
+        parent::__construct();
+        $this->tplObj->compile_id = 'lostpass';
+    }
+
+    function show() {
+        global $lang, $game_config;
 $mailData = array(
     'recipient' => NULL,
     'sender' => 'no-reply',
@@ -108,3 +117,5 @@ EOF;
 $parse = $lang;
 $page = parsetemplate(gettemplate('lostpassword'), $parse);
 display($page, $lang['registry']);
+    }
+}

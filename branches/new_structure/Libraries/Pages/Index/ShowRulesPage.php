@@ -28,6 +28,15 @@
  * documentation for further information about customizing XNova.
  *
  */
+class ShowRulesPage extends AbstractIndexPage {
+
+    function __construct() {
+        parent::__construct();
+        $this->tplObj->compile_id = 'rules';
+    }
+
+    function show() {
+        global $lang, $game_config;
 includeLang('rules');
 
 $parse = $lang;
@@ -36,4 +45,6 @@ $parse['servername'] = $game_config['game_name'];
 $PageTPL = gettemplate('rules_body');
 $page = parsetemplate($PageTPL, $parse);
 
-display($page, $lang['rules'], false);
+Game::display($page, $lang['rules'], false);
+    }
+}
