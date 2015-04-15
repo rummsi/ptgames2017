@@ -37,14 +37,15 @@ class ShowRulesPage extends AbstractIndexPage {
 
     function show() {
         global $lang, $game_config;
-includeLang('rules');
+        includeLang('rules');
 
-$parse = $lang;
-$parse['servername'] = $game_config['game_name'];
+        $parse = $lang;
+        $parse['servername'] = $game_config['game_name'];
 
-$PageTPL = gettemplate('rules_body');
-$page = parsetemplate($PageTPL, $parse);
+        $PageTPL = gettemplate('rules_body');
+        $page = parsetemplate($PageTPL, $parse);
 
-Game::display($page, $lang['rules'], false);
+        Game::display($page, $lang['rules'], false);
     }
+
 }
