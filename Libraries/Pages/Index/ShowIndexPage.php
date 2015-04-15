@@ -36,9 +36,9 @@ class ShowIndexPage extends AbstractIndexPage {
     }
 
     function show() {
-        global $lang, $game_config;
+        global $lang, $game_config, $langInfos;
 
-        define('LOGIN', true);
+        define('LOGIN', TRUE);        
 
         includeLang('login');
 
@@ -89,25 +89,38 @@ EOF;
                 message($lang['Login_FailUser'], $lang['Login_Error']);
             }
         } else {
-            $parse = $lang;
             $Count = doquery('SELECT COUNT(DISTINCT users.id) AS `players` FROM {{table}} AS users WHERE users.authlevel < 3', 'users', true);
             $LastPlayer = doquery('SELECT users.`username` FROM {{table}} AS users ORDER BY `register_time` DESC LIMIT 1', 'users', true);
-            $parse['last_user'] = $LastPlayer['username'];
             $PlayersOnline = doquery("SELECT COUNT(DISTINCT id) AS `onlinenow` FROM {{table}} AS users WHERE `onlinetime` > (UNIX_TIMESTAMP()-900) AND users.authlevel < 3", 'users', true);
-            $parse['online_users'] = $PlayersOnline['onlinenow'];
-            $parse['users_amount'] = $Count['players'];
-            $parse['servername'] = $game_config['game_name'];
-            $parse['forum_url'] = $game_config['forum_url'];
-            $parse['PasswordLost'] = $lang['PasswordLost'];
 
-            $page = parsetemplate(gettemplate('login_body'), $parse);
+            $this->tplObj->assign(array(
+                'title' => $lang['Login'],
+                'log_univ' => $lang['log_univ'],
+                'User_name' => $lang['User_name'],
+                'Password' => $lang['Password'],
+                'Remember_me' => $lang['Remember_me'],
+                'Login' => $lang['Login'],
+                'PasswordLost' => $lang['PasswordLost'],
+                'log_reg' => $lang['log_reg'],
+                'forum_url' => $game_config['forum_url'],
+                'log_welcome' => $lang['log_welcome'],
+                'servername' => $game_config['game_name'],
+                'log_desc' => $lang['log_desc'],
+                'log_toreg' => $lang['log_toreg'],
+                'log_online' => $lang['log_online'],
+                'online_users' => $PlayersOnline['onlinenow'],
+                'log_lastreg' => $lang['log_lastreg'],
+                'log_numbreg' => $lang['log_numbreg'],
+                'last_user' => $LastPlayer['username'],
+                'users_amount' => $Count['players'],
+            ));
 
             // Test pour prendre le nombre total de joueur et le nombre de joueurs connect�s
             if (isset($_GET['ucount']) && $_GET['ucount'] == 1) {
                 $page = $PlayersOnline['onlinenow'] . "/" . $Count['players'];
                 die($page);
             } else {
-                display($page, $lang['Login']);
+                $this->render('login_body.tpl');
             }
         }
     }
