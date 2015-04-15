@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div id="mainmenu" style="margin-top: 20px;">
-                    <a href="index.php?page=register">{$log_reg}</a>
+                    <a href="index.php?page=reg">{$log_reg}</a>
                     <a href="{$forum_url}" target="_blank">Forum</a>
                     <a href="index.php?page=contact">Contact</a>
                 </div>
@@ -68,7 +68,7 @@
                                     {$log_desc} {$servername}.
                                 </div>
                             </div>
-                            <div id="register" class="bigbutton" onclick="document.location.href='index.php?page=register';">
+                            <div id="register" class="bigbutton" onclick="document.location.href='index.php?page=reg';">
                                 <font color="#cc0000">{$log_toreg}</font>
                             </div>
                             <div id="text2">
