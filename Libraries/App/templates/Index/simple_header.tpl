@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>{block name="title"}{$title} - {$game_config['game_name']}{/block}</title>
+        <title>{block name="title"}{$title} - {$servername}{/block}</title>
         <link rel="shortcut icon" href="favicon.ico">
         {if defined('LOGIN')}
             <link rel="stylesheet" type="text/css" href="css/styles.css">

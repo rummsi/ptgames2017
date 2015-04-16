@@ -67,7 +67,7 @@ class AbstractIndexPage {
 
         $this->tplObj->assign(array(
             'encoding' => $langInfos['ENCODING'],
-            'game_config' => $game_config,
+            'servername' => $game_config['game_name'],
         ));
 
         $this->tplObj->display('extends:layout.' . $this->getWindow() . '.tpl|' . $file);

@@ -38,7 +38,7 @@ class ShowIndexPage extends AbstractIndexPage {
     function show() {
         global $lang, $game_config, $langInfos;
 
-        define('LOGIN', TRUE);        
+        define('LOGIN', TRUE);
 
         includeLang('login');
 
