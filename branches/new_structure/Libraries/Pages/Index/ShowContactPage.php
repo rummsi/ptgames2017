@@ -39,28 +39,18 @@ class ShowContactPage extends AbstractIndexPage {
         global $lang;
         includeLang('contact');
 
-        $BodyTPL = gettemplate('contact_body');
-        $RowsTPL = gettemplate('contact_body_rows');
-        $parse = $lang;
+        $this->tplObj->assign(array(
+            'title' => $lang['ctc_title'],
+            'GameOps' => doquery("SELECT `username`, `email`, `authlevel` FROM {{table}} WHERE `authlevel` != '0' ORDER BY `authlevel` DESC;", 'users'),
+            'user_level' => $lang['user_level'],
+            'ctc_title' => $lang['ctc_title'],
+            'ctc_intro' => $lang['ctc_intro'],
+            'ctc_name' => $lang['ctc_name'],
+            'ctc_rank' => $lang['ctc_rank'],
+            'ctc_mail' => $lang['ctc_mail'],
+        ));
 
-        $QrySelectUser = "SELECT `username`, `email`, `authlevel` ";
-        $QrySelectUser .= "FROM {{table}} ";
-        $QrySelectUser .= "WHERE `authlevel` != '0' ORDER BY `authlevel` DESC;";
-        $GameOps = doquery($QrySelectUser, 'users');
-
-        while ($Ops = mysql_fetch_assoc($GameOps)) {
-            $bloc['ctc_data_name'] = $Ops['username'];
-            $bloc['ctc_data_auth'] = $lang['user_level'][$Ops['authlevel']];
-            $bloc['ctc_data_mail'] = "<a href=mailto:" . $Ops['email'] . ">" . $Ops['email'] . "</a>";
-            $parse['ctc_admin_list'] .= parsetemplate($RowsTPL, $bloc);
-        }
-
-        $page = parsetemplate($BodyTPL, $parse);
-        display($page, $lang['ctc_title'], false);
-
-// -----------------------------------------------------------------------------------------------------------
-// History version
-// 1.0 - Mise au propre (Virer tout ce qui ne sert pas a une prise de contact en fait)
+        $this->render('contact_body.tpl');
     }
 
 }
