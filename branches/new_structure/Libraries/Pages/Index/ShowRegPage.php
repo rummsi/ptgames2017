@@ -73,17 +73,13 @@ class ShowRegPage extends AbstractIndexPage {
     function show() {
         global $lang, $game_config, $newpos_checked, $Time;
 
-//on demarre la session qui ne sers ici que pour le code de secu
-        session_start();
-
         includeLang('reg');
 
         if ($_POST) {
             $errors = 0;
             $errorlist = "";
 
-//si la secu est active
-
+            //si la secu est active
             if ($game_config['secu'] == 1) {
                 echo $_session['secu'];
                 if (!$_POST['secu'] || $_POST['secu'] != $_SESSION['secu']) {
@@ -266,26 +262,37 @@ class ShowRegPage extends AbstractIndexPage {
             $_SESSION['nombre2'] = rand(0, 50);
             $_SESSION['secu'] = $_SESSION['nombre1'] + $_SESSION['nombre2'];
 
-            $parse['servername'] = '<img src="images/xnova.png" align="top" border="0" >';
-            $parse['code_secu'] = "<th>Securite: </th>";
-            $parse['affiche'] = $_SESSION['nombre1'] . " + " . $_SESSION['nombre2'] . " = <input name='secu' size='3' maxlength='3' type='text'>";
-            $page = parsetemplate(gettemplate('registry_form'), $parse);
+            $this->tplObj->assign(array(
+                'servername' => '<img src="images/xnova.png" align="top" border="0" >',
+                'code_secu' => "<th>" . $lang['code_secu'] . ":</th>",
+                'affiche' => $_SESSION['nombre1'] . " + " . $_SESSION['nombre2'] . " = <input name='secu' size='3' maxlength='3' type='text'>",
+            ));
         } else {
 
             // Afficher le formulaire d'enregistrement
-            $parse = $lang;
-            $parse['code_secu'] = "";
-            $parse['affiche'] = "";
-            $parse['servername'] = '<img src="images/xnova.png" align="top" border="0" >';
-            $page = parsetemplate(gettemplate('registry_form'), $parse);
+            $this->tplObj->assign(array(
+                'code_secu' => "",
+                'affiche' => "",
+                'servername' => '<img src="images/xnova.png" align="top" border="0" >',
+            ));
         }
-        display($page, $lang['registry'], false);
-
-// -----------------------------------------------------------------------------------------------------------
-// History version
-// 1.0 - Version originelle
-// 1.1 - Menage + rangement + utilisation fonction de creation planete nouvelle generation
-// 1.2 - Ajout securite activable ou non
+        $this->tplObj->assign(array(
+            'title' => $lang['registry'],
+            'servername' => '<img src="images/xnova.png" align="top" border="0" >',
+            'registry' => $lang['registry'],
+            'form' => $lang['form'],
+            'GameName' => $lang['GameName'],
+            'neededpass' => $lang['neededpass'],
+            'EMail' => $lang['E-Mail'],
+            'MainPlanet' => $lang['MainPlanet'],
+            'Sex' => $lang['Sex'],
+            'Undefined' => $lang['Undefined'],
+            'Male' => $lang['Male'],
+            'Female' => $lang['Female'],
+            'accept' => $lang['accept'],
+            'signup' => $lang['signup'],
+        ));
+        $this->render('registry_form.tpl');
     }
 
 }

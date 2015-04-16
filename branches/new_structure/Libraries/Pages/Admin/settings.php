@@ -84,6 +84,13 @@ function DisplayGameSettingsPage($CurrentUser) {
                 $game_config['debug'] = "0";
             }
 
+            // Mode Secu ou pas !
+            if (isset($_POST['secu']) && $_POST['secu'] == 'on') {
+                $game_config['secu'] = "1";
+            } else {
+                $game_config['secu'] = "0";
+            }
+
             // Nom du Jeu
             if (isset($_POST['game_name']) && $_POST['game_name'] != '') {
                 $game_config['game_name'] = $_POST['game_name'];
@@ -236,6 +243,9 @@ function DisplayGameSettingsPage($CurrentUser) {
 
             // Mode Debug
             doquery("UPDATE {{table}} SET `config_value` = '" . $game_config['debug'] . "' WHERE `config_name` ='debug'", 'config');
+            
+            // Mode Secu
+            doquery("UPDATE {{table}} SET `config_value` = '" . $game_config['secu'] . "' WHERE `config_name` ='secu'", 'config');
             AdminMessage('Options changees avec succes !', 'Succes', header('Refresh: 5; URL=admin.php?page=settings'));
         } else {
 
@@ -278,6 +288,7 @@ function DisplayGameSettingsPage($CurrentUser) {
             $parse['GoogleAdVal'] = stripslashes($game_config['OverviewClickBanner']);
 
             $parse['debug'] = ($game_config['debug'] == 1) ? " checked = 'checked' " : "";
+            $parse['secu'] = ($game_config['secu'] == 1) ? " checked = 'checked' " : "";
 
             $parse['bannerframe'] = ($game_config['ForumBannerFrame'] == 1) ? " checked = 'checked' " : "";
 

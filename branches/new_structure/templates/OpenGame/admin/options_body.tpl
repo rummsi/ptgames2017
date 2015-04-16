@@ -114,7 +114,10 @@
 </tr><tr>
 	<th>{adm_opt_game_debugmod}</a></th>
 	<th><input name="debug"{debug} type="checkbox" /></th>
-</tr>	
+</tr><tr>
+	<th>adm_opt_game_secumod</a></th>
+	<th><input name="secu"{secu} type="checkbox" /></th>
+</tr>
 <tr>
 	<th>{banner}</th>
 	<th><textarea name="banner_source_post" cols="80" rows="1" size="80" >{banner_source_post}</textarea></th>
