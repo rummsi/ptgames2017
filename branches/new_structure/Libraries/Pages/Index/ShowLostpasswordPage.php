@@ -113,11 +113,10 @@ EOF;
                 die();
             }
         }
-        
+
         $this->tplObj->assign(array(
             'title' => $lang['ResetPass'],
             'ResetPass' => $lang['ResetPass'],
-            
             'PassForm' => $lang['PassForm'],
             'TextPass1' => $lang['TextPass1'],
             'TextPass2' => $lang['TextPass2'],
