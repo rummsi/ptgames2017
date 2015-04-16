@@ -2,6 +2,13 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/UniServerZ/www/ptgames-pt/branches/new_structure/Libraries/Pages/Index/ShowRegPage.php</file>
+            <file>file:/C:/UniServerZ/www/ptgames-pt/branches/new_structure/Libraries/App/templates/Index/lostpassword.tpl</file>
+            <file>file:/C:/UniServerZ/www/ptgames-pt/branches/new_structure/Libraries/Pages/Index/ShowContactPage.php</file>
+            <file>file:/C:/UniServerZ/www/ptgames-pt/branches/new_structure/Libraries/Pages/Index/ShowRulesPage.php</file>
+            <file>file:/C:/UniServerZ/www/ptgames-pt/branches/new_structure/Libraries/Pages/Index/ShowLogoutPage.php</file>
+            <file>file:/C:/UniServerZ/www/ptgames-pt/branches/new_structure/Libraries/Pages/Index/ShowLostpasswordPage.php</file>
+        </group>
     </open-files>
 </project-private>

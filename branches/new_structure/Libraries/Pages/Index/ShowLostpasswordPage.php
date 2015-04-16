@@ -113,10 +113,21 @@ EOF;
                 die();
             }
         }
+        
+        $this->tplObj->assign(array(
+            'title' => $lang['ResetPass'],
+            'ResetPass' => $lang['ResetPass'],
+            
+            'PassForm' => $lang['PassForm'],
+            'TextPass1' => $lang['TextPass1'],
+            'TextPass2' => $lang['TextPass2'],
+            'pseudo' => $lang['pseudo'],
+            'email' => $lang['email'],
+            'ButtonSendPass' => $lang['ButtonSendPass'],
+            'servername' => $game_config['game_name'],
+        ));
 
-        $parse = $lang;
-        $page = parsetemplate(gettemplate('lostpassword'), $parse);
-        display($page, $lang['registry']);
+        $this->render('lostpassword.tpl');
     }
 
 }
