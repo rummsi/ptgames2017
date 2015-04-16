@@ -28,6 +28,15 @@
  * documentation for further information about customizing XNova.
  *
  */
+class ShowOverviewPage extends AbstractGamePage {
+
+    function __construct() {
+        parent::__construct();
+        $this->tplObj->compile_id = 'overview';
+    }
+
+    function show() {
+        global $user, $lang, $game_config, $planetrow, $dpath, $galaxyrow, $flotten;
 $lunarow = doquery("SELECT * FROM {{table}} WHERE `id_owner` = '" . $planetrow['id_owner'] . "' AND `galaxy` = '" . $planetrow['galaxy'] . "' AND `system` = '" . $planetrow['system'] . "' AND `lunapos` = '" . $planetrow['planet'] . "';", 'lunas', true);
 
 //CheckPlanetUsedFields ($lunarow);
@@ -475,3 +484,4 @@ switch ($mode) {
             break;
         }
 }
+}}
