@@ -90,7 +90,7 @@ abstract class AbstractGamePage {
         global $lang, $user, $game_config, $planetrow, $flotten;
 
         includeLang('leftmenu');
-        includeLang('topnav');
+//        includeLang('topnav');
         includeLang('overview');
 
         $rank = doquery("SELECT `total_rank` FROM {{table}} WHERE `stat_code` = '1' AND `stat_type` = '1' AND `id_owner` = '" . $user['id'] . "';", 'statpoints', true);
@@ -100,9 +100,56 @@ abstract class AbstractGamePage {
             'lm_tx_game' => $game_config['game_speed'] / 2500,
             'lm_tx_fleet' => $game_config['fleet_speed'] / 2500,
             'lm_tx_queue' => MAX_FLEET_OR_DEFS_PER_ROW,
-            'user' => $user,
-            'lang' => $lang,
-            'game_config' => $game_config,
+            'Level' => $user['authlevel'],
+            'devlp' => $lang['devlp'],
+            'Overview' => $lang['Overview'],
+            'Buildings' => $lang['Buildings'],
+            'Research' => $lang['Research'],
+            'Shipyard' => $lang['Shipyard'],
+            'Defense' => $lang['Defense'],
+            'Officiers' => $lang['Officiers'],
+            'Marchand' => $lang['Marchand'],
+            'navig' => $lang['navig'],
+            'Alliance' => $lang['Alliance'],
+            'Fleet' => $lang['Fleet'],
+            'Messages' => $lang['Messages'],
+            'observ' => $lang['observ'],
+            'Galaxy' => $lang['Galaxy'],
+            'Imperium' => $lang['Imperium'],
+            'Resources' => $lang['Resources'],
+            'Technology' => $lang['Technology'],
+            'Records' => $lang['Records'],
+            'Statistics' => $lang['Statistics'],
+            'Search' => $lang['Search'],
+            'blocked' => $lang['blocked'],
+            'Annonces' => $lang['Annonces'],
+            'commun' => $lang['commun'],
+            'Buddylist' => $lang['Buddylist'],
+            'Notes' => $lang['Notes'],
+            'Chat' => $lang['Chat'],
+            'Board' => $lang['Board'],
+            'multi' => $lang['multi'],
+            'Rules' => $lang['Rules'],
+            'Contact' => $lang['Contact'],
+            'Options' => $lang['Options'],
+            'user_level' => $lang['user_level'],
+            'Logout' => $lang['Logout'],
+            'infog' => $lang['infog'],
+            'lm_ifo_game' => $lang['lm_ifo_game'],
+            'lm_ifo_fleet' => $lang['lm_ifo_fleet'],
+            'lm_ifo_serv' => $lang['lm_ifo_serv'],
+            'lm_ifo_queue' => $lang['lm_ifo_queue'],
+            'servername' => $game_config['game_name'],
+            'enable_marchand' => $game_config['enable_marchand'],
+            'enable_announces' => $game_config['enable_announces'],
+            'enable_notes' => $game_config['enable_notes'],
+            'forum_url' => $game_config['forum_url'],
+            'link_enable' => $game_config['link_enable'],
+            'link_url' => $game_config['link_url'],
+            'link_name' => $game_config['link_name'],
+            'game_speed' => $game_config['game_speed'],
+            'fleet_speed' => $game_config['fleet_speed'],
+            'resource_multiplier' => $game_config['resource_multiplier'],
             'lm_tx_queue' => MAX_FLEET_OR_DEFS_PER_ROW,
             'energy_available' => $planetrow["energy_max"] + $planetrow["energy_used"],
         ));
@@ -113,7 +160,23 @@ abstract class AbstractGamePage {
             }
 
             $this->tplObj->assign(array(
-                'planetrow' => $planetrow,
+                'image' => $planetrow['image'],
+                'destruyed' => $planetrow['destruyed'],
+                'metal' => $planetrow['metal'],
+                'metal_max' => $planetrow['metal_max'],
+                'crystal' => $planetrow['crystal'],
+                'crystal_max' => $planetrow['crystal_max'],
+                'deuterium' => $planetrow['deuterium'],
+                'deuterium_max' => $planetrow['deuterium_max'],
+                'energy_max' => $planetrow['energy_max'],
+                'energy_used' => $planetrow['energy_used'],
+                'new_message' => $user['new_message'],
+                'current_planet' => $user['current_planet'],
+                'Metal' => $lang['Metal'],
+                'Crystal' => $lang['Crystal'],
+                'Deuterium' => $lang['Deuterium'],
+                'Energy' => $lang['Energy'],
+                'Message' => $lang['Message'],
                 'ThisUsersPlanets' => SortUserPlanets($user),
                 'page' => filter_input(INPUT_GET, 'page'),
                 'mode' => HTTP::_GP('mode', ''),
@@ -165,7 +228,7 @@ abstract class AbstractGamePage {
             $planets_query = doquery($QryPlanets, 'planets');
             $Colone = 1;
             $AllPlanets = "<tr>";
-            while ($UserPlanet = mysqli_fetch_array($planets_query)) {
+            while ($UserPlanet = mysql_fetch_array($planets_query)) {
                 PlanetResourceUpdate($user, $UserPlanet, time());
                 if ($UserPlanet["id"] != $user["current_planet"] && $UserPlanet['planet_type'] != 3) {
                     $AllPlanets .= "<th>" . $UserPlanet['name'] . "<br>";
@@ -204,7 +267,7 @@ abstract class AbstractGamePage {
             // Toutes de vert vetues
             $OwnFleets = doquery("SELECT * FROM {{table}} WHERE `fleet_owner` = '" . $user['id'] . "';", 'fleets');
             $Record = 0;
-            while ($FleetRow = mysqli_fetch_array($OwnFleets)) {
+            while ($FleetRow = mysql_fetch_array($OwnFleets)) {
                 $Record++;
                 $StartTime = $FleetRow['fleet_start_time'];
                 $StayTime = $FleetRow['fleet_end_stay'];
@@ -232,7 +295,7 @@ abstract class AbstractGamePage {
             // Flotte ennemies (ou amie) mais non personnelles
             $OtherFleets = doquery("SELECT * FROM {{table}} WHERE `fleet_target_owner` = '" . $user['id'] . "';", 'fleets');
             $Record = 2000;
-            while ($FleetRow = mysqli_fetch_array($OtherFleets)) {
+            while ($FleetRow = mysql_fetch_array($OtherFleets)) {
                 if ($FleetRow['fleet_owner'] != $user['id']) {
                     if ($FleetRow['fleet_mission'] != 8) {
                         $Record++;
@@ -256,7 +319,7 @@ abstract class AbstractGamePage {
             // --- Gestion des attaques missiles -------------------------------------------------------------
             $iraks_query = doquery("SELECT * FROM {{table}} WHERE owner = '" . $user['id'] . "'", 'iraks');
             $Record = 4000;
-            while ($irak = mysqli_fetch_array($iraks_query)) {
+            while ($irak = mysql_fetch_array($iraks_query)) {
                 $Record++;
                 $fpage[$irak['zeit']] = '';
                 if ($irak['zeit'] > time()) {
@@ -272,8 +335,8 @@ abstract class AbstractGamePage {
 						system = '" . $irak['system_angreifer'] . "' AND
 						planet = '" . $irak['planet_angreifer'] . "' AND
 						planet_type = '1'", 'planets', true);
-                    if (mysqli_num_rows($planet_start) == 1) {
-                        $planet = mysqli_fetch_array($planet_start);
+                    if (mysql_num_rows($planet_start) == 1) {
+                        $planet = mysql_fetch_array($planet_start);
                     }
                     $fpage[$irak['zeit']] .= "<tr><th><div id=\"bxxfs$i\" class=\"z\"></div><font color=\"lime\">" . gmdate("H:i:s", $irak['zeit'] + 1 * 60 * 60) . "</font> </th><th colspan=\"3\"><font color=\"#0099FF\">Une attaque de missiles (" . $irak['anzahl'] . ") de " . $user_planet['name'] . " ";
                     $fpage[$irak['zeit']] .= '<a href="game.php?page=galaxy&action=3&galaxy=' . $irak["galaxy_angreifer"] . '&system=' . $irak["system_angreifer"] . '&planet=' . $irak["planet_angreifer"] . '">[' . $irak["galaxy_angreifer"] . ':' . $irak["system_angreifer"] . ':' . $irak["planet_angreifer"] . ']</a>';
@@ -288,7 +351,7 @@ abstract class AbstractGamePage {
             // --- Gestion des attaques missiles -------------------------------------------------------------
             $iraks_query = doquery("SELECT * FROM {{table}} WHERE owner = '" . $user['id'] . "'", 'iraks');
             $Record = 4000;
-            while ($irak = mysqli_fetch_array($iraks_query)) {
+            while ($irak = mysql_fetch_array($iraks_query)) {
                 $Record++;
                 $fpage[$irak['zeit']] = '';
                 if ($irak['zeit'] > time()) {
@@ -304,8 +367,8 @@ abstract class AbstractGamePage {
 						system = '" . $irak['system_angreifer'] . "' AND
 						planet = '" . $irak['planet_angreifer'] . "' AND
 						planet_type = '1'", 'planets', true);
-                    if (mysqli_num_rows($planet_start) == 1) {
-                        $planet = mysqli_fetch_array($planet_start);
+                    if (mysql_num_rows($planet_start) == 1) {
+                        $planet = mysql_fetch_array($planet_start);
                     }
                     $fpage[$irak['zeit']] .= "<tr><th><div id=\"bxxfs$i\" class=\"z\"></div><font color=\"lime\">" . gmdate("H:i:s", $irak['zeit'] + 1 * 60 * 60) . "</font> </th><th colspan=\"3\"><font color=\"#0099FF\">Une attaque de missiles (" . $irak['anzahl'] . ") de " . $user_planet['name'] . " ";
                     $fpage[$irak['zeit']] .= '<a href="game.php?page=galaxy&action=3&galaxy=' . $irak["galaxy_angreifer"] . '&system=' . $irak["system_angreifer"] . '&planet=' . $irak["planet_angreifer"] . '">[' . $irak["galaxy_angreifer"] . ':' . $irak["system_angreifer"] . ':' . $irak["planet_angreifer"] . ']</a>';
