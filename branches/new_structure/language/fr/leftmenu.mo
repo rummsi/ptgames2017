@@ -35,15 +35,15 @@ $lang['qry']   = 'Executer commande SQL';
 
 $lang['Multiverse']   = '<b>XNova</b> Uni';
 
-$lang['Overview']     = 'Vue g&eacute;n&eacute;rale';
+$lang['Overview']     = 'Vue générale';
 $lang['Officiers']    = 'Officiers';
 
-$lang['Buildings']    = 'B&acirc;timents';
+$lang['Buildings']    = 'Bâtiments';
 $lang['Research']     = 'Laboratoire';
 $lang['Shipyard']     = 'Chantier spatial';
-$lang['Defense']      = 'D&eacute;fense';
+$lang['Defense']      = 'Défense';
 
-$lang['multi']      = 'D&eacute;claration de multi';
+$lang['multi']      = 'Déclaration de multi';
 
 $lang['Resources']    = 'Ressources';
 $lang['Imperium']     = 'Empire';
@@ -69,33 +69,33 @@ $lang['Board']        = 'Forum';
 $lang['Contact']      = 'Contact';
 $lang['Options']      = 'Options';
 
-$lang['Logout']       = 'D&eacute;connexion';
+$lang['Logout']       = 'Déconnexion';
 
 $lang['Help']         = 'Aide';
-$lang['Rules']        = 'R&egrave;gles';
+$lang['Rules']        = 'Règles';
 
 // User menu titles
-$lang['devlp']        = 'D&eacute;veloppement';
+$lang['devlp']        = 'Développement';
 $lang['navig']        = 'Navigation';
 $lang['observ']       = 'Observatoire';
-$lang['commun']       = 'Communaut&eacute;';
+$lang['commun']       = 'Communauté';
 $lang['infog']        = 'Informations';
 
 // Administrator menu links
-$lang['adm_over']     = 'Vue g&eacute;n&eacute;rale';
+$lang['adm_over']     = 'Vue générale';
 $lang['adm_conf']     = 'Configuration';
-$lang['adm_reset']    = 'Remise &agrave; z&eacute;ro';
-$lang['adm_extcopy']  = 'Copyright &eacute;tendus';
+$lang['adm_reset']    = 'Remise à zéro';
+$lang['adm_extcopy']  = 'Copyright étendus';
 
 $lang['adm_multi']    = 'Liste multi-comptes';
-$lang['multis_declared']    = 'Multicomptes d&eacute;clar&eacute;s';
+$lang['multis_declared']    = 'Multicomptes déclarés';
 
 $lang['adm_plrlst']   = 'Liste des joueurs';
 $lang['adm_plrsch']   = 'Chercher un joueur';
 $lang['adm_addres']   = 'Ajout de ressources';
 
-$lang['adm_pltlst']   = 'Liste des plan&egrave;tes';
-$lang['adm_actplt']   = 'Plan&egrave;tes actives';
+$lang['adm_pltlst']   = 'Liste des planètes';
+$lang['adm_actplt']   = 'Planètes actives';
 
 $lang['adm_moonlst']  = 'Liste des lunes';
 $lang['adm_addmoon']  = 'Ajout de lunes';
@@ -103,7 +103,7 @@ $lang['adm_addmoon']  = 'Ajout de lunes';
 $lang['adm_fleet']    = 'Flottes en vol';
 
 $lang['adm_ban']      = 'Bannir';
-$lang['adm_unban']    = 'D&eacute;bannir';
+$lang['adm_unban']    = 'Débannir';
 
 $lang['adm_chat']     = 'Administration chat';
 $lang['adm_updpt']    = 'Actualiser points';

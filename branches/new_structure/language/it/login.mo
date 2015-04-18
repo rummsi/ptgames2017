@@ -46,7 +46,7 @@ $lang['Login_FailUser'] = 'Questo giocatore non esiste.<br><a href=index.php>Ret
 $lang['log_univ'] = 'Selezionare un universo!';
 $lang['log_reg'] = 'Iscrizioni';
 $lang['log_cred'] = 'Crediti';
-$lang['log_desc'] = '&egrave <strong>gioco di strategia gratuito</strong> amibentato nello spazio. Per giocare, &egrave; sufficiente un browser internet. Iscrivetevi e scoprite il fantastico mondo di';
+$lang['log_desc'] = '&egrave <strong>gioco di strategia gratuito</strong> amibentato nello spazio. Per giocare, è sufficiente un browser internet. Iscrivetevi e scoprite il fantastico mondo di';
 $lang['log_toreg'] = 'Registrati ora!';
 $lang['log_online'] = 'Giocatori online';
 $lang['log_lastreg'] = 'Ultimo iscritto';

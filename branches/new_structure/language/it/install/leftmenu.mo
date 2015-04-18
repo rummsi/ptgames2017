@@ -78,7 +78,7 @@ $lang['Rules']        = 'Regole';
 $lang['devlp']        = 'Sviluppo';
 $lang['navig']        = 'Navigazione';
 $lang['observ']       = 'Osservazione';
-$lang['commun']       = 'Comunit&agrave;';
+$lang['commun']       = 'Comunità';
 $lang['infog']        = 'Informazioni';
 
 // Administrator menu links

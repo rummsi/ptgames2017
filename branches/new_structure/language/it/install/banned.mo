@@ -35,7 +35,7 @@ $lang['ban_from']     = "Da";
 $lang['ban_to']       = "A";
 $lang['ban_by']       = "Per";
 $lang['ban_no']       = "Non ci sono giocatori bannati";
-$lang['ban_thereare'] = "C'&egrave;";
+$lang['ban_thereare'] = "C'è";
 $lang['ban_players']  = "Giocatori bannati";
 
 

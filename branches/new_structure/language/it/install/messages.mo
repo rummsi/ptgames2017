@@ -46,8 +46,8 @@ $lang['type'][100]  = "Visualizza tutti i messaggi";
 
 $lang['mess_pagetitle']      = "Invia messaggio";
 $lang['mess_error']          = "Errore";
-$lang['mess_no_ownerid']     = "Si &egrave; verificato un errore! Un parametro &egrave; errato, si prega di contattare l'Amministratore!";
-$lang['mess_no_ownerpl']     = "Si &egrave; verificato un errore! Il giocatore che si &egrave non possiede pi&ugrave; il pianeta madre!";
+$lang['mess_no_ownerid']     = "Si è verificato un errore! Un parametro è errato, si prega di contattare l'Amministratore!";
+$lang['mess_no_ownerpl']     = "Si è verificato un errore! Il giocatore che si &egrave non possiede più il pianeta madre!";
 $lang['mess_no_owner']       = "Questo giocatore non esiste.";
 $lang['mess_recipient']      = "Destinatario";
 $lang['mess_message']        = "Messaggio";

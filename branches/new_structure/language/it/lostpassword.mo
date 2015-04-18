@@ -31,7 +31,7 @@
 
 $lang['ResetPass'] = "Recupero password";
 $lang['TextPass1'] = "Inserire l'indirizzo email dell'account";
-$lang['TextPass2'] = "come indicato nelle Opzioni. &Egrave; anche quello che &egrave; stato usato per l'iscrizione. Premendo il tasto 'Invia', verr&agrave; creata una nuova password che verr&agrave; inviata per email all'indirizzo indicato.";
+$lang['TextPass2'] = "come indicato nelle Opzioni. &Egrave; anche quello che è stato usato per l'iscrizione. Premendo il tasto 'Invia', verrà creata una nuova password che verrà inviata per email all'indirizzo indicato.";
 $lang['pseudo']    = "Pseudo";
 $lang['email']    = "e-Mail";
 $lang['ButtonSendPass'] = "Invia";

@@ -55,10 +55,10 @@ $lang['make_alliance'] = 'Crea la tua alleanza';
 $lang['search_alliance'] = 'Cerca';
 
 $lang['searched_alliance_availables'] = 'Trovate le seguenti alleanze:';
-$lang['alliance_has_been_maked'] = 'L\'alleanza %s &eacute; stata creata';
+$lang['alliance_has_been_maked'] = 'L\'alleanza %s é stata creata';
 $lang['have_not_tag'] = 'L\'alleanza non ha la TAG';
 $lang['have_not_name'] = 'L\'alleanza non ha il nome';
-$lang['always_exist'] = '%s esiste gi&agrave;';
+$lang['always_exist'] = '%s esiste già';
 $lang['ally_maked'] = '%s creata';
 $lang['ally_notexist'] = 'L\'alleanza non esiste piu';
 $lang['Send_circular_mail'] = 'Invia messaggio circolare';
@@ -87,8 +87,8 @@ $lang['Circular_sended'] = 'Il messaggio � stato inviato agli altri giocatori'
 $lang['it_is_not_posible_to_apply'] = "Impossibile applicare";
 $lang['write_apply'] = "Testo della richiesta";
 $lang['your_apply'] = 'Propria richiesta';
-$lang['apply_registered'] = 'La richiesta &eacute; stata inviata. Riceverete un messaggio se sar&aacute; stata accettata.<br><br><a href=game.php?page=alliance>Indietro</a>';
-$lang['apply_cantbeadded'] = 'La richiesta non pu&oacute; essere inviata!';
+$lang['apply_registered'] = 'La richiesta é stata inviata. Riceverete un messaggio se sará stata accettata.<br><br><a href=game.php?page=alliance>Indietro</a>';
+$lang['apply_cantbeadded'] = 'La richiesta non puó essere inviata!';
 
 $lang['Exit_of_this_alliance'] = "Lascia l'alleanza";
 $lang['Continue'] = "Continua";
@@ -108,7 +108,7 @@ $lang['Destiny'] = 'Destinatario';
 $lang['Write_to_alliance'] = 'Invia una richiesta all\'alleanza [%s]';
 
 $lang['There_is_no_a_text_apply'] = 'L\'alleanza non ha ancora creato un testo';
-$lang['Waiting_a_request_text'] = 'Avete gi&agrave; inviato una richiesta all\'alleanza [%s]. Attendete una risposta.';
+$lang['Waiting_a_request_text'] = 'Avete già inviato una richiesta all\'alleanza [%s]. Attendete una risposta.';
 $lang['Canceled_a_request_text'] = 'L\'alleanza [%s] non ha  accettato la richiesta, � possibile inviare una nuova richiesta o creare una propria alleanza.';
 
 $lang['Online'] = 'Online';

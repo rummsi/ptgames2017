@@ -53,9 +53,9 @@ $lang['ttle'][613] = "General";
 $lang['ttle'][614] = "Raider";
 $lang['ttle'][615] = "Emperor";
 
-$lang['link'][601] = "Recruter le G&eacute;ologue";
+$lang['link'][601] = "Recruter le Géologue";
 $lang['link'][602] = "Recruter l'Amiral";
-$lang['link'][603] = "Recruter l'Ing&eacute;nieur";
+$lang['link'][603] = "Recruter l'Ingénieur";
 $lang['link'][604] = "Recruter le Technocrate";
 $lang['link'][605] = "Recruter le Constructeur";
 $lang['link'][606] = "Recruter le Scientifique";
