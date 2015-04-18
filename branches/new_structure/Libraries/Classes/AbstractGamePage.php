@@ -552,7 +552,7 @@ abstract class AbstractGamePage {
             'FleetCapacity' => $FleetCapacity,
         ));
 
-        return $this->tplObj->fetch('event.fleet.tpl');
+        return $this->tplObj->fetch('overview_fleet_event.tpl');
     }
 
 }
