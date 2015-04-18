@@ -31,7 +31,7 @@
 $lang['adm_opt_title']         = "Configurazione del server";
 $lang['adm_opt_game_settings'] = "Impostazioni del gioco";
 $lang['adm_opt_game_name']     = "Nome del gioco";
-$lang['adm_opt_game_gspeed']   = "Velocit&agrave;<br>(normale = 2500)";
+$lang['adm_opt_game_gspeed']   = "Velocità<br>(normale = 2500)";
 $lang['adm_opt_game_fspeed']   = "Velocit&agrave flotte<br>(normale = 2500)";
 $lang['adm_opt_game_pspeed']   = "Velocit&agrave di produzione<br>(normale = 1)";
 $lang['adm_opt_game_forum']    = "Indirizzo del forum";
@@ -41,7 +41,7 @@ $lang['adm_opt_game_offreaso'] = "Motivo della chiusura";
 $lang['adm_opt_plan_settings'] = "Impostazioni pianeta";
 $lang['adm_opt_plan_initial']  = "Dimensione del<br>pianeta madre";
 $lang['adm_opt_plan_base_inc'] = "Risorse di base ";
-$lang['adm_opt_game_debugmod'] = "Modalit&agrave; debug";
+$lang['adm_opt_game_debugmod'] = "Modalità debug";
 $lang['adm_opt_game_oth_info'] = "Altre informazioni";
 $lang['adm_opt_game_oth_bann'] = "profilo contesto banner";
 $lang['adm_opt_game_oth_news'] = "Visualizza news";

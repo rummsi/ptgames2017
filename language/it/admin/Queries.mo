@@ -30,9 +30,9 @@
 
 $lang['Qry_title']  = "Eseguisci un comando SQL";
 $lang['qry_title'] = "Comando SQL";
-$lang['qry_succesful']    = "Il comando &egrave; stato eseguito correttamente";
+$lang['qry_succesful']    = "Il comando è stato eseguito correttamente";
 $lang['exec_check']    = "Eseguire il comando veramente?";
-$lang['qry_unsuccesful']    = "Un problema &egrave; sorto al momento dell\'esecuzione, ricontrolla la sintassi";
+$lang['qry_unsuccesful']    = "Un problema è sorto al momento dell\'esecuzione, ricontrolla la sintassi";
 
 $lang['md5_doit']   = "[ eseguire ]";
 

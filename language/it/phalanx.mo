@@ -31,7 +31,7 @@
 
 $lang['phl_tbl_title'] = "Scan de lune";
 $lang['phl_tbl_moves'] = "Mouvements de flotte actuels";
-$lang['phl_no_deuter'] = "Vous n'avez pas assez de deut&eacute;rium !";
+$lang['phl_no_deuter'] = "Vous n'avez pas assez de deutérium !";
 
 // Gestion des flottes
 $lang['ov_fleet']            = "flotta";
@@ -54,8 +54,8 @@ $lang['ov_planet_from']      = "il pianeta ";
 $lang['ov_moon_from']        = "la luna ";
 $lang['ov_debris_from']      = "campo detriti ";
 $lang['ov_explo_from']       = "la posizione ";
-$lang['ov_back_planet']      = " &egrave; il pianeta ";
-$lang['ov_back_moon']        = " &agrave; la luna ";
+$lang['ov_back_planet']      = " è il pianeta ";
+$lang['ov_back_moon']        = " à la luna ";
 
 $lang['ov_une_hostile']      = "A ";
 $lang['ov_hostile']          = " nemica ";

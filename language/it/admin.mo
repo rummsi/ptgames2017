@@ -32,9 +32,9 @@
 $lang['usr_email']               = "Email";
 $lang['xp_raid']               = "Classifica flotta";
 $lang['xp_min']               = "Classifica punti";
-$lang['lang_vacancy']    = "Modalit&agrave; vacanza";
-$lang['is_in_vacancy']    = "Modalit&agrave; vacanza attivata";
-$lang['not_in_vacancy']               = "Modalit&agrave; vacanza disattivata";
+$lang['lang_vacancy']    = "Modalità vacanza";
+$lang['is_in_vacancy']    = "Modalità vacanza attivata";
+$lang['not_in_vacancy']               = "Modalità vacanza disattivata";
 $lang['is_banned_lang']               = "No";
 $lang['banned_lang']               = "Bannato?"; 
 $lang['usr_current_planet']               = "Il tuo pianeta";
@@ -56,7 +56,7 @@ $lang['adm_cleaner_title']      = "Cancella coda di costruzione";
 $lang['adm_cleaned']            = "Numero di code cancellate : ";
 $lang['Fix']                    = "Aggiornamento";
 $lang['Welcome_to_Fix_section'] = "Benvenuti nella sezione di aggiornamento";
-$lang['There_is_not_need_fix']  = "L'aggiornamento non &egrave; necessario!";
+$lang['There_is_not_need_fix']  = "L'aggiornamento non è necessario!";
 $lang['Fix_welldone']           = "L'aggiornamento &egrave stato effettuato.";
 
 $lang['adm_ov_title'] = "Riepilogo";
@@ -67,7 +67,7 @@ $lang['adm_ov_here']  = "qui";
 $lang['adm_ov_onlin'] = "Online";
 $lang['adm_ov_ally']  = "Alleanza";
 $lang['adm_ov_point'] = "Punti";
-$lang['adm_ov_activ'] = "Attivit&agrave;";
+$lang['adm_ov_activ'] = "Attività";
 $lang['adm_ov_count'] = "Giocatori online";
 $lang['adm_ov_wrtpm'] = "Invia PM";
 $lang['adm_ov_altpm'] = "[PM]";
@@ -85,16 +85,16 @@ $lang['adm_ul_bana']  = "Bannato";
 $lang['adm_ul_detai'] = "Dettagli";
 $lang['adm_ul_actio'] = "Azione";
 $lang['adm_ul_playe'] = " Giocatore(i)";
-$lang['adm_ul_yes']   = "S&igrave;";
+$lang['adm_ul_yes']   = "Sì";
 $lang['adm_ul_no']    = "No";
 
-$lang['adm_pl_title'] = "Attivit&agrave; dei pianeti";
+$lang['adm_pl_title'] = "Attività dei pianeti";
 $lang['adm_pl_activ'] = "Pianeti attivi";
 $lang['adm_pl_name']  = "Nomi dei pianeti";
 $lang['adm_pl_posit'] = "Posizione";
 $lang['adm_pl_point'] = "Punti";
-$lang['adm_pl_since'] = "Attivit&agrave;";
-$lang['adm_pl_they']  = "C'&egrave;";
+$lang['adm_pl_since'] = "Attività";
+$lang['adm_pl_they']  = "C'è";
 $lang['adm_pl_apla']  = "pianeta(i) attivo(i)";
 
 $lang['adm_am_plid']  = "ID pianeta";
@@ -114,12 +114,12 @@ $lang['adm_bn_mins']  = "Minuti";
 $lang['adm_bn_secs']  = "Secondi";
 $lang['adm_bn_bnbt']  = "Banna";
 $lang['adm_bn_thpl']  = "Il giocatore";
-$lang['adm_bn_isbn']  = "&egrave; stato bannato!";
+$lang['adm_bn_isbn']  = "è stato bannato!";
 
 $lang['adm_rz_ttle']  = "Resetta universo";
 $lang['adm_rz_done']  = " Utente(i) trasferito(i)";
 $lang['adm_rz_conf']  = "Conferma";
-$lang['adm_rz_text']  = "Premendo <i>Accetta</i>, l'universo verr&agrave; resettato. Gli account non verranno cancellati. Questa operazione non pu&ograve; essere annullata e pertanto si consiglia di effettuare un backup!";
+$lang['adm_rz_text']  = "Premendo <i>Accetta</i>, l'universo verrà resettato. Gli account non verranno cancellati. Questa operazione non può essere annullata e pertanto si consiglia di effettuare un backup!";
 $lang['adm_rz_doit']  = "Accetta";
 
 $lang['adm_ch_ttle']  = "Chat dell'amministrazione";

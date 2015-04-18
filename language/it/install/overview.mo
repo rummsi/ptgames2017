@@ -29,7 +29,7 @@
  */
 
 $lang['cancel'] = 'Annulla';
-$lang['Planet_menu'] = 'Men&ugrave; pianeta';
+$lang['Planet_menu'] = 'Menù pianeta';
 $lang['Planet'] = 'Pianeta';
 $lang['Have_new_message'] = 'Hai un nuovo messaggio';
 $lang['Have_new_messages'] = 'Hai %m nuovi messaggi';
@@ -50,8 +50,8 @@ $lang['Position'] = 'Coordinate';
 $lang['Points'] = 'Punteggio';
 $lang['Rank'] = 'posizione';
 $lang['of']                      = "sul";
-$lang['banner']                  = "Votre banni&egrave;re";
-$lang['InfoBanner']              = "Banni&egrave;re-profil pour forum (copier/coller l'adresse pour utilisation):";
+$lang['banner']                  = "Votre bannière";
+$lang['InfoBanner']              = "Bannière-profil pour forum (copier/coller l'adresse pour utilisation):";
 
 $lang['ov_off_expe']             = "esperienza";
 $lang['ov_off_level']            = "livello";
@@ -60,7 +60,7 @@ $lang['ov_off_raids']            = "Raider";
 
 $lang['ov_temp_from']            = "De";
 $lang['ov_temp_unit']            = "&deg;C";
-$lang['ov_temp_to']              = "&agrave;";
+$lang['ov_temp_to']              = "à";
 
 $lang['ov_local_cdr']            = "Campo detriti";
 $lang['ov_pts_build']            = "strutture";
@@ -86,8 +86,8 @@ $lang['confirmed_with_password'] = 'Conferma con password';
 
 
 // Rename planet
-$lang['deletemessage_ok']    = "La colonia &egrave; stata abbandonata";
-$lang['deletemessage_wrong'] = "Il pianeta madre non pu&ograve; essere cancellato!";
+$lang['deletemessage_ok']    = "La colonia è stata abbandonata";
+$lang['deletemessage_wrong'] = "Il pianeta madre non può essere cancellato!";
 $lang['deletemessage_fail']  = "Password errata!";
 // Divers
 $lang['MembersOnline']       = "Utenti online";
@@ -109,7 +109,7 @@ $lang['ov_planet_to_target'] = "il pianeta ";
 $lang['ov_moon_to_target']   = "la luna ";
 $lang['ov_debris_to_target'] = "il campo Detriti ";
 $lang['ov_explo_to_target']  = "la posizione ";
-$lang['ov_mission']          = ". La missione &egrave;: ";
+$lang['ov_mission']          = ". La missione è: ";
 
 $lang['ov_explo_stay']       = " esplora ";
 $lang['ov_explo_mission']    = ". La missione era: ";
