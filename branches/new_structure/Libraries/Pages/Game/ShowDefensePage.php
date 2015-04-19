@@ -30,7 +30,21 @@
  */
 require_once ROOT_PATH . 'includes/classes/Legacies/Empire/Shipyard.php';
 
-function FleetBuildingPage(&$currentPlanet, &$currentUser) {
+class ShowDefensePage extends AbstractGamePage {
+
+    function __construct() {
+        parent::__construct();
+        $this->tplObj->compile_id = 'defense';
+    }
+
+    function show() {
+        global $lang, $resource, $planetrow, $user;
+        DefensesBuildingPage($planetrow, $user);
+
+    }
+}
+
+function DefensesBuildingPage(&$currentPlanet, $currentUser) {
     global $lang, $resource, $dpath;
 
     // S'il n'y a pas de Chantier
@@ -47,13 +61,6 @@ function FleetBuildingPage(&$currentPlanet, &$currentUser) {
                 continue;
             }
             $count = intval($count);
-            if ($count <= 0) {
-                continue;
-            }
-
-            if ($shipId == Legacies_Empire::ID_SHIP_DEATH_STAR && $currentUser['rpg_destructeur'] == 1) { // FIXME: Officers
-                $count = $count * 2;
-            }
 
             $shipyard->appendQueue($shipId, $count);
         }
@@ -62,13 +69,12 @@ function FleetBuildingPage(&$currentPlanet, &$currentUser) {
 
     // -------------------------------------------------------------------------------------------------------
     // Construction de la page du Chantier (car si j'arrive ici ... c'est que j'ai tout ce qu'il faut pour ...
-    $tableIndex = 0;
+    $TabIndex = 0;
+    $PageTable = "";
     $types = include ROOT_PATH . 'includes/data/types.php';
-    foreach ($types[Legacies_Empire::TYPE_SHIP] as $shipId) {
+    foreach ($types[Legacies_Empire::TYPE_DEFENSE] as $shipId) {
         if ($shipyard->checkAvailability($shipId)) {
             // Disponible à la construction
-            // On regarde si on peut en acheter au moins 1
-            $CanBuildOne = IsElementBuyable($currentUser, $currentPlanet, $shipId, false);
             // On regarde combien de temps il faut pour construire l'element
             $BuildOneElementTime = $shipyard->getBuildTime($shipId, 1);
             // Disponibilité actuelle
@@ -87,8 +93,8 @@ function FleetBuildingPage(&$currentPlanet, &$currentUser) {
 
             // Description
             $PageTable .= "<td class=l>";
-            $PageTable .= "<a href=infos.php?gid=" . $shipId . ">" . $shipIdName . "</a> " . $shipIdNbre . "<br />";
-            $PageTable .= "" . $lang['res']['descriptions'][$shipId] . "<br />";
+            $PageTable .= "<a href=infos.php?gid=" . $shipId . ">" . $shipIdName . "</a> " . $shipIdNbre . "<br>";
+            $PageTable .= "" . $lang['res']['descriptions'][$shipId] . "<br>";
             // On affiche le 'prix' avec eventuellement ce qui manque en ressource
             $PageTable .= GetElementPrice($currentUser, $currentPlanet, $shipId, false);
             // On affiche le temps de construction (c'est toujours tellement plus joli)
@@ -96,22 +102,24 @@ function FleetBuildingPage(&$currentPlanet, &$currentUser) {
             $PageTable .= "</td>";
 
             // Case nombre d'elements a construire
-            $PageTable .= "<th class=k>";
+            $PageTable .= "<td class=k>";
             // Si ... Et Seulement si je peux construire je mets la p'tite zone de saisie
-            if ($CanBuildOne) {
-                $tableIndex++;
-                $PageTable .= "<input type=text id=\"fmenge:{$shipId}\" name=fmenge[" . $shipId . "] alt='" . $lang['tech'][$shipId] . "' value=0 tabindex=" . $tableIndex . ">";
-            }
-
             $maxElements = $shipyard->getMaximumBuildableElementsCount($shipId);
+            if (bccomp($maxElements, 0) > 0) {
+                $TabIndex++;
+                $PageTable .= "<input type=\"text\" id=\"fmenge:{$shipId}\" name=\"fmenge[" . $shipId . "]\" alt='" . $lang['tech'][$shipId] . "' size=5 maxlength=5 value=0 tabindex=" . $TabIndex . ">";
 
-            if (MAX_FLEET_OR_DEFS_PER_ROW > 0 && $maxElements > MAX_FLEET_OR_DEFS_PER_ROW) {
-                $maxElements = MAX_FLEET_OR_DEFS_PER_ROW;
-            }
+                if (MAX_FLEET_OR_DEFS_PER_ROW > 0 && $maxElements > MAX_FLEET_OR_DEFS_PER_ROW) {
+                    $maxElements = MAX_FLEET_OR_DEFS_PER_ROW;
+                }
 
-            if ($CanBuildOne) {
                 $PageTable .= '<br /><a onclick="document.getElementById(\'fmenge:' . $shipId . '\').value=\'' . strval($maxElements) . '\';" style="cursor:pointer;">Nombre max (' . number_format($maxElements, 0, ',', '.') . ')</a>';
+            } else if (in_array($shipId, array(Legacies_Empire::ID_DEFENSE_SMALL_SHIELD_DOME, Legacies_Empire::ID_DEFENSE_LARGE_SHIELD_DOME))) {
+                $PageTable .= '<span style="color:red">Limite de construction atteinte.</span>';
+            } else if (in_array($shipId, array(Legacies_Empire::ID_DEFENSE_SMALL_SHIELD_DOME, Legacies_Empire::ID_DEFENSE_LARGE_SHIELD_DOME))) {
+                $PageTable .= '<span style="color:red">Silo plein.</span>';
             }
+            $PageTable .= '</td>';
 
             // Fin de ligne (les 3 cases sont construites !!
             $PageTable .= "</tr>";
@@ -137,7 +145,14 @@ function FleetBuildingPage(&$currentPlanet, &$currentUser) {
     $parse['buildlist'] = $PageTable;
     // Et la liste de constructions en cours dans $BuildQueue;
     $parse['buildinglist'] = $BuildQueue;
-    $page .= parsetemplate(gettemplate('buildings_fleet'), $parse);
+    // fragmento de template
+    $page .= parsetemplate(gettemplate('buildings_defense'), $parse);
 
-    Game::display($page, $lang['Fleet']);
+    Game::display($page, $lang['Defense']);
 }
+
+// Version History
+// - 1.0 Modularisation
+// - 1.1 Correction mise en place d'une limite max d'elements constructibles par ligne
+// - 1.2 Correction limitation bouclier meme si en queue de fabrication
+//
