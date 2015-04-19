@@ -401,6 +401,7 @@ abstract class AbstractGamePage {
                 'Have_new_level_raid' => $HaveNewLevelRaid,
                 'anothers_planets' => $AllPlanets,
                 'Have_new_message' => $Have_new_message,
+                'Events' => $lang['Events'],
             ));
         }
     }
