@@ -87,7 +87,7 @@ abstract class AbstractGamePage {
     }
 
     function ShowNavigationMenus() {
-        global $lang, $user, $game_config, $planetrow, $flotten;
+        global $lang, $user, $game_config, $planetrow, $flotten, $dpath;
 
         includeLang('leftmenu');
 //        includeLang('topnav');
@@ -184,6 +184,20 @@ abstract class AbstractGamePage {
         }
 
         if ($user['id'] != '') {
+            // --- Gestion des messages ----------------------------------------------------------------------
+            $Have_new_message = "";
+            if ($user['new_message'] != 0) {
+                $Have_new_message .= "<tr>";
+                if ($user['new_message'] == 1) {
+                    $Have_new_message .= "<th colspan=4><a href=game.php?page=messages>" . $lang['Have_new_message'] . "</a></th>";
+                } elseif ($user['new_message'] > 1) {
+                    $Have_new_message .= "<th colspan=4><a href=game.php?page=messages>";
+                    $m = pretty_number($user['new_message']);
+                    $Have_new_message .= str_replace('%m', $m, $lang['Have_new_messages']);
+                    $Have_new_message .= "</a></th>";
+                }
+                $Have_new_message .= "</tr>";
+            }
             // -----------------------------------------------------------------------------------------------
             // --- Gestion Officiers -------------------------------------------------------------------------
             // Passage au niveau suivant, ajout du point de compétence et affichage du passage au nouveau level
@@ -202,6 +216,10 @@ abstract class AbstractGamePage {
                     $QryUpdateUser .= "WHERE ";
                     $QryUpdateUser .= "`id` = '" . $user['id'] . "';";
                     doquery($QryUpdateUser, 'users');
+                    $HaveNewLevelMineur = "<tr>";
+                    $HaveNewLevelMineur .= "<th colspan=4><a href=officier.php>" . $lang['Have_new_level_mineur'] . "</a></th>";
+                } else {
+                    $HaveNewLevelMineur = "";
                 }
                 if ($XPRaid >= $XpRaidUp) {
                     $QryUpdateUser = "UPDATE {{table}} SET ";
@@ -210,6 +228,10 @@ abstract class AbstractGamePage {
                     $QryUpdateUser .= "WHERE ";
                     $QryUpdateUser .= "`id` = '" . $user['id'] . "';";
                     doquery($QryUpdateUser, 'users');
+                    $HaveNewLevelRaid = "<tr>";
+                    $HaveNewLevelRaid .= "<th colspan=4><a href=officier.php>" . $lang['Have_new_level_raid'] . "</a></th>";
+                } else {
+                    $HaveNewLevelRaid = "";
                 }
             }
             // -----------------------------------------------------------------------------------------------
@@ -232,7 +254,7 @@ abstract class AbstractGamePage {
                 PlanetResourceUpdate($user, $UserPlanet, time());
                 if ($UserPlanet["id"] != $user["current_planet"] && $UserPlanet['planet_type'] != 3) {
                     $AllPlanets .= "<th>" . $UserPlanet['name'] . "<br>";
-                    @$AllPlanets .= "<a href=\"?page=overview&cp=" . $UserPlanet['id'] . "&re=0\" title=\"" . $UserPlanet['name'] . "\"><img src=\"" . $dpath . "planeten/small/s_" . $UserPlanet['image'] . ".jpg\" height=\"50\" width=\"50\"></a><br>";
+                    $AllPlanets .= "<a href=\"?page=overview&cp=" . $UserPlanet['id'] . "&re=0\" title=\"" . $UserPlanet['name'] . "\"><img src=\"" . $dpath . "planeten/small/s_" . $UserPlanet['image'] . ".jpg\" height=\"50\" width=\"50\"></a><br>";
                     $AllPlanets .= "<center>";
                     if ($UserPlanet['b_building'] != 0) {
                         UpdatePlanetBatimentQueueList($UserPlanet, $user);
@@ -339,41 +361,9 @@ abstract class AbstractGamePage {
                         $planet = mysql_fetch_array($planet_start);
                     }
                     $fpage[$irak['zeit']] .= "<tr><th><div id=\"bxxfs$i\" class=\"z\"></div><font color=\"lime\">" . gmdate("H:i:s", $irak['zeit'] + 1 * 60 * 60) . "</font> </th><th colspan=\"3\"><font color=\"#0099FF\">Une attaque de missiles (" . $irak['anzahl'] . ") de " . $user_planet['name'] . " ";
-                    $fpage[$irak['zeit']] .= '<a href="game.php?page=galaxy&action=3&galaxy=' . $irak["galaxy_angreifer"] . '&system=' . $irak["system_angreifer"] . '&planet=' . $irak["planet_angreifer"] . '">[' . $irak["galaxy_angreifer"] . ':' . $irak["system_angreifer"] . ':' . $irak["planet_angreifer"] . ']</a>';
+                    $fpage[$irak['zeit']] .= '<a href="game.php?page=galaxy&mode=3&galaxy=' . $irak["galaxy_angreifer"] . '&system=' . $irak["system_angreifer"] . '&planet=' . $irak["planet_angreifer"] . '">[' . $irak["galaxy_angreifer"] . ':' . $irak["system_angreifer"] . ':' . $irak["planet_angreifer"] . ']</a>';
                     $fpage[$irak['zeit']] .= ' arrive sur la plan&egrave;te' . $planet["name"] . ' ';
-                    $fpage[$irak['zeit']] .= '<a href="game.php?page=galaxy&action=3&galaxy=' . $irak["galaxy"] . '&system=' . $irak["system"] . '&planet=' . $irak["planet"] . '">[' . $irak["galaxy"] . ':' . $irak["system"] . ':' . $irak["planet"] . ']</a>';
-                    $fpage[$irak['zeit']] .= '</font>';
-                    $fpage[$irak['zeit']] .= InsertJavaScriptChronoApplet("fm", $Record, $time, false);
-                    $fpage[$irak['zeit']] .= "</th>";
-                }
-            }
-            // -----------------------------------------------------------------------------------------------
-            // --- Gestion des attaques missiles -------------------------------------------------------------
-            $iraks_query = doquery("SELECT * FROM {{table}} WHERE owner = '" . $user['id'] . "'", 'iraks');
-            $Record = 4000;
-            while ($irak = mysql_fetch_array($iraks_query)) {
-                $Record++;
-                $fpage[$irak['zeit']] = '';
-                if ($irak['zeit'] > time()) {
-                    $time = $irak['zeit'] - time();
-                    $fpage[$irak['zeit']] .= InsertJavaScriptChronoApplet("fm", $Record, $time, true);
-                    $planet_start = doquery("SELECT * FROM {{table}} WHERE
-						galaxy = '" . $irak['galaxy'] . "' AND
-						system = '" . $irak['system'] . "' AND
-						planet = '" . $irak['planet'] . "' AND
-						planet_type = '1'", 'planets');
-                    $user_planet = doquery("SELECT * FROM {{table}} WHERE
-						galaxy = '" . $irak['galaxy_angreifer'] . "' AND
-						system = '" . $irak['system_angreifer'] . "' AND
-						planet = '" . $irak['planet_angreifer'] . "' AND
-						planet_type = '1'", 'planets', true);
-                    if (mysql_num_rows($planet_start) == 1) {
-                        $planet = mysql_fetch_array($planet_start);
-                    }
-                    $fpage[$irak['zeit']] .= "<tr><th><div id=\"bxxfs$i\" class=\"z\"></div><font color=\"lime\">" . gmdate("H:i:s", $irak['zeit'] + 1 * 60 * 60) . "</font> </th><th colspan=\"3\"><font color=\"#0099FF\">Une attaque de missiles (" . $irak['anzahl'] . ") de " . $user_planet['name'] . " ";
-                    $fpage[$irak['zeit']] .= '<a href="game.php?page=galaxy&action=3&galaxy=' . $irak["galaxy_angreifer"] . '&system=' . $irak["system_angreifer"] . '&planet=' . $irak["planet_angreifer"] . '">[' . $irak["galaxy_angreifer"] . ':' . $irak["system_angreifer"] . ':' . $irak["planet_angreifer"] . ']</a>';
-                    $fpage[$irak['zeit']] .= ' arrive sur la plan&egrave;te' . $planet["name"] . ' ';
-                    $fpage[$irak['zeit']] .= '<a href="game.php?page=galaxy&action=3&galaxy=' . $irak["galaxy"] . '&system=' . $irak["system"] . '&planet=' . $irak["planet"] . '">[' . $irak["galaxy"] . ':' . $irak["system"] . ':' . $irak["planet"] . ']</a>';
+                    $fpage[$irak['zeit']] .= '<a href="game.php?page=galaxy&mode=3&galaxy=' . $irak["galaxy"] . '&system=' . $irak["system"] . '&planet=' . $irak["planet"] . '">[' . $irak["galaxy"] . ':' . $irak["system"] . ':' . $irak["planet"] . ']</a>';
                     $fpage[$irak['zeit']] .= '</font>';
                     $fpage[$irak['zeit']] .= InsertJavaScriptChronoApplet("fm", $Record, $time, false);
                     $fpage[$irak['zeit']] .= "</th>";
@@ -407,6 +397,10 @@ abstract class AbstractGamePage {
                 'XpMinierUp' => $XpMinierUp,
                 'XPRaid' => $XPRaid,
                 'XpRaidUp' => $XpRaidUp,
+                'Have_new_level_mineur' => $HaveNewLevelMineur,
+                'Have_new_level_raid' => $HaveNewLevelRaid,
+                'anothers_planets' => $AllPlanets,
+                'Have_new_message' => $Have_new_message,
             ));
         }
     }

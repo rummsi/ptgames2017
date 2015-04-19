@@ -2,7 +2,6 @@
 {block name="content"}
         <center>
             <script language="JavaScript" type="text/javascript" src="scripts/time.js"></script>
-            <br>
             <table width="519">
                 <tr>
                     <td class="c" colspan="4">
@@ -22,10 +21,6 @@
                     <th colspan="3">{$NumberMembersOnline}</th>
                 </tr>
                 {$NewsFrame}
-                <tr>
-                    <td colspan="4" class="c">{$Events}</td>
-                </tr>
-                {$fleet_list}
                 <tr>
                     <th>{$moon_img}<br>{$moon}</th>
                     <th colspan="2"><img src="{$dpath}planeten/{$planet_image}.jpg" height="200" width="200"><br>{$building}</th>
