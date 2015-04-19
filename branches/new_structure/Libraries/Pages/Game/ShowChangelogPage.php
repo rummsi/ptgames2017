@@ -27,24 +27,33 @@
  * make you unable to use the automatic updates manager. Please refer to the
  * documentation for further information about customizing XNova.
  *
- */
-includeLang('changelog');
+ */class ShowChangelogPage extends AbstractGamePage {
 
-$template = gettemplate('changelog_table');
+    function __construct() {
+        parent::__construct();
+        $this->tplObj->compile_id = 'changelog';
+    }
 
-foreach ($lang['changelog'] as $a => $b) {
+    function show() {
+        global $lang, $title;
+        includeLang('changelog');
 
-    $parse['version_number'] = $a;
-    $parse['description'] = nl2br($b);
+        foreach ($lang['changelog'] as $a => $b) {
+            $this->tplObj->assign(array(
+                'version_number' => $a,
+                'description' => nl2br($b),
+            ));
+            @$body .= $this->tplObj->fetch('changelog_table.tpl');
+        }
+        
+        $this->tplObj->assign(array(
+            'title' => 'Change Log',
+            'Version' => $lang['Version'],
+            'Description' => $lang['Description'],
+            'body' => $body
+        ));
 
-    $body .= parsetemplate($template, $parse);
+        $this->render('changelog_body.tpl');
+    }
+
 }
-
-$parse = $lang;
-$parse['body'] = $body;
-
-$page .= parsetemplate(gettemplate('changelog_body'), $parse);
-
-Game::display($page, "Change Log");
-
-// Created by Perberos. All rights reversed (C) 2006
