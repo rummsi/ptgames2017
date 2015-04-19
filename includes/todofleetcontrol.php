@@ -77,11 +77,11 @@ include(ROOT_PATH . 'includes/functions/ShowGalaxyFooter.php');
 include(ROOT_PATH . 'includes/functions/GetMaxConstructibleElements.php');
 include(ROOT_PATH . 'includes/functions/GetElementRessources.php');
 include(ROOT_PATH . 'includes/functions/ElementBuildListBox.php');
-include(ROOT_PATH . 'includes/functions/ElementBuildListQueue.php');
+include(ROOT_PATH . 'includes/functions/ElementBuildListQueue.php');/*
 include(ROOT_PATH . 'includes/functions/FleetBuildingPage.php');
 include(ROOT_PATH . 'includes/functions/DefensesBuildingPage.php');
 include(ROOT_PATH . 'includes/functions/ResearchBuildingPage.php');
-include(ROOT_PATH . 'includes/functions/BatimentBuildingPage.php');
+include(ROOT_PATH . 'includes/functions/BatimentBuildingPage.php');*/
 include(ROOT_PATH . 'includes/functions/CheckLabSettingsInQueue.php');
 include(ROOT_PATH . 'includes/functions/InsertBuildListScript.php');
 include(ROOT_PATH . 'includes/functions/AddBuildingToQueue.php');

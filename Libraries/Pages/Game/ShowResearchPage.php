@@ -28,6 +28,18 @@
  * documentation for further information about customizing XNova.
  *
  */
+class ShowResearchPage extends AbstractGamePage {
+
+    function __construct() {
+        parent::__construct();
+        $this->tplObj->compile_id = 'research';
+    }
+
+    function show() {
+        global $planetrow, $user, $InResearch, $ThePlanet, $lang, $resource, $reslist, $game_config;
+        ResearchBuildingPage($planetrow, $user, $IsWorking['OnWork'], $IsWorking['WorkOn']);
+    }
+}
 function ResearchBuildingPage(&$CurrentPlanet, $CurrentUser, $InResearch, $ThePlanet) {
     global $lang, $resource, $reslist, $dpath, $game_config, $_GET;
 
