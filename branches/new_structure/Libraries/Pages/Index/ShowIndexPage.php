@@ -102,6 +102,9 @@ EOF;
                 'Login' => $lang['Login'],
                 'PasswordLost' => $lang['PasswordLost'],
                 'log_reg' => $lang['log_reg'],
+                'log_cont' => $lang['log_cont'],
+                'log_Board' => $lang['log_Board'],
+                'log_rules' => $lang['log_rules'],
                 'forum_url' => $game_config['forum_url'],
                 'log_welcome' => $lang['log_welcome'],
                 'servername' => $game_config['game_name'],
@@ -115,7 +118,7 @@ EOF;
                 'users_amount' => $Count['players'],
             ));
 
-            // Test pour prendre le nombre total de joueur et le nombre de joueurs connect�s
+            // Test pour prendre le nombre total de joueur et le nombre de joueurs connectés
             if (isset($_GET['ucount']) && $_GET['ucount'] == 1) {
                 $page = $PlayersOnline['onlinenow'] . "/" . $Count['players'];
                 die($page);
