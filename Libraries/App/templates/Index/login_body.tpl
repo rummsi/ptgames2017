@@ -55,8 +55,9 @@
                 </div>
                 <div id="mainmenu" style="margin-top: 20px;">
                     <a href="index.php?page=reg">{$log_reg}</a>
-                    <a href="{$forum_url}" target="_blank">Forum</a>
-                    <a href="index.php?page=contact">Contact</a>
+                    <a href="{$forum_url}" target="_blank">{$log_Board}</a>
+                    <a href="index.php?page=contact">{$log_cont}</a>
+                    <a href="index.php?page=rules">{$log_rules}</a>
                 </div>
                 <div id="rightmenu" class="rightmenu">
                     <div id="title">{$log_welcome} {$servername}</div>
