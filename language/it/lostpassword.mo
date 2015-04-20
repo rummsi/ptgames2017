@@ -37,4 +37,18 @@ $lang['email']    = "e-Mail";
 $lang['ButtonSendPass'] = "Invia";
 $lang['PassForm'] = "Recupero password";
 
-?>
+$lang['return'] = "Torna alla homepage";
+$lang['Sender'] = "no-reply";
+$lang['Subject'] = "Modifica della password";
+$lang['No_user'] = "L'utente non esiste";
+$lang['Error'] = 'Errore';
+$lang['No_mail'] = "Questo indirizzo e-mail non è utilizzato da qualsiasi giocatore";
+$lang['Enter_login_mail'] = "Inserisci il tuo login o e-mail.";
+$lang['OK_mail_message'] = "La tua password è stata modificata, si prega di trovare qui sotto i dati di accesso";
+$lang['password'] = "password";
+$lang ['Welcome'] = "Ci vediamo su";
+$lang['From'] = "Da";
+$lang['XSender'] = "X-Sender";
+$lang['Password_sent'] = "Password inviata! Controlla la tua casella di posta o la vostra spam.";
+$lang['New_pass'] = "Nuova Password";
+$lang['XSender'] = "Sender";

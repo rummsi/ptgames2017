@@ -36,7 +36,7 @@
                         </tr>
                         <tr>
                             <th colspan="2">
-                                <a href="index.php">Retour a l'accueil</a>
+                                <a href="index.php">{$return}</a>
                             </th>
                         </tr>
                     </tbody>
