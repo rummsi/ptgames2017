@@ -37,13 +37,13 @@ class ShowLostpasswordPage extends AbstractIndexPage {
 
     function show() {
         global $lang, $game_config;
+        includeLang('lostpassword');
+        
         $mailData = array(
             'recipient' => NULL,
-            'sender' => 'no-reply',
-            'subject' => 'XNova:Legacies - Changement de mot de passe'
+            'sender' => $lang['Sender'],
+            'subject' => $game_config['game_name'] . ' - ' . $lang['Subject']
         );
-
-        includeLang('lostpassword');
 
         $username = NULL;
         if (!empty($_POST)) {
@@ -56,7 +56,7 @@ SELECT users.email, users.username
   LIMIT 1
 EOF;
                 if (!($result = doquery($sql, 'users', true))) {
-                    message("Cet utilisateur n'existe pas", 'Erreur', header('Refresh: 10; URL=index.php?page=lostpassword'));
+                    message($lang['no_user'], $lang['Error'], header('Refresh: 10; URL=index.php?page=lostpassword'));
                     die();
                 }
                 list($mailData['recipient'], $username) = $result;
@@ -69,12 +69,12 @@ SELECT users.email, users.username
   LIMIT 1
 EOF;
                 if (!($result = doquery($sql, 'users', true))) {
-                    message("Cet email n'est utilisé par aucun joueur", 'Erreur', header('Refresh: 10; URL=index.php?page=lostpassword'));
+                    message($lang['No_mail'], $lang['Error'], header('Refresh: 10; URL=index.php?page=lostpassword'));
                     die();
                 }
                 list($mailData['recipient'], $username) = $result;
             } else {
-                message('Veuillez entrer votre login ou votre email.', 'Erreur', header('Refresh: 10; URL=index.php?page=lostpassword'));
+                message($lang['Enter_login_mail'], $lang['Error'], header('Refresh: 10; URL=index.php?page=lostpassword'));
                 die();
             }
 
@@ -87,17 +87,17 @@ EOF;
                 }
 
                 $message = <<<EOF
-Votre mot de passe a été modifié, veuillez trouver ci-dessous vos informations de connexion :
+{$lang['OK_mail_message']} :
 login : $username
-mot de passe : $randomPass
+{$lang['password']} : $randomPass
 
-A bientôt sur XNova:Legacies
+{$lang ['Welcome']} {$game_config['game_name']}
 EOF;
 
                 $version = VERSION;
                 $headers = <<<EOF
-From: {$mailData['sender']}
-X-Sender: Legacies/{$version}
+{$lang['From']}: {$mailData['sender']}
+{$lang['XSender']}: {$game_config['game_name']}/{$version}
 
 EOF;
                 mail($mailData['recipient'], $mailData['subject'], $message, $headers);
@@ -109,7 +109,7 @@ UPDATE {{table}} AS users
 EOF;
 
                 doquery($sql, 'users');
-                message('Mot de passe envoyé ! Veuillez regarder votre boite e-mail ou dans vos spam.', 'Nouveau mot de passe', header('Refresh: 5; URL=index.php'));
+                message($lang['Password_sent'], $lang['New_pass'], header('Refresh: 5; URL=index.php'));
                 die();
             }
         }
@@ -124,6 +124,7 @@ EOF;
             'email' => $lang['email'],
             'ButtonSendPass' => $lang['ButtonSendPass'],
             'servername' => $game_config['game_name'],
+            'return' => $lang['return'],
         ));
 
         $this->render('lostpassword.tpl');
