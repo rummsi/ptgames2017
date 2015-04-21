@@ -48,6 +48,7 @@ class ShowContactPage extends AbstractIndexPage {
             'ctc_name' => $lang['ctc_name'],
             'ctc_rank' => $lang['ctc_rank'],
             'ctc_mail' => $lang['ctc_mail'],
+            'ctc_return' => $lang['ctc_return'],
         ));
 
         $this->render('contact_body.tpl');

@@ -28,7 +28,7 @@
                     </tr>
                     <tr>
                         <th colspan="3">
-                            <a href="index.php">Retour</a>
+                            <a href="index.php">{$ctc_return}</a>
                         </th>
                     </tr>
                 </tbody>
