@@ -27,7 +27,7 @@
  * documentation for further information about customizing XNova.
  *
  */
-
+$lang['Builds']           = "Buildings";
 $lang['Fleet']            = "Fleet";
 $lang['Defense']          = "Defense";
 $lang['Research']         = "Research Laboratory";
