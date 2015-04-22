@@ -136,11 +136,6 @@ class ShowDefensePage extends AbstractGamePage {
             $BuildQueue = $this->tplObj->fetch('buildings_script.tpl');
         }
 
-        $parse = $lang;
-        // La page se trouve dans $PageTable;
-        $parse['buildlist'] = $PageTable;
-        // Et la liste de constructions en cours dans $BuildQueue;
-        $parse['buildinglist'] = $BuildQueue;
         // fragmento de template
         $this->tplObj->assign(array(
             'title' => $lang['Defense'],
