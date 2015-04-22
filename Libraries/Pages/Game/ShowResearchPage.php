@@ -36,184 +36,188 @@ class ShowResearchPage extends AbstractGamePage {
     }
 
     function show() {
-        global $planetrow, $user, $InResearch, $ThePlanet, $lang, $resource, $reslist, $game_config;
-        ResearchBuildingPage($planetrow, $user, $IsWorking['OnWork'], $IsWorking['WorkOn']);
-    }
-}
-function ResearchBuildingPage(&$CurrentPlanet, $CurrentUser, $InResearch, $ThePlanet) {
-    global $lang, $resource, $reslist, $dpath, $game_config, $_GET;
+        global $planetrow, $user, $InResearch, $ThePlanet, $lang, $resource, $reslist, $game_config, $dpath;
+        includeLang('buildings');
 
-    $NoResearchMessage = "";
-    $bContinue = true;
-    // Deja est qu'il y a un laboratoire sur la planete ???
-    if ($CurrentPlanet[$resource[31]] == 0) {
-        message($lang['no_laboratory'], $lang['Research']);
-    }
-    // Ensuite ... Est ce que la labo est en cours d'upgrade ?
-    if (!CheckLabSettingsInQueue($CurrentPlanet)) {
-        $NoResearchMessage = $lang['labo_on_update'];
-        $bContinue = false;
-    }
+        // Mise a jour de la liste de construction si necessaire
+        UpdatePlanetBatimentQueueList($planetrow, $user);
+        $IsWorking = HandleTechnologieBuild($planetrow, $user);
 
-    // Boucle d'interpretation des eventuelles commandes
-    if (isset($_GET['cmd'])) {
-        $TheCommand = $_GET['cmd'];
-        $Techno = $_GET['tech'];
-        if (is_numeric($Techno)) {
-            if (in_array($Techno, $reslist['tech'])) {
-                // Bon quand on arrive ici ... On sait deja qu'on a une technologie valide
-                if (is_array($ThePlanet)) {
-                    $WorkingPlanet = $ThePlanet;
-                } else {
-                    $WorkingPlanet = $CurrentPlanet;
-                }
-                switch ($TheCommand) {
-                    case 'cancel':
-                        if ($ThePlanet['b_tech_id'] == $Techno) {
-                            $costs = GetBuildingPrice($CurrentUser, $WorkingPlanet, $Techno);
-                            $WorkingPlanet['metal'] += $costs['metal'];
-                            $WorkingPlanet['crystal'] += $costs['crystal'];
-                            $WorkingPlanet['deuterium'] += $costs['deuterium'];
-                            $WorkingPlanet['b_tech_id'] = 0;
-                            $WorkingPlanet["b_tech"] = 0;
-                            $CurrentUser['b_tech_planet'] = 0;
-                            $UpdateData = true;
-                            $InResearch = false;
-                        }
-                        break;
-                    case 'search':
-                        if (IsTechnologieAccessible($CurrentUser, $WorkingPlanet, $Techno) &&
-                                IsElementBuyable($CurrentUser, $WorkingPlanet, $Techno)) {
-                            $costs = GetBuildingPrice($CurrentUser, $WorkingPlanet, $Techno);
-                            $WorkingPlanet['metal'] -= $costs['metal'];
-                            $WorkingPlanet['crystal'] -= $costs['crystal'];
-                            $WorkingPlanet['deuterium'] -= $costs['deuterium'];
-                            $WorkingPlanet["b_tech_id"] = $Techno;
-                            $WorkingPlanet["b_tech"] = time() + GetBuildingTime($CurrentUser, $WorkingPlanet, $Techno);
-                            $CurrentUser["b_tech_planet"] = $WorkingPlanet["id"];
-                            $UpdateData = true;
-                            $InResearch = true;
-                        }
-                        break;
-                }
-                if ($UpdateData == true) {
-                    $QryUpdatePlanet = "UPDATE {{table}} SET ";
-                    $QryUpdatePlanet .= "`b_tech_id` = '" . $WorkingPlanet['b_tech_id'] . "', ";
-                    $QryUpdatePlanet .= "`b_tech` = '" . $WorkingPlanet['b_tech'] . "', ";
-                    $QryUpdatePlanet .= "`metal` = '" . $WorkingPlanet['metal'] . "', ";
-                    $QryUpdatePlanet .= "`crystal` = '" . $WorkingPlanet['crystal'] . "', ";
-                    $QryUpdatePlanet .= "`deuterium` = '" . $WorkingPlanet['deuterium'] . "' ";
-                    $QryUpdatePlanet .= "WHERE ";
-                    $QryUpdatePlanet .= "`id` = '" . $WorkingPlanet['id'] . "';";
-                    doquery($QryUpdatePlanet, 'planets');
-
-                    $QryUpdateUser = "UPDATE {{table}} SET ";
-                    $QryUpdateUser .= "`b_tech_planet` = '" . $CurrentUser['b_tech_planet'] . "' ";
-                    $QryUpdateUser .= "WHERE ";
-                    $QryUpdateUser .= "`id` = '" . $CurrentUser['id'] . "';";
-                    doquery($QryUpdateUser, 'users');
-                }
-                if (is_array($ThePlanet)) {
-                    $ThePlanet = $WorkingPlanet;
-                } else {
-                    $CurrentPlanet = $WorkingPlanet;
-                    if ($TheCommand == 'search') {
-                        $ThePlanet = $CurrentPlanet;
-                    }
-                }
-            }
-        } else {
+        $NoResearchMessage = "";
+        $bContinue = true;
+        // Deja est qu'il y a un laboratoire sur la planete ???
+        if ($planetrow[$resource[31]] == 0) {
+            message($lang['no_laboratory'], $lang['Research']);
+        }
+        // Ensuite ... Est ce que la labo est en cours d'upgrade ?
+        if (!CheckLabSettingsInQueue($planetrow)) {
+            $NoResearchMessage = $lang['labo_on_update'];
             $bContinue = false;
         }
-    }
 
-    $TechRowTPL = gettemplate('buildings_research_row');
-    $TechScrTPL = gettemplate('buildings_research_script');
+        // Boucle d'interpretation des eventuelles commandes
+        if (isset($_GET['cmd'])) {
+            $TheCommand = $_GET['cmd'];
+            $Techno = $_GET['tech'];
+            if (is_numeric($Techno)) {
+                if (in_array($Techno, $reslist['tech'])) {
+                    // Bon quand on arrive ici ... On sait deja qu'on a une technologie valide
+                    if (is_array($ThePlanet)) {
+                        $WorkingPlanet = $ThePlanet;
+                    } else {
+                        $WorkingPlanet = $planetrow;
+                    }
+                    switch ($TheCommand) {
+                        case 'cancel':
+                            if ($ThePlanet['b_tech_id'] == $Techno) {
+                                $costs = GetBuildingPrice($user, $WorkingPlanet, $Techno);
+                                $WorkingPlanet['metal'] += $costs['metal'];
+                                $WorkingPlanet['crystal'] += $costs['crystal'];
+                                $WorkingPlanet['deuterium'] += $costs['deuterium'];
+                                $WorkingPlanet['b_tech_id'] = 0;
+                                $WorkingPlanet["b_tech"] = 0;
+                                $user['b_tech_planet'] = 0;
+                                $UpdateData = true;
+                                $InResearch = false;
+                            }
+                            break;
+                        case 'search':
+                            if (IsTechnologieAccessible($user, $WorkingPlanet, $Techno) &&
+                                    IsElementBuyable($user, $WorkingPlanet, $Techno)) {
+                                $costs = GetBuildingPrice($user, $WorkingPlanet, $Techno);
+                                $WorkingPlanet['metal'] -= $costs['metal'];
+                                $WorkingPlanet['crystal'] -= $costs['crystal'];
+                                $WorkingPlanet['deuterium'] -= $costs['deuterium'];
+                                $WorkingPlanet["b_tech_id"] = $Techno;
+                                $WorkingPlanet["b_tech"] = time() + GetBuildingTime($user, $WorkingPlanet, $Techno);
+                                $user["b_tech_planet"] = $WorkingPlanet["id"];
+                                $UpdateData = true;
+                                $InResearch = true;
+                            }
+                            break;
+                    }
+                    if ($UpdateData == true) {
+                        $QryUpdatePlanet = "UPDATE {{table}} SET ";
+                        $QryUpdatePlanet .= "`b_tech_id` = '" . $WorkingPlanet['b_tech_id'] . "', ";
+                        $QryUpdatePlanet .= "`b_tech` = '" . $WorkingPlanet['b_tech'] . "', ";
+                        $QryUpdatePlanet .= "`metal` = '" . $WorkingPlanet['metal'] . "', ";
+                        $QryUpdatePlanet .= "`crystal` = '" . $WorkingPlanet['crystal'] . "', ";
+                        $QryUpdatePlanet .= "`deuterium` = '" . $WorkingPlanet['deuterium'] . "' ";
+                        $QryUpdatePlanet .= "WHERE ";
+                        $QryUpdatePlanet .= "`id` = '" . $WorkingPlanet['id'] . "';";
+                        doquery($QryUpdatePlanet, 'planets');
 
-    foreach ($lang['tech'] as $Tech => $TechName) {
-        if ($Tech > 105 && $Tech <= 199) {
-            if (IsTechnologieAccessible($CurrentUser, $CurrentPlanet, $Tech)) {
-                $RowParse = $lang;
-                $RowParse['dpath'] = $dpath;
-                $RowParse['tech_id'] = $Tech;
-                $building_level = $CurrentUser[$resource[$Tech]];
-                $RowParse['tech_level'] = ($building_level == 0) ? "" : "( " . $lang['level'] . " " . $building_level . " )";
-                $RowParse['tech_name'] = $TechName;
-                $RowParse['tech_descr'] = $lang['res']['descriptions'][$Tech];
-                $RowParse['tech_price'] = GetElementPrice($CurrentUser, $CurrentPlanet, $Tech);
-                $SearchTime = GetBuildingTime($CurrentUser, $CurrentPlanet, $Tech);
-                $RowParse['search_time'] = ShowBuildTime($SearchTime);
-                $RowParse['tech_restp'] = $lang['Rest_ress'] . " " . GetRestPrice($CurrentUser, $CurrentPlanet, $Tech, true);
-                $CanBeDone = IsElementBuyable($CurrentUser, $CurrentPlanet, $Tech);
+                        $QryUpdateUser = "UPDATE {{table}} SET ";
+                        $QryUpdateUser .= "`b_tech_planet` = '" . $user['b_tech_planet'] . "' ";
+                        $QryUpdateUser .= "WHERE ";
+                        $QryUpdateUser .= "`id` = '" . $user['id'] . "';";
+                        doquery($QryUpdateUser, 'users');
+                    }
+                    if (is_array($ThePlanet)) {
+                        $ThePlanet = $WorkingPlanet;
+                    } else {
+                        $planetrow = $WorkingPlanet;
+                        if ($TheCommand == 'search') {
+                            $ThePlanet = $planetrow;
+                        }
+                    }
+                }
+            } else {
+                $bContinue = false;
+            }
+        }
 
-                // Arbre de decision de ce que l'on met dans la derniere case de la ligne
-                if (!$InResearch) {
-                    $LevelToDo = 1 + $CurrentUser[$resource[$Tech]];
-                    if ($CanBeDone) {
-                        if (!CheckLabSettingsInQueue($CurrentPlanet)) {
-                            // Le laboratoire est cours de construction ou d'evolution
-                            // Et dans la config du systeme, on ne permet pas la recherche pendant
-                            // que le labo est en construction ou evolution !
+        foreach ($lang['tech'] as $Tech => $TechName) {
+            if ($Tech > 105 && $Tech <= 199) {
+                if (IsTechnologieAccessible($user, $planetrow, $Tech)) {
+                    $this->tplObj->assign(array(
+                        'dpath' => $dpath,
+                        'tech_id' => $Tech,
+                    ));
+                    $building_level = $user[$resource[$Tech]];
+                    $this->tplObj->assign(array(
+                        'tech_level' => ($building_level == 0) ? "" : "( " . $lang['level'] . " " . $building_level . " )",
+                        'tech_name' => $TechName,
+                        'tech_descr' => $lang['res']['descriptions'][$Tech],
+                        'tech_price' => GetElementPrice($user, $planetrow, $Tech),
+                    ));
+                    $SearchTime = GetBuildingTime($user, $planetrow, $Tech);
+                    $this->tplObj->assign(array(
+                        'search_time' => ShowBuildTime($SearchTime),
+                        'tech_restp' => $lang['Rest_ress'] . " " . GetRestPrice($user, $planetrow, $Tech, true),
+                    ));
+                    $CanBeDone = IsElementBuyable($user, $planetrow, $Tech);
+
+                    // Arbre de decision de ce que l'on met dans la derniere case de la ligne
+                    if (!$InResearch) {
+                        $LevelToDo = 1 + $user[$resource[$Tech]];
+                        if ($CanBeDone) {
+                            if (!CheckLabSettingsInQueue($planetrow)) {
+                                // Le laboratoire est cours de construction ou d'evolution
+                                // Et dans la config du systeme, on ne permet pas la recherche pendant
+                                // que le labo est en construction ou evolution !
+                                if ($LevelToDo == 1) {
+                                    $TechnoLink = "<font color=#FF0000>" . $lang['Rechercher'] . "</font>";
+                                } else {
+                                    $TechnoLink = "<font color=#FF0000>" . $lang['Rechercher'] . "<br>" . $lang['level'] . " " . $LevelToDo . "</font>";
+                                }
+                            } else {
+                                $TechnoLink = "<a href=\"game.php?page=research&cmd=search&tech=" . $Tech . "\">";
+                                if ($LevelToDo == 1) {
+                                    $TechnoLink .= "<font color=#00FF00>" . $lang['Rechercher'] . "</font>";
+                                } else {
+                                    $TechnoLink .= "<font color=#00FF00>" . $lang['Rechercher'] . "<br>" . $lang['level'] . " " . $LevelToDo . "</font>";
+                                }
+                                $TechnoLink .= "</a>";
+                            }
+                        } else {
                             if ($LevelToDo == 1) {
                                 $TechnoLink = "<font color=#FF0000>" . $lang['Rechercher'] . "</font>";
                             } else {
                                 $TechnoLink = "<font color=#FF0000>" . $lang['Rechercher'] . "<br>" . $lang['level'] . " " . $LevelToDo . "</font>";
                             }
-                        } else {
-                            $TechnoLink = "<a href=\"game.php?page=buildings&mode=research&cmd=search&tech=" . $Tech . "\">";
-                            if ($LevelToDo == 1) {
-                                $TechnoLink .= "<font color=#00FF00>" . $lang['Rechercher'] . "</font>";
+                        }
+                    } else {
+                        // Y a une construction en cours
+                        if ($ThePlanet["b_tech_id"] == $Tech) {
+                            // C'est le technologie en cours de recherche
+                            if ($ThePlanet['id'] != $planetrow['id']) {
+                                // Ca se passe sur une autre planete
+                                $this->tplObj->assign(array(
+                                    'tech_time' => $ThePlanet["b_tech"] - time(),
+                                    'tech_name' => $lang['on'] . "<br>" . $ThePlanet["name"],
+                                    'tech_home' => $ThePlanet["id"],
+                                    'tech_id' => $ThePlanet["b_tech_id"],
+                                ));
                             } else {
-                                $TechnoLink .= "<font color=#00FF00>" . $lang['Rechercher'] . "<br>" . $lang['level'] . " " . $LevelToDo . "</font>";
+                                // Ca se passe sur la planete actuelle
+                                $this->tplObj->assign(array(
+                                    'tech_time' => $planetrow["b_tech"] - time(),
+                                    'tech_name' => "",
+                                    'tech_home' => $planetrow["id"],
+                                    'tech_id' => $planetrow["b_tech_id"],
+                                ));
                             }
-                            $TechnoLink .= "</a>";
-                        }
-                    } else {
-                        if ($LevelToDo == 1) {
-                            $TechnoLink = "<font color=#FF0000>" . $lang['Rechercher'] . "</font>";
+                            $TechnoLink = $this->tplObj->fetch('buildings_research_script.tpl');
                         } else {
-                            $TechnoLink = "<font color=#FF0000>" . $lang['Rechercher'] . "<br>" . $lang['level'] . " " . $LevelToDo . "</font>";
+                            // Technologie pas en cours recherche
+                            $TechnoLink = "<center>-</center>";
                         }
                     }
-                } else {
-                    // Y a une construction en cours
-                    if ($ThePlanet["b_tech_id"] == $Tech) {
-                        // C'est le technologie en cours de recherche
-                        $bloc = $lang;
-                        if ($ThePlanet['id'] != $CurrentPlanet['id']) {
-                            // Ca se passe sur une autre planete
-                            $bloc['tech_time'] = $ThePlanet["b_tech"] - time();
-                            $bloc['tech_name'] = $lang['on'] . "<br>" . $ThePlanet["name"];
-                            $bloc['tech_home'] = $ThePlanet["id"];
-                            $bloc['tech_id'] = $ThePlanet["b_tech_id"];
-                        } else {
-                            // Ca se passe sur la planete actuelle
-                            $bloc['tech_time'] = $CurrentPlanet["b_tech"] - time();
-                            $bloc['tech_name'] = "";
-                            $bloc['tech_home'] = $CurrentPlanet["id"];
-                            $bloc['tech_id'] = $CurrentPlanet["b_tech_id"];
-                        }
-                        $TechnoLink = parsetemplate($TechScrTPL, $bloc);
-                    } else {
-                        // Technologie pas en cours recherche
-                        $TechnoLink = "<center>-</center>";
-                    }
+                    $this->tplObj->assign('tech_link', $TechnoLink);
+                    @$TechnoList .= $this->tplObj->fetch('buildings_research_row.tpl');
                 }
-                $RowParse['tech_link'] = $TechnoLink;
-                $TechnoList .= parsetemplate($TechRowTPL, $RowParse);
             }
         }
+
+        $this->tplObj->assign(array(
+            'title' => $lang['Research'],
+            'noresearch' => $NoResearchMessage,
+            'technolist' => $TechnoList,
+            'Construire' => $lang['Construire'],
+        ));
+
+        $this->render('buildings_research.tpl');
     }
 
-    $PageParse = $lang;
-    $PageParse['noresearch'] = $NoResearchMessage;
-    $PageParse['technolist'] = $TechnoList;
-    $Page .= parsetemplate(gettemplate('buildings_research'), $PageParse);
-
-    Game::display($Page, $lang['Research']);
 }
-
-// History revision
-// 1.0 - Release initiale / modularisation / Reecriture / Commentaire / Mise en forme
-// 1.1 - BUG affichage de la techno en cours
-// 1.2 - Restructuration modification pour permettre d'annuller proprement une techno en cours
