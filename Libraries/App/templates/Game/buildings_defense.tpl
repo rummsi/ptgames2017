@@ -1,19 +1,24 @@
-<center>
-<br />
-<table align="top">
-<tr>
-	<td>
-		<form action="game.php?page=buildings&mode=defense" method="post">
-		<table width=530>
-		{buildlist}
-		<tr>
-			<td class="c" colspan=2 align="center"><input type="submit" value="{Construire}"></td>
-		</tr>
-		</table>
-		</form>
-	</td>
-	  <td valign="top"></td>
-	</tr>
-</table>
-{buildinglist}
-</center>
+{block name="title" prepend}{/block}
+{block name="content"}
+        <center>
+            <br />
+            <table align="top">
+                <tr>
+                    <td>
+                        <form action="game.php?page=defense" method="post">
+                            <table width=530>
+                                {$buildlist}
+                                <tr>
+                                    <td class="c" colspan=2 align="center">
+                                        <input type="submit" value="{$Construire}">
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </td>
+                    <td valign="top"></td>
+                </tr>
+            </table>
+            {$buildinglist}
+        </center>
+{/block}

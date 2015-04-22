@@ -141,7 +141,7 @@ SQL_EOF;
             );
 
         foreach ($this->_resourcesTypes as $resourceType) {
-            $this->_currentPlanet[$resourceType] = bcsub($this->_currentPlanet[$resourceType], $resourcesUsed[$resourceType]);
+            @$this->_currentPlanet[$resourceType] = bcsub($this->_currentPlanet[$resourceType], $resourcesUsed[$resourceType]);
         }
 
         return $this;
