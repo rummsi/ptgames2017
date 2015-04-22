@@ -4,7 +4,7 @@
 <script type="text/javascript">
 //<![CDATA[
 var date = new Date();
-var data = {data};
+var data = {$data};
 var select = document.getElementById('buildList');
 
 setInterval(function(){
