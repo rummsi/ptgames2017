@@ -32,7 +32,7 @@ function GetBuildingTime ($user, $planet, $Element) {
 	global $pricelist, $resource, $reslist, $game_config;
 
 
-	$level = ($planet[$resource[$Element]]) ? $planet[$resource[$Element]] : isset($user[$resource[$Element]]);
+	$level = (isset($planet[$resource[$Element]])) ? isset($planet[$resource[$Element]]) : isset($user[$resource[$Element]]);
 	if       (in_array($Element, $reslist['build'])) {
 		// Pour un batiment ...
 		$cost_metal   = floor($pricelist[$Element]['metal']   * pow($pricelist[$Element]['factor'], $level));
