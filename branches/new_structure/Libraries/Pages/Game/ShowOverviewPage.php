@@ -1,32 +1,32 @@
 <?php
 
-/**
- * This file is part of XNova:Legacies
- *
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
- * @see http://www.xnova-ng.org/
- *
- * Copyright (c) 2009-Present, XNova Support Team <http://www.xnova-ng.org>
- * All rights reserved.
- *
+/*
+ * XNovaPT
+ * Copyright (C) 2012
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
+ * 
+ * You should read the GNU General Public License, see <http://www.gnu.org/licenses/>.
+ * 
+ * XNovaPT
+ * @author XNovaPT Team <xnovaptteam@gmail.com>
+ * ShowOverviewPage.php
+ * @license http://www.gnu.org/licenses/gpl.html GNU GPLv3 License
+ * @version 0.01  23/abr/2015 19:00:35
+ */
+
+/**
+ * Description of ShowOverviewPage
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *                                --> NOTICE <--
- *  This file is part of the core development branch, changing its contents will
- * make you unable to use the automatic updates manager. Please refer to the
- * documentation for further information about customizing XNova.
- *
+ * @author author XNovaPT Team <xnovaptteam@gmail.com>
  */
 class ShowOverviewPage extends AbstractGamePage {
 
@@ -42,7 +42,7 @@ class ShowOverviewPage extends AbstractGamePage {
 
         //CheckPlanetUsedFields ($lunarow);
         $action = isset($_GET['action']) ? $_GET['action'] : '';
-        $_POST['deleteid'] = intval(@$_POST['deleteid']);
+        $_POST['deleteid'] = intval(filter_input(INPUT_POST, 'deleteid'));
         $pl = mysql_real_escape_string(isset($_GET['pl']) ? $_GET['pl'] : 0);
 
         includeLang('resources');
@@ -51,7 +51,7 @@ class ShowOverviewPage extends AbstractGamePage {
         switch ($action) {
             case 'renameplanet':
                 // -----------------------------------------------------------------------------------------------
-                if ($_POST['action'] == $lang['namer']) {
+                if (filter_input(INPUT_POST, 'action') == $lang['namer']) {
                     // Reponse au changement de nom de la planete
                     $UserPlanet = addslashes(CheckInputStrings($_POST['newname']));
                     $newname = mysql_escape_string(trim($UserPlanet));
@@ -66,7 +66,7 @@ class ShowOverviewPage extends AbstractGamePage {
                             doquery("UPDATE {{table}} SET `name` = '" . $newname . "' WHERE `galaxy` = '" . $planetrow['galaxy'] . "' AND `system` = '" . $planetrow['system'] . "' AND `lunapos` = '" . $planetrow['planet'] . "' LIMIT 1;", "lunas");
                         }
                     }
-                } elseif ($_POST['action'] == $lang['colony_abandon']) {
+                } elseif (filter_input(INPUT_POST, 'action') == $lang['colony_abandon']) {
                     // Cas d'abandon d'une colonie
                     // Affichage de la forme d'abandon de colonie
                     $this->tplObj->assign(array(
@@ -89,7 +89,7 @@ class ShowOverviewPage extends AbstractGamePage {
 
                     // On affiche la forme pour l'abandon de la colonie
                     $this->render('overview_deleteplanet.tpl');
-                } elseif ($_POST['kolonieloeschen'] == 1 && $_POST['deleteid'] == $user['current_planet']) {
+                } elseif (filter_input(INPUT_POST, 'kolonieloeschen') == 1 && $_POST['deleteid'] == $user['current_planet']) {
                     // Controle du mot de passe pour abandon de colonie
                     if (md5($_POST['pw']) == $user["password"] && $user['id_planet'] != $user['current_planet']) {
 
@@ -302,7 +302,7 @@ class ShowOverviewPage extends AbstractGamePage {
                     $OnlineUsers = doquery("SELECT COUNT(*) FROM {{table}} WHERE onlinetime>='" . (time() - 15 * 60) . "'", 'users', 'true');
                     $this->tplObj->assign(array(
                         'NumberMembersOnline' => $OnlineUsers[0],
-                        'title' => $lang['Overview'],
+                        'title' => 'Overview',
                         'Planet_menu' => $lang['Planet_menu'],
                         'Planet' => $lang['Planet'],
                         'Server_time' => $lang['Server_time'],
