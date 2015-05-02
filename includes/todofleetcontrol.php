@@ -94,7 +94,7 @@ include(ROOT_PATH . 'includes/functions/CancelBuildingFromQueue.php');
 include(ROOT_PATH . 'includes/functions/SetNextQueueElementOnTop.php');
 include(ROOT_PATH . 'includes/functions/ShowTopNavigationBar.php');
 include(ROOT_PATH . 'includes/functions/SetSelectedPlanet.php');
-include(ROOT_PATH . 'includes/functions/MessageForm.php');
+//include(ROOT_PATH . 'includes/functions/MessageForm.php');
 include(ROOT_PATH . 'includes/functions/PlanetResourceUpdate.php');
 include(ROOT_PATH . 'includes/functions/BuildFlyingFleetTable.php');
 include(ROOT_PATH . 'includes/functions/SendNewPassword.php');
