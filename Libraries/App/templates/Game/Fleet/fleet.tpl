@@ -38,9 +38,6 @@
                 {isset($noslotfree)}
             </table>
         </center>
-            
-            
-            
         <center>
             <form action="game.php?page=floten1" method="post">
                 <table width="519" border="0" cellpadding="0" cellspacing="1">
