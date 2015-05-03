@@ -119,7 +119,7 @@ class ShowFleetPage extends AbstractGamePage {
                     $fleet_mess .= "</form>";
                 }
             } else {
-                $fleet_mess .= "&nbsp;-&nbsp;";
+                $fleet_mess = "&nbsp;-&nbsp;";
             }
             $this->tplObj->assign(array(
                 'i' => $i,
