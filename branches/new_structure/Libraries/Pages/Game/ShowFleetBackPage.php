@@ -37,17 +37,15 @@ class ShowFleetBackPage extends AbstractGamePage {
 
     function show() {
         global $user, $lang;
+        
         includeLang('fleet');
-
         $BoxTitle = $lang['fl_error'];
         $TxtColor = "red";
         $BoxMessage = $lang['fl_notback'];
-        if (is_numeric($_POST['fleetid'])) {
+        if (is_numeric(@$_POST['fleetid'])) {
             $fleetid = intval($_POST['fleetid']);
-
             $FleetRow = doquery("SELECT * FROM {{table}} WHERE `fleet_id` = '" . $fleetid . "';", 'fleets', true);
             $i = 0;
-
             if ($FleetRow['fleet_owner'] == $user['id']) {
                 if ($FleetRow['fleet_mess'] == 0) {
                     if ($FleetRow['fleet_end_stay'] != 0) {
@@ -68,7 +66,6 @@ class ShowFleetBackPage extends AbstractGamePage {
                     }
                     // Allez houste au bout du compte y a la maison !! (E.T. phone home.............)
                     $ReturnFlyingTime = $CurrentFlyingTime + time();
-
                     $QryUpdateFleet = "UPDATE {{table}} SET ";
                     $QryUpdateFleet .= "`fleet_start_time` = '" . (time() - 1) . "', ";
                     $QryUpdateFleet .= "`fleet_end_stay` = '0', ";
@@ -78,7 +75,6 @@ class ShowFleetBackPage extends AbstractGamePage {
                     $QryUpdateFleet .= "WHERE ";
                     $QryUpdateFleet .= "`fleet_id` = '" . $fleetid . "';";
                     doquery($QryUpdateFleet, 'fleets');
-
                     $BoxTitle = $lang['fl_sback'];
                     $TxtColor = "lime";
                     $BoxMessage = $lang['fl_isback'];
@@ -89,17 +85,14 @@ class ShowFleetBackPage extends AbstractGamePage {
                 $BoxMessage = $lang['fl_onlyyours'];
             }
         }
+        $this->tplObj->assign(array(
+            'title' => $lang['fl_title'],
+            'color' => $TxtColor,
+            'title_mess' => $BoxTitle,
+            'mes' => $BoxMessage,
+        ));
 
-        message("<font color=\"" . $TxtColor . "\">" . $BoxMessage . "</font>", $BoxTitle, "fleet.php", 2);
-
-// -----------------------------------------------------------------------------------------------------------
-// History version
-// Updated by Chlorel. 22 Jan 2008 (String extraction, bug corrections, code uniformisation
-// Created by DxPpLmOs. All rights reversed (C) 2007
-// Updated by -= MoF =- for Deutsches Ugamela Forum
-// 06.12.2007 - 08:41
-// Open Source
-// (c) by MoF
+        $this->render('Fleet/fleetback.tpl');
     }
 
 }
