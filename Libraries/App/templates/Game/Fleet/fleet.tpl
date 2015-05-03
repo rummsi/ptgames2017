@@ -34,8 +34,8 @@
                     <th>{$fl_order}</th>
                 </tr>
                 {$fleet_table}
-                {isset($no_fleet)}
-                {isset($noslotfree)}
+                {$no_fleet}
+                {$noslotfree}
             </table>
         </center>
         <center>

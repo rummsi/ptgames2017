@@ -141,6 +141,7 @@ class ShowFleetPage extends AbstractGamePage {
             $fleet_table .= $this->tplObj->fetch('Fleet/fleet_table.tpl');
         }
         // Y a pas de flottes en vol ... on met des '-'
+        $no_fleet = "";
         if ($i == 0) {
             $no_fleet = "<tr>";
             $no_fleet .= "<th>-</th>";
@@ -154,10 +155,10 @@ class ShowFleetPage extends AbstractGamePage {
             $no_fleet .= "<th>-</th>";
             $no_fleet .= "<th>-</th>";
             $no_fleet .= "</tr>";
-            $this->tplObj->assign('no_fleet', $no_fleet);
         }
+        $noslotfree = "";
         if ($MaxFlottes == $MaxFlyingFleets) {
-            $this->tplObj->assign('noslotfree', "<tr height=\"20\"><th colspan=\"9\"><font color=\"red\">" . $lang['fl_noslotfree'] . "</font></th></tr>");
+            $noslotfree = "<tr height=\"20\"><th colspan=\"9\"><font color=\"red\">" . $lang['fl_noslotfree'] . "</font></th></tr>";
         }
         if (!$planetrow) {
             message($lang['fl_noplanetrow'], $lang['fl_error']);
@@ -239,6 +240,8 @@ class ShowFleetPage extends AbstractGamePage {
             'target_mission' => $target_mission,
             'have_ships1' => $have_ships1,
             'fleet_table' => $fleet_table,
+            'no_fleet' => $no_fleet,
+            'noslotfree' => $noslotfree,
         ));
         $this->render('Fleet/fleet.tpl');
     }
