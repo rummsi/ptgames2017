@@ -44,7 +44,6 @@ class ShowFloten2Page extends AbstractGamePage {
         $system = intval($_POST['system']);
         $planet = intval($_POST['planet']);
         $planettype = intval($_POST['planettype']);
-
         // Test d'existance et de proprieté de la planete
         $YourPlanet = false;
         $UsedPlanet = false;
@@ -76,18 +75,18 @@ class ShowFloten2Page extends AbstractGamePage {
             } elseif ($_POST['ship210'] >= 1 && !$YourPlanet) {
                 $missiontype = array(6 => $lang['type_mission'][6]);
             }
-            if ($_POST['ship202'] >= 1 ||
-                    $_POST['ship203'] >= 1 ||
-                    $_POST['ship204'] >= 1 ||
-                    $_POST['ship205'] >= 1 ||
-                    $_POST['ship206'] >= 1 ||
-                    $_POST['ship207'] >= 1 ||
-                    $_POST['ship210'] >= 1 ||
-                    $_POST['ship211'] >= 1 ||
-                    $_POST['ship213'] >= 1 ||
-                    $_POST['ship214'] >= 1 ||
-                    $_POST['ship215'] >= 1 ||
-                    $_POST['ship216'] >= 1) {
+            if (@$_POST['ship202'] >= 1 ||
+                    @$_POST['ship203'] >= 1 ||
+                    @$_POST['ship204'] >= 1 ||
+                    @$_POST['ship205'] >= 1 ||
+                    @$_POST['ship206'] >= 1 ||
+                    @$_POST['ship207'] >= 1 ||
+                    @$_POST['ship210'] >= 1 ||
+                    @$_POST['ship211'] >= 1 ||
+                    @$_POST['ship213'] >= 1 ||
+                    @$_POST['ship214'] >= 1 ||
+                    @$_POST['ship215'] >= 1 ||
+                    @$_POST['ship216'] >= 1) {
                 if (!$YourPlanet) {
                     $missiontype[1] = $lang['type_mission'][1];
                     $missiontype[5] = $lang['type_mission'][5];
@@ -97,20 +96,13 @@ class ShowFloten2Page extends AbstractGamePage {
         } elseif ($_POST['ship209'] >= 1 || $_POST['ship208'] >= 1) {
             $missiontype[3] = $lang['type_mission'][3];
         }
-        if ($YourPlanet)
+        if ($YourPlanet) {
             $missiontype[4] = $lang['type_mission'][4];
-
-        if ($_POST['planettype'] == 3 &&
-                ($_POST['ship214'] ||
-                $_POST['ship213']) &&
-                !$YourPlanet &&
-                $UsedPlanet) {
+        }
+        if ($_POST['planettype'] == 3 && ($_POST['ship214'] || $_POST['ship213']) && !$YourPlanet && $UsedPlanet) {
             $missiontype[2] = $lang['type_mission'][2];
         }
-        if ($_POST['planettype'] == 3 &&
-                ($_POST['ship214'] >= 1 || $_POST['ship216'] >= 1) &&
-                !$YourPlanet &&
-                $UsedPlanet) {
+        if ($_POST['planettype'] == 3 && ($_POST['ship214'] >= 1 || $_POST['ship216'] >= 1) && !$YourPlanet && $UsedPlanet) {
             $missiontype[9] = $lang['type_mission'][9];
         }
         $fleetarray = unserialize(base64_decode(str_rot13($_POST["usedfleet"])));
@@ -155,126 +147,103 @@ class ShowFloten2Page extends AbstractGamePage {
         } elseif ($_POST['thisplanettype'] == 3) {
             $TableTitle = "" . $_POST['thisgalaxy'] . ":" . $_POST['thissystem'] . ":" . $_POST['thisplanet'] . " - " . $lang['fl_moon'] . "";
         }
-        $page = "<script type=\"text/javascript\" src=\"scripts/flotten.js\">\n</script>";
-        $page .= "<script type=\"text/javascript\">\n";
-        $page .= "function getStorageFaktor() {\n";
-        $page .= "    return 1;\n";
-        $page .= "}\n";
-        $page .= "</script>\n";
-        $page .= "<br><center>";
-        $page .= "<form action=\"game.php?page=floten3\" method=\"post\">\n";
-        $page .= "<input type=\"hidden\" name=\"thisresource1\"  value=\"" . floor($planetrow["metal"]) . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"thisresource2\"  value=\"" . floor($planetrow["crystal"]) . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"thisresource3\"  value=\"" . floor($planetrow["deuterium"]) . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"consumption\"    value=\"" . $consumption . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"dist\"           value=\"" . $distance . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"speedfactor\"    value=\"" . $_POST['speedfactor'] . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"thisgalaxy\"     value=\"" . $_POST["thisgalaxy"] . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"thissystem\"     value=\"" . $_POST["thissystem"] . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"thisplanet\"     value=\"" . $_POST["thisplanet"] . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"galaxy\"         value=\"" . $_POST["galaxy"] . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"system\"         value=\"" . $_POST["system"] . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"planet\"         value=\"" . $_POST["planet"] . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"thisplanettype\" value=\"" . $_POST["thisplanettype"] . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"planettype\"     value=\"" . $_POST["planettype"] . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"speedallsmin\"   value=\"" . $_POST["speedallsmin"] . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"speed\"          value=\"" . $_POST['speed'] . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"speedfactor\"    value=\"" . $_POST["speedfactor"] . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"usedfleet\"      value=\"" . $_POST["usedfleet"] . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"maxepedition\"   value=\"" . $_POST['maxepedition'] . "\" />\n";
-        $page .= "<input type=\"hidden\" name=\"curepedition\"   value=\"" . $_POST['curepedition'] . "\" />\n";
+        $fleetarray_shyp_count = "";
         foreach ($fleetarray as $Ship => $Count) {
-            $page .= "<input type=\"hidden\" name=\"ship" . $Ship . "\"        value=\"" . $Count . "\" />\n";
-            $page .= "<input type=\"hidden\" name=\"capacity" . $Ship . "\"    value=\"" . $pricelist[$Ship]['capacity'] . "\" />\n";
-            $page .= "<input type=\"hidden\" name=\"consumption" . $Ship . "\" value=\"" . GetShipConsumption($Ship, $user) . "\" />\n";
-            $page .= "<input type=\"hidden\" name=\"speed" . $Ship . "\"       value=\"" . GetFleetMaxSpeed("", $Ship, $user) . "\" />\n";
+            $fleetarray_shyp_count .= "<input type=\"hidden\" name=\"ship" . $Ship . "\"        value=\"" . $Count . "\" />\n";
+            $fleetarray_shyp_count .= "<input type=\"hidden\" name=\"capacity" . $Ship . "\"    value=\"" . $pricelist[$Ship]['capacity'] . "\" />\n";
+            $fleetarray_shyp_count .= "<input type=\"hidden\" name=\"consumption" . $Ship . "\" value=\"" . GetShipConsumption($Ship, $user) . "\" />\n";
+            $fleetarray_shyp_count .= "<input type=\"hidden\" name=\"speed" . $Ship . "\"       value=\"" . GetFleetMaxSpeed("", $Ship, $user) . "\" />\n";
         }
-        $page .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"1\" width=\"519\">\n";
-        $page .= "<tbody>\n";
-        $page .= "<tr align=\"left\" height=\"20\">\n";
-        $page .= "<td class=\"c\" colspan=\"2\">" . $TableTitle . "</td>\n";
-        $page .= "</tr>\n";
-        $page .= "<tr align=\"left\" valign=\"top\">\n";
-        $page .= "<th width=\"50%\">\n";
-        $page .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"259\">\n";
-        $page .= "<tbody>\n";
-        $page .= "<tr height=\"20\">\n";
-        $page .= "<td class=\"c\" colspan=\"2\">" . $lang['fl_mission'] . "</td>\n";
-        $page .= "</tr>\n";
-        $page .= $MissionSelector;
-        $page .= "</tbody>\n";
-        $page .= "</table>\n";
-        $page .= "</th>\n";
-        $page .= "<th>\n";
-        $page .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"259\">\n";
-        $page .= "<tbody>\n";
-        $page .= "<tr height=\"20\">\n";
-        $page .= "<td colspan=\"3\" class=\"c\">" . $lang['fl_ressources'] . "</td>\n";
-        $page .= "</tr><tr height=\"20\">\n";
-        $page .= "<th>" . $lang['Metal'] . "</th>\n";
-        $page .= "<th><a href=\"javascript:maxResource('1');\">" . $lang['fl_selmax'] . "</a></th>\n";
-        $page .= "<th><input name=\"resource1\" alt=\"" . $lang['Metal'] . " " . floor($planetrow["metal"]) . "\" size=\"10\" onchange=\"calculateTransportCapacity();\" type=\"text\"></th>\n";
-        $page .= "</tr><tr height=\"20\">\n";
-        $page .= "<th>" . $lang['Crystal'] . "</th>\n";
-        $page .= "<th><a href=\"javascript:maxResource('2');\">" . $lang['fl_selmax'] . "</a></th>\n";
-        $page .= "<th><input name=\"resource2\" alt=\"" . $lang['Crystal'] . " " . floor($planetrow["crystal"]) . "\" size=\"10\" onchange=\"calculateTransportCapacity();\" type=\"text\"></th>\n";
-        $page .= "</tr><tr height=\"20\">\n";
-        $page .= "<th>" . $lang['Deuterium'] . "</th>\n";
-        $page .= "<th><a href=\"javascript:maxResource('3');\">" . $lang['fl_selmax'] . "</a></th>\n";
-        $page .= "<th><input name=\"resource3\" alt=\"" . $lang['Deuterium'] . " " . floor($planetrow["deuterium"]) . "\" size=\"10\" onchange=\"calculateTransportCapacity();\" type=\"text\"></th>\n";
-        $page .= "</tr><tr height=\"20\">\n";
-        $page .= "<th>" . $lang['fl_space_left'] . "</th>\n";
-        $page .= "<th colspan=\"2\"><div id=\"remainingresources\">-</div></th>\n";
-        $page .= "</tr><tr height=\"20\">\n";
-        $page .= "<th colspan=\"3\"><a href=\"javascript:maxResources()\">" . $lang['fl_allressources'] . "</a></th>\n";
-        $page .= "</tr><tr height=\"20\">\n";
-        $page .= "<th colspan=\"3\">&nbsp;</th>\n";
-        $page .= "</tr>\n";
+        $if_planet16 = "";
         if ($planet == 16) {
-            $page .= "<tr height=\"20\">";
-            $page .= "<td class=\"c\" colspan=\"3\">" . $lang['fl_expe_staytime'] . "</td>";
-            $page .= "</tr>";
-            $page .= "<tr height=\"20\">";
-            $page .= "<th colspan=\"3\">";
-            $page .= "<select name=\"expeditiontime\" >";
-            $page .= "<option value=\"1\">1</option>";
-            $page .= "<option value=\"2\">2</option>";
-            $page .= "</select>";
-            $page .= $lang['fl_expe_hours'];
-            $page .= "</th>";
-            $page .= "</tr>";
-        } elseif ($missiontype[5] != '') {
-            $page .= "<tr height=\"20\">";
-            $page .= "<td class=\"c\" colspan=\"3\">" . $lang['fl_expe_staytime'] . "</td>";
-            $page .= "</tr>";
-            $page .= "<tr height=\"20\">";
-            $page .= "<th colspan=\"3\">";
-            $page .= "<select name=\"holdingtime\" >";
-            $page .= "<option value=\"0\">0</option>";
-            $page .= "<option value=\"1\">1</option>";
-            $page .= "<option value=\"2\">2</option>";
-            $page .= "<option value=\"4\">4</option>";
-            $page .= "<option value=\"8\">8</option>";
-            $page .= "<option value=\"16\">16</option>";
-            $page .= "<option value=\"32\">32</option>";
-            $page .= "</select>";
-            $page .= $lang['fl_expe_hours'];
-            $page .= "</th>";
-            $page .= "</tr>";
+            $if_planet16 .= "<tr height=\"20\">";
+            $if_planet16 .= "<td class=\"c\" colspan=\"3\">" . $lang['fl_expe_staytime'] . "</td>";
+            $if_planet16 .= "</tr>";
+            $if_planet16 .= "<tr height=\"20\">";
+            $if_planet16 .= "<th colspan=\"3\">";
+            $if_planet16 .= "<select name=\"expeditiontime\" >";
+            $if_planet16 .= "<option value=\"1\">1</option>";
+            $if_planet16 .= "<option value=\"2\">2</option>";
+            $if_planet16 .= "</select>";
+            $if_planet16 .= $lang['fl_expe_hours'];
+            $if_planet16 .= "</th>";
+            $if_planet16 .= "</tr>";
+        } elseif (@$missiontype[5] != '') {
+            $if_planet16 .= "<tr height=\"20\">";
+            $if_planet16 .= "<td class=\"c\" colspan=\"3\">" . $lang['fl_expe_staytime'] . "</td>";
+            $if_planet16 .= "</tr>";
+            $if_planet16 .= "<tr height=\"20\">";
+            $if_planet16 .= "<th colspan=\"3\">";
+            $if_planet16 .= "<select name=\"holdingtime\" >";
+            $if_planet16 .= "<option value=\"0\">0</option>";
+            $if_planet16 .= "<option value=\"1\">1</option>";
+            $if_planet16 .= "<option value=\"2\">2</option>";
+            $if_planet16 .= "<option value=\"4\">4</option>";
+            $if_planet16 .= "<option value=\"8\">8</option>";
+            $if_planet16 .= "<option value=\"16\">16</option>";
+            $if_planet16 .= "<option value=\"32\">32</option>";
+            $if_planet16 .= "</select>";
+            $if_planet16 .= $lang['fl_expe_hours'];
+            $if_planet16 .= "</th>";
+            $if_planet16 .= "</tr>";
         }
-        $page .= "</tbody>\n";
-        $page .= "</table>\n";
-        $page .= "</th>\n";
-        $page .= "</tr><tr height=\"20\">\n";
-        $page .= "<th colspan=\"2\"><input accesskey=\"z\" value=\"" . $lang['fl_continue'] . "\" type=\"submit\"></th>\n";
-        $page .= "</tr>\n";
-        $page .= "</tbody>\n";
-        $page .= "</table>\n";
-        $page .= "</form></center>\n";
-        Game::display($page, $lang['fl_title']);
 
-        // Updated by Chlorel. 16 Jan 2008 (String extraction, bug corrections, code uniformisation)
-        // Created by Perberos. All rights reversed (C) 2006
+        $this->tplObj->assign(array(
+            'title' => $lang['fl_title'],
+            'pmetal' => floor($planetrow["metal"]),
+            'pcrystal' => floor($planetrow["crystal"]),
+            'pdeuterium' => floor($planetrow["deuterium"]),
+            'consumption' => $consumption,
+            'distance' => $distance,
+            'Pspeedfactor' => $_POST['speedfactor'],
+            'Pthisgalaxy' => $_POST["thisgalaxy"],
+            'Pthissystem' => $_POST["thissystem"],
+            'Pthisplanet' => $_POST["thisplanet"],
+            'Pgalaxy' => $_POST["galaxy"],
+            'Psystem' => $_POST["system"],
+            'Pplanet' => $_POST["planet"],
+            'Pthisplanettype' => $_POST["thisplanettype"],
+            'Pplanettype' => $_POST["planettype"],
+            'Pspeedallsmin' => $_POST["speedallsmin"],
+            'Pspeed' => $_POST['speed'],
+            'Pspeedfactor' => $_POST["speedfactor"],
+            'Pusedfleet' => $_POST["usedfleet"],
+            'Pmaxepedition' => $_POST['maxepedition'],
+            'Pcurepedition' => $_POST['curepedition'],
+            'fleetarray_shyp_count' => $fleetarray_shyp_count,
+            'TableTitle' => $TableTitle,
+            'fl_mission' => $lang['fl_mission'],
+            'if_planet16' => $if_planet16,
+            'fl_planet' => $lang['fl_planet'],
+            'fl_moon' => $lang['fl_moon'],
+            'type_mission' => $lang['type_mission'],
+            'fl_expe_warning' => $lang['fl_expe_warning'],
+            'fl_bad_mission' => $lang['fl_bad_mission'],
+            'MissionSelector' => $MissionSelector,
+            'fl_ressources' => $lang['fl_ressources'],
+            'Metal' => $lang['Metal'],
+            'fl_selmax' => $lang['fl_selmax'],
+            'fmetal' => floor($planetrow['metal']),
+            'Crystal' => $lang['Crystal'],
+            'fcrystal' => floor($planetrow['crystal']),
+            'Deuterium' => $lang['Deuterium'],
+            'fdeuterium' => floor($planetrow['deuterium']),
+            'i' => $i,
+            'a' => $a,
+            'mission_cheked' => (filter_input(INPUT_POST, 'target_mission') == $a ? " checked=\"checked\"" : ""),
+            'b' => $b,
+            'fl_space_left' => $lang['fl_space_left'],
+            'fl_allressources' => $lang['fl_allressources'],
+            'planet' => $planet,
+            'fl_expe_staytime' => $lang['fl_expe_staytime'],
+            'fl_expe_hours' => $lang['fl_expe_hours'],
+            'fl_expe_staytime' => $lang['fl_expe_staytime'],
+            'fleetarray' => $fleetarray,
+            'pricelist' => $pricelist,
+            'fl_continue' => $lang['fl_continue'],
+        ));
+
+        $this->render('Fleet/floten2.tpl');
     }
 
 }
