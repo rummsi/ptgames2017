@@ -37,103 +37,58 @@ class ShowFleetShortcutPage extends AbstractGamePage {
 
     function show() {
         global $user;
-        
-        $mode = $_GET['mode'];
-        $a = $_GET['a'];
+
+        $a = filter_input(INPUT_GET, 'a');
         /*
           Este script es original xD
           La funcion de este script es administrar una variable del $user
           Permite agregar y quitar arrays...
          */
         //Lets start!
-        if (isset($_GET['mode'])) {
-            if ($_POST) {
-                //Pegamos el texto :P
-                if ($_POST["n"] == "") {
-                    $_POST["n"] = "Unbenannt";
-                }
-
-                $r = strip_tags($_POST[n]) . "," . intval($_POST[g]) . "," . intval($_POST[s]) . "," . intval($_POST[p]) . "," . intval($_POST[t]) . "\r\n";
-                $user['fleet_shortcut'] .= $r;
-                doquery("UPDATE {{table}} SET fleet_shortcut='{$user[fleet_shortcut]}' WHERE id={$user[id]}", "users");
-                message("Le raccourcis a &eacute;t&eacute; enregistr&eacute; !", "Enregistrment", "game.php?page=fleetshortcut");
-            }
-            $page = "<form method=POST><table border=0 cellpadding=0 cellspacing=1 width=519>
-	<tr height=20>
-	<td colspan=2 class=c>Nom [Galaxie/Syst&egrave;me solaire/Plan&egrave;te]</td>
-	</tr><tr height=\"20\"><th>
-	<input type=text name=n value=\"$g\" size=32 maxlength=32 title=\"Name\">
-	<input type=text name=g value=\"$s\" size=3 maxlength=1 title=\"Galaxie\">
-	<input type=text name=s value=\"$p\" size=3 maxlength=3 title=\"Sonnensystem\">
-	<input type=text name=p value=\"$t\" size=3 maxlength=3 title=\"Planet\">
-	 <select name=t>";
-            $page .= '<option value="1"' . (($c[4] == 1) ? " SELECTED" : "") . ">Plan&egrave;te</option>";
-            $page .= '<option value="2"' . (($c[4] == 2) ? " SELECTED" : "") . ">D&eacute;bris</option>";
-            $page .= '<option value="3"' . (($c[4] == 3) ? " SELECTED" : "") . ">Lune</option>";
-            $page .= "</select>
-	</th></tr><tr>
-	<th><input type=\"reset\" value=\"Zur&uuml;cksetzen\"> <input type=\"submit\" value=\"Enregistrer\">";
-            //Muestra un (L) si el destino pertenece a luna, lo mismo para escombros
-            $page .= "</th></tr>";
-            $page .= '<tr><td colspan=2 class=c><a href=game.php?page=fleetshortcut>Effacer</a></td></tr></tr></table></form>';
-        } elseif (isset($_GET['a'])) {
-            if ($_POST) {
+        if (isset($a)) {
+            if (filter_input_array(INPUT_POST)) {
                 //Armamos el array...
                 $scarray = explode("\r\n", $user['fleet_shortcut']);
-                if ($_POST["delete"]) {
+                if (filter_input(INPUT_POST, 'delete')) {
                     unset($scarray[$a]);
                     $user['fleet_shortcut'] = implode("\r\n", $scarray);
-                    doquery("UPDATE {{table}} SET fleet_shortcut='{$user[fleet_shortcut]}' WHERE id={$user[id]}", "users");
-                    message("Shortcut wurde gel&ouml;scht", "Gel&ouml;scht", "game.php?page=fleetshortcut");
+                    doquery("UPDATE {{table}} SET fleet_shortcut='{$user['fleet_shortcut']}' WHERE id={$user['id']}", "users");
+                    message("Shortcut wurde gel&ouml;scht", "Gel&ouml;scht", header("Refresh: 3;url=game.php?page=fleetshortcut"));
                 } else {
                     $r = explode(",", $scarray[$a]);
-                    $r[0] = strip_tags($_POST['n']);
-                    $r[1] = intval($_POST['g']);
-                    $r[2] = intval($_POST['s']);
-                    $r[3] = intval($_POST['p']);
-                    $r[4] = intval($_POST['t']);
+                    $r[0] = strip_tags(filter_input(INPUT_POST, 'n'));
+                    $r[1] = intval(filter_input(INPUT_POST, 'g'));
+                    $r[2] = intval(filter_input(INPUT_POST, 's'));
+                    $r[3] = intval(filter_input(INPUT_POST, 'p'));
+                    $r[4] = intval(filter_input(INPUT_POST, 't'));
                     $scarray[$a] = implode(",", $r);
                     $user['fleet_shortcut'] = implode("\r\n", $scarray);
-                    doquery("UPDATE {{table}} SET fleet_shortcut='{$user[fleet_shortcut]}' WHERE id={$user[id]}", "users");
-                    message("Le raccourcis a &eacute;t&eacute; &eacute;dit&eacute; !.", "Editer", "game.php?page=fleetshortcut");
+                    doquery("UPDATE {{table}} SET fleet_shortcut='{$user['fleet_shortcut']}' WHERE id={$user['id']}", "users");
+                    message("Le raccourcis a &eacute;t&eacute; enregistr&eacute; !", "Enregistrer", header("Refresh: 3;url=game.php?page=fleetshortcut"));
                 }
             }
             if ($user['fleet_shortcut']) {
-
                 $scarray = explode("\r\n", $user['fleet_shortcut']);
-                $c = explode(',', $scarray[$a]);
-
-                $page = "<form method=POST><table border=0 cellpadding=0 cellspacing=1 width=519>
-	<tr height=20>
-	<td colspan=2 class=c>Editer: {$c[0]} [{$c[1]}:{$c[2]}:{$c[3]}]</td>
-	</tr>";
-                //if($i==0){$page .= "";}
-                $page .= "<tr height=\"20\"><th>
-		<input type=hidden name=a value=$a>
-		<input type=text name=n value=\"{$c[0]}\" size=32 maxlength=32>
-		<input type=text name=g value=\"{$c[1]}\" size=3 maxlength=1>
-		<input type=text name=s value=\"{$c[2]}\" size=3 maxlength=3>
-		<input type=text name=p value=\"{$c[3]}\" size=3 maxlength=3>
-		 <select name=t>";
-                $page .= '<option value="1"' . (($c[4] == 1) ? " SELECTED" : "") . ">Plan&egrave;te</option>";
-                $page .= '<option value="2"' . (($c[4] == 2) ? " SELECTED" : "") . ">D&eacute;bris</option>";
-                $page .= '<option value="3"' . (($c[4] == 3) ? " SELECTED" : "") . ">Lune</option>";
-                $page .= "</select>
-		</th></tr><tr>
-		<th><input type=reset value=\"Reset\"> <input type=submit value=\"Enregistrer\"> <input type=submit name=delete value=\"Supprimer\">";
-                $page .= "</th></tr>";
             } else {
-                $page .= message("Le raccourcis a &eacute;t&eacute; enregistr&eacute; !", "Enregistrer", "game.php?page=fleetshortcut");
+                message("Le raccourcis a &eacute;t&eacute; enregistr&eacute; !", "Enregistrer", header("Refresh: 3;url=game.php?page=fleetshortcut"));
             }
+            $this->tplObj->assign(array(
+                'title' => 'Shortcutmanager',
+                'fsc_edit' => 'Editer',
+                'fsc_planet' => 'Plan&egrave;te',
+                'fsc_debris' => 'D&eacute;bris',
+                'fsc_moon' => 'Lune',
+                'fsc_reset' => 'Reset',
+                'fsc_save' => 'Enregistrer',
+                'fsc_remove' => 'Supprimer',
+                'fsc_return' => 'Retour',
+                'user' => $user,
+                'c' => explode(',', $scarray[$a]),
+                'scarray' => explode("\r\n", $user['fleet_shortcut']),
+            ));
 
-            $page .= '<tr><td colspan=2 class=c><a href=game.php?page=fleetshortcut>Retour</a></td></tr></tr></table></form>';
+            $this->render('Fleet/fleetshortcut_edit.tpl');
         } else {
-
-            $page = '<table border="0" cellpadding="0" cellspacing="1" width="519">
-	<tr height="20">
-	<td colspan="2" class="c">Raccourcis(<a href="game.php?page=fleetshortcut&mode=add">Ajout</a>)</td>
-	</tr>';
-
             if ($user['fleet_shortcut']) {
                 /*
                   Dentro de fleet_shortcut, se pueden almacenar las diferentes direcciones
@@ -144,22 +99,6 @@ class ShowFleetShortcutPage extends AbstractGamePage {
                 $i = $e = 0;
                 foreach ($scarray as $a => $b) {
                     if ($b != "") {
-                        $c = explode(',', $b);
-                        if ($i == 0) {
-                            $page .= "<tr height=\"20\">";
-                        }
-                        $page .= "<th><a href=\"game.php?page=fleetshortcut&a=" . $e++ . "\">";
-                        $page .= "{$c[0]} {$c[1]}:{$c[2]}:{$c[3]}";
-                        //Muestra un (L) si el destino pertenece a luna, lo mismo para escombros
-                        if ($c[4] == 2) {
-                            $page .= " (E)";
-                        } elseif ($c[4] == 3) {
-                            $page .= " (L)";
-                        }
-                        $page .= "</a></th>";
-                        if ($i == 1) {
-                            $page .= "</tr>";
-                        }
                         if ($i == 1) {
                             $i = 0;
                         } else {
@@ -167,18 +106,59 @@ class ShowFleetShortcutPage extends AbstractGamePage {
                         }
                     }
                 }
-                if ($i == 1) {
-                    $page .= "<th></th></tr>";
-                }
-            } else {
-                $page .= "<th colspan=\"2\">Pas de Raccourcis</th>";
             }
+            $this->tplObj->assign(array(
+                'title' => 'Shortcutmanager',
+                'fsc_shortcut' => 'Raccourcis',
+                'fsc_add' => 'Ajout',
+                'fsc_s_debris' => '(E)',
+                'fsc_s_moon' => '(L)',
+                'fsc_no_shortcuts' => 'Pas de Raccourcis',
+                'fsc_return' => 'Retour',
+                'user' => $user,
+                'scarray' => explode("\r\n", $user['fleet_shortcut']),
+            ));
 
-            $page .= '<tr><td colspan=2 class=c><a href=game.php?page=fleet>Retour</a></td></tr></tr></table>';
+            $this->render('Fleet/fleetshortcut.tpl');
         }
-        Game::display($page, "Shortcutmanager");
+    }
 
-// Created by Perberos. All rights reversed (C) 2006
+    function add() {
+        global $user, $lang;
+
+        $n = filter_input(INPUT_POST, 'n');
+        if (filter_input_array(INPUT_POST)) {
+            //Pegamos el texto :P
+            if ($n == "") {
+                $n = $lang['fsc_anonymous'];
+            }
+            $r = strip_tags(filter_input(INPUT_POST, 'n')) . "," . intval(filter_input(INPUT_POST, 'g')) . "," . intval(filter_input(INPUT_POST, 's')) . "," . intval(filter_input(INPUT_POST, 'p')) . "," . intval(filter_input(INPUT_POST, 't')) . "\r\n";
+            $user['fleet_shortcut'] .= $r;
+            doquery("UPDATE {{table}} SET fleet_shortcut='{$user['fleet_shortcut']}' WHERE id={$user['id']}", "users");
+            message("Le raccourcis a &eacute;t&eacute; enregistr&eacute; !", "Enregistrment", header("Refresh: 3;url=game.php?page=fleetshortcut"));
+        }
+        $this->tplObj->assign(array(
+            'title' => 'Shortcutmanager',
+            'fsc_title_add' => 'Nom [Galaxie/Syst&egrave;me solaire/Plan&egrave;te]',
+            'fsc_name' => 'Name',
+            'fsc_galaxy' => 'Galaxie',
+            'fsc_solar_s' => 'Sonnensystem',
+            'fsc_planet' => 'Planet',
+            'fsc_debris' => 'D&eacute;bris',
+            'fsc_moon' => 'Lune',
+            'g' => intval(filter_input(INPUT_POST, 'g')),
+            's' => intval(filter_input(INPUT_POST, 's')),
+            'p' => intval(filter_input(INPUT_POST, 'p')),
+            't' => intval(filter_input(INPUT_POST, 't')),
+            'fsc_return' => 'Zur&uuml;cksetzen',
+            'fsc_save' => 'Enregistrer',
+            'fsc_del' => 'Effacer',
+            'user' => $user,
+            'scarray' => explode("\r\n", $user['fleet_shortcut']),
+            'r' => strip_tags(filter_input(INPUT_POST, 'n')) . "," . intval(filter_input(INPUT_POST, 'g')) . "," . intval(filter_input(INPUT_POST, 's')) . "," . intval(filter_input(INPUT_POST, 'p')) . "," . intval(filter_input(INPUT_POST, 't')) . "\r\n",
+        ));
+
+        $this->render('Fleet/fleetshortcut_ajout.tpl');
     }
 
 }
