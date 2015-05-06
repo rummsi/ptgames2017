@@ -437,7 +437,18 @@ class ShowFloten3Page extends AbstractGamePage {
         doquery("UNLOCK TABLES", '');
         //doquery("FLUSH TABLES", '');
         // Un peu de blabla pour l'utilisateur, affichage d'un joli tableau de la flotte expedi�e
-        $page = "<br><div><center>";
+        $page = "<html>
+    <head>
+        <title>Flottes - XNova</title>
+        <link rel=\"shortcut icon\" href=\"favicon.ico\">
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"skins/xnova/default.css\" />
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"skins/xnova/formate.css\" />
+        <meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" />
+        <script type=\"text/javascript\" src=\"scripts/overlib.js\"></script>
+        <meta http-equiv=\"refresh\" content=\"1;url=game.php?page=fleet\" />
+    </head>
+    <body>
+<br><link rel=\"stylesheet\" type=\"text/css\" href=\"skins/xnova/default.css\" /><div><center>";
         $page .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"1\" width=\"519\">";
         $page .= "<tr height=\"20\">";
         $page .= "<td class=\"c\" colspan=\"2\"><span class=\"success\">" . $lang['fl_fleet_send'] . "</span></td>";
@@ -472,7 +483,9 @@ class ShowFloten3Page extends AbstractGamePage {
             $page .= "<th>" . $lang['tech'][$Ship] . "</th>";
             $page .= "<th>" . pretty_number($Count) . "</th>";
         }
-        $page .= "</tr></table></div></center>";
+        $page .= "</tr></table></div></center>
+    </body>
+</html>";
         // Provisoire
         sleep(1);
         $planetrow = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $CurrentPlanet['id'] . "';", 'planets', true);
