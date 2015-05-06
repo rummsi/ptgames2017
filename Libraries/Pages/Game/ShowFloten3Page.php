@@ -41,7 +41,8 @@ class ShowFloten3Page extends AbstractGamePage {
         includeLang('fleet');
 
         $dpath = (!$user["dpath"]) ? DEFAULT_SKINPATH : $user["dpath"];
-        $CurrentPlanet = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $user['current_planet'] . "'", 'planets', true);
+//        $CurrentPlanet = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $user['current_planet'] . "'", 'planets', true);
+        $CurrentPlanet = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $user['current_planet'] . "';", 'planets', true);
         $TargetPlanet = doquery("SELECT * FROM {{table}} WHERE `galaxy` = '" . $_POST['galaxy'] . "' AND `system` = '" . $_POST['system'] . "' AND `planet` = '" . $_POST['planet'] . "' AND `planet_type` = '" . $_POST['planettype'] . "';", 'planets', true);
         $MyDBRec = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $user['id'] . "';", 'users', true);
         $protection = $game_config['noobprotection'];
@@ -124,23 +125,23 @@ class ShowFloten3Page extends AbstractGamePage {
                     $missiontype = array();
                 }
             } elseif ($_POST['planettype'] == "1" || $_POST['planettype'] == "3") {
-                if ($_POST['ship208'] >= 1 && !$UsedPlanet) {
+                if (@$_POST['ship208'] >= 1 && !$UsedPlanet) {
                     $missiontype = array(7 => $lang['type_mission'][7]);
-                } elseif ($_POST['ship210'] >= 1 && !$YourPlanet) {
+                } elseif (@$_POST['ship210'] >= 1 && !$YourPlanet) {
                     $missiontype = array(6 => $lang['type_mission'][6]);
                 }
-                if ($_POST['ship202'] >= 1 ||
-                        $_POST['ship203'] >= 1 ||
-                        $_POST['ship204'] >= 1 ||
-                        $_POST['ship205'] >= 1 ||
-                        $_POST['ship206'] >= 1 ||
-                        $_POST['ship207'] >= 1 ||
-                        $_POST['ship210'] >= 1 ||
-                        $_POST['ship211'] >= 1 ||
-                        $_POST['ship213'] >= 1 ||
-                        $_POST['ship214'] >= 1 ||
-                        $_POST['ship215'] >= 1 ||
-                        $_POST['ship216'] >= 1) {
+                if (@$_POST['ship202'] >= 1 ||
+                        @$_POST['ship203'] >= 1 ||
+                        @$_POST['ship204'] >= 1 ||
+                        @$_POST['ship205'] >= 1 ||
+                        @$_POST['ship206'] >= 1 ||
+                        @$_POST['ship207'] >= 1 ||
+                        @$_POST['ship210'] >= 1 ||
+                        @$_POST['ship211'] >= 1 ||
+                        @$_POST['ship213'] >= 1 ||
+                        @$_POST['ship214'] >= 1 ||
+                        @$_POST['ship215'] >= 1 ||
+                        @$_POST['ship216'] >= 1) {
                     if (!$YourPlanet) {
                         $missiontype[1] = $lang['type_mission'][1];
                         $missiontype[5] = $lang['type_mission'][5];
@@ -276,7 +277,7 @@ class ShowFloten3Page extends AbstractGamePage {
         if (!in_array($GenFleetSpeed, $speed_possible)) {
             message("<font color=\"red\"><b>" . $lang['fl_cheat_speed'] . "</b></font>", $lang['fl_error'], "fleet.php", 2);
         }
-        $CurrentPlanet = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $user['current_planet'] . "';", 'planets', true);
+//        $CurrentPlanet = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $user['current_planet'] . "';", 'planets', true);
         if ($MaxFleetSpeed != $_POST['speedallsmin']) {
             message("<font color=\"red\"><b>" . $lang['fl_cheat_speed'] . "</b></font>", $lang['fl_error'], "fleet.php", 2);
         }
