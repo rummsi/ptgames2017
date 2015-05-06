@@ -21,20 +21,6 @@
                         </table>
                     </td>
                 </tr>
-                <tr height='20'>
-                    <th>{$fl_id}</th>
-                    <th>{$fl_mission}</th>
-                    <th>{$fl_count}</th>
-                    <th>{$fl_from}</th>
-                    <th>{$fl_start_t}</th>
-                    <th>{$fl_dest}</th>
-                    <th>{$fl_dest_t}</th>
-                    <!--<th>{$fl_back_t}</th>-->
-                    <th>{$fl_back_in}</th>
-                    <th>{$fl_order}</th>
-                </tr>
-                {$fleet_table}
-                {$no_fleet}
                 {$noslotfree}
             </table>
         </center>

@@ -62,6 +62,9 @@
                                 <td colspan="2"><div><a href="game.php?page=fleet" accesskey="t" target="_self">{$Fleet}</a></div></td>
                             </tr>
                             <tr>
+                                <td colspan="2"><div><a href="game.php?page=movement" accesskey="t" target="_self">Movement</a></div></td>
+                            </tr>
+                            <tr>
                                 <td colspan="2"><div><a href="game.php?page=messages" accesskey="c" target="_self">{$Messages}</a></div></td>
                             </tr>
                             <tr>
