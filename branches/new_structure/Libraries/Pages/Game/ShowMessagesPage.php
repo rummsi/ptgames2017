@@ -289,10 +289,10 @@ class ShowMessagesPage extends AbstractGamePage {
             'text' => isset($text),
         ));
 
-        if ($game_config['enable_bbcode'] == 1) {
-            $this->render('messages_pm_form_bb.tpl');
+        if ($game_config['enable_bbcode'] == 0) {
+            $this->render('Messages/messages_pm_form_bb.tpl');
         } else {
-            $this->render('messages_pm_form.tpl');
+            $this->render('Messages/messages_pm_form.tpl');
         }
     }
 
