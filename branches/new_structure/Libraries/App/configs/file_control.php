@@ -26,4 +26,5 @@
 include(ROOT_PATH . 'Libraries/Classes/Game.php');
 include(ROOT_PATH . 'Libraries/Classes/Template.php');
 include(ROOT_PATH . 'Libraries/Classes/HTTP.php');
+include(ROOT_PATH . 'Libraries/Classes/Galaxy.php');
 
