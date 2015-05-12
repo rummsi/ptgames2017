@@ -74,7 +74,7 @@
                                 <td colspan="2"><div><a href="game.php?page=galaxy&action=0" accesskey="s" target="_self">{$Galaxy}</a></div></td>
                             </tr>
                             <tr>
-                                <td colspan="2"><div><a href="game.php?page=empire" accesskey="i" target="_blank">{$Imperium}</a></div></td>
+                                <td colspan="2"><div><a href="game.php?page=Imperium" accesskey="i" target="_blank">{$Imperium}</a></div></td>
                             </tr>
                             <tr>
                                 <td colspan="2"><div><a href="game.php?page=resources" accesskey="r" target="_self">{$Resources}</a></div></td>
@@ -89,7 +89,7 @@
                                 <td colspan="2"><div><a href="game.php?page=records" accesskey="3" target="_self">{$Records}</a></div></td>
                             </tr>
                             <tr>
-                                <td colspan="2"><div><a href="game.php?page=statistics&range={$user_rank}" accesskey="k" target="_self">{$Statistics}</a></div></td>
+                                <td colspan="2"><div><a href="game.php?page=stat&range={$user_rank}" accesskey="k" target="_self">{$Statistics}</a></div></td>
                             </tr>
                             <tr>
                                 <td colspan="2"><div><a href="game.php?page=search" accesskey="b" target="_self">{$Search}</a></div></td>
@@ -120,7 +120,7 @@
                                 <td colspan="2"><div><a href="{$forum_url}" accesskey="1" target="_self">{$Board}</a></div></td>
                             </tr>
                             <tr>
-                                <td colspan="2"><div><a href="game.php?page=multi" accesskey="1" target="_self">{$multi}</a></div></td>
+                                <td colspan="2"><div><a href="game.php?page=add_declare" accesskey="1" target="_self">{$multi}</a></div></td>
                             </tr>
                             <tr>
                                 <td colspan="2"><div><a href="index.php?page=rules"  accesskey="c" target="_blank">{$Rules}</a></div></td>
