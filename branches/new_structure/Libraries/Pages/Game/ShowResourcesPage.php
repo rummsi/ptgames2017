@@ -33,6 +33,7 @@ class ShowResourcesPage extends AbstractGamePage {
     function __construct() {
         parent::__construct();
         $this->tplObj->compile_id = 'resources';
+        includeLang('leftmenu');
     }
 
     function show() {
@@ -41,8 +42,6 @@ class ShowResourcesPage extends AbstractGamePage {
         includeLang('resources');
         $CurrentPlanet = $planetrow;
         $CurrentUser = $user;
-        $RessBodyTPL = gettemplate('resources');
-        $RessRowTPL = gettemplate('resources_row');
         // Si c'est une lune ... pas de ressources produites
         if ($CurrentPlanet['planet_type'] == 3) {
             $game_config['metal_basic_income'] = 0;
@@ -68,11 +67,9 @@ class ShowResourcesPage extends AbstractGamePage {
         }
         $parse = $lang;
         $parse['production_level'] = 100;
-        if ($CurrentPlanet['energy_max'] == 0 &&
-                $CurrentPlanet['energy_used'] > 0) {
+        if ($CurrentPlanet['energy_max'] == 0 && $CurrentPlanet['energy_used'] > 0) {
             $post_porcent = 0;
-        } elseif ($CurrentPlanet['energy_max'] > 0 &&
-                ($CurrentPlanet['energy_used'] + $CurrentPlanet['energy_max']) < 0) {
+        } elseif ($CurrentPlanet['energy_max'] > 0 && ($CurrentPlanet['energy_used'] + $CurrentPlanet['energy_max']) < 0) {
             $post_porcent = floor(($CurrentPlanet['energy_max']) / $CurrentPlanet['energy_used'] * 100);
         } else {
             $post_porcent = 100;
@@ -115,8 +112,8 @@ class ShowResourcesPage extends AbstractGamePage {
                 $energy = $energy * 0.01 * $post_porcent;
                 $Field = $resource[$ProdID] . "_porcent";
                 $CurrRow = array();
-                $CurrRow['name'] = $resource[$ProdID];
                 $CurrRow['porcent'] = $CurrentPlanet[$Field];
+                $CurrRow['option'] = "";
                 for ($Option = 10; $Option >= 0; $Option--) {
                     $OptValue = $Option * 10;
                     if ($Option == $CurrRow['porcent']) {
@@ -126,30 +123,25 @@ class ShowResourcesPage extends AbstractGamePage {
                     }
                     $CurrRow['option'] .= "<option value=\"" . $OptValue . "\"" . $OptSelected . ">" . $OptValue . "%</option>";
                 }
-                $CurrRow['type'] = $lang['tech'][$ProdID];
-                $CurrRow['level'] = ($ProdID > 200) ? $lang['quantity'] : $lang['level'];
-                $CurrRow['level_type'] = $CurrentPlanet[$resource[$ProdID]];
-                $CurrRow['metal_type'] = pretty_number($metal);
-                $CurrRow['crystal_type'] = pretty_number($crystal);
-                $CurrRow['deuterium_type'] = pretty_number($deuterium);
-                $CurrRow['energy_type'] = pretty_number($energy);
-                $CurrRow['metal_type'] = colorNumber($CurrRow['metal_type']);
-                $CurrRow['crystal_type'] = colorNumber($CurrRow['crystal_type']);
-                $CurrRow['deuterium_type'] = colorNumber($CurrRow['deuterium_type']);
-                $CurrRow['energy_type'] = colorNumber($CurrRow['energy_type']);
-
-                $parse['resource_row'] .= parsetemplate($RessRowTPL, $CurrRow);
+                $this->tplObj->assign(array(
+                    'type' => $lang['tech'][$ProdID],
+                    'level' => ($ProdID > 200) ? $lang['quantity'] : $lang['level'],
+                    'level_type' => $CurrentPlanet[$resource[$ProdID]],
+                    'metal_type' => colorNumber(pretty_number($metal)),
+                    'crystal_type' => colorNumber(pretty_number($crystal)),
+                    'deuterium_type' => colorNumber(pretty_number($deuterium)),
+                    'energy_type' => colorNumber(pretty_number($energy)),
+                    'name' => $resource[$ProdID],
+                    'option' => $CurrRow['option'],
+                ));
+                $parse['resource_row'] .= $this->tplObj->fetch('resources_row.tpl');
             }
         }
-        $parse['Production_of_resources_in_the_planet'] = str_replace('%s', $CurrentPlanet['name'], $lang['Production_of_resources_in_the_planet']);
-        if ($CurrentPlanet['energy_max'] == 0 &&
-                $CurrentPlanet['energy_used'] > 0) {
+        if ($CurrentPlanet['energy_max'] == 0 && $CurrentPlanet['energy_used'] > 0) {
             $parse['production_level'] = 0;
-        } elseif ($CurrentPlanet['energy_max'] > 0 &&
-                abs($CurrentPlanet['energy_used']) > $CurrentPlanet['energy_max']) {
+        } elseif ($CurrentPlanet['energy_max'] > 0 && abs($CurrentPlanet['energy_used']) > $CurrentPlanet['energy_max']) {
             $parse['production_level'] = floor(($CurrentPlanet['energy_max']) / $CurrentPlanet['energy_used'] * 100);
-        } elseif ($CurrentPlanet['energy_max'] == 0 &&
-                abs($CurrentPlanet['energy_used']) > $CurrentPlanet['energy_max']) {
+        } elseif ($CurrentPlanet['energy_max'] == 0 && abs($CurrentPlanet['energy_used']) > $CurrentPlanet['energy_max']) {
             $parse['production_level'] = 0;
         } else {
             $parse['production_level'] = 100;
@@ -173,7 +165,6 @@ class ShowResourcesPage extends AbstractGamePage {
             $parse['crystal_max'] = "<font color=\"#00ff00\">";
         }
         $parse['crystal_max'] .= pretty_number($CurrentPlanet['crystal_max'] / 1000) . " " . $lang['k'] . "</font>";
-
         if ($CurrentPlanet['deuterium_max'] < $CurrentPlanet['deuterium']) {
             $parse['deuterium_max'] = "<font color=\"#ff0000\">";
         } else {
@@ -241,12 +232,55 @@ class ShowResourcesPage extends AbstractGamePage {
         $QryUpdatePlanet .= "WHERE ";
         $QryUpdatePlanet .= "`id` = '" . $CurrentPlanet['id'] . "';";
         doquery($QryUpdatePlanet, 'planets');
-        $page = parsetemplate($RessBodyTPL, $parse);
 
-        Game::display($page, $lang['Resources']);
-        // -----------------------------------------------------------------------------------------------------------
-        // History version
-        // 1.0 - Passage en fonction pour utilisation XNova
+        $this->tplObj->assign(array(
+            'title' => $lang['Resources'],
+            'Production_of_resources_in_the_planet' => str_replace('%s', $CurrentPlanet['name'], $lang['Production_of_resources_in_the_planet']),
+            'Metal' => $lang['Metal'],
+            'Crystal' => $lang['Crystal'],
+            'Deuterium' => $lang['Deuterium'],
+            'Energy' => $lang['Energy'],
+            'Basic_income' => $lang['Basic_income'],
+            'metal_basic_income' => $parse['metal_basic_income'],
+            'crystal_basic_income' => $parse['crystal_basic_income'],
+            'deuterium_basic_income' => $parse['deuterium_basic_income'],
+            'energy_basic_income' => $parse['energy_basic_income'],
+            'resource_row' => $parse['resource_row'],
+            'Stores_capacity' => $lang['Stores_capacity'],
+            'metal_max' => $parse['metal_max'],
+            'crystal_max' => $parse['crystal_max'],
+            'deuterium_max' => $parse['deuterium_max'],
+            'Calcule' => $lang['Calcule'],
+            'metal_total' => $parse['metal_total'],
+            'crystal_total' => $parse['crystal_total'],
+            'deuterium_total' => $parse['deuterium_total'],
+            'energy_total' => $parse['energy_total'],
+            'Widespread_production' => $lang['Widespread_production'],
+            'Daily' => $lang['Daily'],
+            'Weekly' => $lang['Weekly'],
+            'Monthly' => $lang['Monthly'],
+            'daily_metal' => $parse['daily_metal'],
+            'weekly_metal' => $parse['weekly_metal'],
+            'monthly_metal' => $parse['monthly_metal'],
+            'daily_crystal' => $parse['daily_crystal'],
+            'weekly_crystal' => $parse['weekly_crystal'],
+            'monthly_crystal' => $parse['monthly_crystal'],
+            'daily_deuterium' => $parse['daily_deuterium'],
+            'weekly_deuterium' => $parse['weekly_deuterium'],
+            'monthly_deuterium' => $parse['monthly_deuterium'],
+            'Storage_state' => $lang['Storage_state'],
+            'metal_storage' => $parse['metal_storage'],
+            'metal_storage_barcolor' => $parse['metal_storage_barcolor'],
+            'metal_storage_bar' => $parse['metal_storage_bar'],
+            'crystal_storage' => $parse['crystal_storage'],
+            'crystal_storage_barcolor' => $parse['crystal_storage_barcolor'],
+            'crystal_storage_bar' => $parse['crystal_storage_bar'],
+            'deuterium_storage' => $parse['deuterium_storage'],
+            'deuterium_storage_barcolor' => $parse['deuterium_storage_barcolor'],
+            'deuterium_storage_bar' => $parse['deuterium_storage_bar'],
+        ));
+
+        $this->render('resources.tpl');
     }
 
 }
