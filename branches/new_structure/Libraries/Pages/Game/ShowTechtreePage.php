@@ -38,50 +38,47 @@ class ShowTechtreePage extends AbstractGamePage {
     function show() {
         global $lang, $resource, $requirements, $planetrow, $user;
 
-        $HeadTpl = gettemplate('techtree_head');
-        $RowTpl = gettemplate('techtree_row');
+        $techtree_list = "";
         foreach ($lang['tech'] as $Element => $ElementName) {
-            $parse = array();
-            $parse['tt_name'] = $ElementName;
+            $this->tplObj->assign('tt_name', $ElementName);
             if (!isset($resource[$Element])) {
-                $parse['Requirements'] = $lang['Requirements'];
-                $page .= parsetemplate($HeadTpl, $parse);
+                $this->tplObj->assign('Requirements', $lang['Requirements']);
+                $techtree_list .= $this->tplObj->fetch('techtree_head.tpl');
             } else {
                 if (isset($requirements[$Element])) {
-                    $parse['required_list'] = "";
                     foreach ($requirements[$Element] as $ResClass => $Level) {
                         if (isset($user[$resource[$ResClass]]) &&
                                 $user[$resource[$ResClass]] >= $Level) {
-                            $parse['required_list'] .= "<font color=\"#00ff00\">";
+                            $required_list .= "<font color=\"#00ff00\">";
                         } elseif (isset($planetrow[$resource[$ResClass]]) &&
                                 $planetrow[$resource[$ResClass]] >= $Level) {
-                            $parse['required_list'] .= "<font color=\"#00ff00\">";
+                            $required_list .= "<font color=\"#00ff00\">";
                         } else {
-                            $parse['required_list'] .= "<font color=\"#ff0000\">";
+                            $required_list .= "<font color=\"#ff0000\">";
                         }
-                        $parse['required_list'] .= $lang['tech'][$ResClass] . " (" . $lang['level'] . " " . $Level . ")";
-                        $parse['required_list'] .= "</font><br>";
+                        $required_list .= $lang['tech'][$ResClass] . " (" . $lang['level'] . " " . $Level . ")";
+                        $required_list .= "</font><br>";
                     }
                     $parse['tt_detail'] = "<a href=\"game.php?page=techdetails&techid=" . $Element . "\">" . $lang['treeinfo'] . "</a>";
                 } else {
-                    $parse['required_list'] = "";
+                    $required_list = "";
                     $parse['tt_detail'] = "";
                 }
-                $parse['tt_info'] = $Element;
-                $page .= parsetemplate($RowTpl, $parse);
+                $this->tplObj->assign(array(
+                    'tt_info' => $Element,
+                    'tt_detail' => $parse['tt_detail'],
+                    'required_list' => $required_list,
+                ));
+                $techtree_list .= $this->tplObj->fetch('techtree_row.tpl');
             }
         }
 
-        $parse['techtree_list'] = $page;
-        $page = parsetemplate(gettemplate('techtree_body'), $parse);
+        $this->tplObj->assign(array(
+            'title' => $lang['Tech'],
+            'techtree_list' => $techtree_list,
+        ));
 
-        Game::display($page, $lang['Tech']);
-
-// -----------------------------------------------------------------------------------------------------------
-// History version
-// - 1.0 mise en conformité code avec skin XNova
-// - 1.1 ajout lien pour les details des technos
-// - 1.2 suppression du lien details ou il n'est pas necessaire
+        $this->render('techtree_body.tpl');
     }
 
 }
