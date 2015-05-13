@@ -40,36 +40,40 @@ class ShowRecordsPage extends AbstractGamePage {
 
         includeLang('records');
 
-        $recordTpl = gettemplate('records_body');
-        $headerTpl = gettemplate('records_section_header');
-        $tableRows = gettemplate('records_section_rows');
-        $parse['rec_title'] = $lang['rec_title'];
+        $this->tplObj->assign(array(
+            'section' => $lang['rec_build'],
+            'player' => $lang['rec_playe'],
+            'level' => $lang['rec_level'],
+        ));
+        $parse['building'] = $this->tplObj->fetch('records_section_header.tpl');
 
-        $bloc['section'] = $lang['rec_build'];
-        $bloc['player'] = $lang['rec_playe'];
-        $bloc['level'] = $lang['rec_level'];
-        $parse['building'] = parsetemplate($headerTpl, $bloc);
+        $this->tplObj->assign(array(
+            'section' => $lang['rec_specb'],
+            'player' => $lang['rec_playe'],
+            'level' => $lang['rec_level'],
+        ));
+        $parse['buildspe'] = $this->tplObj->fetch('records_section_header.tpl');
 
-        $bloc['section'] = $lang['rec_specb'];
-        $bloc['player'] = $lang['rec_playe'];
-        $bloc['level'] = $lang['rec_level'];
-        $parse['buildspe'] = parsetemplate($headerTpl, $bloc);
+        $this->tplObj->assign(array(
+            'section' => $lang['rec_techn'],
+            'player' => $lang['rec_playe'],
+            'level' => $lang['rec_level'],
+        ));
+        $parse['research'] = $this->tplObj->fetch('records_section_header.tpl');
 
-        $bloc['section'] = $lang['rec_techn'];
-        $bloc['player'] = $lang['rec_playe'];
-        $bloc['level'] = $lang['rec_level'];
-        $parse['research'] = parsetemplate($headerTpl, $bloc);
+        $this->tplObj->assign(array(
+            'section' => $lang['rec_fleet'],
+            'player' => $lang['rec_playe'],
+            'level' => $lang['rec_nbre'],
+        ));
+        $parse['fleet'] = $this->tplObj->fetch('records_section_header.tpl');
 
-        $bloc['section'] = $lang['rec_fleet'];
-        $bloc['player'] = $lang['rec_playe'];
-        $bloc['level'] = $lang['rec_nbre'];
-        $parse['fleet'] = parsetemplate($headerTpl, $bloc);
-
-        $bloc['section'] = $lang['rec_defes'];
-        $bloc['player'] = $lang['rec_playe'];
-        $bloc['level'] = $lang['rec_nbre'];
-        $parse['defenses'] = parsetemplate($headerTpl, $bloc);
-
+        $this->tplObj->assign(array(
+            'section' => $lang['rec_defes'],
+            'player' => $lang['rec_playe'],
+            'level' => $lang['rec_nbre'],
+        ));
+        $parse['defenses'] = $this->tplObj->fetch('records_section_header.tpl');
 
         foreach ($lang['tech'] as $element => $elementName) {
             if (!empty($elementName) && !empty($resource[$element])) {
@@ -91,28 +95,41 @@ class ShowRecordsPage extends AbstractGamePage {
                     continue;
                 }
 
-                $data['element'] = $elementName;
-                $data['winner'] = !empty($record['players']) ? $record['players'] : '-';
+
+                $this->tplObj->assign(array(
+                    'element' => $elementName,
+                    'winner' => !empty($record['players']) ? $record['players'] : '-',
+                    'count' => intval($record['level']),
+                ));
                 $data['count'] = intval($record['level']);
 
                 if ($element >= 0 && $element < 40 || $element == 44) {
-                    $parse['building'] .= parsetemplate($tableRows, $data);
+                    $parse['building'] .= $this->tplObj->fetch('records_section_rows.tpl');
                 } else if ($element >= 40 && $element < 100 && $element != 44) {
-                    $parse['buildspe'] .= parsetemplate($tableRows, $data);
+                    $parse['buildspe'] .= $this->tplObj->fetch('records_section_rows.tpl');
                 } else if ($element >= 100 && $element < 200) {
-                    $parse['research'] .= parsetemplate($tableRows, $data);
+                    $parse['research'] .= $this->tplObj->fetch('records_section_rows.tpl');
                 } else if ($element >= 200 && $element < 400) {
-                    $data['count'] = number_format(intval($data['count']), 0, ',', '.');
-                    $parse['fleet'] .= parsetemplate($tableRows, $data);
+                    $this->tplObj->assign('count', number_format(intval($data['count']), 0, ',', '.'));
+                    $parse['fleet'] .= $this->tplObj->fetch('records_section_rows.tpl');
                 } else if ($element >= 400 && $element < 600 && $element != 407 && $element != 408) {
-                    $data['count'] = number_format(intval($data['count']), 0, ',', '.');
-                    $parse['defenses'] .= parsetemplate($tableRows, $data);
+                    $this->tplObj->assign('count', number_format(intval($data['count']), 0, ',', '.'));
+                    $parse['defenses'] .= $this->tplObj->fetch('records_section_rows.tpl');
                 }
             }
         }
 
-        $page = parsetemplate($recordTpl, $parse);
-        Game::display($page, $lang['rec_title']);
+        $this->tplObj->assign(array(
+            'title' => $lang['rec_title'],
+            'rec_title' => $lang['rec_title'],
+            'building' => $parse['building'],
+            'buildspe' => $parse['buildspe'],
+            'research' => $parse['research'],
+            'fleet' => $parse['fleet'],
+            'defenses' => $parse['defenses'],
+        ));
+        
+        $this->render('records_body.tpl');
     }
 
 }

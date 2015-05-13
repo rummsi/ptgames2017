@@ -1,12 +1,15 @@
-<center>
-<br>
-<table width="590">
-<tbody>
-{building}
-{buildspe}
-{research}
-{fleet}
-{defenses}
-</tbody>
-</table>
-</center>
+{block name="title" prepend}{/block}
+{block name="content"}
+        <center>
+            <br>
+            <table width="590">
+                <tbody>
+                    {$building}
+                    {$buildspe}
+                    {$research}
+                    {$fleet}
+                    {$defenses}
+                </tbody>
+            </table>
+        </center>
+{/block}
