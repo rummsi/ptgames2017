@@ -39,7 +39,6 @@ class ShowBannedPage extends AbstractGamePage {
         global $lang;
 
         includeLang('banned');
-        $parse = $lang;
         $query = doquery("SELECT * FROM {{table}} ORDER BY `id`;", 'banned');
         $i = 0;
         while ($u = mysql_fetch_array($query)) {
@@ -52,12 +51,21 @@ class ShowBannedPage extends AbstractGamePage {
             $i++;
         }
         if ($i == "0") {
-            $parse['banned'] .= "<tr><th class=b colspan=6>Il n'y a pas de joueurs bannis</th></tr>";
+            $parse['banned'] = "<tr><th class=b colspan=6>Il n'y a pas de joueurs bannis</th></tr>";
         } else {
             $parse['banned'] .= "<tr><th class=b colspan=6>Il y a {$i} joueurs bannis</th></tr>";
         }
-        Game::display(parsetemplate(gettemplate('banned_body'), $parse), 'Banned', true);
-        // Created by e-Zobar (XNova Team). All rights reversed (C) 2008
+        $this->tplObj->assign(array(
+            'title' => 'Banned',
+            'ban_title'=>$lang['ban_title'],
+            'ban_name'=>$lang['ban_name'],
+            'ban_reason'=>$lang['ban_reason'],
+            'ban_from'=>$lang['ban_from'],
+            'ban_to'=>$lang['ban_to'],
+            'ban_by'=>$lang['ban_by'],
+            'banned'=>$parse['banned'],
+        ));
+        $this->render('banned_body.tpl');
     }
 
 }
