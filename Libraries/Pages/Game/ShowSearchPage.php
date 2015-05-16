@@ -36,39 +36,37 @@ class ShowSearchPage extends AbstractGamePage {
     }
 
     function show() {
-        global $lang, $user;
+        global $lang, $user, $dpath;
 
         includeLang('search');
-        $searchtext = mysql_escape_string($_POST['searchtext']);
-        $type = $_POST['type'];
-        $dpath = (!$user["dpath"]) ? DEFAULT_SKINPATH : $user["dpath"];
+        $type = @$_POST['type'];
         $i = 0;
         //creamos la query
-        $searchtext = mysql_escape_string($_POST["searchtext"]);
+        $searchtext = @mysql_escape_string($_POST["searchtext"]);
         switch ($type) {
             case "playername":
-                $table = gettemplate('search_user_table');
-                $row = gettemplate('search_user_row');
+                $table = 'search_user_table.tpl';
+                $row = 'search_user_row.tpl';
                 $search = doquery("SELECT * FROM {{table}} WHERE username LIKE '%{$searchtext}%' LIMIT 30;", "users");
                 break;
             case "planetname":
-                $table = gettemplate('search_user_table');
-                $row = gettemplate('search_user_row');
+                $table = 'search_user_table.tpl';
+                $row = 'search_user_row.tpl';
                 $search = doquery("SELECT * FROM {{table}} WHERE name LIKE '%{$searchtext}%' LIMIT 30", 'planets');
                 break;
             case "allytag":
-                $table = gettemplate('search_ally_table');
-                $row = gettemplate('search_ally_row');
+                $table = 'search_ally_table.tpl';
+                $row = 'search_ally_row.tpl';
                 $search = doquery("SELECT * FROM {{table}} WHERE ally_tag LIKE '%{$searchtext}%' LIMIT 30", "alliance");
                 break;
             case "allyname":
-                $table = gettemplate('search_ally_table');
-                $row = gettemplate('search_ally_row');
+                $table = 'search_ally_table.tpl';
+                $row = 'search_ally_row.tpl';
                 $search = doquery("SELECT * FROM {{table}} WHERE ally_name LIKE '%{$searchtext}%' LIMIT 30", "alliance");
                 break;
             default:
-                $table = gettemplate('search_user_table');
-                $row = gettemplate('search_user_row');
+                $table = 'search_user_table.tpl';
+                $row = 'search_user_row.tpl';
                 $search = doquery("SELECT * FROM {{table}} WHERE username LIKE '%{$searchtext}%' LIMIT 30", "users");
         }
         /*
@@ -77,6 +75,7 @@ class ShowSearchPage extends AbstractGamePage {
           ...pero ahora no... porque tengo sueño ;P
          */
         if (isset($searchtext) && isset($type)) {
+            $result_list = "";
             while ($r = mysql_fetch_array($search, MYSQL_BOTH)) {
                 if ($type == 'playername' || $type == 'planetname') {
                     $s = $r;
@@ -84,13 +83,19 @@ class ShowSearchPage extends AbstractGamePage {
                     if ($type == "planetname") {
                         $pquery = doquery("SELECT * FROM {{table}} WHERE id = {$s['id_owner']}", "users", true);
                         /* 			$farray = mysql_fetch_array($pquery); */
-                        $s['planet_name'] = $s['name'];
-                        $s['username'] = $pquery['username'];
-                        $s['ally_name'] = ($pquery['ally_name'] != '') ? "<a href=\"game.php?page=alliance&mode=ainfo&tag={$pquery['ally_name']}\">{$pquery['ally_name']}</a>" : '';
+                        $this->tplObj->assign(array(
+                            'planet_name' => $s['name'],
+                            'username' => $pquery['username'],
+                            'ally_name' => ($pquery['ally_name'] != '') ? "<a href=\"game.php?page=alliance&action=ainfo&tag={$pquery['ally_name']}\">{$pquery['ally_name']}</a>" : '',
+                        ));
                     } else {
                         $pquery = doquery("SELECT name FROM {{table}} WHERE id = {$s['id_planet']}", "planets", true);
-                        $s['planet_name'] = $pquery['name'];
-                        $s['ally_name'] = ($aquery['ally_name'] != '') ? "<a href=\"game.php?page=alliance&mode=ainfo&tag={$aquery['ally_name']}\">{$aquery['ally_name']}</a>" : '';
+                        $this->tplObj->assign(array(
+                            'username' => $s['username'],
+                            'id' => $s['id'],
+                            'planet_name' => $pquery['name'],
+                            'ally_name' => ($s['ally_name'] != '') ? "<a href=\"game.php?page=alliance&action=ainfo&tag={$s['ally_name']}\">{$s['ally_name']}</a>" : '',
+                        ));
                     }
                     //ahora la alianza
                     if ($s['ally_id'] != 0 && $s['ally_request'] == 0) {
@@ -98,34 +103,59 @@ class ShowSearchPage extends AbstractGamePage {
                     } else {
                         $aquery = array();
                     }
-                    $s['position'] = "<a href=\"game.php?page=stat&start=" . $s['rank'] . "\">" . $s['rank'] . "</a>";
-                    $s['dpath'] = $dpath;
-                    $s['coordinated'] = "{$s['galaxy']}:{$s['system']}:{$s['planet']}";
-                    $s['buddy_request'] = $lang['buddy_request'];
-                    $s['write_a_messege'] = $lang['write_a_messege'];
-                    $result_list .= parsetemplate($row, $s);
+                    $this->tplObj->assign(array(
+                        'position' => "<a href=\"game.php?page=stat&start=" . @$s['rank'] . "\">" . @$s['rank'] . "</a>",
+                        'dpath' => $dpath,
+                        'coordinated' => "{$s['galaxy']}:{$s['system']}:{$s['planet']}",
+                        'galaxy' => $s['galaxy'],
+                        'system' => $s['system'],
+                        'planet' => $s['planet'],
+                        'buddy_request' => $lang['buddy_request'],
+                        'write_a_messege' => $lang['write_a_messege'],
+                    ));
+                    $result_list .= $this->tplObj->fetch($row);
                 } elseif ($type == 'allytag' || $type == 'allyname') {
-                    $s = $r;
-                    $s['ally_points'] = pretty_number($s['ally_points']);
-                    $s['ally_tag'] = "<a href=\"game.php?page=alliance&mode=ainfo&tag={$s['ally_tag']}\">{$s['ally_tag']}</a>";
-                    $result_list .= parsetemplate($row, $s);
+                    $this->tplObj->assign(array(
+                        'ally_members' => $r['ally_members'],
+                        'ally_name' => $r['ally_name'],
+                        'ally_points' => @pretty_number($r['ally_points']),
+                        'ally_tag' => "<a href=\"game.php?page=alliance&action=ainfo&tag={$r['ally_tag']}\">{$r['ally_tag']}</a>",
+                    ));
+                    $result_list .= $this->tplObj->fetch($row);
                 }
             }
             if ($result_list != '') {
-                $lang['result_list'] = $result_list;
-                $search_results = parsetemplate($table, $lang);
+                $this->tplObj->assign(array(
+                    'Name' => $lang['Name'],
+                    'Alliance' => $lang['Alliance'],
+                    'Planet' => $lang['Planet'],
+                    'Coordinated' => $lang['Coordinated'],
+                    'Position' => $lang['Position'],
+                    'Tag' => $lang['Tag'],
+                    'Members' => $lang['Members'],
+                    'Points' => $lang['Points'],
+                    'result_list' => $result_list
+                ));
+                $search_results = $this->tplObj->fetch($table);
             }
         }
         //el resto...
-        $lang['type_playername'] = ($_POST["type"] == "playername") ? " SELECTED" : "";
-        $lang['type_planetname'] = ($_POST["type"] == "planetname") ? " SELECTED" : "";
-        $lang['type_allytag'] = ($_POST["type"] == "allytag") ? " SELECTED" : "";
-        $lang['type_allyname'] = ($_POST["type"] == "allyname") ? " SELECTED" : "";
-        $lang['searchtext'] = $searchtext;
-        $lang['search_results'] = $search_results;
+        $this->tplObj->assign(array(
+            'title' => $lang['Search'],
+            'Search_in_all_game' => $lang['Search_in_all_game'],
+            'type_playername' => (@$_POST["type"] == "playername") ? " SELECTED" : "",
+            'Player_name' => $lang['Player_name'],
+            'type_planetname' => (@$_POST["type"] == "planetname") ? " SELECTED" : "",
+            'Planet_name' => $lang['Planet_name'],
+            'type_allytag' => (@$_POST["type"] == "allytag") ? " SELECTED" : "",
+            'Alliance_tag' => $lang['Alliance_tag'],
+            'type_allyname' => (@$_POST["type"] == "allyname") ? " SELECTED" : "",
+            'Alliance_name' => $lang['Alliance_name'],
+            'searchtext' => $searchtext,
+            'search_results' => @$search_results,
+        ));
         //esto es algo repetitivo ... w
-        $page = parsetemplate(gettemplate('search_body'), $lang);
-        Game::display($page, $lang['Search']);
+        $this->render('search_body.tpl');
     }
 
 }
