@@ -39,30 +39,25 @@ class ShowStatPage extends AbstractGamePage {
         global $lang, $user, $game_config, $dpath;
 
         includeLang('stat');
-
-        $parse = $lang;
-        $who = (isset($_POST['who'])) ? $_POST['who'] : $_GET['who'];
+        $who = (isset($_POST['who'])) ? $_POST['who'] : @$_GET['who'];
         if (!isset($who)) {
             $who = 1;
         }
-        $type = (isset($_POST['type'])) ? $_POST['type'] : $_GET['type'];
+        $type = (isset($_POST['type'])) ? $_POST['type'] : @$_GET['type'];
         if (!isset($type)) {
             $type = 1;
         }
-        $range = (isset($_POST['range'])) ? $_POST['range'] : $_GET['range'];
+        $range = (isset($_POST['range'])) ? $_POST['range'] : @$_GET['range'];
         if (!isset($range)) {
             $range = 1;
         }
-
         $parse['who'] = "<option value=\"1\"" . (($who == "1") ? " SELECTED" : "") . ">" . $lang['stat_player'] . "</option>";
         $parse['who'] .= "<option value=\"2\"" . (($who == "2") ? " SELECTED" : "") . ">" . $lang['stat_allys'] . "</option>";
-
         $parse['type'] = "<option value=\"1\"" . (($type == "1") ? " SELECTED" : "") . ">" . $lang['stat_main'] . "</option>";
         $parse['type'] .= "<option value=\"2\"" . (($type == "2") ? " SELECTED" : "") . ">" . $lang['stat_fleet'] . "</option>";
         $parse['type'] .= "<option value=\"3\"" . (($type == "3") ? " SELECTED" : "") . ">" . $lang['stat_research'] . "</option>";
         $parse['type'] .= "<option value=\"4\"" . (($type == "4") ? " SELECTED" : "") . ">" . $lang['stat_building'] . "</option>";
         $parse['type'] .= "<option value=\"5\"" . (($type == "5") ? " SELECTED" : "") . ">" . $lang['stat_defenses'] . "</option>";
-
         if ($type == 1) {
             $Order = "total_points";
             $Points = "total_points";
@@ -94,32 +89,34 @@ class ShowStatPage extends AbstractGamePage {
             $Rank = "defs_rank";
             $OldRank = "defs_old_rank";
         }
-
         if ($who == 2) {
             $MaxAllys = doquery("SELECT COUNT(*) AS `count` FROM {{table}} WHERE 1;", 'alliance', true);
             if ($MaxAllys['count'] > 100) {
                 $LastPage = floor($MaxAllys['count'] / 100);
             }
             $parse['range'] = "";
-            for ($Page = 0; $Page <= $LastPage; $Page++) {
+            for ($Page = 0; $Page <= @$LastPage; $Page++) {
                 $PageValue = ($Page * 100) + 1;
                 $PageRange = $PageValue + 99;
                 $parse['range'] .= "<option value=\"" . $PageValue . "\"" . (($range == $PageValue) ? " SELECTED" : "") . ">" . $PageValue . "-" . $PageRange . "</option>";
             }
-
-            $parse['stat_header'] = parsetemplate(gettemplate('stat_alliancetable_header'), $parse);
-
+            $this->tplObj->assign(array(
+                'Position' => $lang['Position'],
+                'Difference' => $lang['Difference'],
+                'Alliance' => $lang['Alliance'],
+                'Members' => $lang['Members'],
+                'Points' => $lang['Points'],
+                'PerMember' => $lang['PerMember'],
+            ));
+            $parse['stat_header'] = $this->tplObj->fetch('stat_alliancetable_header.tpl');
+            //parsetemplate(gettemplate('stat_alliancetable_header'), $parse);
             $start = floor($range / 100 % 100) * 100;
             $query = doquery("SELECT * FROM {{table}} WHERE `stat_type` = '2' AND `stat_code` = '1' ORDER BY `" . $Order . "` DESC LIMIT " . $start . ",100;", 'statpoints');
-
             $start++;
-            $parse['stat_date'] = $game_config['stats'];
             $parse['stat_values'] = "";
             while ($StatRow = mysql_fetch_assoc($query)) {
-                $parse['ally_rank'] = $start;
-
+                //$parse['ally_rank'] = $start;
                 $AllyRow = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $StatRow['id_owner'] . "';", 'alliance', true);
-
                 $rank_old = $StatRow[$OldRank];
                 if ($rank_old == 0) {
                     $rank_old = $start;
@@ -130,22 +127,25 @@ class ShowStatPage extends AbstractGamePage {
                 $rank_new = $start;
                 $ranking = $rank_old - $rank_new;
                 if ($ranking == "0") {
-                    $parse['ally_rankplus'] = "<font color=\"#87CEEB\">*</font>";
+                    $this->tplObj->assign('ally_rankplus', "<font color=\"#87CEEB\">*</font>");
                 }
                 if ($ranking < "0") {
-                    $parse['ally_rankplus'] = "<font color=\"red\">" . $ranking . "</font>";
+                    $this->tplObj->assign('ally_rankplus', "<font color=\"red\">" . $ranking . "</font>");
                 }
                 if ($ranking > "0") {
-                    $parse['ally_rankplus'] = "<font color=\"green\">+" . $ranking . "</font>";
+                    $this->tplObj->assign('ally_rankplus', "<font color=\"green\">+" . $ranking . "</font>");
                 }
-                $parse['ally_tag'] = $AllyRow['ally_tag'];
-                $parse['ally_name'] = $AllyRow['ally_name'];
-                $parse['ally_mes'] = '';
-                $parse['ally_members'] = $AllyRow['ally_members'];
-                $parse['ally_points'] = pretty_number($StatRow[$Order]);
-                $parse['ally_members_points'] = pretty_number(floor($StatRow[$Order] / $AllyRow['ally_members']));
-
-                $parse['stat_values'] .= parsetemplate(gettemplate('stat_alliancetable'), $parse);
+                $this->tplObj->assign(array(
+                    'stat_date' => date("d M Y - H:i:s", $StatRow['stat_date']),
+                    'ally_rank' => $start,
+                    'ally_tag' => $AllyRow['ally_tag'],
+                    'ally_name' => $AllyRow['ally_name'],
+                    'ally_mes' => '',
+                    'ally_members' => $AllyRow['ally_members'],
+                    'ally_points' => pretty_number($StatRow[$Order]),
+                    'ally_members_points' => pretty_number(floor($StatRow[$Order] / $AllyRow['ally_members'])),
+                ));
+                $parse['stat_values'] .= $this->tplObj->fetch('stat_alliancetable.tpl');
                 $start++;
             }
         } else {
@@ -154,29 +154,26 @@ class ShowStatPage extends AbstractGamePage {
                 $LastPage = floor($MaxUsers['count'] / 100);
             }
             $parse['range'] = "";
-            for ($Page = 0; $Page <= $LastPage; $Page++) {
+            for ($Page = 0; $Page <= @$LastPage; $Page++) {
                 $PageValue = ($Page * 100) + 1;
                 $PageRange = $PageValue + 99;
-                $parse['range'] .= "<option value=\"" . $PageValue . "\"" . (($start == $PageValue) ? " SELECTED" : "") . ">" . $PageValue . "-" . $PageRange . "</option>";
+                @$parse['range'] .= "<option value=\"" . $PageValue . "\"" . (($start == $PageValue) ? " SELECTED" : "") . ">" . $PageValue . "-" . $PageRange . "</option>";
             }
-
-            $parse['stat_header'] = parsetemplate(gettemplate('stat_playertable_header'), $parse);
-
+            $this->tplObj->assign(array(
+                'Position' => $lang['Position'],
+                'Difference' => $lang['Difference'],
+                'Player' => $lang['Player'],
+                'Alliance' => $lang['Alliance'],
+                'Points' => $lang['Points'],
+            ));
+            $parse['stat_header'] = $this->tplObj->fetch('stat_playertable_header.tpl');
             $start = floor($range / 100 % 100) * 100;
             $query = doquery("SELECT * FROM {{table}} WHERE `stat_type` = '1' AND `stat_code` = '1' ORDER BY `" . $Order . "` DESC LIMIT " . $start . ",100;", 'statpoints');
-
             $start++;
-            $parse['stat_date'] = $game_config['stats'];
             $parse['stat_values'] = "";
             while ($StatRow = mysql_fetch_assoc($query)) {
-                $parse['stat_date'] = date("d M Y - H:i:s", $StatRow['stat_date']);
-                $parse['player_rank'] = $start;
-
                 $UsrRow = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $StatRow['id_owner'] . "';", 'users', true);
-
-                $QryUpdateStats .= "`stat_type` = '1' AND `stat_code` = '1' AND `id_owner` = '" . $TheRank['id_owner'] . "';";
-
-
+                @$QryUpdateStats .= "`stat_type` = '1' AND `stat_code` = '1' AND `id_owner` = '" . $TheRank['id_owner'] . "';";
                 $rank_old = $StatRow[$OldRank];
                 if ($rank_old == 0) {
                     $rank_old = $start;
@@ -187,38 +184,55 @@ class ShowStatPage extends AbstractGamePage {
                 $rank_new = $start;
                 $ranking = $rank_old - $rank_new;
                 if ($ranking == "0") {
-                    $parse['player_rankplus'] = "<font color=\"#87CEEB\">*</font>";
+                    $this->tplObj->assign('player_rankplus', "<font color=\"#87CEEB\">*</font>");
                 }
                 if ($ranking < "0") {
-                    $parse['player_rankplus'] = "<font color=\"red\">" . $ranking . "</font>";
+                    $this->tplObj->assign('player_rankplus', "<font color=\"red\">" . $ranking . "</font>");
                 }
                 if ($ranking > "0") {
-                    $parse['player_rankplus'] = "<font color=\"green\">+" . $ranking . "</font>";
+                    $this->tplObj->assign('player_rankplus', "<font color=\"green\">+" . $ranking . "</font>");
                 }
                 if ($UsrRow['id'] == $user['id']) {
-                    $parse['player_name'] = "<font color=\"lime\">" . $UsrRow['username'] . "</font>";
+                    $this->tplObj->assign('player_name', "<font color=\"lime\">" . $UsrRow['username'] . "</font>");
                 } else {
-                    $parse['player_name'] = $UsrRow['username'];
+                    $this->tplObj->assign('player_name', $UsrRow['username']);
                 }
-                $parse['player_mes'] = "<a href=\"game.php?page=messages&mode=write&id=" . $UsrRow['id'] . "\"><img src=\"" . $dpath . "img/m.gif\" border=\"0\" alt=\"" . $lang['Ecrire'] . "\" /></a>";
                 if ($UsrRow['ally_name'] == $user['ally_name']) {
-                    $parse['player_alliance'] = "<font color=\"#33CCFF\">" . $UsrRow['ally_name'] . "</font>";
+                    $this->tplObj->assign('player_alliance', "<font color=\"#33CCFF\">" . $UsrRow['ally_name'] . "</font>");
                 } else {
-                    $parse['player_alliance'] = $UsrRow['ally_name'];
+                    $this->tplObj->assign('player_alliance', $UsrRow['ally_name']);
                 }
-                $parse['player_points'] = pretty_number($StatRow[$Order]);
-                $parse['stat_values'] .= parsetemplate(gettemplate('stat_playertable'), $parse);
+
+                $this->tplObj->assign(array(
+                    'stat_date' => date("d M Y - H:i:s", $StatRow['stat_date']),
+                    'player_rank' => $start,
+                    'player_mes' => "<a href=\"game.php?page=messages&mode=write&id=" . $UsrRow['id'] . "\"><img src=\"" . $dpath . "img/m.gif\" border=\"0\" alt=\"" . $lang['Ecrire'] . "\" /></a>",
+                    'player_points' => pretty_number($StatRow[$Order]),
+                ));
+                $parse['stat_values'] .= $this->tplObj->fetch('stat_playertable.tpl');
                 $start++;
             }
         }
 
-        $page = parsetemplate(gettemplate('stat_body'), $parse);
+        $this->tplObj->assign(array(
+            'title' => $lang['stat_title'],
+            'stat_title' => $lang['stat_title'],
+            'stat_show' => $lang['stat_show'],
+            'who' => $parse['who'],
+            'stat_by' => $lang['stat_by'],
+            'type' => $parse['type'],
+            'stat_range' => $lang['stat_range'],
+            'range' => $parse['range'],
+            'stat_header' => $parse['stat_header'],
+            'stat_values' => $parse['stat_values'],
+            'Position' => $lang['Position'],
+            'Difference' => $lang['Difference'],
+            'Player' => $lang['Player'],
+            'Alliance' => $lang['Alliance'],
+            'Points' => $lang['Points'],
+        ));
 
-        Game::display($page, $lang['stat_title']);
-
-// -----------------------------------------------------------------------------------------------------------
-// History version
-// 1.0 - R��criture module
+        $this->render('stat_body.tpl');
     }
 
 }
