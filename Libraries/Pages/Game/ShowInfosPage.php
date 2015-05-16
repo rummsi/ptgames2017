@@ -36,162 +36,201 @@ class ShowInfosPage extends AbstractGamePage {
     }
 
     function show() {
-        global $lang, $resource, $pricelist, $CombatCaps, $user, $planetrow, $dpath;
+        global $lang, $resource, $pricelist, $CombatCaps, $user, $planetrow;
 
         // ----------------------------------------------------------------------------------------------------------
         // Construit la page par rapport a l'information demandée ...
         // Permet de faire la differance entre les divers types et les pages speciales
         //
         includeLang('infos');
-        $BuildID = $_GET['gid'];
-        $CurrentUser = $user;
-        $CurrentPlanet = $planetrow;
         $GateTPL = '';
         $DestroyTPL = '';
         $TableHeadTPL = '';
-        $parse = $lang;
-        // Données de base
-        $parse['dpath'] = $dpath;
-        $parse['name'] = $lang['info'][$BuildID]['name'];
-        $parse['image'] = $BuildID;
-        $parse['description'] = $lang['info'][$BuildID]['description'];
+
+        $BuildID = $_GET['gid'];
         if ($BuildID >= 1 && $BuildID <= 3) {
             // Cas des mines
-            $PageTPL = gettemplate('info_buildings_table');
-            $DestroyTPL = gettemplate('info_buildings_destroy');
+            $DestroyTPL = '1';
             $TableHeadTPL = "<tr><td class=\"c\">{nfo_level}</td><td class=\"c\">{nfo_prod_p_hour}</td><td class=\"c\">{nfo_difference}</td><td class=\"c\">{nfo_used_energy}</td><td class=\"c\">{nfo_difference}</td></tr>";
             $TableTPL = "<tr><th>{build_lvl}</th><th>{build_prod} {build_gain}</th><th>{build_prod_diff}</th><th>{build_need}</th><th>{build_need_diff}</th></tr>";
+            $template = 'info_buildings_table.tpl';
         } elseif ($BuildID == 4) {
             // Centrale Solaire
-            $PageTPL = gettemplate('info_buildings_table');
-            $DestroyTPL = gettemplate('info_buildings_destroy');
+            $DestroyTPL = 'info_buildings_destroy.tpl';
             $TableHeadTPL = "<tr><td class=\"c\">{nfo_level}</td><td class=\"c\">{nfo_prod_energy}</td><td class=\"c\">{nfo_difference}</td></tr>";
             $TableTPL = "<tr><th>{build_lvl}</th><th>{build_prod} {build_gain}</th><th>{build_prod_diff}</th></tr>";
+            $template = 'info_buildings_table.tpl';
         } elseif ($BuildID == 12) {
             // Centrale Fusion
-            $PageTPL = gettemplate('info_buildings_table');
-            $DestroyTPL = gettemplate('info_buildings_destroy');
+            $DestroyTPL = '1';
             $TableHeadTPL = "<tr><td class=\"c\">{nfo_level}</td><td class=\"c\">{nfo_prod_energy}</td><td class=\"c\">{nfo_difference}</td><td class=\"c\">{nfo_used_deuter}</td><td class=\"c\">{nfo_difference}</td></tr>";
             $TableTPL = "<tr><th>{build_lvl}</th><th>{build_prod} {build_gain}</th><th>{build_prod_diff}</th><th>{build_need}</th><th>{build_need_diff}</th></tr>";
+            $template = 'info_buildings_table.tpl';
         } elseif ($BuildID >= 14 && $BuildID <= 32) {
             // Batiments Generaux
-            $PageTPL = gettemplate('info_buildings_general');
-            $DestroyTPL = gettemplate('info_buildings_destroy');
+            $DestroyTPL = '1';
+            $template = 'info_buildings_general.tpl';
         } elseif ($BuildID == 33) {
             // Batiments Terraformer
-            $PageTPL = gettemplate('info_buildings_general');
+            $template = 'info_buildings_general.tpl';
         } elseif ($BuildID == 34) {
             // Dépot d'alliance
-            $PageTPL = gettemplate('info_buildings_general');
-            $DestroyTPL = gettemplate('info_buildings_destroy');
+            $DestroyTPL = '1';
+            $template = 'info_buildings_general.tpl';
         } elseif ($BuildID == 44) {
             // Silo de missiles
-            $PageTPL = gettemplate('info_buildings_general');
-            $DestroyTPL = gettemplate('info_buildings_destroy');
+            $DestroyTPL = '1';
+            $template = 'info_buildings_general.tpl';
         } elseif ($BuildID == 41) {
             // Batiments lunaires
-            $PageTPL = gettemplate('info_buildings_general');
+            $template = 'info_buildings_general.tpl';
         } elseif ($BuildID == 42) {
             // Phalange
-            $PageTPL = gettemplate('info_buildings_table');
             $TableHeadTPL = "<tr><td class=\"c\">{nfo_level}</td><td class=\"c\">{nfo_range}</td></tr>";
             $TableTPL = "<tr><th>{build_lvl}</th><th>{build_range}</th></tr>";
-            $DestroyTPL = gettemplate('info_buildings_destroy');
+            $DestroyTPL = '1';
+            $template = 'info_buildings_table.tpl';
         } elseif ($BuildID == 43) {
             // Porte de Saut
-            $PageTPL = gettemplate('info_buildings_general');
-            $GateTPL = gettemplate('gate_fleet_table');
-            $DestroyTPL = gettemplate('info_buildings_destroy');
+            $GateTPL = '1';
+            $DestroyTPL = '1';
+            $template = 'info_buildings_general.tpl';
         } elseif ($BuildID >= 106 && $BuildID <= 199) {
             // Laboratoire
-            $PageTPL = gettemplate('info_buildings_general');
+            $template = 'info_buildings_general.tpl';
         } elseif ($BuildID >= 202 && $BuildID <= 216) {
             // Flotte
-            $PageTPL = gettemplate('info_buildings_fleet');
-            $parse['element_typ'] = $lang['tech'][200];
-            $parse['rf_info_to'] = ShowRapidFireTo($BuildID);   // Rapid Fire vers
-            $parse['rf_info_fr'] = ShowRapidFireFrom($BuildID); // Rapid Fire de
-            $parse['hull_pt'] = pretty_number($pricelist[$BuildID]['metal'] + $pricelist[$BuildID]['crystal']); // Points de Structure
-            $parse['shield_pt'] = pretty_number($CombatCaps[$BuildID]['shield']);  // Points de Bouclier
-            $parse['attack_pt'] = pretty_number($CombatCaps[$BuildID]['attack']);  // Points d'Attaque
-            $parse['capacity_pt'] = pretty_number($pricelist[$BuildID]['capacity']); // Capacitée de fret
-            $parse['base_speed'] = pretty_number($pricelist[$BuildID]['speed']);    // Vitesse de base
-            $parse['base_conso'] = pretty_number($pricelist[$BuildID]['consumption']);  // Consommation de base
-            if ($BuildID == 202) {
-                $parse['upd_speed'] = "<font color=\"yellow\">(" . pretty_number($pricelist[$BuildID]['speed2']) . ")</font>";       // Vitesse rééquipée
-                $parse['upd_conso'] = "<font color=\"yellow\">(" . pretty_number($pricelist[$BuildID]['consumption2']) . ")</font>"; // Consommation apres rééquipement
-            } elseif ($BuildID == 211) {
-                $parse['upd_speed'] = "<font color=\"yellow\">(" . pretty_number($pricelist[$BuildID]['speed2']) . ")</font>";       // Vitesse rééquipée
-            }
+            $rf_info_to = ShowRapidFireTo($BuildID);   // Rapid Fire vers
+            $rf_info_fr = ShowRapidFireFrom($BuildID); // Rapid Fire de
+            $hull_pt = pretty_number($pricelist[$BuildID]['metal'] + $pricelist[$BuildID]['crystal']); // Points de Structure
+            $shield_pt = pretty_number($CombatCaps[$BuildID]['shield']);  // Points de Bouclier
+            $attack_pt = pretty_number($CombatCaps[$BuildID]['attack']);  // Points d'Attaque
+            $capacity_pt = pretty_number($pricelist[$BuildID]['capacity']); // Capacitée de fret
+            $base_speed = pretty_number($pricelist[$BuildID]['speed']);    // Vitesse de base
+            $base_conso = pretty_number($pricelist[$BuildID]['consumption']);  // Consommation de base
+
+            $this->tplObj->assign(array(
+                'rf_info_to' => $rf_info_to,
+                'rf_info_fr' => $rf_info_fr,
+                'hull_pt' => $hull_pt,
+                'shield_pt' => $shield_pt,
+                'attack_pt' => $attack_pt,
+                'capacity_pt' => $capacity_pt,
+                'base_speed' => $base_speed,
+                'base_conso' => $base_conso,
+                'pricelist' => $pricelist,
+            ));
+
+            $template = 'info_buildings_fleet.tpl';
         } elseif ($BuildID >= 401 && $BuildID <= 408) {
             // Defenses
-            $PageTPL = gettemplate('info_buildings_defense');
-            $parse['element_typ'] = $lang['tech'][400];
+            $element_typ = $lang['tech'][400];
+            $rf_info_to = ShowRapidFireTo($BuildID);   // Rapid Fire vers
+            $rf_info_fr = ShowRapidFireFrom($BuildID); // Rapid Fire de
+            $hull_pt = pretty_number($pricelist[$BuildID]['metal'] + $pricelist[$BuildID]['crystal']); // Points de Structure
+            $shield_pt = pretty_number($CombatCaps[$BuildID]['shield']);  // Points de Bouclier
+            $attack_pt = pretty_number($CombatCaps[$BuildID]['attack']);  // Points d'Attaque
 
-            $parse['rf_info_to'] = ShowRapidFireTo($BuildID);   // Rapid Fire vers
-            $parse['rf_info_fr'] = ShowRapidFireFrom($BuildID); // Rapid Fire de
-            $parse['hull_pt'] = pretty_number($pricelist[$BuildID]['metal'] + $pricelist[$BuildID]['crystal']); // Points de Structure
-            $parse['shield_pt'] = pretty_number($CombatCaps[$BuildID]['shield']);  // Points de Bouclier
-            $parse['attack_pt'] = pretty_number($CombatCaps[$BuildID]['attack']);  // Points d'Attaque
+            $this->tplObj->assign(array(
+                'element_typ' => $element_typ,
+                'rf_info_to' => $rf_info_to,
+                'rf_info_fr' => $rf_info_fr,
+                'hull_pt' => $hull_pt,
+                'shield_pt' => $shield_pt,
+                'attack_pt' => $attack_pt,
+                'pricelist' => $pricelist,
+            ));
+
+            $template = 'info_buildings_defense.tpl';
         } elseif ($BuildID >= 502 && $BuildID <= 503) {
             // Misilles
-            $PageTPL = gettemplate('info_buildings_defense');
-            $parse['element_typ'] = $lang['tech'][400];
-            $parse['hull_pt'] = pretty_number($pricelist[$BuildID]['metal'] + $pricelist[$BuildID]['crystal']); // Points de Structure
-            $parse['shield_pt'] = pretty_number($CombatCaps[$BuildID]['shield']);  // Points de Bouclier
-            $parse['attack_pt'] = pretty_number($CombatCaps[$BuildID]['attack']);  // Points d'Attaque
+            $element_typ = $lang['tech'][400];
+            $hull_pt = pretty_number($pricelist[$BuildID]['metal'] + $pricelist[$BuildID]['crystal']); // Points de Structure
+            $shield_pt = pretty_number($CombatCaps[$BuildID]['shield']);  // Points de Bouclier
+            $attack_pt = pretty_number($CombatCaps[$BuildID]['attack']);  // Points d'Attaque
+
+            $this->tplObj->assign(array(
+                'element_typ' => $element_typ,
+                'rf_info_to' => '',
+                'rf_info_fr' => '',
+                'hull_pt' => $hull_pt,
+                'shield_pt' => $shield_pt,
+                'attack_pt' => $attack_pt,
+                'pricelist' => $pricelist,
+            ));
+
+            $template = 'info_buildings_defense.tpl';
         } elseif ($BuildID >= 601 && $BuildID <= 615) {
-            // Officiers
-            $PageTPL = gettemplate('info_officiers_general');
+            // Officiers            
+            $template = 'info_officiers_general.tpl';
         }
+
+        if ($GateTPL != '') {
+            if ($planetrow[$resource[$BuildID]] > 0) {
+                $RestString = GetNextJumpWaitTime($planetrow);
+                $gate_start_link = BuildPlanetAdressLink($planetrow);
+                if ($RestString['value'] != 0) {
+                    $gate_time_script = InsertJavaScriptChronoApplet("Gate", "1", $RestString['value'], true);
+                    $gate_wait_time = "<div id=\"bxx" . "Gate" . "1" . "\"></div>";
+                    $gate_script_go = InsertJavaScriptChronoApplet("Gate", "1", $RestString['value'], false);
+                } else {
+                    $gate_time_script = "";
+                    $gate_wait_time = "";
+                    $gate_script_go = "";
+                }
+                $this->tplObj->assign(array(
+                    'gate_start_link' => $gate_start_link,
+                    'gate_time_script' => $gate_time_script,
+                    'gate_wait_time' => $gate_wait_time,
+                    'gate_script_go' => $gate_script_go,
+                    'gate_dest_moons' => BuildJumpableMoonCombo($user, $planetrow),
+                    'gate_fleet_rows' => BuildFleetListRows($planetrow),
+                ));
+            }
+        }
+
         // ---- Tableau d'evolution
         if ($TableHeadTPL != '') {
-            $parse['table_head'] = parsetemplate($TableHeadTPL, $lang);
-            $parse['table_data'] = ShowProductionTable($CurrentUser, $CurrentPlanet, $BuildID, $TableTPL);
+            $table_head = parsetemplate($TableHeadTPL, $lang);
+            $table_data = ShowProductionTable($user, $planetrow, $BuildID, $TableTPL);
+            $this->tplObj->assign(array(
+                'table_head' => $table_head,
+                'table_data' => $table_data,
+            ));
         }
-        // La page principale
-        $page = parsetemplate($PageTPL, $parse);
-        if ($GateTPL != '') {
-            if ($CurrentPlanet[$resource[$BuildID]] > 0) {
-                $RestString = GetNextJumpWaitTime($CurrentPlanet);
-                $parse['gate_start_link'] = BuildPlanetAdressLink($CurrentPlanet);
-                if ($RestString['value'] != 0) {
-                    $parse['gate_time_script'] = InsertJavaScriptChronoApplet("Gate", "1", $RestString['value'], true);
-                    $parse['gate_wait_time'] = "<div id=\"bxx" . "Gate" . "1" . "\"></div>";
-                    $parse['gate_script_go'] = InsertJavaScriptChronoApplet("Gate", "1", $RestString['value'], false);
-                } else {
-                    $parse['gate_time_script'] = "";
-                    $parse['gate_wait_time'] = "";
-                    $parse['gate_script_go'] = "";
-                }
-                $parse['gate_dest_moons'] = BuildJumpableMoonCombo($CurrentUser, $CurrentPlanet);
-                $parse['gate_fleet_rows'] = BuildFleetListRows($CurrentPlanet);
-                $page .= parsetemplate($GateTPL, $parse);
-            }
-        }
-        if ($DestroyTPL != '') {
-            if ($CurrentPlanet[$resource[$BuildID]] > 0) {
-                // ---- Destruction
-                $NeededRessources = GetBuildingPrice($CurrentUser, $CurrentPlanet, $BuildID, true, true);
-                $DestroyTime = GetBuildingTime($CurrentUser, $CurrentPlanet, $BuildID) / 2;
-                $parse['destroyurl'] = "game.php?page=buildings&cmd=destroy&building=" . $BuildID; // Non balisé les balises sont dans le tpl
-                $parse['levelvalue'] = $CurrentPlanet[$resource[$BuildID]]; // Niveau du batiment a detruire
-                $parse['nfo_metal'] = $lang['Metal'];
-                $parse['nfo_crysta'] = $lang['Crystal'];
-                $parse['nfo_deuter'] = $lang['Deuterium'];
-                $parse['metal'] = pretty_number($NeededRessources['metal']);     // Cout en metal de la destruction
-                $parse['crystal'] = pretty_number($NeededRessources['crystal']);   // Cout en cristal de la destruction
-                $parse['deuterium'] = pretty_number($NeededRessources['deuterium']); // Cout en deuterium de la destruction
-                $parse['destroytime'] = pretty_time($DestroyTime);                   // Durée de la destruction
-                // L'insert de destruction
-                $page .= parsetemplate($DestroyTPL, $parse);
-            }
-        }
-        // ----------------------------------------------------------------------------------------------------------
-        // Appel de la page ...
-        // Tout le reste ne sert qu'a la calculer :)
-        //
-        Game::display($page, $lang['nfo_page_title']);
+
+        $this->tplObj->assign(array(
+            'title' => $lang['nfo_page_title'],
+            'BuildID' => $BuildID,
+            'TableHeadTPL' => $TableHeadTPL,
+            'DestroyTPL' => $DestroyTPL,
+            'GateTPL' => $GateTPL,
+            'CurrentPlanet' => $planetrow,
+            'resource' => $resource,
+            'NeededRessources' => GetBuildingPrice($user, $planetrow, $BuildID, true, true),
+            'DestroyTime' => GetBuildingTime($user, $planetrow, $BuildID) / 2,
+            'name' => $lang['info'][$BuildID]['name'],
+            'description' => $lang['info'][$BuildID]['description'],
+            'nfo_destroy' => $lang['nfo_destroy'],
+            'nfo_level' => $lang['nfo_level'],
+            'nfo_needed' => $lang['nfo_needed'],
+            'Metal' => $lang['Metal'],
+            'Crystal' => $lang['Crystal'],
+            'Deuterium' => $lang['Deuterium'],
+            'nfo_dest_durati'=> $lang['nfo_dest_durati'],
+            'nfo_title_head' => $lang['nfo_title_head'],
+            'tech' => $lang['tech'],
+            'nfo_name' => $lang['nfo_name'],
+            'nfo_struct_pt' => $lang['nfo_struct_pt'],
+            'nfo_shielf_pt' => $lang['nfo_shielf_pt'],
+            'nfo_attack_pt' => $lang['nfo_attack_pt'],
+            'nfo_capacity'=> $lang['nfo_capacity'],
+            'nfo_units'=>$lang['nfo_units'],
+            'nfo_base_speed'=>$lang['nfo_base_speed'],
+            'nfo_consumption'=>$lang['nfo_consumption'],
+        ));
+
+        $this->render($template);
     }
 
 }
@@ -248,18 +287,18 @@ function BuildJumpableMoonCombo($CurrentUser, $CurrentPlanet) {
 function ShowProductionTable($CurrentUser, $CurrentPlanet, $BuildID, $Template) {
     global $ProdGrid, $resource, $game_config;
 
-    $BuildLevelFactor = $CurrentPlanet[$resource[$BuildID] . "_porcent"];
+    @$BuildLevelFactor = $CurrentPlanet[$resource[$BuildID] . "_porcent"];
     $BuildTemp = $CurrentPlanet['temp_max'];
     $CurrentBuildtLvl = $CurrentPlanet[$resource[$BuildID]];
 
     $BuildLevel = ($CurrentBuildtLvl > 0) ? $CurrentBuildtLvl : 1;
-    $Prod[1] = (floor(eval($ProdGrid[$BuildID]['formule']['metal']) * $game_config['resource_multiplier']) * (1 + ($CurrentUser['rpg_geologue'] * 0.05)));
-    $Prod[2] = (floor(eval($ProdGrid[$BuildID]['formule']['crystal']) * $game_config['resource_multiplier']) * (1 + ($CurrentUser['rpg_geologue'] * 0.05)));
-    $Prod[3] = (floor(eval($ProdGrid[$BuildID]['formule']['deuterium']) * $game_config['resource_multiplier']) * (1 + ($CurrentUser['rpg_geologue'] * 0.05)));
-    $Prod[4] = (floor(eval($ProdGrid[$BuildID]['formule']['energy']) * $game_config['resource_multiplier']) * (1 + ($CurrentUser['rpg_ingenieur'] * 0.05)));
+    @$Prod[1] = (floor(eval($ProdGrid[$BuildID]['formule']['metal']) * $game_config['resource_multiplier']) * (1 + ($CurrentUser['rpg_geologue'] * 0.05)));
+    @$Prod[2] = (floor(eval($ProdGrid[$BuildID]['formule']['crystal']) * $game_config['resource_multiplier']) * (1 + ($CurrentUser['rpg_geologue'] * 0.05)));
+    @$Prod[3] = (floor(eval($ProdGrid[$BuildID]['formule']['deuterium']) * $game_config['resource_multiplier']) * (1 + ($CurrentUser['rpg_geologue'] * 0.05)));
+    @$Prod[4] = (floor(eval($ProdGrid[$BuildID]['formule']['energy']) * $game_config['resource_multiplier']) * (1 + ($CurrentUser['rpg_ingenieur'] * 0.05)));
     $BuildLevel = "";
 
-    $ActualProd = floor($Prod[$BuildID]);
+    @$ActualProd = floor($Prod[$BuildID]);
     if ($BuildID != 12) {
         $ActualNeed = floor($Prod[4]);
     } else {
@@ -325,7 +364,7 @@ function ShowRapidFireTo($BuildID) {
     global $lang, $CombatCaps;
     $ResultString = "";
     for ($Type = 200; $Type < 500; $Type++) {
-        if ($CombatCaps[$BuildID]['sd'][$Type] > 1) {
+        if (@$CombatCaps[$BuildID]['sd'][$Type] > 1) {
             $ResultString .= $lang['nfo_rf_again'] . " " . $lang['tech'][$Type] . " <font color=\"#00ff00\">" . $CombatCaps[$BuildID]['sd'][$Type] . "</font><br>";
         }
     }
@@ -340,14 +379,10 @@ function ShowRapidFireFrom($BuildID) {
 
     $ResultString = "";
     for ($Type = 200; $Type < 500; $Type++) {
-        if ($CombatCaps[$Type]['sd'][$BuildID] > 1) {
+        if (@$CombatCaps[$Type]['sd'][$BuildID] > 1) {
             $ResultString .= $lang['nfo_rf_from'] . " " . $lang['tech'][$Type] . " <font color=\"#ff0000\">" . $CombatCaps[$Type]['sd'][$BuildID] . "</font><br>";
         }
     }
     return $ResultString;
 }
 
-// -----------------------------------------------------------------------------------------------------------
-// History version
-// 1.0 - Réécriture (réinventation de l'eau tiède)
-// 1.1 - Ajout JumpGate pour la porte de saut comme la présente OGame ... Enfin un peu mieux quand meme !
