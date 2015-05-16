@@ -20,7 +20,7 @@
  * @author XNovaPT Team <xnovaptteam@gmail.com>
  * @ShowStatPage.php
  * @license http://www.gnu.org/licenses/gpl.html GNU GPLv3 License
- * @version 0.01  6/Dez/2014 11:49:49
+ * @version 0.01  16/mai/2015 10:49:49
  */
 
 /**
