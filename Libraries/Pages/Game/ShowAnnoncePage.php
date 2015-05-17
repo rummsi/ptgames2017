@@ -1,53 +1,63 @@
 <?php
 
-/**
- * This file is part of XNova:Legacies
- *
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
- * @see http://www.xnova-ng.org/
- *
- * Copyright (c) 2009-Present, XNova Support Team <http://www.xnova-ng.org>
- * All rights reserved.
- *
+/*
+ * XNovaPT
+ * Copyright (C) 2012
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *                                --> NOTICE <--
- *  This file is part of the core development branch, changing its contents will
- * make you unable to use the automatic updates manager. Please refer to the
- * documentation for further information about customizing XNova.
- *
+ * 
+ * You should read the GNU General Public License, see <http://www.gnu.org/licenses/>.
+ * 
+ * XNovaPT
+ * @author XNovaPT Team <xnovaptteam@gmail.com>
+ * @ShowAnnoncePage.php
+ * @license http://www.gnu.org/licenses/gpl.html GNU GPLv3 License
+ * @version 0.01  17/mai/2015 21:08:39
  */
-$users = doquery("SELECT * FROM {{table}} WHERE id='" . $user['id'] . "';", 'users');
-$annonce = doquery("SELECT * FROM {{table}} ", 'annonce');
-$action = $_GET['action'];
 
-if ($action == 5) {
-    $metalvendre = $_POST['metalvendre'];
-    $cristalvendre = $_POST['cristalvendre'];
-    $deutvendre = $_POST['deutvendre'];
+/**
+ * Description of ShowAnnoncePage
+ *
+ * @author author XNovaPT Team <xnovaptteam@gmail.com>
+ */
+class ShowAnnoncePage extends AbstractGamePage {
 
-    $metalsouhait = $_POST['metalsouhait'];
-    $cristalsouhait = $_POST['cristalsouhait'];
-    $deutsouhait = $_POST['deutsouhait'];
-
-    while ($v_annonce = mysql_fetch_array($users)) {
-        $user = $v_annonce['username'];
-        $galaxie = $v_annonce['galaxy'];
-        $systeme = $v_annonce['system'];
+    function __construct() {
+        parent::__construct();
+        $this->tplObj->compile_id = 'annonce';
     }
 
-    doquery("INSERT INTO {{table}} SET
+    function show() {
+        global $user, $lang, $dpath;
+        
+        $users = doquery("SELECT * FROM {{table}} WHERE id='" . $user['id'] . "';", 'users');
+        $annonce = doquery("SELECT * FROM {{table}} ", 'annonce');
+        $action = $_GET['action'];
+
+        if ($action == 5) {
+            $metalvendre = $_POST['metalvendre'];
+            $cristalvendre = $_POST['cristalvendre'];
+            $deutvendre = $_POST['deutvendre'];
+
+            $metalsouhait = $_POST['metalsouhait'];
+            $cristalsouhait = $_POST['cristalsouhait'];
+            $deutsouhait = $_POST['deutsouhait'];
+
+            while ($v_annonce = mysql_fetch_array($users)) {
+                $user = $v_annonce['username'];
+                $galaxie = $v_annonce['galaxy'];
+                $systeme = $v_annonce['system'];
+            }
+
+            doquery("INSERT INTO {{table}} SET
 user='{$user}',
 galaxie='{$galaxie}',
 systeme='{$systeme}',
@@ -58,7 +68,7 @@ metals='{$metalsouhait}',
 cristals='{$cristalsouhait}',
 deuts='{$deutsouhait}'", "annonce");
 
-    $page2 .= <<<HTML
+            $page2 .= <<<HTML
 <center>
 <br>
 <p>Votre Annonce a bien &eacute;t&eacute; enregistr&eacute;e !</p>
@@ -66,13 +76,13 @@ deuts='{$deutsouhait}'", "annonce");
 
 HTML;
 
-    Game::display($page2);
-}
+            Game::display($page2);
+        }
 
-if ($action != 5) {
-    $annonce = doquery("SELECT * FROM {{table}} ORDER BY `id` DESC ", "annonce");
+        if ($action != 5) {
+            $annonce = doquery("SELECT * FROM {{table}} ORDER BY `id` DESC ", "annonce");
 
-    $page2 = "<HTML>
+            $page2 = "<HTML>
 <center>
 <br>
 <table width=\"600\">
@@ -84,37 +94,40 @@ if ($action != 5) {
 
 
 ";
-    while ($b = mysql_fetch_array($annonce)) {
-        $page2 .= '<tr><th> ';
-        $page2 .= $b["user"];
-        $page2 .= '</th><th>';
-        $page2 .= $b["galaxie"];
-        $page2 .= '</th><th>';
-        $page2 .= $b["systeme"];
-        $page2 .= '</th><th>';
-        $page2 .= $b["metala"];
-        $page2 .= '</th><th>';
-        $page2 .= $b["gcristala"];
-        $page2 .= '</th><th>';
-        $page2 .= $b["deuta"];
-        $page2 .= '</th><th>';
-        $page2 .= $b["metals"];
-        $page2 .= '</th><th>';
-        $page2 .= $b["cristals"];
-        $page2 .= '</th><th>';
-        $page2 .= $b["deuts"];
-        $page2 .= '</th><th>';
-        $page2 .= "</th></tr>";
-    }
+            while ($b = mysql_fetch_array($annonce)) {
+                $page2 .= '<tr><th> ';
+                $page2 .= $b["user"];
+                $page2 .= '</th><th>';
+                $page2 .= $b["galaxie"];
+                $page2 .= '</th><th>';
+                $page2 .= $b["systeme"];
+                $page2 .= '</th><th>';
+                $page2 .= $b["metala"];
+                $page2 .= '</th><th>';
+                $page2 .= $b["gcristala"];
+                $page2 .= '</th><th>';
+                $page2 .= $b["deuta"];
+                $page2 .= '</th><th>';
+                $page2 .= $b["metals"];
+                $page2 .= '</th><th>';
+                $page2 .= $b["cristals"];
+                $page2 .= '</th><th>';
+                $page2 .= $b["deuts"];
+                $page2 .= '</th><th>';
+                $page2 .= "</th></tr>";
+            }
 
-    $page2 .= "
+            $page2 .= "
 <tr><th colspan=\"10\" align=\"center\"><a href=\"game.php?page=annonce2&action=2\">Ajouter une Annonce</a></th></tr>
 </td>
 </table>
 </HTML>";
 
-    Game::display($page2);
-}
+            Game::display($page2);
+        }
 
 // Créer par Tom1991 Copyright 2008
 // Merci au site Spacon pour m'avoir donner l'inspiration
+    }
+
+}
