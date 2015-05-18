@@ -37,17 +37,19 @@ class ShowBuddyPage extends AbstractGamePage {
 
     function show() {
         global $lang, $user;
+
+        $this->initTemplate();
+        $this->setWindow('popup');
+
         includeLang('buddy');
 
-        $a = $_GET['a'];
-        $e = $_GET['e'];
-        $s = $_GET['s'];
-        $u = intval($_GET['u']);
-
+        $a = @$_GET['a'];
+        $e = @$_GET['e'];
+        $s = @$_GET['s'];
+        $u = intval(@$_GET['u']);
         if ($s == 1 && isset($_GET['bid'])) {
             // Effacer une entree de la liste d'amis
             $bid = intval($_GET['bid']);
-
             $buddy = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $bid . "';", 'buddy', true);
             if ($buddy['owner'] == $user['id']) {
                 if ($buddy['active'] == 0 && $a == 1) {
@@ -60,13 +62,11 @@ class ShowBuddyPage extends AbstractGamePage {
             } elseif ($buddy['sender'] == $user['id']) {
                 doquery("DELETE FROM {{table}} WHERE `id` = '" . $bid . "';", 'buddy');
             }
-        } elseif ($_POST["s"] == 3 && $_POST["a"] == 1 && $_POST["e"] == 1 && isset($_POST["u"])) {
+        } elseif (@$_POST["s"] == 3 && $_POST["a"] == 1 && $_POST["e"] == 1 && isset($_POST["u"])) {
             // Traitement de l'enregistrement de la demande d'entree dans la liste d'amis
             $uid = $user["id"];
             $u = intval($_POST["u"]);
-
             $buddy = doquery("SELECT * FROM {{table}} WHERE sender={$uid} AND owner={$u} OR sender={$u} AND owner={$uid}", 'buddy', true);
-
             if (!$buddy) {
                 if (strlen($_POST['text']) > 5000) {
                     message("Le texte ne doit pas faire plus de 5000 caract&egrave;res !", "Erreur", header('Refresh: 5; URL=game.php?page=buddy'));
@@ -78,83 +78,46 @@ class ShowBuddyPage extends AbstractGamePage {
                 message($lang['A_request_exists_already_for_this_user'], $lang['Buddy_request'], header('Refresh: 5; URL=game.php?page=buddy'));
             }
         }
-
-        $page = "<br>";
-
         if ($a == 2 && isset($u)) {
             // Saisie texte de demande d'entree dans la liste d'amis
             $u = doquery("SELECT * FROM {{table}} WHERE id='$u'", "users", true);
             if (isset($u) && $u["id"] != $user["id"]) {
-                $page .= "
-		<script src=\"scripts/cntchar.js\" type=\"text/javascript\"></script>
-		<script src=\"scripts/win.js\" type=\"text/javascript\"></script>
-		<center>
-			<form action=game.php?page=buddy method=post>
-			<input type=hidden name=a value=1>
-			<input type=hidden name=s value=3>
-			<input type=hidden name=e value=1>
-			<input type=hidden name=u value=" . $u["id"] . ">
-			<table width=519>
-			<tr>
-				<td class=c colspan=2>{$lang['Buddy_request']}</td>
-			</tr><tr>
-				<th>{$lang['Player']}</th>
-				<th>" . $u["username"] . "</th>
-			</tr><tr>
-				<th>{$lang['Request_text']} (<span id=\"cntChars\">0</span> / 5000 {$lang['characters']})</th>
-				<th><textarea name=text cols=60 rows=10 onKeyUp=\"javascript:cntchar(5000)\"></textarea></th>
-			</tr><tr>
-				<td class=c><a href=\"javascript:back();\">{$lang['Back']}</a></td>
-				<td class=c><input type=submit value='{$lang['Send']}'></td>
-			</tr>
-		</table></form>
-		</center>
-		</body>
-		</html>";
-                Game::display($page, 'buddy');
+
+                $this->tplObj->assign(array(
+                    'title' => 'buddy',
+                    'u_id' => $u["id"],
+                    'Buddy_request' => $lang['Buddy_request'],
+                    'Player' => $lang['Player'],
+                    'u_username' => $u["username"],
+                    'Request_text' => $lang['Request_text'],
+                    'characters' => $lang['characters'],
+                    'Back' => $lang['Back'],
+                    'Send' => $lang['Send'],
+                ));
+
+                $this->render('buddy_request.tpl');
             } elseif ($u["id"] == $user["id"]) {
                 message($lang['You_cannot_ask_yourself_for_a_request'], $lang['Buddy_request'], header('Refresh: 5; URL=game.php?page=buddy'));
             }
         }
-// con a indicamos las solicitudes y con e las distiguimos
-        if ($a == 1)
+        // con a indicamos las solicitudes y con e las distiguimos
+        if ($a == 1) {
             $TableTitle = ( $e == 1 ) ? $lang['My_requests'] : $lang['Anothers_requests'];
-        else
+        } else {
             $TableTitle = $lang['Buddy_list'];
-
-        $page .= "
-<table width=519>
-<tr>
-	<td class=c colspan=6>{$TableTitle}</td>
-</tr>";
-
-        if (!isset($a)) {
-            $page .= "
-	<tr>
-		<th colspan=6><a href=game.php?page=buddy&a=1>{$lang['Requests']}</a></th>
-	</tr><tr>
-		<th colspan=6><a href=game.php?page=buddy&a=1&e=1>{$lang['My_requests']}</a></th>
-	</tr><tr>
-		<td class=c></td>
-		<td class=c>{$lang['Name']}</td>
-		<td class=c>{$lang['Alliance']}</td>
-		<td class=c>{$lang['Coordinates']}</td>
-		<td class=c>{$lang['Position']}</td>
-		<td class=c></td>
-	</tr>";
         }
-
         if ($a == 1) {
             $query = ( $e == 1 ) ? "WHERE active=0 AND sender=" . $user["id"] : "WHERE active=0 AND owner=" . $user["id"];
         } else {
             $query = "WHERE active=1 AND sender=" . $user["id"] . " OR active=1 AND owner=" . $user["id"];
         }
         $buddyrow = doquery("SELECT * FROM {{table}} " . $query, 'buddy');
-
+        $solicitudes = "";
+        $i = 0;
         while ($b = mysql_fetch_array($buddyrow)) {
             // para solicitudes
             if (!isset($i) && isset($a)) {
-                $page .= "
+                $solicitudes .= "
 		<tr>
 			<td class=c></td>
 			<td class=c>{$lang['User']}</td>
@@ -171,6 +134,7 @@ class ShowBuddyPage extends AbstractGamePage {
             $u = doquery("SELECT id,username,galaxy,system,planet,onlinetime,ally_id,ally_name FROM {{table}} WHERE id=" . $uid, "users", true);
             // $g = doquery("SELECT galaxy, system, planet FROM {{table}} WHERE id_planet=".$u["id_planet"],"galaxy",true);
             // $a = doquery("SELECT * FROM {{table}} WHERE id=".$uid,"aliance",true);
+            $UserAlly = "";
             if ($u["ally_id"] != 0) { // Alianza
                 // $allyrow = doquery("SELECT id,ally_tag FROM {{table}} WHERE id=".$u["ally_id"],"alliance",true);
                 // if($allyrow){
@@ -201,7 +165,7 @@ class ShowBuddyPage extends AbstractGamePage {
                 $UserCommand = "<a href=game.php?page=buddy&s=1&bid=" . $b["id"] . ">{$lang['Delete']}</a>";
             }
 
-            $page .= "
+            $solicitudes .= "
 	<tr>
 		<th width=20>" . $i . "</th>
 		<th><a href=game.php?page=messages&mode=write&id=" . $u["id"] . ">" . $u["username"] . "</a></th>
@@ -212,26 +176,23 @@ class ShowBuddyPage extends AbstractGamePage {
 	</tr>";
         }
 
-        if (!isset($i)) {
-            $page .= "
-	<tr>
-		<th colspan=6>{$lang['There_is_no_request']}</th>
-	</tr>";
-        }
+        $this->tplObj->assign(array(
+            'title' => $lang['Buddy_list'],
+            'TableTitle' => $TableTitle,
+            'a' => $a,
+            'Requests' => $lang['Requests'],
+            'My_requests' => $lang['My_requests'],
+            'Name' => $lang['Name'],
+            'Alliance' => $lang['Alliance'],
+            'Coordinates' => $lang['Coordinates'],
+            'Position' => $lang['Position'],
+            'solicitudes' => $solicitudes,
+            'i' => $i,
+            'There_is_no_request' => $lang['There_is_no_request'],
+            'Back' => $lang['Back'],
+        ));
 
-        if ($a == 1) {
-            $page .= "
-	<tr>
-		<td colspan=6 class=c><a href=game.php?page=buddy>{$lang['Back']}</a></td>
-	</tr>";
-        }
-
-        $page .= "
-	</table>
-	</center>";
-
-        Game::display($page, $lang['Buddy_list'], false);
-// Created by Perberos. All rights reversed (C) 2006
+        $this->render('buddy_body.tpl');
     }
 
 }
