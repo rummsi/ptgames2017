@@ -33,13 +33,14 @@ define('INSTALL' , false);
 define('LOGIN'   , true);
 define('DISABLE_IDENTITY_CHECK', true);
 require_once dirname(__FILE__) .'/common.php';
+define('NO_MENU', true);
 
 includeLang('login');
-$post = filter_input_array(INPUT_POST);
-if (!empty($post)) {
+
+if (!empty($_POST)) {
     $userData = array(
-        'username' => mysql_real_escape_string($post['username']),
-        'password' => mysql_real_escape_string($post['password'])
+        'username' => mysql_real_escape_string($_POST['username']),
+        'password' => mysql_real_escape_string($_POST['password'])
     );
     $sql =<<<EOF
 SELECT
@@ -62,7 +63,7 @@ EOF;
 
     if ($login) {
         if (intval($login['login_success'])) {
-            if (isset($post["rememberme"])) {
+            if (isset($_POST["rememberme"])) {
                 setcookie('nova-cookie', serialize(array('id' => $login['id'], 'key' => $login['login_rememberme'])), time() + 2592000);
             }
 
@@ -74,7 +75,7 @@ EOF;
             doquery($sql, 'users');
 
             $_SESSION['user_id'] = $login['id'];
-            header("Location: frames.php");
+            header("Location: overview.php");
             exit(0);
         } else {
             message($lang['Login_FailPassword'], $lang['Login_Error']);
@@ -95,9 +96,9 @@ EOF;
     $parse['PasswordLost'] = $lang['PasswordLost'];
 
     $page = parsetemplate(gettemplate('login_body'), $parse);
-    $get = filter_input_array(INPUT_GET);
+
     // Test pour prendre le nombre total de joueur et le nombre de joueurs connect�s
-    if (isset($get['ucount']) && $get['ucount'] == 1) {
+    if (isset($_GET['ucount']) && $_GET['ucount'] == 1) {
         $page = $PlayersOnline['onlinenow']."/".$Count['players'];
         die ( $page );
     } else {

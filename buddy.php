@@ -31,6 +31,7 @@
 define('INSIDE' , true);
 define('INSTALL' , false);
 require_once dirname(__FILE__) .'/common.php';
+define('NO_MENU'   , true);
 
 	includeLang('buddy');
 
@@ -227,4 +228,3 @@ $page .= "
 
 display ( $page, $lang['Buddy_list'], false );
 // Created by Perberos. All rights reversed (C) 2006
-?>
