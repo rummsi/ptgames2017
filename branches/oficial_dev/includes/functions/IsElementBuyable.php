@@ -28,7 +28,7 @@
  *
  */
 
-function IsElementBuyable ($CurrentUser, $CurrentPlanet, $Element, $Incremental = true, $ForDestroy = false) {
+function IsElementBuyable($CurrentUser, $CurrentPlanet, $Element, $Incremental = true, $ForDestroy = false) {
     global $pricelist, $resource;
 
     if (IsVacationMode($CurrentUser)) {
@@ -36,7 +36,7 @@ function IsElementBuyable ($CurrentUser, $CurrentPlanet, $Element, $Incremental 
     }
 
     if ($Incremental) {
-        $level  = ($CurrentPlanet[$resource[$Element]]) ? $CurrentPlanet[$resource[$Element]] : $CurrentUser[$resource[$Element]];
+        $level = isset($CurrentPlanet[$resource[$Element]]) ? $CurrentPlanet[$resource[$Element]] : isset($CurrentUser[$resource[$Element]]);
     }
 
     $array = array(
@@ -44,11 +44,11 @@ function IsElementBuyable ($CurrentUser, $CurrentPlanet, $Element, $Incremental 
         Legacies_Empire::RESOURCE_CRISTAL,
         Legacies_Empire::RESOURCE_DEUTERIUM,
         'energy_max'
-        );
+    );
 
     $cost = array();
     foreach ($array as $ResType) {
-        if ($pricelist[$Element][$ResType] != 0) {
+        if (isset($pricelist[$Element][$ResType]) != 0) {
             if ($Incremental) {
                 $cost[$ResType] = bcmul($pricelist[$Element][$ResType], bcpow($pricelist[$Element]['factor'], $level), 0);
             } else {
@@ -56,7 +56,7 @@ function IsElementBuyable ($CurrentUser, $CurrentPlanet, $Element, $Incremental 
             }
 
             if ($ForDestroy) {
-                $cost[$ResType]  = bcdiv($cost[$ResType], 2, 0);
+                $cost[$ResType] = bcdiv($cost[$ResType], 2, 0);
             }
 
             if (bccomp($cost[$ResType], $CurrentPlanet[$ResType]) > 0) {

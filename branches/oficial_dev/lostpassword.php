@@ -32,45 +32,46 @@ define('INSIDE' , true);
 define('INSTALL' , false);
 define('DISABLE_IDENTITY_CHECK', true);
 require_once dirname(__FILE__) . '/common.php';
+define('NO_MENU', true);
 
 $mailData = array(
     'recipient' => NULL,
     'sender' => 'no-reply',
     'subject' => 'XNova:Legacies - Changement de mot de passe'
-    );
+);
 
 includeLang('lostpassword');
-$post = filter_input_array(INPUT_POST);
+
 $username = NULL;
-if (!empty($post)) {
-    if(isset($post['pseudo']) && !empty($post['pseudo'])) {
-        $username = mysql_real_escape_string($post['pseudo']);
-        $sql =<<<EOF
+if (!empty($_POST)) {
+    if (isset($_POST['pseudo']) && !empty($_POST['pseudo'])) {
+        $username = mysql_real_escape_string($_POST['pseudo']);
+        $sql = <<<EOF
 SELECT users.email, users.username
   FROM {{table}} AS users
   WHERE users.username="{$username}"
   LIMIT 1
 EOF;
         if (!($result = doquery($sql, 'users', true))) {
-            message($lang['Lost_FailUser'], $lang['Lost_Error'], 'lostpassword.php');
+            message("Cet utilisateur n'existe pas", 'Erreur', 'lostpassword.php');
             die();
         }
         list($mailData['recipient'], $username) = $result;
-    } else if(isset($post['email']) && !empty($post['email'])) {
-        $email = mysql_real_escape_string($post['email']);
-        $sql =<<<EOF
+    } else if (isset($_POST['email']) && !empty($_POST['email'])) {
+        $email = mysql_real_escape_string($_POST['email']);
+        $sql = <<<EOF
 SELECT users.email, users.username
   FROM {{table}} AS users
   WHERE users.email="{$email}"
   LIMIT 1
 EOF;
         if (!($result = doquery($sql, 'users', true))) {
-            message("Cet email n'est utilisé par aucun joueur", $lang['Lost_Error'], 'lostpassword.php');
+            message("Cet email n'est utilisé par aucun joueur", 'Erreur', 'lostpassword.php');
             die();
         }
         list($mailData['recipient'], $username) = $result;
     } else {
-        message('Veuillez entrer votre login ou votre email.', $lang['Lost_Error'], 'lostpassword.php');
+        message('Veuillez entrer votre login ou votre email.', 'Erreur', 'lostpassword.php');
         die();
     }
 
@@ -82,7 +83,7 @@ EOF;
             $randomPass .= $characters[rand(0, strlen($characters) - 1)];
         }
 
-        $message =<<<EOF
+        $message = <<<EOF
 Votre mot de passe a été modifié, veuillez trouver ci-dessous vos informations de connexion :
 login : $username
 mot de passe : $randomPass
@@ -91,14 +92,14 @@ A bientôt sur XNova:Legacies
 EOF;
 
         $version = VERSION;
-        $headers =<<<EOF
+        $headers = <<<EOF
 From: {$mailData['sender']}
 X-Sender: Legacies/{$version}
 
 EOF;
         mail($mailData['recipient'], $mailData['subject'], $message, $headers);
 
-        $sql =<<<EOF
+        $sql = <<<EOF
 UPDATE {{table}} AS users
   SET users.password="{$randomPass}"
   WHERE users.username="$username"
@@ -112,4 +113,4 @@ EOF;
 
 $parse = $lang;
 $page = parsetemplate(gettemplate('lostpassword'), $parse);
-display($page, $lang['ResetPass']);
+display($page, $lang['registry']);

@@ -1,4 +1,4 @@
-<div id='leftmenu'>
+<div id='leftmenu' class="style">
 <script language="JavaScript">
 function f(target_url,win_name) {
   var new_win = window.open(target_url,win_name,'resizable=yes,scrollbars=yes,menubar=no,toolbar=no,width=550,height=280,top=0,left=0');
@@ -6,7 +6,7 @@ function f(target_url,win_name) {
 }
 parent.frames['Hauptframe'].location.replace("overview.php");
 </script>
-<body  class="style" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
+<body topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
 <center>
 <div id='menu'>
 <br>

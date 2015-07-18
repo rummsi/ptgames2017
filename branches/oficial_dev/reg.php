@@ -28,10 +28,11 @@
  *
  */
 
-define('INSIDE' , true);
-define('INSTALL' , false);
+define('INSIDE', true);
+define('INSTALL', false);
 define('DISABLE_IDENTITY_CHECK', true);
-require_once dirname(__FILE__) .'/common.php';
+require_once dirname(__FILE__) . '/common.php';
+define('NO_MENU', true);
 
 //on demarre la session qui ne sers ici que pour le code de secu
 if(!isset($_SESSION)) { 
@@ -43,8 +44,7 @@ if(!isset($_SESSION)) {
 
 includeLang('reg');
 
-function sendpassemail($emailaddress, $password)
-{
+function sendpassemail($emailaddress, $password) {
     global $lang;
 
     $parse['gameurl'] = GAMEURL;
@@ -54,8 +54,7 @@ function sendpassemail($emailaddress, $password)
     return $status;
 }
 
-function mymail($to, $title, $body, $from = '')
-{
+function mymail($to, $title, $body, $from = '') {
     $from = trim($from);
 
     if (!$from) {
@@ -79,93 +78,96 @@ function mymail($to, $title, $body, $from = '')
 
     return mail($to, $title, $body, $head);
 }
-$post = filter_input_array(INPUT_POST);
-if ($post) {
+
+if ($_POST) {
     $errors = 0;
     $errorlist = "";
 
 //si la secu est active
 
-if ( $game_config['secu'] == 1 ){
-echo $_session['secu'];
-if (!$post['secu'] || $post['secu'] != $_SESSION['secu'] ) { $errorlist .= $lang['error_secu']; $errors++; }
-}
+    if ($game_config['secu'] == 1) {
+        echo $_session['secu'];
+        if (!$_POST['secu'] || $_POST['secu'] != $_SESSION['secu']) {
+            $errorlist .= $lang['error_secu'];
+            $errors++;
+        }
+    }
 
-    $post['email'] = strip_tags($post['email']);
-    if (!is_email($post['email'])) {
-        $errorlist .= "\"" . $post['email'] . "\" " . $lang['error_mail'];
+    $_POST['email'] = strip_tags($_POST['email']);
+    if (!is_email($_POST['email'])) {
+        $errorlist .= "\"" . $_POST['email'] . "\" " . $lang['error_mail'];
         $errors++;
     }
 
-    if (!$post['planet']) {
+    if (!$_POST['planet']) {
         $errorlist .= $lang['error_planet'];
         $errors++;
     }
 
-    if (preg_match("/[^A-z0-9_\-]/", $post['hplanet']) == 1) {
+    if (preg_match("/[^A-z0-9_\-]/", $_POST['hplanet']) == 1) {
         $errorlist .= $lang['error_planetnum'];
         $errors++;
     }
 
-    if (!$post['character']) {
+    if (!$_POST['character']) {
         $errorlist .= $lang['error_character'];
         $errors++;
     }
 
-    if (strlen($post['passwrd']) < 4) {
+    if (strlen($_POST['passwrd']) < 4) {
         $errorlist .= $lang['error_password'];
         $errors++;
     }
 
-    if (preg_match("/[^A-z0-9_\-]/", $post['character']) == 1) {
+    if (preg_match("/[^A-z0-9_\-]/", $_POST['character']) == 1) {
         $errorlist .= $lang['error_charalpha'];
         $errors++;
     }
 
-    if ($post['rgt'] != 'on') {
+    if ($_POST['rgt'] != 'on') {
         $errorlist .= $lang['error_rgt'];
         $errors++;
     }
     // Le meilleur moyen de voir si un nom d'utilisateur est pris c'est d'essayer de l'appeler !!
-    $ExistUser = doquery("SELECT `username` FROM {{table}} WHERE `username` = '" . mysql_real_escape_string($post['character']) . "' LIMIT 1;", 'users', true);
+    $ExistUser = doquery("SELECT `username` FROM {{table}} WHERE `username` = '" . mysql_escape_string($_POST['character']) . "' LIMIT 1;", 'users', true);
     if ($ExistUser) {
         $errorlist .= $lang['error_userexist'];
         $errors++;
     }
     // Si l'on verifiait que l'adresse email n'existe pas encore ???
-    $ExistMail = doquery("SELECT `email` FROM {{table}} WHERE `email` = '" . mysql_escape_real_string($post['email']) . "' LIMIT 1;", 'users', true);
+    $ExistMail = doquery("SELECT `email` FROM {{table}} WHERE `email` = '" . mysql_escape_string($_POST['email']) . "' LIMIT 1;", 'users', true);
     if ($ExistMail) {
         $errorlist .= $lang['error_emailexist'];
         $errors++;
     }
 
-    if ($post['sex'] != '' && $post['sex'] != 'F' && $post['sex'] != 'M') {
+    if ($_POST['sex'] != '' && $_POST['sex'] != 'F' && $_POST['sex'] != 'M') {
         $errorlist .= $lang['error_sex'];
         $errors++;
     }
 
     if ($errors != 0) {
-        message ($errorlist, $lang['Register']);
+        message($errorlist, $lang['Register']);
     } else {
-        $newpass = $post['passwrd'];
-        $UserName = CheckInputStrings ($post['character']);
-        $UserEmail = CheckInputStrings ($post['email']);
-        $UserPlanet = CheckInputStrings (addslashes($post['planet']));
+        $newpass = $_POST['passwrd'];
+        $UserName = CheckInputStrings($_POST['character']);
+        $UserEmail = CheckInputStrings($_POST['email']);
+        $UserPlanet = CheckInputStrings(addslashes($_POST['planet']));
 
         $md5newpass = md5($newpass);
         // Creation de l'utilisateur
         $QryInsertUser = "INSERT INTO {{table}} SET ";
-        $QryInsertUser .= "`username` = '" . mysql_real_escape_string(strip_tags($UserName)) . "', ";
-        $QryInsertUser .= "`email` = '" . mysql_real_escape_string($UserEmail) . "', ";
-        $QryInsertUser .= "`email_2` = '" . mysql_real_escape_string($UserEmail) . "', ";
-        $QryInsertUser .= "`sex` = '" . mysql_real_escape_string($post['sex']) . "', ";
-	$QryInsertUser .= "`ip_at_reg` = '" . filter_input(INPUT_SERVER, 'REMOTE_ADDR') . "', ";
+        $QryInsertUser .= "`username` = '" . mysql_escape_string(strip_tags($UserName)) . "', ";
+        $QryInsertUser .= "`email` = '" . mysql_escape_string($UserEmail) . "', ";
+        $QryInsertUser .= "`email_2` = '" . mysql_escape_string($UserEmail) . "', ";
+        $QryInsertUser .= "`sex` = '" . mysql_escape_string($_POST['sex']) . "', ";
+        $QryInsertUser .= "`ip_at_reg` = '" . $_SERVER["REMOTE_ADDR"] . "', ";
         $QryInsertUser .= "`id_planet` = '0', ";
         $QryInsertUser .= "`register_time` = '" . time() . "', ";
         $QryInsertUser .= "`password`='" . $md5newpass . "';";
         doquery($QryInsertUser, 'users');
         // On cherche le numero d'enregistrement de l'utilisateur fraichement cree
-        $NewUser = doquery("SELECT `id` FROM {{table}} WHERE `username` = '" . mysql_real_escape_string($post['character']) . "' LIMIT 1;", 'users', true);
+        $NewUser = doquery("SELECT `id` FROM {{table}} WHERE `username` = '" . mysql_escape_string($_POST['character']) . "' LIMIT 1;", 'users', true);
         $iduser = $NewUser['id'];
         // Recherche d'une place libre !
         $LastSettedGalaxyPos = $game_config['LastSettedGalaxyPos'];
@@ -175,7 +177,7 @@ if (!$post['secu'] || $post['secu'] != $_SESSION['secu'] ) { $errorlist .= $lang
             for ($Galaxy = $LastSettedGalaxyPos; $Galaxy <= MAX_GALAXY_IN_WORLD; $Galaxy++) {
                 for ($System = $LastSettedSystemPos; $System <= MAX_SYSTEM_IN_GALAXY; $System++) {
                     for ($Posit = $LastSettedPlanetPos; $Posit <= 4; $Posit++) {
-                        $Planet = round (rand (4, 12));
+                        $Planet = round(rand(4, 12));
 
                         switch ($LastSettedPlanetPos) {
                             case 1:
@@ -217,7 +219,7 @@ if (!$post['secu'] || $post['secu'] != $_SESSION['secu'] ) { $errorlist .= $lang
             }
 
             if (!$GalaxyRow) {
-                CreateOnePlanetRecord ($Galaxy, $System, $Planet, $NewUser['id'], $UserPlanet, true);
+                CreateOnePlanetRecord($Galaxy, $System, $Planet, $NewUser['id'], $UserPlanet, true);
                 $newpos_checked = true;
             }
             if ($newpos_checked) {
@@ -250,27 +252,26 @@ if (!$post['secu'] || $post['secu'] != $_SESSION['secu'] ) { $errorlist .= $lang
         doquery("UPDATE {{table}} SET `config_value` = `config_value` + '1' WHERE `config_name` = 'users_amount' LIMIT 1;", 'config');
 
         $Message = $lang['thanksforregistry'];
-        if (sendpassemail($post['email'], "$newpass")) {
-            $Message .= " (" . htmlentities($post["email"]) . ")";
+        if (sendpassemail($_POST['email'], "$newpass")) {
+            $Message .= " (" . htmlentities($_POST["email"]) . ")";
         } else {
-            $Message .= " (" . htmlentities($post["email"]) . ")";
+            $Message .= " (" . htmlentities($_POST["email"]) . ")";
             $Message .= "<br><br>" . $lang['error_mailsend'] . " <b>" . $newpass . "</b>";
         }
         message($Message, $lang['reg_welldone']);
     }
-} elseif ( $game_config['secu'] == 1 ){
+} elseif ($game_config['secu'] == 1) {
 
-$parse = $lang;
-$_SESSION['nombre1']= rand(0,50);
-$_SESSION['nombre2']= rand(0,50);
-$_SESSION['secu'] = $_SESSION['nombre1'] + $_SESSION['nombre2'];
+    $parse = $lang;
+    $_SESSION['nombre1'] = rand(0, 50);
+    $_SESSION['nombre2'] = rand(0, 50);
+    $_SESSION['secu'] = $_SESSION['nombre1'] + $_SESSION['nombre2'];
 
     $parse['servername'] = '<img src="images/xnova.png" align="top" border="0" >';
-    $parse['code_secu'] = "<th>" . $lang['code_secu'] . ": </th>";
-    $parse['affiche'] = $_SESSION['nombre1']." + ".$_SESSION['nombre2']." = <input name='secu' size='3' maxlength='3' type='text'>";
+    $parse['code_secu'] = "<th>Securite: </th>";
+    $parse['affiche'] = $_SESSION['nombre1'] . " + " . $_SESSION['nombre2'] . " = <input name='secu' size='3' maxlength='3' type='text'>";
     $page = parsetemplate(gettemplate('registry_form'), $parse);
-
-    }else{
+} else {
 
     // Afficher le formulaire d'enregistrement
     $parse = $lang;
@@ -279,7 +280,7 @@ $_SESSION['secu'] = $_SESSION['nombre1'] + $_SESSION['nombre2'];
     $parse['servername'] = '<img src="images/xnova.png" align="top" border="0" >';
     $page = parsetemplate(gettemplate('registry_form'), $parse);
 }
-    display ($page, $lang['registry'], false);
+display($page, $lang['registry'], false);
 
 // -----------------------------------------------------------------------------------------------------------
 // History version

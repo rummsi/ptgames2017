@@ -28,25 +28,22 @@
  *
  */
 
-function IsTechnologieAccessible($user, $planet, $element)
-{
-	global $requirements, $resource;
+function IsTechnologieAccessible($user, $planet, $element) {
+    global $requirements, $resource;
 
-	if (isset($requirements[$element])) {
-		$enabled = true;
-		foreach($requirements[$element] as $ReqElement => $EleLevel) {
-			if (@$user[$resource[$ReqElement]] && $user[$resource[$ReqElement]] >= $EleLevel) {
-				// break;
-			} elseif ($planet[$resource[$ReqElement]] && $planet[$resource[$ReqElement]] >= $EleLevel) {
-				$enabled = true;
-			} else {
-				return false;
-			}
-		}
-		return $enabled;
-	} else {
-		return true;
-	}
+    if (isset($requirements[$element])) {
+        $enabled = true;
+        foreach ($requirements[$element] as $ReqElement => $EleLevel) {
+            if (isset($user[$resource[$ReqElement]]) && $user[$resource[$ReqElement]] >= $EleLevel) {
+                // break;
+            } elseif (isset($planet[$resource[$ReqElement]]) && $planet[$resource[$ReqElement]] >= $EleLevel) {
+                $enabled = true;
+            } else {
+                return false;
+            }
+        }
+        return $enabled;
+    } else {
+        return true;
+    }
 }
-
-?>
