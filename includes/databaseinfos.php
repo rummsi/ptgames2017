@@ -165,6 +165,7 @@
 	$QryInsertConfig    .= "('enable_bot'          , '0' ), ";
 	$QryInsertConfig    .= "('enable_bbcode'          , '1' ), ";
 	$QryInsertConfig    .= "('debug'                 , '0') ";
+	$QryInsertConfig    .= "('secu'                 , '1') ";
 	$QryInsertConfig    .= ";";
 
 
@@ -547,5 +548,3 @@
 	$QryTableMulti      .= "`reason` text character set latin1 NOT NULL, ";
 	$QryTableMulti      .= "PRIMARY KEY  (`id`) ";
 	$QryTableMulti      .= ") ENGINE=MyISAM;";
-
-?>

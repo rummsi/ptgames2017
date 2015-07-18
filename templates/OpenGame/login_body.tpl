@@ -42,8 +42,8 @@ function changeAction(type) {
 </div>
 <div id="mainmenu" style="margin-top: 20px;">
 <a href="reg.php">{log_reg}</a>
-<a href="{forum_url}">Forum</a>
-<a href="contact.php">Contact</a>
+<a href="{forum_url}">{log_board}</a>
+<a href="contact.php">{log_contact}</a>
 </div>
 <div id="rightmenu" class="rightmenu">
 <div id="title">{log_welcome} {servername}</div>

@@ -36,5 +36,5 @@ $lang['pseudo']    = "Pseudo";
 $lang['email']    = "e-Mail";
 $lang['ButtonSendPass'] = "Envoyer";
 $lang['PassForm'] = "Formulaire";
-
-?>
+$lang['Lost_FailUser'] = 'Ce joueur n\'existe pas.<br><a href=login.php>Retour</a>';
+$lang['Lost_Error'] = 'Erreur';

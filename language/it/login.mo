@@ -54,5 +54,5 @@ $lang['log_numbreg'] = 'Giocatori iscritti';
 $lang['log_welcome'] = 'Benvenuti su';
 
 $lang['PasswordLost'] = 'Password dimenticata?';
-
-?>
+$lang['log_board'] = 'Foro';
+$lang['log_contact'] = 'Contatto';

@@ -35,11 +35,11 @@ define('DISABLE_IDENTITY_CHECK', true);
 require_once dirname(__FILE__) .'/common.php';
 
 includeLang('login');
-
-if (!empty($_POST)) {
+$post = filter_input_array(INPUT_POST);
+if (!empty($post)) {
     $userData = array(
-        'username' => mysql_real_escape_string($_POST['username']),
-        'password' => mysql_real_escape_string($_POST['password'])
+        'username' => mysql_real_escape_string($post['username']),
+        'password' => mysql_real_escape_string($post['password'])
     );
     $sql =<<<EOF
 SELECT
@@ -62,7 +62,7 @@ EOF;
 
     if ($login) {
         if (intval($login['login_success'])) {
-            if (isset($_POST["rememberme"])) {
+            if (isset($post["rememberme"])) {
                 setcookie('nova-cookie', serialize(array('id' => $login['id'], 'key' => $login['login_rememberme'])), time() + 2592000);
             }
 
@@ -95,13 +95,12 @@ EOF;
     $parse['PasswordLost'] = $lang['PasswordLost'];
 
     $page = parsetemplate(gettemplate('login_body'), $parse);
-
+    $get = filter_input_array(INPUT_GET);
     // Test pour prendre le nombre total de joueur et le nombre de joueurs connect�s
-    if (isset($_GET['ucount']) && $_GET['ucount'] == 1) {
+    if (isset($get['ucount']) && $get['ucount'] == 1) {
         $page = $PlayersOnline['onlinenow']."/".$Count['players'];
         die ( $page );
     } else {
         display($page, $lang['Login']);
     }
 }
-

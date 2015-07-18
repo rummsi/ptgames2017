@@ -48,7 +48,8 @@ require_once dirname(__FILE__) .'/common.php';
 		$bloc['ctc_data_name']    = $Ops['username'];
 		$bloc['ctc_data_auth']    = $lang['user_level'][$Ops['authlevel']];
 		$bloc['ctc_data_mail']    = "<a href=mailto:".$Ops['email'].">".$Ops['email']."</a>";
-		$parse['ctc_admin_list'] .= parsetemplate($RowsTPL, $bloc);
+		@$parse['ctc_admin_list'] .= parsetemplate($RowsTPL, $bloc);
+                
 	}
 
 	$page = parsetemplate($BodyTPL, $parse);
@@ -57,5 +58,3 @@ require_once dirname(__FILE__) .'/common.php';
 // -----------------------------------------------------------------------------------------------------------
 // History version
 // 1.0 - Mise au propre (Virer tout ce qui ne sert pas a une prise de contact en fait)
-?>
-
