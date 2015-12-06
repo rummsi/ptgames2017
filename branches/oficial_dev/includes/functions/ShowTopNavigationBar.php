@@ -48,7 +48,7 @@ function ShowTopNavigationBar($CurrentUser, $CurrentPlanet) {
         // Genearation de la combo des planetes du joueur
         $parse['planetlist'] = '';
         $ThisUsersPlanets = SortUserPlanets($CurrentUser);
-        while ($CurPlanet = mysql_fetch_array($ThisUsersPlanets)) {
+        while ($CurPlanet = mysqli_fetch_array($ThisUsersPlanets)) {
             if (isset($CurPlanet["destruyed"]) == 0) {
                 $parse['planetlist'] .= "\n<option ";
                 if ($CurPlanet['id'] == $CurrentUser['current_planet']) {

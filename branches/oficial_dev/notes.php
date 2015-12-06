@@ -147,7 +147,7 @@ elseif($_POST){//Borrar
 		//Loop para crear la lista de notas que el jugador tiene
 		$count = 0;
 		$parse=$lang;
-		while($note = mysql_fetch_array($notes_query)){
+		while($note = mysqli_fetch_array($notes_query)){
 			$count++;
 			//Colorea el titulo dependiendo de la prioridad
 			if($note["priority"] == 0){ $parse['NOTE_COLOR'] = "lime";}//Importante
