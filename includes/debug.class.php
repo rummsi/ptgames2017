@@ -145,7 +145,7 @@ EOF;
         $sqlquery = mysql_query(str_replace("{{table}}", $dbsettings["prefix"].'errors',$query))
             or die('error fatal');
         $query = "explain select * from {{table}}";
-        $q = mysql_fetch_array(mysql_query(str_replace("{{table}}", $dbsettings["prefix"].
+        $q = mysqli_fetch_array(mysql_query(str_replace("{{table}}", $dbsettings["prefix"].
             'errors', $query))) or die('error fatal: ');
 
         if (!function_exists('message')) {
