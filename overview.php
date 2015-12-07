@@ -49,7 +49,7 @@ switch ($mode) {
         if ($_POST['action'] == $lang['namer']) {
             // Reponse au changement de nom de la planete
             $UserPlanet = addslashes(CheckInputStrings ($_POST['newname']));
-            $newname = mysql_escape_string(trim($UserPlanet));
+            $newname = mysqli_real_escape_string (Database::$dbHandle, trim($UserPlanet));
             if ($newname != "") {
                 // Deja on met jour la planete qu'on garde en memoire (pour le nom)
                 $planetrow['name'] = $newname;
