@@ -45,8 +45,10 @@ function doquery($query, $table, $fetch = false)
         Database::$dbHandle = mysqli_connect(
             $config['global']['database']['options']['hostname'],
             $config['global']['database']['options']['username'],
-            $config['global']['database']['options']['password'],
-            $config['global']['database']['options']['database'], Database::$dbHandle)
+            $config['global']['database']['options']['password'])
+                or trigger_error(mysqli_error() . "$query<br />" . PHP_EOL, E_USER_WARNING);
+
+        mysqli_select_db(Database::$dbHandle, $config['global']['database']['options']['database'])
             or trigger_error(mysqli_error()."$query<br />" . PHP_EOL, E_USER_WARNING);
     }
     $sql = str_replace("{{table}}", "{$config['global']['database']['table_prefix']}{$table}", $query);
