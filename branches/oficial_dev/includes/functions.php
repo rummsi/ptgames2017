@@ -129,15 +129,26 @@ function display($page, $title = '', $topnav = true, $metatags = '', $AdminPage 
         </center>
         ';
     } elseif ($AdminPage && !$InLogin && !defined("NO_MENU")) {
-        $DisplayPage .='
-        <br />
-        <center>
-        <div style="width:90%;">
-            <div style="float:left; margin-right:25px; position:\'fixed\';" class=\'style\'>' . $AdminMenu . '</div>
-            <div style="float:center; margin-left:150px; width: 100%px;">' . $page . '</div>
-        </div>
-        </center>
-        ';
+		if (defined("IN_INSTALL")){
+			$DisplayPage .='
+			<br />
+			<center>
+			<div style="width:90%;">
+				<div style="float:center; margin-left:150px; width: 100%px;">' . $page . '</div>
+			</div>
+			</center>
+			';
+		}else{
+			$DisplayPage .='
+			<br />
+			<center>
+			<div style="width:90%;">
+				<div style="float:left; margin-right:25px; position:\'fixed\';" class=\'style\'>' . $AdminMenu . '</div>
+				<div style="float:center; margin-left:150px; width: 100%px;">' . $page . '</div>
+			</div>
+			</center>
+			';
+		}
     } else {
         $DisplayPage .= "<center>\n" . $page . "\n</center>\n";
     }
