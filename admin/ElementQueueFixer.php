@@ -42,7 +42,7 @@ require_once dirname(dirname(__FILE__)) .'/common.php';
 		$QrySelectPlanet .= "`b_hangar_id` != '0';";
 		$AffectedPlanets  = doquery ($QrySelectPlanet, 'planets');
 		$DeletedQueues    = 0;
-		while ( $ActualPlanet = mysqli_fetch_assoc($AffectedPlanets) ) {
+		while ( $ActualPlanet = $AffectedPlanets->fetch_assoc() ) {
 			$HangarQueue = explode (";", $ActualPlanet['b_hangar_id']);
 			$bDelQueue   = false;
 			if (count($HangarQueue)) {

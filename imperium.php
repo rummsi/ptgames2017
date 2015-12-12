@@ -51,7 +51,7 @@ $planetsrow = doquery($QryPlanets, 'planets');
 $planet = array();
 $parse = $lang;
 
-while ($p = mysqli_fetch_array($planetsrow)) {
+while ($p = $planetsrow->fetch_array() {
     $planet[] = $p;
 }
 

@@ -50,7 +50,7 @@ require_once dirname(dirname(__FILE__)) .'/common.php';
 
         switch ($_GET['result']){
             case 'usr_search':
-                $pattern = mysqli_real_escape_string(Database::$dbHandle, $_GET['player']);
+                $pattern = Database::$dbHandle->real_escape_string($_GET['player']);
                 $SelUser = doquery("SELECT * FROM {{table}} WHERE `username` LIKE '%". $pattern ."%' LIMIT 1;", 'users', true);
                 $UsrMain = doquery("SELECT `name` FROM {{table}} WHERE `id` = '". $SelUser['id_planet'] ."';", 'planets', true);
 
@@ -68,7 +68,7 @@ require_once dirname(dirname(__FILE__)) .'/common.php';
                 break;
 
             case 'usr_data':
-                $pattern = mysqli_real_escape_string(Database::$dbHandle, $_GET['player']);
+                $pattern = Database::$dbHandle->real_escape_string($_GET['player']);
                 $SelUser = doquery("SELECT * FROM {{table}} WHERE `username` LIKE '%". $pattern ."%' LIMIT 1;", 'users', true);
                 $UsrMain = doquery("SELECT `name` FROM {{table}} WHERE `id` = '". $SelUser['id_planet'] ."';", 'planets', true);
 
@@ -87,7 +87,7 @@ require_once dirname(dirname(__FILE__)) .'/common.php';
                 $parse['adm_sub_form2']  = "<table><tbody>";
                 $parse['adm_sub_form2'] .= "<tr><td colspan=\"4\" class=\"c\">".$lang['adm_colony']."</td></tr>";
                 $UsrColo = doquery("SELECT * FROM {{table}} WHERE `id_owner` = '". $SelUser['id'] ." ORDER BY `galaxy` ASC, `planet` ASC, `system` ASC, `planet_type` ASC';", 'planets');
-                while ( $Colo = mysqli_fetch_assoc($UsrColo) ) {
+                while ( $Colo = $UsrColo->fetch_assoc() ) {
                     if ($Colo['id'] != $SelUser['id_planet']) {
                         $parse['adm_sub_form2'] .= "<tr><th>".$Colo['id']."</th>";
                         $parse['adm_sub_form2'] .= "<th>". (($Colo['planet_type'] == 1) ? $lang['adm_planet'] : $lang['adm_moon'] ) ."</th>";
@@ -116,8 +116,8 @@ require_once dirname(dirname(__FILE__)) .'/common.php';
                     break;
                 }
 
-                $player = isset($_GET['player']) ? mysqli_real_escape_string(Database::$dbHandle, $_GET['player']) : '';
-                $level  = isset($_GET['authlvl']) ? mysqli_real_escape_string(Database::$dbHandle, $_GET['authlvl']) : '';
+                $player = isset($_GET['player']) ? Database::$dbHandle->real_escape_string($_GET['player']) : '';
+                $level  = isset($_GET['authlvl']) ? Database::$dbHandle->real_escape_string($_GET['authlvl']) : '';
 
                 if ($level >= $user['authlevel'] && $user['authlevel'] != LEVEL_ADMIN) {
                     AdminMessage('Not enough privilleges to promote user.', $lang['adm_mod_level']);
@@ -138,11 +138,11 @@ require_once dirname(dirname(__FILE__)) .'/common.php';
                 break;
 
             case 'ip_search':
-                $pattern = isset($_GET['ip']) ? mysqli_real_escape_string(Database::$dbHandle, $_GET['ip']) : '';
+                $pattern = isset($_GET['ip']) ? Database::$dbHandle->real_escape_string($_GET['ip']) : '';
                 $SelUser    = doquery("SELECT * FROM {{table}} WHERE `user_lastip` = '". $pattern ."' LIMIT 10;", 'users');
                 $bloc                   = $lang;
                 $bloc['adm_this_ip']    = $pattern;
-                while ( $Usr = mysqli_fetch_assoc($SelUser) ) {
+                while ( $Usr = $SelUser->fetch_assoc() ) {
                     $UsrMain = doquery("SELECT `name` FROM {{table}} WHERE `id` = '". $Usr['id_planet'] ."';", 'planets', true);
                     $bloc['adm_plyer_lst'] .= "<tr><th>".$Usr['username']."</th><th>[".$Usr['galaxy'].":".$Usr['system'].":".$Usr['planet']."] ".$UsrMain['name']."</th></tr>";
                 }

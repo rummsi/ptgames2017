@@ -90,9 +90,9 @@ require_once dirname(__FILE__) .'/common.php';
 
 	// Test d'existance de l'enregistrement dans la gaalxie !
 	if ($_POST['mission'] != 15) {
-		if (mysqli_num_rows($select) < 1 && $fleetmission != 7) {
+		if ($select->fetch_rows < 1 && $fleetmission != 7) {
 			message ("<font color=\"red\"><b>". $lang['fl_unknow_target'] ."</b></font>", $lang['fl_error'], "fleet." . PHPEXT, 2);
-		} elseif ($fleetmission == 9 && mysqli_num_rows($select) < 1) {
+		} elseif ($fleetmission == 9 && $select->fetch_rows < 1) {
 			message ("<font color=\"red\"><b>". $lang['fl_used_target'] ."</b></font>", $lang['fl_error'], "fleet." . PHPEXT, 2);
 		}
 	} else {
@@ -106,7 +106,7 @@ require_once dirname(__FILE__) .'/common.php';
 		}
 	}
 
-	$select = mysqli_fetch_array($select);
+	$select = $select->fetch_array();
 
 	if ($select['id_owner'] == $user['id']) {
 		$YourPlanet = true;
@@ -248,7 +248,7 @@ require_once dirname(__FILE__) .'/common.php';
 		message("<font color=\"lime\"><b>".$lang['fl_vacation_pla']."</b></font>", $lang['fl_vacation_ttl'], "fleet." . PHPEXT, 2);
 	}
 
-	$FlyingFleets = mysqli_fetch_assoc(doquery("SELECT COUNT(fleet_id) as Number FROM {{table}} WHERE `fleet_owner`='{$user['id']}'", 'fleets'));
+	$FlyingFleets = doquery("SELECT COUNT(fleet_id) as Number FROM {{table}} WHERE `fleet_owner`='{$user['id']}'", 'fleets')->fetch_assoc();
 	$ActualFleets = $FlyingFleets["Number"];
 	if (($user[$resource[108]] + 1) <= $ActualFleets) {
 		message("Pas de slot disponible", "Erreur", "fleet." . PHPEXT, 1);
