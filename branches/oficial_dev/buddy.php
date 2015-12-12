@@ -67,7 +67,7 @@ if ( $s == 1 && isset( $_GET['bid'] ) ) {
 		if ( strlen( $_POST['text'] ) > 5000 ) {
 			message( "Le texte ne doit pas faire plus de 5000 caract&egrave;res !", "Erreur" );
 		}
-		$text = mysqli_real_escape_string (Database::$dbHandle, strip_tags( $_POST['text'] ) );
+		$text = Database::$dbHandle->real_escape_string( strip_tags( $_POST['text'] ) );
 		doquery( "INSERT INTO {{table}} SET sender={$uid}, owner={$u}, active=0, text='{$text}'", 'buddy' );
 		message( $lang['Request_sent'], $lang['Buddy_request'], 'buddy.php' );
 	} else {
@@ -147,7 +147,7 @@ if ( $a == 1 ) {
 }
 $buddyrow = doquery( "SELECT * FROM {{table}} " . $query, 'buddy' );
 
-while ( $b = mysqli_fetch_array( $buddyrow ) ) {
+while ( $b = $buddyrow->fetch_array() ) {
 	// para solicitudes
 	if ( !isset( $i ) && isset( $a ) ) {
 		$page .= "

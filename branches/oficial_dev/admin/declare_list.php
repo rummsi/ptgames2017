@@ -53,7 +53,7 @@ require_once dirname(dirname(__FILE__)) .'/common.php';
 		$parse['adm_ul_table'] = "";
 		$i                     = 0;
 		$Color                 = "lime";
-		while ($u = mysqli_fetch_assoc ($query) ) {
+		while ($u = $query->fetch_assoc() ) {
 			if ($PrevIP != "") {
 				if ($PrevIP == $u['declarator']) {
 					$Color = "red";

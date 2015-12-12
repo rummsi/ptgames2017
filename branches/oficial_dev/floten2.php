@@ -43,7 +43,7 @@ require_once dirname(__FILE__) .'/common.php';
 	$UsedPlanet = false;
 	$select       = doquery("SELECT * FROM {{table}}", "planets");
 
-	while ($row = mysqli_fetch_array($select)) {
+	while ($row = $select->fetch_array()) {
 		if ($galaxy     == $row['galaxy'] &&
 			$system     == $row['system'] &&
 			$planet     == $row['planet'] &&

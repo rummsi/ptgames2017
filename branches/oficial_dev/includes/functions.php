@@ -161,7 +161,7 @@ function display($page, $title = '', $topnav = true, $metatags = '', $AdminPage 
 
     $DisplayPage .= StdFooter();
     if (isset($link)) {
-        mysqli_close($link);
+        $link->close();
     }
 
     echo $DisplayPage;

@@ -141,11 +141,11 @@ EOF;
             `error_sender` = '{$user['id']}' ,
             `error_time` = '".time()."' ,
             `error_type` = '{$title}' ,
-            `error_text` = '".mysqli_real_escape_string (Database::$dbHandle, $message)."';";
-        $sqlquery = mysqli_query(Database::$dbHandle, str_replace("{{table}}", $dbsettings["prefix"].'errors',$query))
+            `error_text` = '".$message->real_escape_string."';";
+        $sqlquery = Database::$dbHandle->query(str_replace("{{table}}", $dbsettings["prefix"].'errors',$query))
             or die('error fatal');
         $query = "explain select * from {{table}}";
-        $q = mysqli_fetch_array(mysqli_query(Database::$dbHandle, str_replace("{{table}}", $dbsettings["prefix"].
+        $q = mysqli_fetch_array(Database::$dbHandle->query(str_replace("{{table}}", $dbsettings["prefix"].
             'errors', $query))) or die('error fatal: ');
 
         if (!function_exists('message')) {
