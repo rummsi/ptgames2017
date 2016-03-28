@@ -66,7 +66,7 @@ class ShowMessagesPage extends AbstractGamePage {
             }
         }
 
-        while ($CurMess = mysql_fetch_array($UsrMess)) {
+        while ($CurMess = $UsrMess->fetch_array()) {
             $MessType = $CurMess['message_type'];
             $TotalMess[$MessType] += 1;
             $TotalMess[100] += 1;
@@ -124,7 +124,7 @@ class ShowMessagesPage extends AbstractGamePage {
                     $QryUpdateUser .= "WHERE ";
                     $QryUpdateUser .= "`id` = '" . $user['id'] . "';";
                     doquery($QryUpdateUser, 'users');
-                    while ($CurMess = mysql_fetch_array($UsrMess)) {
+                    while ($CurMess = $UsrMess->fetch_array()) {
                         $page1 .= "\n<tr>";
                         $page1 .= "<input name=\"showmes" . $CurMess['message_id'] . "\" type=\"hidden\" value=\"1\">";
                         $page1 .= "<th><input name=\"delmes" . $CurMess['message_id'] . "\" type=\"checkbox\"></th>";
@@ -152,7 +152,7 @@ class ShowMessagesPage extends AbstractGamePage {
                         $QryUpdateUser .= "`id` = '" . $user['id'] . "';";
                         doquery($QryUpdateUser, 'users');
                     }
-                    while ($CurMess = mysql_fetch_array($UsrMess)) {
+                    while ($CurMess = $UsrMess->fetch_array()) {
                         if ($CurMess['message_type'] == $MessCategory) {
                             $page1 .= "\n<tr>";
                             $page1 .= "<input name=\"showmes" . $CurMess['message_id'] . "\" type=\"hidden\" value=\"1\">";

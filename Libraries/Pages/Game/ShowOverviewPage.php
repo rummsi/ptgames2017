@@ -43,7 +43,7 @@ class ShowOverviewPage extends AbstractGamePage {
         //CheckPlanetUsedFields ($lunarow);
         $action = isset($_GET['action']) ? $_GET['action'] : '';
         $_POST['deleteid'] = intval(filter_input(INPUT_POST, 'deleteid'));
-        $pl = mysql_real_escape_string(isset($_GET['pl']) ? $_GET['pl'] : 0);
+        $pl = Database::$dbHandle->real_escape_string(isset($_GET['pl']) ? $_GET['pl'] : 0);
 
         includeLang('resources');
         includeLang('overview');
@@ -54,7 +54,7 @@ class ShowOverviewPage extends AbstractGamePage {
                 if (filter_input(INPUT_POST, 'action') == $lang['namer']) {
                     // Reponse au changement de nom de la planete
                     $UserPlanet = addslashes(CheckInputStrings($_POST['newname']));
-                    $newname = mysql_escape_string(trim($UserPlanet));
+                    $newname = Database::$dbHandle->escape_string(trim($UserPlanet));
                     if ($newname != "") {
                         // Deja on met jour la planete qu'on garde en memoire (pour le nom)
                         $planetrow['name'] = $newname;

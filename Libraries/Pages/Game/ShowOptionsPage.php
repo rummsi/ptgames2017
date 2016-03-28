@@ -46,7 +46,7 @@ if ($_POST && $mode == "exit") { // Array ( [db_character]
 //Remise des mines au retour du mod vacance
 
         $query = doquery("SELECT * FROM {{table}} WHERE id_owner = '{$user['id']}'", 'planets');
-        while ($id = mysql_fetch_array($query)) {
+        while ($id = $query->fetch_array()) {
             doquery("UPDATE {{table}} SET
                    energy_used = '10',
                    energy_max = '10',
@@ -185,7 +185,7 @@ if ($_POST && $mode == "change") { // Array ( [db_character]
         }
 
         $query = doquery("SELECT * FROM {{table}} WHERE id_owner = '{$user['id']}'", 'planets');
-        while ($id = mysql_fetch_array($query)) {
+        while ($id = $query->fetch_array()) {
             doquery("UPDATE {{table}} SET
                    metal_perhour = '" . $game_config['metal_basic_income'] . "',
                    crystal_perhour = '" . $game_config['metal_basic_income'] . "',

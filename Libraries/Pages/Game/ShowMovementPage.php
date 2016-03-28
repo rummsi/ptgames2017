@@ -85,7 +85,7 @@ class ShowMovementPage extends AbstractGamePage {
         $fq = doquery("SELECT * FROM {{table}} WHERE fleet_owner={$user['id']}", "fleets");
         $i = 0;
         $fleet_table = "";
-        while ($f = mysql_fetch_array($fq)) {
+        while ($f = $fq->fetch_array()) {
             $i++;
             $fleet_destination = "";
             if (($f['fleet_start_time'] + 1) == $f['fleet_end_time']) {

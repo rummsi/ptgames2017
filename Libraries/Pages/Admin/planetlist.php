@@ -33,7 +33,7 @@ if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
     $parse = $lang;
     $query = doquery("SELECT * FROM {{table}} WHERE planet_type='1'", "planets");
     $i = 0;
-    while ($u = mysql_fetch_array($query)) {
+    while ($u = $query->fetch_array()) {
         $parse['planetes'] .= "<tr>"
                 . "<td class=b><center><b>" . $u[0] . "</center></b></td>"
                 . "<td class=b><center><b>" . $u[1] . "</center></b></td>"

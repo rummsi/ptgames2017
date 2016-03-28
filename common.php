@@ -68,7 +68,7 @@ include(ROOT_PATH . 'includes/db.php');
 include(ROOT_PATH . 'includes/strings.php');
 
 $query = doquery('SELECT * FROM {{table}}', 'config');
-while ($row = mysql_fetch_assoc($query)) {
+while($row = $query->fetch_assoc()) {
     $game_config[$row['config_name']] = $row['config_value'];
 }
 
@@ -108,7 +108,7 @@ SELECT
 SQL_EOF;
 
 $_fleets = doquery($sql, 'fleets');
-while ($row = mysql_fetch_array($_fleets)) {
+while ($row = $_fleets->fetch_array()) {
     FlyingFleetHandler($row);
 }
 

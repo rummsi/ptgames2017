@@ -48,7 +48,7 @@ if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
     $parse['adm_ul_table'] = "";
     $i = 0;
     $Color = "lime";
-    while ($u = mysql_fetch_assoc($query)) {
+    while ($u = $query->fetch_assoc() ) {
         if ($PrevIP != "") {
             if ($PrevIP == $u['user_lastip']) {
                 $Color = "red";

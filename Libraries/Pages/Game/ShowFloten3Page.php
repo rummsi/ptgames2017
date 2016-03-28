@@ -87,9 +87,9 @@ class ShowFloten3Page extends AbstractGamePage {
         }
         // Test d'existance de l'enregistrement dans la gaalxie !
         if ($_POST['mission'] != 15) {
-            if (mysql_num_rows($select) < 1 && $fleetmission != 7) {
+            if ($select->num_rows < 1 && $fleetmission != 7) {
                 message("<font color=\"red\"><b>" . $lang['fl_unknow_target'] . "</b></font>", $lang['fl_error'], "fleet.php", 2);
-            } elseif ($fleetmission == 9 && mysql_num_rows($select) < 1) {
+            } elseif ($fleetmission == 9 && $select->num_rows < 1) {
                 message("<font color=\"red\"><b>" . $lang['fl_used_target'] . "</b></font>", $lang['fl_error'], "fleet.php", 2);
             }
         } else {
@@ -102,7 +102,7 @@ class ShowFloten3Page extends AbstractGamePage {
                 message("<font color=\"red\"><b>" . $lang['fl_expe_max'] . "</b></font>", $lang['fl_error'], "fleet.php", 2);
             }
         }
-        $select = mysql_fetch_array($select);
+        $select = $select->fetch_array();
         if ($select['id_owner'] == $user['id']) {
             $YourPlanet = true;
             $UsedPlanet = true;
@@ -226,7 +226,7 @@ class ShowFloten3Page extends AbstractGamePage {
         if ($VacationMode AND $_POST['mission'] != 8) {
             message("<font color=\"lime\"><b>" . $lang['fl_vacation_pla'] . "</b></font>", $lang['fl_vacation_ttl'], "fleet.php", 2);
         }
-        $FlyingFleets = mysql_fetch_assoc(doquery("SELECT COUNT(fleet_id) as Number FROM {{table}} WHERE `fleet_owner`='{$user['id']}'", 'fleets'));
+        $FlyingFleets = doquery("SELECT COUNT(fleet_id) as Number FROM {{table}} WHERE `fleet_owner`='{$user['id']}'", 'fleets')->fetch_assoc();
         $ActualFleets = $FlyingFleets["Number"];
         if (($user[$resource[108]] + 1) <= $ActualFleets) {
             message("Pas de slot disponible", "Erreur", "fleet.php", 1);

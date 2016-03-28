@@ -40,7 +40,7 @@ if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERA
     $RowsTPL = gettemplate('admin/multi_rows');
     $PageTPL = gettemplate('admin/multi_body');
 
-    while ($infos = mysql_fetch_assoc($query)) {
+    while ($infos = $query->fetch_assoc()) {
         $Bloc['player'] = $infos['player'];
         $Bloc['text'] = $infos['text'];
 

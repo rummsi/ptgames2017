@@ -77,8 +77,8 @@ if ($PhalanxMoon['planet_type'] == 3) {
 
         $FleetToTarget = doquery($QryLookFleets, 'fleets');
 
-        if (mysql_num_rows($FleetToTarget) <> 0) {
-            while ($FleetRow = mysql_fetch_array($FleetToTarget)) {
+        if ($FleetToTarget->num_rows <> 0) {
+            while ($FleetRow = $FleetToTarget->fetch_array()) {
                 $Record++;
 
                 // Discrimination de l'heure

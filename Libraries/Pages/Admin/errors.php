@@ -44,7 +44,7 @@ $parse = $lang;
 		// Afficher les erreurs
 		$query = doquery("SELECT * FROM {{table}}", 'errors');
 		$i = 0;
-		while ($u = mysql_fetch_array($query)) {
+		while ($u = $query->fetch_array()) {
 			$i++;
 			$parse['errors_list'] .= "
 			<tr><td width=\"25\" class=n>". $u['error_id'] ."</td>

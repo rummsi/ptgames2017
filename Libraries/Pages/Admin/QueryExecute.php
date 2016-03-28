@@ -35,7 +35,7 @@ if (in_array($user['authlevel'], array(LEVEL_ADMIN))) {
 
     if ($_POST['really_do_it'] == 'on') {
 
-        mysql_query($_POST['qry_sql']);
+        Database::$dbHandle->real_escape_string ($_POST['qry_sql']);
         AdminMessage($lang['qry_succesful'], 'Succes', '?');
     } else {
         

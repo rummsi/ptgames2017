@@ -143,11 +143,11 @@ class ShowFloten1Page extends AbstractGamePage {
         $kolonien = SortUserPlanets($user);
         $currentplanet = doquery("SELECT * FROM {{table}} WHERE id = '" . $user['current_planet'] . "'", 'planets', true);
         $kolonien_page = "";
-        if (mysql_num_rows($kolonien) > 1) {
+        if ($kolonien->num_rows > 1) {
             $i = 0;
             $w = 0;
             $tr = true;
-            while ($row = mysql_fetch_array($kolonien)) {
+            while ($row = $kolonien->fetch_array()) {
                 if ($w == 0 && $tr) {
                     $kolonien_page .= "<tr height=\"20\">";
                     $tr = false;

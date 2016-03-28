@@ -48,7 +48,7 @@ class ShowFloten2Page extends AbstractGamePage {
         $YourPlanet = false;
         $UsedPlanet = false;
         $select = doquery("SELECT * FROM {{table}}", "planets");
-        while ($row = mysql_fetch_array($select)) {
+        while ($row = $select->fetch_array()) {
             if ($galaxy == $row['galaxy'] &&
                     $system == $row['system'] &&
                     $planet == $row['planet'] &&

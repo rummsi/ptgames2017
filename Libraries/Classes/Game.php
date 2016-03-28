@@ -44,7 +44,7 @@ class Game {
         }
         $DisplayPage .= StdFooter();
         if (isset($link)) {
-            mysql_close($link);
+            $link->close();
         }
         echo $DisplayPage;
         die();
@@ -64,7 +64,7 @@ class Game {
         }
         $DisplayPage .= StdFooter();
         if (isset($link)) {
-            mysql_close($link);
+            $link->close();
         }
         echo $DisplayPage;
         die();

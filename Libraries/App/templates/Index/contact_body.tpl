@@ -17,7 +17,7 @@
                         <th><font color="lime">{$ctc_rank}</font></th>
                         <th><font color="lime">{$ctc_mail}</font></th>
                     </tr>
-                    {while $Ops = mysql_fetch_assoc($GameOps)}
+                    {while $Ops = $GameOps->fetch_assoc()}
                         <tr>
                             <th>{$Ops['username']}</th>
                             <th>{$user_level[$Ops['authlevel']]}</th>
