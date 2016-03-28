@@ -48,7 +48,7 @@ if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERA
     $Last15Mins = doquery("SELECT * FROM {{table}} WHERE `onlinetime` >= '" . (time() - 15 * 60) . "' ORDER BY `" . $TypeSort . "` ASC;", 'users');
     $Count = 0;
     $Color = "lime";
-    while ($TheUser = mysql_fetch_array($Last15Mins)) {
+    while ( $TheUser = $Last15Mins->fetch_array() ) {
         if ($PrevIP != "") {
             if ($PrevIP == $TheUser['user_lastip']) {
                 $Color = "red";

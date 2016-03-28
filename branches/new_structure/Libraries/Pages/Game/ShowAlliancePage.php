@@ -113,7 +113,7 @@ class ShowAlliancePage extends AbstractGamePage {
         // El link para ver las solicitudes
         $lang['requests'] = '';
         $request = doquery("SELECT id FROM {{table}} WHERE ally_request='{$ally['id']}'", 'users');
-        $request_count = mysql_num_rows($request);
+        $request_count = $request->num_rows;
         if ($request_count != 0) {
             if ($ally['ally_owner'] == $user['id'] || $ally_ranks[$user['ally_rank_id'] - 1]['bewerbungen'] != 0) {
                 $lang['requests'] = "<tr><th>{$lang['Requests']}</th><th><a href=\"game.php?page=alliance&mode=admin&edit=requests\">{$request_count} {$lang['Requests']}</a></th></tr>";
@@ -227,8 +227,8 @@ class ShowAlliancePage extends AbstractGamePage {
         }
         extract($allyrow);
         if (@$_POST['further'] == $lang['Send']) { // esta parte es igual que el buscador de game.php?page=search...
-            doquery("UPDATE {{table}} SET `ally_request`='" . intval($allyid) . "', ally_request_text='" . mysql_escape_string(strip_tags($_POST['text'])) . "', ally_register_time='" . time() . "' WHERE `id`='" . $user['id'] . "'", "users");
-            // mensaje de cuando se envia correctamente el mensaje
+            doquery("UPDATE {{table}} SET `ally_request`='" . intval($allyid) . "', ally_request_text='" . Database::$dbHandle->real_escape_string(strip_tags($_POST['text'])) . "', ally_register_time='" . time() . "' WHERE `id`='" . $user['id'] . "'", "users");
+	    // mensaje de cuando se envia correctamente el mensaje
             message($lang['apply_registered'], $lang['your_apply']);
             // mensaje de cuando falla el envio
             // message($lang['apply_cantbeadded'], $lang['your_apply']);
@@ -297,7 +297,7 @@ class ShowAlliancePage extends AbstractGamePage {
 
         if ($_GET['mode'] == 'ainfo') {
             $a = intval(HTTP::_GP('a', ''));
-            $tag = mysql_escape_string(HTTP::_GP('tag', ''));
+            $tag = Database::$dbHandle->real_escape_string(HTTP::_GP('tag', ''));
             // Evitamos errores casuales xD
             // query
 
@@ -507,7 +507,7 @@ class ShowAlliancePage extends AbstractGamePage {
         } else {
             $user_can_watch_memberlist_status = false;
         }
-        while ($u = mysql_fetch_array($listuser)) {
+        while ($u = $listuser->fetch_array()) {
             $UserPoints = doquery("SELECT * FROM {{table}} WHERE `stat_type` = '1' AND `stat_code` = '1' AND `id_owner` = '" . $u['id'] . "';", 'statpoints', true);
             $i++;
             if ($u["onlinetime"] + 60 * 10 >= time() && $user_can_watch_memberlist_status) {
@@ -641,7 +641,7 @@ class ShowAlliancePage extends AbstractGamePage {
         if ($ally['ally_owner'] != $user['id'] && !$user_can_edit_rights) {
             message($lang['Denied_access'], $lang['Members_list']);
         } elseif (!empty($_POST['newrangname'])) {
-            $name = mysql_escape_string(strip_tags($_POST['newrangname']));
+            $name = Database::$dbHandle->real_escape_string(strip_tags($_POST['newrangname']));
 
             $allianz_raenge[] = array('name' => $name,
                 'mails' => 0,
@@ -818,9 +818,9 @@ class ShowAlliancePage extends AbstractGamePage {
             }
         }
         if (@$_POST['options']) {
-            $ally['ally_owner_range'] = mysql_escape_string(htmlspecialchars(strip_tags($_POST['owner_range'])));
-            $ally['ally_web'] = mysql_escape_string(htmlspecialchars(strip_tags($_POST['web'])));
-            $ally['ally_image'] = mysql_escape_string(htmlspecialchars(strip_tags($_POST['image'])));
+            $ally['ally_owner_range'] = Database::$dbHandle->real_escape_string(htmlspecialchars(strip_tags($_POST['owner_range'])));
+            $ally['ally_web'] = Database::$dbHandle->real_escape_string(htmlspecialchars(strip_tags($_POST['web'])));
+            $ally['ally_image'] = Database::$dbHandle->real_escape_string(htmlspecialchars(strip_tags($_POST['image'])));
             $ally['ally_request_notallow'] = intval($_POST['request_notallow']);
             if ($ally['ally_request_notallow'] != 0 && $ally['ally_request_notallow'] != 1) {
                 message("Aller � \"Candidature\" et sur une option dans le formulaire!", "Erreur");
@@ -829,13 +829,13 @@ class ShowAlliancePage extends AbstractGamePage {
             doquery("UPDATE {{table}} SET`ally_owner_range`='{$ally['ally_owner_range']}',`ally_image`='{$ally['ally_image']}',`ally_web`='{$ally['ally_web']}',`ally_request_notallow`='{$ally['ally_request_notallow']}'WHERE `id`='{$ally['id']}'", "alliance");
         } elseif (@$_POST['t']) {
             if ($t == 3) {
-                $ally['ally_request'] = mysql_escape_string(strip_tags($_POST['text']));
+                $ally['ally_request'] = Database::$dbHandle->real_escape_string(strip_tags($_POST['text']));
                 doquery("UPDATE {{table}} SET `ally_request`='{$ally['ally_request']}'WHERE `id`='{$ally['id']}'", "alliance");
             } elseif ($t == 2) {
-                $ally['ally_text'] = mysql_escape_string(strip_tags($_POST['text']));
+                $ally['ally_text'] = Database::$dbHandle->real_escape_string(strip_tags($_POST['text']));
                 doquery("UPDATE {{table}} SET `ally_text`='{$ally['ally_text']}'WHERE `id`='{$ally['id']}'", "alliance");
             } else {
-                $ally['ally_description'] = mysql_escape_string(strip_tags(stripslashes($_POST['text'])));
+                $ally['ally_description'] = Database::$dbHandle->real_escape_string(strip_tags(stripslashes($_POST['text'])));
                 doquery("UPDATE {{table}} SET `ally_description`='" . $ally['ally_description'] . "'WHERE `id`='{$ally['id']}'", "alliance");
             }
         }
@@ -904,7 +904,7 @@ class ShowAlliancePage extends AbstractGamePage {
         } else {
             $selection = doquery("SELECT * FROM {{table}} where ally_id='" . $user['ally_id'] . "'", 'users');
             $select = '';
-            while ($data = mysql_fetch_array($selection)) {
+            while($data=$selection->fetch_array()){
                 $select.='<OPTION VALUE="' . $data['id'] . '">' . $data['username'];
             }
 
@@ -960,7 +960,7 @@ class ShowAlliancePage extends AbstractGamePage {
             $q = doquery("SELECT * FROM {{table}} WHERE id='{$u}' LIMIT 1", 'users', true);
 
             if ((isset($ally_ranks[$_POST['newrang'] - 1]) || $_POST['newrang'] == 0) && $q['id'] != $ally['ally_owner']) {
-                doquery("UPDATE {{table}} SET `ally_rank_id`='" . mysql_escape_string(strip_tags($_POST['newrang'])) . "' WHERE `id`='" . intval($id) . "'", 'users');
+                doquery("UPDATE {{table}} SET `ally_rank_id`='" . Database::$dbHandle->real_escape_string(strip_tags($_POST['newrang'])) . "' WHERE `id`='" . intval($id) . "'", 'users');
             }
         }
         // obtenemos las template row
@@ -993,7 +993,7 @@ class ShowAlliancePage extends AbstractGamePage {
         // Como es costumbre. un row template
         $page_list = '';
 
-        while ($u = mysql_fetch_array($listuser)) {
+        while ($u = $listuser->fetch_array()) {
             $UserPoints = doquery("SELECT * FROM {{table}} WHERE `stat_type` = '1' AND `stat_code` = '1' AND `id_owner` = '" . $u['id'] . "';", 'statpoints', true);
             $i++;
             $u['i'] = $i;
@@ -1086,7 +1086,7 @@ class ShowAlliancePage extends AbstractGamePage {
             'title' => $lang['Members_administrate'],
             'Members_list' => $lang['Members_list'],
             'Ammount' => $lang['Ammount'],
-            'memberzahl' => mysql_num_rows($listuser),
+            'memberzahl' => $listuser->num_rows,
             'Number' => $lang['Number'],
             's' => $s,
             'Name' => $lang['Name'],
@@ -1120,7 +1120,7 @@ class ShowAlliancePage extends AbstractGamePage {
         }
 
         if (@$_POST['action'] == "Accepter") {
-            $_POST['text'] = mysql_escape_string(strip_tags($_POST['text']));
+            $_POST['text'] = Database::$dbHandle->real_escape_string(strip_tags($_POST['text']));
 
             $u = doquery("SELECT * FROM {{table}} WHERE id=$show", 'users', true);
             // agrega los puntos al unirse el user a la alianza
@@ -1147,7 +1147,7 @@ class ShowAlliancePage extends AbstractGamePage {
             header('Location:game.php?page=alliance&mode=admin&edit=requests');
             die();
         } elseif (@$_POST['action'] == "Refuser" && $_POST['action'] != '') {
-            $_POST['text'] = mysql_escape_string(strip_tags($_POST['text']));
+            $_POST['text'] = Database::$dbHandle->real_escape_string(strip_tags($_POST['text']));
             doquery("UPDATE {{table}} SET ally_request_text='',ally_request='0',ally_id='0',new_message=new_message+1, mnl_alliance=mnl_alliance+1 WHERE id='{$show}'", 'users');
             // Se envia un mensaje avizando...
             doquery("INSERT INTO {{table}} SET
@@ -1164,7 +1164,7 @@ class ShowAlliancePage extends AbstractGamePage {
         $i = 0;
         $parse = $lang;
         $query = doquery("SELECT id,username,ally_request_text,ally_register_time FROM {{table}} WHERE ally_request='{$ally['id']}'", 'users');
-        while ($r = mysql_fetch_array($query)) {
+        while ($r = $query->fetch_array()) {
             // recolectamos los datos del que se eligio.
             if (isset($show) && $r['id'] == $show) {
                 $s['username'] = $r['username'];
@@ -1232,8 +1232,8 @@ class ShowAlliancePage extends AbstractGamePage {
 
         if (@$_POST['newname']) {
             // Y a le nouveau Nom
-            $ally['ally_name'] = mysql_escape_string(strip_tags($_POST['newname']));
-            doquery("UPDATE {{table}} SET `ally_name` = '" . $ally['ally_name'] . "' WHERE `id` = '" . $user['ally_id'] . "';", 'alliance');
+            $ally['ally_name'] = Database::$dbHandle->real_escape_string(strip_tags($_POST['newname']));
+			doquery("UPDATE {{table}} SET `ally_name` = '" . $ally['ally_name'] . "' WHERE `id` = '" . $user['ally_id'] . "';", 'alliance');
             doquery("UPDATE {{table}} SET `ally_name` = '" . $ally['ally_name'] . "' WHERE `ally_id` = '" . $ally['id'] . "';", 'users');
         }
         $this->tplObj->assign(array(
@@ -1267,7 +1267,7 @@ class ShowAlliancePage extends AbstractGamePage {
 
         if (filter_input(INPUT_POST, 'newtag')) {
             // Y a le nouveau TAG
-            $ally['ally_tag'] = mysql_escape_string(strip_tags(filter_input(INPUT_POST, 'newtag')));
+            $ally['ally_tag'] = Database::$dbHandle->real_escape_string(strip_tags($_POST['newtag']));
             doquery("UPDATE {{table}} SET `ally_tag` = '" . $ally['ally_tag'] . "' WHERE `id` = '" . $user['ally_id'] . "';", 'alliance');
         }
         $this->tplObj->assign(array(
@@ -1332,7 +1332,7 @@ class ShowAlliancePage extends AbstractGamePage {
 
         if ($sendmail == 1) {
             $_POST['r'] = intval($_POST['r']);
-            $_POST['text'] = mysql_escape_string(strip_tags($_POST['text']));
+            $_POST['text'] = Database::$dbHandle->real_escape_string(strip_tags($_POST['text']));
 
             if ($_POST['r'] == 0) {
                 $sq = doquery("SELECT id,username FROM {{table}} WHERE ally_id='{$user['ally_id']}'", "users");
@@ -1341,7 +1341,7 @@ class ShowAlliancePage extends AbstractGamePage {
             }
             // looooooop
             $list = '';
-            while ($u = mysql_fetch_array($sq)) {
+            while ($u = $sq->fetch_array()) {
                 doquery("INSERT INTO {{table}} SET
 				`message_owner`='{$u['id']}',
 				`message_sender`='{$user['id']}' ,

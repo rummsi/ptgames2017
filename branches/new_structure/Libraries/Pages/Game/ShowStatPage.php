@@ -114,7 +114,7 @@ class ShowStatPage extends AbstractGamePage {
             $query = doquery("SELECT * FROM {{table}} WHERE `stat_type` = '2' AND `stat_code` = '1' ORDER BY `" . $Order . "` DESC LIMIT " . $start . ",100;", 'statpoints');
             $start++;
             $parse['stat_values'] = "";
-            while ($StatRow = mysql_fetch_assoc($query)) {
+            while ($StatRow = $query->fetch_assoc()) {
                 //$parse['ally_rank'] = $start;
                 $AllyRow = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $StatRow['id_owner'] . "';", 'alliance', true);
                 $rank_old = $StatRow[$OldRank];
@@ -171,7 +171,7 @@ class ShowStatPage extends AbstractGamePage {
             $query = doquery("SELECT * FROM {{table}} WHERE `stat_type` = '1' AND `stat_code` = '1' ORDER BY `" . $Order . "` DESC LIMIT " . $start . ",100;", 'statpoints');
             $start++;
             $parse['stat_values'] = "";
-            while ($StatRow = mysql_fetch_assoc($query)) {
+            while ($StatRow = $query->fetch_assoc()) {
                 $UsrRow = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $StatRow['id_owner'] . "';", 'users', true);
                 @$QryUpdateStats .= "`stat_type` = '1' AND `stat_code` = '1' AND `id_owner` = '" . $TheRank['id_owner'] . "';";
                 $rank_old = $StatRow[$OldRank];

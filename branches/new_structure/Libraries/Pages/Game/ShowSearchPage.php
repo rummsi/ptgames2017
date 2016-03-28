@@ -42,7 +42,7 @@ class ShowSearchPage extends AbstractGamePage {
         $type = @$_POST['type'];
         $i = 0;
         //creamos la query
-        $searchtext = @mysql_escape_string($_POST["searchtext"]);
+        $searchtext = Database::$dbHandle->real_escape_string($_POST["searchtext"]);
         switch ($type) {
             case "playername":
                 $table = 'search_user_table.tpl';
@@ -76,13 +76,13 @@ class ShowSearchPage extends AbstractGamePage {
          */
         if (isset($searchtext) && isset($type)) {
             $result_list = "";
-            while ($r = mysql_fetch_array($search, MYSQL_BOTH)) {
+            while ($r = $search->fetch_array()) {
                 if ($type == 'playername' || $type == 'planetname') {
                     $s = $r;
                     //para obtener el nombre del planeta
                     if ($type == "planetname") {
                         $pquery = doquery("SELECT * FROM {{table}} WHERE id = {$s['id_owner']}", "users", true);
-                        /* 			$farray = mysql_fetch_array($pquery); */
+                        /* 			$farray = $pquery->fetch_array(); */
                         $this->tplObj->assign(array(
                             'planet_name' => $s['name'],
                             'username' => $pquery['username'],

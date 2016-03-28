@@ -56,7 +56,7 @@ class ShowImperiumPage extends AbstractGamePage {
         $planetsrow = doquery($QryPlanets, 'planets');
         $planet = array();
         $parse = $lang;
-        while ($p = mysql_fetch_array($planetsrow)) {
+        while ($p = $planetsrow->fetch_array()) {
             $planet[] = $p;
         }
         // primera tabla, con las imagenes y coordenadas

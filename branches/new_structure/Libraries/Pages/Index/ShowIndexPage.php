@@ -44,8 +44,8 @@ class ShowIndexPage extends AbstractIndexPage {
 
         if (!empty($_POST)) {
             $userData = array(
-                'username' => mysql_real_escape_string($_POST['username']),
-                'password' => mysql_real_escape_string($_POST['password'])
+                'username' => Database::$dbHandle->real_escape_string($_POST['username']),
+                'password' => Database::$dbHandle->real_escape_string($_POST['password'])
             );
             $sql = <<<EOF
 SELECT

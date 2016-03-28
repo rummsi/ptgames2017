@@ -48,7 +48,7 @@ class ShowAnnoncePage extends AbstractGamePage {
             $metalsouhait = $_POST['metalsouhait'];
             $cristalsouhait = $_POST['cristalsouhait'];
             $deutsouhait = $_POST['deutsouhait'];
-            while ($v_annonce = mysql_fetch_array($users)) {
+            while ($v_annonce = $users->fetch_array()) {
                 $user = $v_annonce['username'];
                 $galaxie = $v_annonce['galaxy'];
                 $systeme = $v_annonce['system'];
@@ -70,7 +70,7 @@ class ShowAnnoncePage extends AbstractGamePage {
         } else {
             $annonce = doquery("SELECT * FROM {{table}} ORDER BY `id` DESC ", "annonce");
             $annonce_table = "";
-            while ($b = mysql_fetch_array($annonce)) {
+            while ($b = $annonce->fetch_array()) {
                 $this->tplObj->assign(array(
                     'b_user' => $b["user"],
                     'b_galaxie' => $b["galaxie"],

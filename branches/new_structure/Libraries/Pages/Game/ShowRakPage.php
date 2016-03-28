@@ -44,7 +44,7 @@ if (file_exists(ROOT_PATH . "includes/raketenangriff.php")) {
 if (isset($resource) && !empty($resource[401])) {
     $iraks = doquery("SELECT * FROM {{table}} WHERE zeit <= '" . time() . "'", 'iraks');
 
-    while ($selected_row = mysql_fetch_array($iraks)) {
+    while ($selected_row = $iraks->fetch_array()) {
         if ($selected_row['zeit'] != '' && $selected_row['galaxy'] != '' && $selected_row['system'] != '' && $selected_row['planet'] != '' && is_numeric($selected_row['owner']) && is_numeric($selected_row['zielid']) && is_numeric($selected_row['anzahl']) && !empty($selected_row['anzahl'])) {
             $planetrow = doquery("SELECT * FROM {{table}} WHERE
 								galaxy = '" . $selected_row['galaxy'] . "' AND
@@ -57,12 +57,12 @@ if (isset($resource) && !empty($resource[401])) {
             $select_owner = doquery("SELECT military_tech FROM {{table}} WHERE
 								id = '" . $selected_row['owner'] . "'", 'users');
 
-            if (mysql_num_rows($planetrow) != 1 OR mysql_num_rows($select_ziel) != 1) {
+            if ($planetrow->num_rows != 1 OR $select_ziel->num_rows != 1) {
                 doquery("DELETE FROM {{table}} WHERE id = '" . $selected_row['id'] . "'", 'iraks');
             } else {
-                $verteidiger = mysql_fetch_array($select_ziel);
-                $angreifer = mysql_fetch_array($select_owner);
-                $planet = mysql_fetch_array($planetrow);
+                $verteidiger = $select_ziel->fetch_array();
+                $angreifer = $select_owner->fetch_array();
+                $planet = $planetrow->fetch_array();
 
                 $ids = array(0 => 401,
                     1 => 402,
@@ -137,8 +137,8 @@ if (isset($resource) && !empty($resource[401])) {
 								system = '" . $selected_row['system_angreifer'] . "' AND
 								planet = '" . $selected_row['planet_angreifer'] . "'", 'planets');
 
-                if (mysql_num_rows($planet_) == 1) {
-                    $array = mysql_fetch_array($planet_);
+                if ($planet_->num_rows == 1) {
+                    $array = $planet_->fetch_array();
 
                     $name = $array['name'];
                 }
@@ -148,8 +148,8 @@ if (isset($resource) && !empty($resource[401])) {
 								system = '" . $selected_row['system'] . "' AND
 								planet = '" . $selected_row['planet'] . "'", 'planets');
 
-                if (mysql_num_rows($planet_2) == 1) {
-                    $array = mysql_fetch_array($planet_2);
+                if ($planet_2->num_rows == 1) {
+                    $array = $planet_2->fetch_array();
 
                     $name_deffer = $array['name'];
                 }

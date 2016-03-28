@@ -12,7 +12,7 @@
                                                     <img src="{$dpath}planeten/small/s_{$image}.jpg" height="50" width="50">
                                                 </td>
                                                 <td  class="header" valign="middle">
-                                                    <select size="1" onChange="eval('location=\''+this.options[this.selectedIndex].value+'\'');">{while $CurPlanet = mysql_fetch_array($ThisUsersPlanets)}{if ($destruyed == 0)}
+                                                    <select size="1" onChange="eval('location=\''+this.options[this.selectedIndex].value+'\'');">{while $CurPlanet = $ThisUsersPlanets->fetch_array()}{if ($destruyed == 0)}
                                                         <option {if $CurPlanet['id'] == $current_planet}selected="selected" {/if}value="?page={$page}&cp={$CurPlanet['id']}&mode={$mode}&re=0">
                                                             {$CurPlanet['name']}&nbsp;[{$CurPlanet['galaxy']}:{$CurPlanet['system']}:{$CurPlanet['planet']}]&nbsp;&nbsp;
                                                         </option>{/if}{/while}

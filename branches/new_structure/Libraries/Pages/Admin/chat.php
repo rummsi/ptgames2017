@@ -44,7 +44,7 @@ if (in_array($user['authlevel'], array(LEVEL_ADMIN))) {
     // Affichage des messages
     $query = doquery("SELECT * FROM {{table}} ORDER BY messageid DESC LIMIT 25", 'chat');
     $i = 0;
-    while ($e = mysql_fetch_array($query)) {
+    while ($e = $query->fetch_array()) {
         $i++;
         $parse['msg_list'] .= stripslashes("<tr><th class=b>" . date('h:i:s', $e['timestamp']) . "</th>" .
                 "<th class=b>" . $e['user'] . "</th>" .

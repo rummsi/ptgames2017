@@ -48,7 +48,7 @@ class ShowLostpasswordPage extends AbstractIndexPage {
         $username = NULL;
         if (!empty($_POST)) {
             if (isset($_POST['pseudo']) && !empty($_POST['pseudo'])) {
-                $username = mysql_real_escape_string($_POST['pseudo']);
+                $username = Database::$dbHandle->real_escape_string($_POST['pseudo']);
                 $sql = <<<EOF
 SELECT users.email, users.username
   FROM {{table}} AS users
@@ -61,7 +61,7 @@ EOF;
                 }
                 list($mailData['recipient'], $username) = $result;
             } else if (isset($_POST['email']) && !empty($_POST['email'])) {
-                $email = mysql_real_escape_string($_POST['email']);
+                $email = Database::$dbHandle->real_escape_string($_POST['email']);
                 $sql = <<<EOF
 SELECT users.email, users.username
   FROM {{table}} AS users
