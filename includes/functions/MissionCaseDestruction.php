@@ -37,7 +37,7 @@ function MissionCaseDestruction($FleetRow)
    if ($FleetRow['fleet_start_time'] <= time()) {
       if ($FleetRow['fleet_mess'] == 0) {
          if (!isset($CombatCaps[202]['sd'])) {
-            message("<font color=\"red\">". $lang['sys_no_vars'] ."</font>", $lang['sys_error'], "fleet." . PHPEXT, 2);
+            message("<font color=\"red\">". $lang['sys_no_vars'] ."</font>", $lang['sys_error'], "fleet.php", 2);
             return;
          }
 
@@ -99,7 +99,7 @@ function MissionCaseDestruction($FleetRow)
             }
          }
 
-         include_once($ugamela_root_path . 'includes/ataki.' . PHPEXT);
+         include_once($ugamela_root_path . 'includes/ataki.php');
 
          // Calcul de la duree de traitement (initialisation)
          $starttime = microtime(true);
@@ -561,7 +561,7 @@ function MissionCaseDestruction($FleetRow)
 
 
          // Colorisation du r�sum� de rapport pour l'attaquant
-         $raport  = "<a href # OnClick=\"f( 'rw.php?raport=". $rid ."', '');\" >";
+         $raport  = "<a href # OnClick=\"f( 'game.php?page=rw&raport=". $rid ."', '');\" >";
          $raport .= "<center>";
 
          if ($FleetResult == "a") {
@@ -587,7 +587,7 @@ function MissionCaseDestruction($FleetRow)
          doquery( $QryUpdateFleet , 'fleets');
          SendSimpleMessage ( $CurrentUserID, '', $FleetRow['fleet_start_time'], 3, $lang['sys_mess_tower'], $lang['sys_mess_destruc_report'], $raport );
          // Colorisation du r�sum� de rapport pour le defenseur
-         $raport2  = "<a href # OnClick=\"f( 'rw.php?raport=". $rid ."', '');\" >";
+         $raport2  = "<a href # OnClick=\"f( 'game.php?page=rw&raport=". $rid ."', '');\" >";
          $raport2 .= "<center>";
 
          if ($FleetResult == "a") {

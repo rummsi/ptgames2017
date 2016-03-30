@@ -36,17 +36,17 @@ require_once dirname(__FILE__) .'/common.php';
 	$fleetid = $_POST['fleetid'];
 
 	if (!is_numeric($fleetid) || empty($fleetid)) {
-		header("Location: overview.php");
+		header("Location: game.php?page=overview&");
 		exit();
 	}
 
 	$query = doquery("SELECT * FROM {{table}} WHERE fleet_id = '" . $fleetid . "'", 'fleets');
 
-	if (mysql_num_rows($query) != 1) {
+	if ($query->num_rows != 1) {
 		message('Cette flotte n\'existe pas (ou plus)!', 'Erreur');
 	}
 
-	$daten = mysql_fetch_array($query);
+	$daten = $query->fetch_array();
 
 	if ($daten['fleet_start_time'] <= time() || $daten['fleet_end_time'] < time() || $daten['fleet_mess'] == 1) {
 		message('Votre flotte est d�j� sur le chemin du retour!', 'Erreur');
@@ -104,10 +104,10 @@ require_once dirname(__FILE__) .'/common.php';
 		id = '" . $fleet['fleet_group'] . "'"
 		, 'aks');
 
-		if (mysql_num_rows($aks) != 1) {
+		if ($aks->num_rows != 1) {
 			message('AKS nicht gefunden!', 'Fehler');
 		}
-		$aks = mysql_num_rows($aks);
+		$aks = $aks->num_rows;
 	}
 
 	$missiontype = array(1 => 'Attaquer',
@@ -172,7 +172,7 @@ require_once dirname(__FILE__) .'/common.php';
 	$fq = doquery("SELECT * FROM {{table}} WHERE fleet_owner={$user[id]}", 'fleets');
 
 	$i = 0;
-	while ($f = mysql_fetch_array($fq)) {
+	while ($f = $fq->fetch_array()) {
 		$i++;
 
 		$page .= "<tr height=20><th>$i</th><th>";

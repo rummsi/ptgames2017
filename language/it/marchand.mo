@@ -31,10 +31,10 @@
 
 $lang['mod_ma_title'] = "Chiama un Mercante";
 $lang['mod_ma_typer'] = "Chiama un Mercante che accetta";
-$lang['mod_ma_rates'] = "Il tasso di cambio &egrave; 2/1/0.5";
+$lang['mod_ma_rates'] = "Il tasso di cambio è 2/1/0.5";
 $lang['mod_ma_buton'] = "Chiama Mercante";
 $lang['mod_ma_noten'] = "Insufficiente";
-$lang['mod_ma_done']  = "Il cambio &egrave; stato effettuato con successo!";
+$lang['mod_ma_done']  = "Il cambio è stato effettuato con successo!";
 $lang['mod_ma_error'] = "Errore";
 $lang['mod_ma_donet'] = "Cambio ok";
 $lang['mod_ma_excha'] = "Cambio";

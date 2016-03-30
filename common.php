@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of XNova:Legacies
  *
@@ -27,18 +28,15 @@
  * documentation for further information about customizing XNova.
  *
  */
-
 session_start();
 
 if (in_array(strtolower(getenv('DEBUG')), array('1', 'on', 'true'))) {
     define('DEBUG', true);
 }
-
 !defined('DEBUG') || @ini_set('display_errors', false);
 !defined('DEBUG') || @error_reporting(E_ALL | E_STRICT);
 
 define('ROOT_PATH', realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
-define('PHPEXT', require 'extension.inc');
 
 define('VERSION', '2009.4');
 
@@ -47,9 +45,9 @@ if (0 === filesize(ROOT_PATH . 'config.php')) {
     die();
 }
 
-$game_config   = array();
-$user          = array();
-$lang          = array();
+$game_config = array();
+$user = array();
+$lang = array();
 $IsUserChecked = false;
 
 define('DEFAULT_SKINPATH', 'skins/xnova/');
@@ -57,27 +55,27 @@ define('TEMPLATE_DIR', realpath(ROOT_PATH . '/templates/'));
 define('TEMPLATE_NAME', 'OpenGame');
 define('DEFAULT_LANG', 'fr');
 
-include(ROOT_PATH . 'includes/debug.class.'.PHPEXT);
+include(ROOT_PATH . 'includes/debug.class.php');
 $debug = new Debug();
 
-include(ROOT_PATH . 'includes/constants.' . PHPEXT);
-include(ROOT_PATH . 'includes/functions.' . PHPEXT);
-include(ROOT_PATH . 'includes/unlocalised.' . PHPEXT);
-include(ROOT_PATH . 'includes/todofleetcontrol.' . PHPEXT);
+include(ROOT_PATH . 'includes/constants.php');
+include(ROOT_PATH . 'includes/functions.php');
+include(ROOT_PATH . 'includes/unlocalised.php');
+include(ROOT_PATH . 'includes/todofleetcontrol.php');
 include(ROOT_PATH . 'language/' . DEFAULT_LANG . '/lang_info.cfg');
-include(ROOT_PATH . 'includes/vars.' . PHPEXT);
-include(ROOT_PATH . 'includes/db.' . PHPEXT);
-include(ROOT_PATH . 'includes/strings.' . PHPEXT);
+include(ROOT_PATH . 'includes/vars.php');
+include(ROOT_PATH . 'includes/db.php');
+include(ROOT_PATH . 'includes/strings.php');
 
 $query = doquery('SELECT * FROM {{table}}', 'config');
-while($row = mysql_fetch_assoc($query)) {
+while($row = $query->fetch_assoc()) {
     $game_config[$row['config_name']] = $row['config_value'];
 }
 
 if (!defined('DISABLE_IDENTITY_CHECK')) {
-    $Result        = CheckTheUser ( $IsUserChecked );
+    $Result = CheckTheUser($IsUserChecked);
     $IsUserChecked = $Result['state'];
-    $user          = $Result['record'];
+    $user = $Result['record'];
 } else if (!defined('DISABLE_IDENTITY_CHECK') && $game_config['game_disable'] && $user['authlevel'] == LEVEL_PLAYER) {
     message(stripslashes($game_config['close_reason']), $game_config['game_name']);
 }
@@ -86,12 +84,12 @@ includeLang('system');
 includeLang('tech');
 
 if (empty($user) && !defined('DISABLE_IDENTITY_CHECK')) {
-    header('Location: login.php');
+    header('Location: index.php');
     exit(0);
 }
 
 $now = time();
-$sql =<<<SQL_EOF
+$sql = <<<SQL_EOF
 SELECT
   fleet_start_galaxy AS galaxy,
   fleet_start_system AS system,
@@ -110,25 +108,25 @@ SELECT
 SQL_EOF;
 
 $_fleets = doquery($sql, 'fleets');
-while ($row = mysql_fetch_array($_fleets)) {
+while ($row = $_fleets->fetch_array()) {
     FlyingFleetHandler($row);
 }
 
 unset($_fleets);
 
-include(ROOT_PATH . 'rak.'.PHPEXT);
+include(ROOT_PATH . 'Libraries/Pages/Game/ShowRakPage.php');
 if (!defined('IN_ADMIN')) {
     $dpath = (isset($user['dpath']) && !empty($user["dpath"])) ? $user['dpath'] : DEFAULT_SKINPATH;
 } else {
-    $dpath = '../' . DEFAULT_SKINPATH;
+    $dpath = DEFAULT_SKINPATH;
 }
 
 
 if (!empty($user)) {
     SetSelectedPlanet($user);
 
-    $planetrow = doquery("SELECT * FROM {{table}} WHERE `id` = '".$user['current_planet']."';", 'planets', true);
-    $galaxyrow = doquery("SELECT * FROM {{table}} WHERE `id_planet` = '".$planetrow['id']."';", 'galaxy', true);
+    $planetrow = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $user['current_planet'] . "';", 'planets', true);
+    $galaxyrow = doquery("SELECT * FROM {{table}} WHERE `id_planet` = '" . $planetrow['id'] . "';", 'galaxy', true);
 
     CheckPlanetUsedFields($planetrow);
     PlanetResourceUpdate($user, $planetrow, time());

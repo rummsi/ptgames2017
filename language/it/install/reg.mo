@@ -50,7 +50,7 @@ $lang['signup']            = ' Registrati ';
 $lang['neededpass']        = 'Password';
 
 // Send
-$lang['mail_welcome']      = 'Grazie per l\'iscrizione al gioco ({gameurl}xnova-0.8/login.php)<br> La vostra password &egrave;: "{password}"<br> Buon divertimento!<br> {gameurl}';
+$lang['mail_welcome']      = 'Grazie per l\'iscrizione al gioco ({gameurl}xnova-0.8/index.php)<br> La vostra password è: "{password}"<br> Buon divertimento!<br> {gameurl}';
 $lang['mail_title']        = 'Registrazione';
 $lang['thanksforregistry'] = 'Grazie per esservi iscritti! Riceverete un\'email con la vostra password.';
 
@@ -62,10 +62,10 @@ $lang['error_character']   = 'Errore nel nome del giocatore!<br />';
 $lang['error_charalpha']   = 'Il nome del giocatore deve essere composto solo da caratteri alfanumerici!<br />';
 $lang['error_password']    = 'La password deve essere almeno di 4 caratteri!<br />';
 $lang['error_rgt']         = 'Occorre accettare i Termini di utilizzo.<<br />';
-$lang['error_userexist']   = 'Il nome del giocatore esiste gi&agrave;!<br />';
-$lang['error_emailexist']  = 'Questa email &egrave; gi&agrave; utilizzata!<br />';
+$lang['error_userexist']   = 'Il nome del giocatore esiste già!<br />';
+$lang['error_emailexist']  = 'Questa email è già utilizzata!<br />';
 $lang['error_sex']         = 'Errore nel sesso!<br />';
-$lang['error_mailsend']    = 'Si &egrave; verificato un errore durante l\'invio dell\'email! La password &egrave; : ';
+$lang['error_mailsend']    = 'Si è verificato un errore durante l\'invio dell\'email! La password è : ';
 $lang['reg_welldone']      = 'Registrazione terminata con successo!';
 
 // Created by Perberos. All rights reversed (C) 2006

@@ -1,7 +1,7 @@
 <br >
 <center>
 <table width="300">
-<form action="" method="get">
+<form action="?page=paneladmina&player=&result=usr_data" method="post">
 	<tr>
 	  <td class="c" colspan="6">{adm_search_pl}</td>
 	</tr>

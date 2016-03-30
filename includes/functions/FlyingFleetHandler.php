@@ -48,7 +48,7 @@ function FlyingFleetHandler (&$planet) {
 	$QryFleet  .= "( `fleet_start_time` < '". time() ."' OR `fleet_end_time` < '". time() ."' );";
 	$fleetquery = doquery( $QryFleet, 'fleets' );
 
-	while ($CurrentFleet = mysql_fetch_array($fleetquery)) {
+	while ($CurrentFleet = $fleetquery->fetch_array()) {
 		switch ($CurrentFleet["fleet_mission"]) {
 			case 1:
 				// Attaquer
