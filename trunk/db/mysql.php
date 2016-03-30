@@ -42,24 +42,26 @@ function doquery($query, $table, $fetch = false)
 
     if(!isset(Database::$dbHandle))
     {
-        Database::$dbHandle = mysql_connect(
+        Database::$dbHandle = new mysqli(
             $config['global']['database']['options']['hostname'],
             $config['global']['database']['options']['username'],
             $config['global']['database']['options']['password'])
-                or trigger_error(mysql_error() . "$query<br />" . PHP_EOL, E_USER_WARNING);
+                or trigger_error("$query<br />" . PHP_EOL, E_USER_WARNING, Database::$dbHandle->error);
 
-        mysql_select_db($config['global']['database']['options']['database'], Database::$dbHandle)
-            or trigger_error(mysql_error()."$query<br />" . PHP_EOL, E_USER_WARNING);
+        Database::$dbHandle->select_db($config['global']['database']['options']['database'])
+            or trigger_error("$query<br />" . PHP_EOL, E_USER_WARNING, Database::$dbHandle->error);
     }
     $sql = str_replace("{{table}}", "{$config['global']['database']['table_prefix']}{$table}", $query);
 
-    if (false === ($sqlQuery = mysql_query($sql, Database::$dbHandle))) {
-        trigger_error(mysql_error() . PHP_EOL . "<br /><pre></code>$sql<code></pre><br />" . PHP_EOL, E_USER_WARNING);
+    if (false === ($sqlQuery = Database::$dbHandle->query($sql))) {
+        trigger_error(PHP_EOL . "<br /><pre></code>$sql<code></pre><br />" . PHP_EOL, E_USER_WARNING, Database::$dbHandle->error);
     }
 
     if($fetch) {
-        return mysql_fetch_array($sqlQuery);
+        return $sqlQuery->fetch_array();
     }else{
         return $sqlQuery;
     }
+
+    Database::$dbHandle->close();
 }

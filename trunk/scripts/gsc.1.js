@@ -27,14 +27,14 @@ s=s.replace(/#2/g,'</th><th>');
 s=s.replace(/#3/g,'</th>');
 
 
-s=s.replace(/#8/g,'<th> <a href=\"fleet.php?fstate=3&type=Spionage&gesver2=1&ladekap2=5&s=10&c210='+a+'&ft1='+p1+'&ft2='+p2+'&ft3=');
+s=s.replace(/#8/g,'<th> <a href=\"game.php?page=fleet&fstate=3&type=Spionage&gesver2=1&ladekap2=5&s=10&c210='+a+'&ft1='+p1+'&ft2='+p2+'&ft3=');
 s=s.replace(/#9/g,'\"><img src=\"http://80.237.203.119/ogame/game/img/e.gif\" border=0 alt=\"'+a+' Sonde schicken\">    </a>');
-s=s.replace(/#b/g,'<a href=\"galaxy.php?mode=1&p1='+p1+'&p2='+p2+'&ft3=');
+s=s.replace(/#b/g,'<a href=\"game.php?page=galaxy&mode=1&p1='+p1+'&p2='+p2+'&ft3=');
 s=s.replace(/#c/g,'\"><img src=\"http://ogame.org/ogame/game/img/r.gif\" border=0 alt=\"Raketenangriff\">    </a>');
 
 
-s=s.replace(/#4/g,'<a href=\"messages.php?mode=write&id=');
-s=s.replace(/#5/g,'\"><img src=\"http://80.237.203.119/ogame/game/img/m.gif\" border=0 alt=\"Nachricht schreiben\"></a><a href=\"buddy.php?a=2&u=');
+s=s.replace(/#4/g,'<a href=\"game.php?page=messages&mode=write&id=');
+s=s.replace(/#5/g,'\"><img src=\"http://80.237.203.119/ogame/game/img/m.gif\" border=0 alt=\"Nachricht schreiben\"></a><a href=\"game.php?page=buddy&a=2&u=');
 s=s.replace(/#X/g,'\"><img src=\"http://80.237.203.119/ogame/game/img/b.gif\" border=0 alt=\"Buddyanfrage\"></a>');
 s=s.replace(/#6/g,'</th>');
 s=s.replace(/#7/g,'<th>');

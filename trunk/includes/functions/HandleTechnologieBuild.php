@@ -28,26 +28,26 @@
  *
  */
 
-function HandleTechnologieBuild ( &$CurrentPlanet, &$CurrentUser ) {
+function HandleTechnologieBuild ( &$planetrow, &$user ) {
 	global $resource;
 
-	if ($CurrentUser['b_tech_planet'] != 0) {
+	if ($user['b_tech_planet'] != 0) {
 		// Y a une technologie en cours sur une de mes colonies
-		if ($CurrentUser['b_tech_planet'] != $CurrentPlanet['id']) {
+		if ($user['b_tech_planet'] != $planetrow['id']) {
 			// Et ce n'est pas sur celle ci !!
-			$WorkingPlanet = doquery("SELECT * FROM {{table}} WHERE `id` = '". $CurrentUser['b_tech_planet'] ."';", 'planets', true);
+			$WorkingPlanet = doquery("SELECT * FROM {{table}} WHERE `id` = '". $user['b_tech_planet'] ."';", 'planets', true);
 		}
 
 		if ($WorkingPlanet) {
 			$ThePlanet = $WorkingPlanet;
 		} else {
-			$ThePlanet = $CurrentPlanet;
+			$ThePlanet = $planetrow;
 		}
 
 		if ($ThePlanet['b_tech']    <= time() &&
 			$ThePlanet['b_tech_id'] != 0) {
 			// La recherche en cours est terminée ...
-			$CurrentUser[$resource[$ThePlanet['b_tech_id']]]++;
+			$user[$resource[$ThePlanet['b_tech_id']]]++;
 			// Mise a jour de la planete sur laquelle la technologie a été recherchée
 			$QryUpdatePlanet  = "UPDATE {{table}} SET ";
 			$QryUpdatePlanet .= "`b_tech` = '0', ";
@@ -59,16 +59,16 @@ function HandleTechnologieBuild ( &$CurrentPlanet, &$CurrentUser ) {
 			// Mes a jour de la techno sur l'enregistrement Utilisateur
 			// Et tant qu'a faire des stats points
 			$QryUpdateUser    = "UPDATE {{table}} SET ";
-			$QryUpdateUser   .= "`".$resource[$ThePlanet['b_tech_id']]."` = '". $CurrentUser[$resource[$ThePlanet['b_tech_id']]] ."', ";
+			$QryUpdateUser   .= "`".$resource[$ThePlanet['b_tech_id']]."` = '". $user[$resource[$ThePlanet['b_tech_id']]] ."', ";
 			$QryUpdateUser   .= "`b_tech_planet` = '0' ";
 			$QryUpdateUser   .= "WHERE ";
-			$QryUpdateUser   .= "`id` = '". $CurrentUser['id'] ."';";
+			$QryUpdateUser   .= "`id` = '". $user['id'] ."';";
 			doquery( $QryUpdateUser, 'users');
 			$ThePlanet["b_tech_id"] = 0;
 			if (isset($WorkingPlanet)) {
 				$WorkingPlanet = $ThePlanet;
 			} else {
-				$CurrentPlanet = $ThePlanet;
+				$planetrow = $ThePlanet;
 			}
 			$Result['WorkOn'] = "";
 			$Result['OnWork'] = false;
@@ -77,7 +77,7 @@ function HandleTechnologieBuild ( &$CurrentPlanet, &$CurrentUser ) {
 			// Il n'y a rien a l'ouest ...
 			// Pas de Technologie en cours devait y avoir un bug lors de la derniere connexion
 			// On met l'enregistrement informant d'une techno en cours de recherche a jours
-			doquery("UPDATE {{table}} SET `b_tech_planet` = '0'  WHERE `id` = '". $CurrentUser['id'] ."';", 'users');
+			doquery("UPDATE {{table}} SET `b_tech_planet` = '0'  WHERE `id` = '". $user['id'] ."';", 'users');
 			$Result['WorkOn'] = "";
 			$Result['OnWork'] = false;
 

@@ -33,7 +33,6 @@ define('INSTALL', false);
 define('IN_INSTALL', true);
 
 define('ROOT_PATH', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR);
-define('PHPEXT', include ROOT_PATH . 'extension.inc');
 
 define('DEFAULT_SKINPATH', '../skins/xnova/');
 define('TEMPLATE_DIR', realpath(ROOT_PATH . '/templates/'));
@@ -41,19 +40,19 @@ define('TEMPLATE_NAME', 'OpenGame');
 define('DEFAULT_LANG', 'fr');
 $dpath = DEFAULT_SKINPATH;
 
-include(ROOT_PATH . 'includes/debug.class.'.PHPEXT);
+include(ROOT_PATH . 'includes/debug.class.php');
 $debug = new debug();
 
-include(ROOT_PATH . 'includes/constants.' . PHPEXT);
-include(ROOT_PATH . 'includes/functions.' . PHPEXT);
-include(ROOT_PATH . 'includes/unlocalised.' . PHPEXT);
-include(ROOT_PATH . 'includes/todofleetcontrol.' . PHPEXT);
+include(ROOT_PATH . 'includes/constants.php');
+include(ROOT_PATH . 'includes/functions.php');
+include(ROOT_PATH . 'includes/unlocalised.php');
+include(ROOT_PATH . 'includes/todofleetcontrol.php');
 include(ROOT_PATH . 'language/' . DEFAULT_LANG . '/lang_info.cfg');
-include(ROOT_PATH . 'includes/vars.' . PHPEXT);
-include(ROOT_PATH . 'includes/db.' . PHPEXT);
-include(ROOT_PATH . 'includes/strings.' . PHPEXT);
+include(ROOT_PATH . 'includes/vars.php');
+include(ROOT_PATH . 'includes/db.php');
+include(ROOT_PATH . 'includes/strings.php');
 
-include(ROOT_PATH . 'includes/databaseinfos.php');
+include(ROOT_PATH . 'includes/databasegame.php?page=infos');
 include(ROOT_PATH . 'includes/migrateinfo.php');
 
 $mode     = isset($_GET['mode']) ? strval($_GET['mode']) : 'intro';
@@ -91,13 +90,13 @@ switch ($mode) {
             $prefix = $_POST['prefix'];
             $db     = $_POST['db'];
 
-            $connection = @mysql_connect($host, $user, $pass);
+            $connection = new mysqli($host, $user, $pass);
             if (!$connection) {
                 header("Location: ?mode=ins&page=1&error=1");
                 exit();
             }
 
-            $dbselect = @mysql_select_db($db);
+            $dbselect = Database::$dbHandle->select_db($db);
             if (!$dbselect) {
                 header("Location: ?mode=ins&page=1&error=1");
                 exit();
@@ -194,13 +193,13 @@ EOF;
             $db_db     = $config['global']['database']['options']['database'];
             $db_prefix = $config['global']['database']['table_prefix'];
 
-            $connection = @mysql_connect($db_host, $db_user, $db_pass);
+            $connection = new mysqli($db_host, $db_user, $db_pass);
                 if (!$connection) {
                 header("Location: ?mode=ins&page=1&error=1");
                 exit();
                 }
 
-            $dbselect = @mysql_select_db($db_db);
+            $dbselect = Database::$dbHandle->select_db($db_db);
                 if (!$dbselect) {
                 header("Location: ?mode=ins&page=1&error=1");
                 exit();
@@ -290,12 +289,12 @@ EOF;
             $prefix = $_POST['prefix'];
             $db     = $_POST['db'];
 
-            if (!mysql_connect($host, $user, $pass)) {
+            if (!new mysqli($host, $user, $pass)) {
                 header("Location: ?mode=goto&page=2&error=1");
                 exit();
             }
 
-            if (!mysql_select_db($db)) {
+            if (!Database::$dbHandle->select_db($db)) {
                 header("Location: ?mode=goto&page=2&error=1");
                 exit();
             }

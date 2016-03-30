@@ -36,7 +36,7 @@ if (!defined('INSIDE')) {
 // Registration form
 $lang['registry']          = 'Registrazione';
 $lang['form']              = 'Modulo registrazione';
-$lang['Register']          = 'Registrazione a <br><h2><FONT size=16px color="#F52100">xnova</h2><br><br><h2><a href="http://xnova.org/login.php"><FONT color="#45E525">indietro</a></h2> </FONT>';
+$lang['Register']          = 'Registrazione a <br><h2><FONT size=16px color="#F52100">xnova</h2><br><br><h2><a href="http://xnova.org/index.php"><FONT color="#45E525">indietro</a></h2> </FONT>';
 $lang['Undefined']         = '- indefinito -';
 $lang['Male']              = 'Maschio';
 $lang['Female']            = 'Femmina';
@@ -51,9 +51,9 @@ $lang['neededpass']        = 'Password';
 $lang['code_secu']          = 'Sicurezza';
 
 // Send
-$lang['mail_welcome']      = 'Grazie per l\'iscrizione al gioco ({gameurl}xnova/login.php)<br> La vostra password &egrave;: "{password}"<br> Buon divertimento!<br> {gameurl}';
+$lang['mail_welcome']      = 'Grazie per l\'iscrizione al gioco ({gameurl}xnova/index.php)<br> La vostra password è: "{password}"<br> Buon divertimento!<br> {gameurl}';
 $lang['mail_title']        = 'Registrazione';
-$lang['thanksforregistry'] = '<h2><a href="http://battlesclub.awardspace.info/login.php"><FONT color="#45E525">L O G I N</a></h2> </FONT><BR> Grazie per esservi iscritti! Riceverete un\'email con la vostra password.';
+$lang['thanksforregistry'] = '<h2><a href="http://battlesclub.awardspace.info/index.php"><FONT color="#45E525">L O G I N</a></h2> </FONT><BR> Grazie per esservi iscritti! Riceverete un\'email con la vostra password.';
 $lang['sender_message_ig'] = 'Admin';
 $lang['subject_message_ig']= 'Benvenuto';
 $lang['text_message_ig']   = 'Benvenuto su neverbackdown, vi auguriamo buon gioco e buona fortuna!';
@@ -68,10 +68,10 @@ $lang['error_character']   = 'Errore nel nome del giocatore!<br />';
 $lang['error_charalpha']   = 'Il nome del giocatore deve essere composto solo da caratteri alfanumerici!<br />';
 $lang['error_password']    = 'La password deve essere almeno di 4 caratteri!<br />';
 $lang['error_rgt']         = 'Occorre accettare i Termini di utilizzo.<<br />';
-$lang['error_userexist']   = 'Il nome del giocatore esiste gi&agrave;!<br />';
-$lang['error_emailexist']  = 'Questa email &egrave; gi&agrave; utilizzata!<br />';
+$lang['error_userexist']   = 'Il nome del giocatore esiste già!<br />';
+$lang['error_emailexist']  = 'Questa email è già utilizzata!<br />';
 $lang['error_sex']         = 'Errore nella sessione!<br />';
-$lang['error_mailsend']    = 'Si &egrave; verificato un errore durante l\'invio dell\'email! La password &egrave; :';
+$lang['error_mailsend']    = 'Si è verificato un errore durante l\'invio dell\'email! La password è :';
 $lang['return']            = '<a href="http://battlesclub.awardspace.info/reg.php"><FONT color="#45E525">registrazione</a> </FONT>';   
 $lang['reg_welldone']      = 'Registrazione terminata con successo!';    
 

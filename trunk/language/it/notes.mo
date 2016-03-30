@@ -35,7 +35,7 @@ $lang['Createnote'] = 'Crea nota';
 $lang['MakeNewNote'] = 'Crea una nuova nota';
 $lang['Editnote'] = 'Modifica nota';
 
-$lang['Priority'] = 'Priorit&agrave;';
+$lang['Priority'] = 'Priorità';
 
 $lang['Important'] = 'alta';
 $lang['Normal'] = 'normale';
@@ -61,12 +61,12 @@ $lang['Reset'] = 'Azzera';
 //mensajes
 $lang['ThereIsNoNote'] = 'Non ci sono note';
 
-$lang['NoteUpdated'] = 'La nota &egrave; stata aggiornata, <a href="notes.php"><blink>redirection...</blink></a>';
+$lang['NoteUpdated'] = 'La nota è stata aggiornata, <a href="game.php?page=notes"><blink>redirection...</blink></a>';
 
-$lang['NoteAdded'] = 'La nota &egrave; stata creata, <a href="notes.php"><blink>redirection...</blink></a>';
+$lang['NoteAdded'] = 'La nota è stata creata, <a href="game.php?page=notes"><blink>redirection...</blink></a>';
 
-$lang['NoteDeleted'] = 'La nota &egrave; stata eliminata, <a href="notes.php"><blink>redirection...</blink></a>';
-$lang['NoteDeleteds'] = 'Le note sono state eliminate, <a href="notes.php"><blink>redirection...</blink></a>';
+$lang['NoteDeleted'] = 'La nota è stata eliminata, <a href="game.php?page=notes"><blink>redirection...</blink></a>';
+$lang['NoteDeleteds'] = 'Le note sono state eliminate, <a href="game.php?page=notes"><blink>redirection...</blink></a>';
 
 // Created by Perberos. All rights reversed (C) 2006 
 ?>
