@@ -108,3 +108,5 @@ include(ROOT_PATH . 'includes/functions/BuildFleetEventTable.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/ResetThisFuckingCheater.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/IsVacationMode.'.PHPEXT);
 
+include(ROOT_PATH . 'Libraries/Classes/HTTP.'.PHPEXT);
+include(ROOT_PATH . 'Libraries/Classes/Template.'.PHPEXT);
