@@ -33,6 +33,7 @@ define('INSTALL' , false);
 define('LOGIN'   , true);
 define('DISABLE_IDENTITY_CHECK', true);
 require_once dirname(__FILE__) .'/common.php';
+define('NO_MENU', true);
 
 includeLang('login');
 
@@ -74,7 +75,7 @@ EOF;
             doquery($sql, 'users');
 
             $_SESSION['user_id'] = $login['id'];
-            header("Location: frames.php");
+            header("Location: overview.php");
             exit(0);
         } else {
             message($lang['Login_FailPassword'], $lang['Login_Error']);

@@ -137,7 +137,7 @@ require_once dirname(__FILE__) .'/common.php';
 
     $page = InsertGalaxyScripts($CurrentPlanet);
 
-    $page .= "<body style=\"overflow: hidden;\" onUnload=\"\"><br><br>";
+    $page .= "<body style=\"overflow: auto;\" onUnload=\"\"><br><br>";
     $page .= ShowGalaxySelector ( $galaxy, $system );
 
     if ($mode == 2) {
@@ -152,7 +152,7 @@ require_once dirname(__FILE__) .'/common.php';
 
     $page .= "</tbody></table></div>";
 
-    display ($page, $lang[''], false, '', false);
+    display ($page, $lang['']);
 
 // -----------------------------------------------------------------------------------------------------------
 // History version
