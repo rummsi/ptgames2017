@@ -67,10 +67,6 @@ body
   font-family          : Tahoma,sans-serif;
 }
 
-body.style{
-  background-image     : url(img/background1.jpg);
-}
-
 body.style table {
   margin               : 0px;
 }
