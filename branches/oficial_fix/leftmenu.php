@@ -45,13 +45,13 @@ function ShowLeftMenu ( $Level , $Template = 'left_menu') {
 	$parse['XNovaRelease']    = VERSION;
 	$parse['dpath']           = $dpath;
 	$parse['forum_url']       = $game_config['forum_url'];
-	$parse['mf']              = "Hauptframe";
+	$parse['mf']              = "_self";
 	$rank                     = doquery("SELECT `total_rank` FROM {{table}} WHERE `stat_code` = '1' AND `stat_type` = '1' AND `id_owner` = '". $user['id'] ."';",'statpoints',true);
 	$parse['user_rank']       = $rank['total_rank'];
 	if ($Level > 0) {
 		$parse['ADMIN_LINK']  = "
 		<tr>
-			<td colspan=\"2\"><div><a href=\"admin/leftmenu.php\"><font color=\"lime\">".$lang['user_level'][$Level]."</font></a></div></td>
+			<td colspan=\"2\"><div><a href=\"admin/overview.php\"><font color=\"lime\">".$lang['user_level'][$Level]."</font></a></div></td>
 		</tr>";
 	} else {
 		$parse['ADMIN_LINK']  = "";
@@ -87,7 +87,7 @@ function ShowLeftMenu ( $Level , $Template = 'left_menu') {
 	if ($game_config['enable_notes'] == 1) {
 		$parse['notes_link']  = "
 		<tr>
-			<td colspan=\"2\"><div><a href=\"#\" onClick=\"f(\'notes.php\', \'Report\');\" accesskey=\"n\">Notes</a></div></td>
+			<td colspan=\"2\"><div><a href=\"#\" onClick=\"f('notes.php', 'Report');\" accesskey=\"n\">Notes</a></div></td>
 		</tr>";
 	} else {
 		$parse['notes_link']  = "";

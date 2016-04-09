@@ -31,6 +31,7 @@
 define('INSIDE' , true);
 define('INSTALL' , false);
 require_once dirname(__FILE__) .'/common.php';
+define('NO_MENU', true);
 
 includeLang('imperium');
 

@@ -305,9 +305,9 @@ require_once dirname(__FILE__) .'/common.php';
 
        if($user['urlaubs_modus']){
 
-          display(parsetemplate(gettemplate('options_body_vmode'), $parse), 'Options', false);
+          display(parsetemplate(gettemplate('options_body_vmode'), $parse), 'Options');
        }else{
-       display(parsetemplate(gettemplate('options_body'), $parse), 'Options', false);
+       display(parsetemplate(gettemplate('options_body'), $parse), 'Options');
        }
        die();
     }
