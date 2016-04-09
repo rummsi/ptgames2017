@@ -19,7 +19,7 @@
          <th colspan="2"><input value="{ButtonSendPass}" type="submit"></th>
       </tr>
            <tr>
-             <th colspan="2"><a href="login.php">Retour a l'accueil</a></th>
+             <th colspan="2"><a href="index.php">Retour a l'accueil</a></th>
            </tr>
     </tbody></table>
        
