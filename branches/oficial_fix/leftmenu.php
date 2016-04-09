@@ -28,10 +28,6 @@
  *
  */
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-require_once dirname(__FILE__) .'/common.php';
-
 function ShowLeftMenu ( $Level , $Template = 'left_menu') {
 	global $lang, $user, $dpath, $game_config;
 
@@ -101,8 +97,6 @@ function ShowLeftMenu ( $Level , $Template = 'left_menu') {
 
 	return $Menu;
 }
-	$Menu = ShowLeftMenu ( $user['authlevel'] );
-	display ( $Menu, "Menu", '', false );
 
 // -----------------------------------------------------------------------------------------------------------
 // History version
