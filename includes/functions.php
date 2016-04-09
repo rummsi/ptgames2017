@@ -62,6 +62,7 @@ function is_email($email) {
 // Routine Affichage d'un message administrateur avec saut vers une autre page si souhait�
 //
 function AdminMessage ($mes, $title = 'Error', $dest = '', $time = '3', $color= 'red') {
+	define('NO_MENU', true);
 	$parse['color'] = $color;
 	$parse['title'] = $title;
 	$parse['mes']   = $mes;
@@ -76,6 +77,7 @@ function AdminMessage ($mes, $title = 'Error', $dest = '', $time = '3', $color= 
 // Routine Affichage d'un message avec saut vers une autre page si souhait�
 //
 function message($mes, $title = 'Error', $dest = "", $time = "3", $color = 'orange') {
+    define('NO_MENU', true);
     $parse['color'] = $color;
     $parse['title'] = $title;
     $parse['mes']   = $mes;
@@ -95,8 +97,13 @@ function message($mes, $title = 'Error', $dest = "", $time = "3", $color = 'oran
 // $metatags  -> S'il y a quelques actions particulieres a faire ...
 // $AdminPage -> Si on est dans la section admin ... faut le dire ...
 function display ($page, $title = '', $topnav = true, $metatags = '', $AdminPage = false) {
-	global $link, $game_config, $debug, $user, $planetrow;
+	global $link, $game_config, $debug, $user, $planetrow, $InLogin;
 
+    include(ROOT_PATH . "leftmenu.php");
+    include(ROOT_PATH . "admin/leftmenu.php");
+    $Menu = ShowLeftMenu(@$user['authlevel']);
+    $AdminMenu = ShowAdminLeftMenu(@$user['authlevel']);
+    
 	if (!$AdminPage) {
 		$DisplayPage  = StdUserHeader ($title, $metatags);
 	} else {
@@ -104,9 +111,31 @@ function display ($page, $title = '', $topnav = true, $metatags = '', $AdminPage
 	}
 
 	if ($topnav) {
-		$DisplayPage .= ShowTopNavigationBar( $user, $planetrow );
+		$DisplayTopNav = ShowTopNavigationBar( $user, $planetrow );
 	}
-	$DisplayPage .= "<center>\n". $page ."\n</center>\n";
+    if (!$AdminPage && !$InLogin && !defined("NO_MENU")) {
+        $DisplayPage .='
+		<br />
+		<center>
+		<div style="width:90%;">
+		<div style="float:left; margin-right:25px; position:\'fixed\';" class=\'style\'>' . $Menu . '</div>
+			<div style="float:center; margin-left:150px; width: 100%px;">' . $DisplayTopNav . $page . '</div>
+		</div>
+		</center>
+		';
+	} elseif ($AdminPage && !$InLogin && !defined("NO_MENU")) {
+	$DisplayPage .='
+		<br />
+		<center>
+		<div style="width:90%;">
+			<div style="float:left; margin-right:25px; position:\'fixed\';" class=\'style\'>' . $AdminMenu . '</div>
+			<div style="float:center; margin-left:150px; width: 100%px;">' . $page . '</div>
+		</div>
+		</center>
+		';
+	} else {
+		$DisplayPage .= "<center>\n" . $page . "\n</center>\n";
+	}
 	// Affichage du Debug si necessaire
 	if (isset($user['authlevel']) && in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
 		if ($game_config['debug'] == 1) $debug->echo_log();
