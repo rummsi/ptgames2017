@@ -1,40 +1,46 @@
 <?php
-/**
- * This file is part of XNova:Legacies
- *
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
- * @see http://www.xnova-ng.org/
- *
- * Copyright (c) 2009-Present, XNova Support Team <http://www.xnova-ng.org>
- * All rights reserved.
- *
+
+/*
+ * PTGamesPT
+ * Copyright (C) 2012
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *                                --> NOTICE <--
- *  This file is part of the core development branch, changing its contents will
- * make you unable to use the automatic updates manager. Please refer to the
- * documentation for further information about customizing XNova.
- *
+ * 
+ * You should read the GNU General Public License, see <http://www.gnu.org/licenses/>.
+ * 
+ * PTGamesPT
+ * @author XNovaPT Team <xnovaptteam@gmail.com>
+ * @ShowResourcesPage.php
+ * @license http://www.gnu.org/licenses/gpl.html GNU GPLv3 License
+ * @version 0.01  10/abr/2016 18:14:14
  */
 
-define('INSIDE' , true);
-define('INSTALL' , false);
-require_once dirname(__FILE__) .'/common.php';
+/**
+ * Description of ShowResourcesPage
+ *
+ * @author author XNovaPT Team <xnovaptteam@gmail.com>
+ */
+class ShowResourcesPage extends AbstractGamePage {
 
+    function __construct() {
+        parent::__construct();
+        $this->tplObj->compile_id = 'resources';
+        includeLang('leftmenu');
+    }
 
-function BuildRessourcePage ( $CurrentUser, $CurrentPlanet ) {
-	global $lang, $ProdGrid, $resource, $reslist, $game_config, $_POST;
+    function show() {
+        global $lang, $ProdGrid, $resource, $reslist, $game_config, $_POST, $planetrow, $user;
+        
+        $CurrentPlanet = $planetrow;
+        $CurrentUser = $user;
 
 	includeLang('resources');
 
@@ -55,7 +61,7 @@ function BuildRessourcePage ( $CurrentUser, $CurrentPlanet ) {
 			$FieldName = $Field."_porcent";
 			if ( isset( $CurrentPlanet[ $FieldName ] ) ) {
 				if ( ! in_array( $Value, $ValidList['percent']) ) {
-					header("Location: overview.php");
+					header("Location: game.php?page=overview");
 					exit;
 				}
 
@@ -266,13 +272,6 @@ function BuildRessourcePage ( $CurrentUser, $CurrentPlanet ) {
 
 	$page = parsetemplate( $RessBodyTPL, $parse );
 
-	return $page;
+	display( $page, $lang['Resources'] );
+    }
 }
-
-	$Page = BuildRessourcePage ( $user, $planetrow );
-	display( $Page, $lang['Resources'] );
-
-// -----------------------------------------------------------------------------------------------------------
-// History version
-// 1.0 - Passage en fonction pour utilisation XNova
-?>
