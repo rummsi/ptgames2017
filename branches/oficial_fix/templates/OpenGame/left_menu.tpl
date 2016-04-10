@@ -28,7 +28,7 @@ function f(target_url,win_name) {
 </tr><tr>
 	<td colspan="2"><div><a href="game.php?page=defense" accesskey="d" target="{mf}">{Defense}</a></div></td>
 </tr><tr>
-	<td colspan="2"><div><a href="officier.php" accesskey="o" target="{mf}">{Officiers}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=officier" accesskey="o" target="{mf}">{Officiers}</a></div></td>
 </tr><tr>
 	{marchand_link}
 </tr><tr>
