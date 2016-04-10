@@ -104,7 +104,7 @@ function GalaxyRowUser ( $GalaxyRow, $GalaxyRowPlanet, $GalaxyRowUser, $Galaxy, 
 		$Result .= "<td class=c colspan=2>".$lang['Player']." ".$GalaxyRowUser['username']." ".$lang['Place']." ".$Systemtatus4."</td>";
 		$Result .= "</tr><tr>";
 		if ($GalaxyRowUser['id'] != $user['id']) {
-			$Result .= "<td><a href=messages.php?mode=write&id=".$GalaxyRowUser['id'].">".$lang['gl_sendmess']."</a></td>";
+			$Result .= "<td><a href=game.php?page=messages&type=write&id=".$GalaxyRowUser['id'].">".$lang['gl_sendmess']."</a></td>";
 			$Result .= "</tr><tr>";
 			$Result .= "<td><a href=buddy.php?a=2&u=".$GalaxyRowUser['id'].">".$lang['gl_buddyreq']."</a></td>";
 			$Result .= "</tr><tr>";

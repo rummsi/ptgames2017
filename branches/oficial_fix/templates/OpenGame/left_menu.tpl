@@ -43,7 +43,7 @@ function f(target_url,win_name) {
 
 	<td colspan="2" background="{dpath}img/bg1.gif"><center>{observ}</center></td>
 </tr><tr>
-	<td colspan="2"><div><a href="galaxy.php?mode=0" accesskey="s" target="{mf}">{Galaxy}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=galaxy&type=0" accesskey="s" target="{mf}">{Galaxy}</a></div></td>
 </tr><tr>
 	<td colspan="2"><div><a href="imperium.php" accesskey="i" target="{mf}">{Imperium}</a></div></td>
 </tr><tr>
