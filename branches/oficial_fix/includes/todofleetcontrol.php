@@ -79,7 +79,7 @@ include(ROOT_PATH . 'includes/functions/GetElementRessources.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/ElementBuildListBox.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/ElementBuildListQueue.'.PHPEXT);
 //include(ROOT_PATH . 'includes/functions/FleetBuildingPage.'.PHPEXT);
-include(ROOT_PATH . 'includes/functions/DefensesBuildingPage.'.PHPEXT);
+//include(ROOT_PATH . 'includes/functions/DefensesBuildingPage.'.PHPEXT);
 //include(ROOT_PATH . 'includes/functions/ResearchBuildingPage.'.PHPEXT);
 //include(ROOT_PATH . 'includes/functions/BatimentBuildingPage.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/CheckLabSettingsInQueue.'.PHPEXT);
