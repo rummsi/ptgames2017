@@ -54,5 +54,6 @@ $lang['log_numbreg'] = 'Joueurs inscris';
 $lang['log_welcome'] = 'Bienvenue sur';
 
 $lang['PasswordLost'] = 'Vous avez oubli&eacute; votre mot de passe ?';
+$lang['Rules']        = 'R&egrave;gles';
 
 ?>

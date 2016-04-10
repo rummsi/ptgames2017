@@ -44,6 +44,7 @@ function changeAction(type) {
 <a href="index.php?page=reg">{log_reg}</a>
 <a href="{forum_url}">Forum</a>
 <a href="index.php?page=contact">Contact</a>
+<a href="index.php?page=rules">{Rules}</a>
 </div>
 <div id="rightmenu" class="rightmenu">
 <div id="title">{log_welcome} {servername}</div>

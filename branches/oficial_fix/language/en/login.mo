@@ -54,5 +54,6 @@ $lang['log_numbreg'] = 'Total registered';
 $lang['log_welcome'] = 'Welcome to';
 
 $lang['PasswordLost'] = 'Have you forgot your password?';
+$lang['Rules']        = 'Rules';
 
 ?>
