@@ -1,5 +1,5 @@
 <br>
-<form action="?mode=circular&sendmail=1" method="post">
+<form action="game.php?page=alliance&type=circular&sendmail=1" method="post">
   <table width=519>
 	<tr>
 	  <td class="c" colspan=2>{Send_circular_mail}</td>
@@ -20,7 +20,7 @@
 	  </th>
 	</tr>
 	<tr>
-	  <td class="c"><a href="alliance.php">{Back}</a></td>
+	  <td class="c"><a href="game.php?page=alliance">{Back}</a></td>
 	  <td class="c">
 		<input type="reset" value="{Clear}">
 		<input type="submit" value="{Send}">
