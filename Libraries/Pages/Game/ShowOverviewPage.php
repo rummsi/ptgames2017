@@ -40,7 +40,7 @@ class ShowOverviewPage extends AbstractGamePage {
         $lunarow = doquery("SELECT * FROM {{table}} WHERE `id_owner` = '" . $planetrow['id_owner'] . "' AND `galaxy` = '" . $planetrow['galaxy'] . "' AND `system` = '" . $planetrow['system'] . "' AND `lunapos` = '" . $planetrow['planet'] . "';", 'lunas', true);
 
         //CheckPlanetUsedFields ($lunarow);
-        $mode = isset($_GET['mode']) ? $_GET['mode'] : '';
+        $mode = isset($_GET['type']) ? $_GET['type'] : '';
         $_POST['deleteid'] = intval($_POST['deleteid']);
         $pl = mysqli_real_escape_string(Database::$dbHandle, isset($_GET['pl']) ? $_GET['pl'] : 0);
 
@@ -85,7 +85,7 @@ class ShowOverviewPage extends AbstractGamePage {
                         include_once(ROOT_PATH . 'includes/functions/AbandonColony.' . PHPEXT);
                         if (CheckFleets($planetrow)) {
                             $strMessage = "Vous ne pouvez pas abandonner la colonie, il y a de la flotte en vol !";
-                            message($strMessage, $lang['colony_abandon'], 'overview.php?mode=renameplanet', 3);
+                            message($strMessage, $lang['colony_abandon'], 'game.php?page=overview&type=renameplanet', 3);
                         }
 
                         AbandonColony($user, $planetrow);
@@ -96,14 +96,14 @@ class ShowOverviewPage extends AbstractGamePage {
                         $QryUpdateUser .= "`id` = '" . $user['id'] . "' LIMIT 1";
                         doquery($QryUpdateUser, "users");
                         // Tout s'est bien pass� ! La colo a �t� effac�e !!
-                        message($lang['deletemessage_ok'], $lang['colony_abandon'], 'overview.php', 3);
+                        message($lang['deletemessage_ok'], $lang['colony_abandon'], 'game.php?page=overview', 3);
                     } elseif ($user['id_planet'] == $user["current_planet"]) {
                         // Et puis quoi encore ??? On ne peut pas effacer la planete mere ..
                         // Uniquement les colonies cr�es apres coup !!!
-                        message($lang['deletemessage_wrong'], $lang['colony_abandon'], 'overview.php?mode=renameplanet');
+                        message($lang['deletemessage_wrong'], $lang['colony_abandon'], 'game.php?page=overview&type=renameplanet');
                     } else {
                         // Erreur de saisie du mot de passe je n'efface pas !!!
-                        message($lang['deletemessage_fail'], $lang['colony_abandon'], 'overview.php?mode=renameplanet');
+                        message($lang['deletemessage_fail'], $lang['colony_abandon'], 'game.php?page=overview&type=renameplanet');
                     }
                 }
 
