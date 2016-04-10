@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Expression package is undefined on line 4, column 19 in file:///D:/servidor/_PTGAMES/www/ptgames-pt/branches/oficial_fix/nbproject/licenseheader.txt.
+ * PTGamesPT
  * Copyright (C) 2012
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -16,11 +16,11 @@
  * 
  * You should read the GNU General Public License, see <http://www.gnu.org/licenses/>.
  * 
- * Expression package is undefined on line 19, column 19 in file:///D:/servidor/_PTGAMES/www/ptgames-pt/branches/oficial_fix/nbproject/licenseheader.txt.
- * @Rui Silva
+ * PTGamesPT
+ * @author XNovaPT Team <xnovaptteam@gmail.com>
  * @ShowRulesPage.php
  * @license http://www.gnu.org/licenses/gpl.html GNU GPLv3 License
- * @Expression version is undefined on line 23, column 20 in file:///D:/servidor/_PTGAMES/www/ptgames-pt/branches/oficial_fix/nbproject/licenseheader.txt.  10/abr/2016 11:20:47
+ * @version 0.01  10/abr/2016 11:20:47
  */
 
 /**
