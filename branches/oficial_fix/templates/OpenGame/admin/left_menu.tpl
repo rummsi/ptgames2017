@@ -18,7 +18,7 @@ parent.frames['Hauptframe'].location.replace("admin.php?page=overview");
 </tr><tr>
 	<td><div><a href="admin.php?page=overview" accesskey="v" target="{mf}">{adm_over}</a></div></td>
 </tr><tr>
-	<td><div><a href="settings.php" accesskey="e" target="{mf}">{adm_conf}</a></div></td>
+	<td><div><a href="admin.php?page=settings" accesskey="e" target="{mf}">{adm_conf}</a></div></td>
 </tr><tr>
 	<td><div><a href="XNovaResetUnivers.php" accesskey="e" target="{mf}">{adm_reset}</a></div></td>
 </tr><tr>
