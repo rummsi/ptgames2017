@@ -60,7 +60,7 @@ function f(target_url,win_name) {
 </tr><tr>
 	<td colspan="2"><div><a href="game.php?page=search" accesskey="b" target="{mf}">{Search}</a></div></td>
 </tr><tr>
-	<td colspan="2"><div><a href="banned.php" accesskey="3" target="{mf}">{blocked}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=banned" accesskey="3" target="{mf}">{blocked}</a></div></td>
 </tr>{announce_link}<tr>
 
 
