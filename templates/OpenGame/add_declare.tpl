@@ -1,7 +1,7 @@
 <br><br>
 <h2>DECLARATION DE MULTICOMPTE</h2>
-<form action="add_declare.php" method="post">
-<input type="hidden" name="mode" value="addit">
+<form action="game.php?page=add_declare" method="post">
+<input type="hidden" name="type" value="addit">
 <table width="305">
 <tbody>
 <tr>
