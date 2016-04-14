@@ -51,7 +51,7 @@ function ShowLeftMenu ( $Level , $Template = 'left_menu') {
 	if ($Level > 0) {
 		$parse['ADMIN_LINK']  = "
 		<tr>
-			<td colspan=\"2\"><div><a href=\"admin/overview.php\"><font color=\"lime\">".$lang['user_level'][$Level]."</font></a></div></td>
+			<td colspan=\"2\"><div><a href=\"admin.php?page=overview\"><font color=\"lime\">".$lang['user_level'][$Level]."</font></a></div></td>
 		</tr>";
 	} else {
 		$parse['ADMIN_LINK']  = "";
