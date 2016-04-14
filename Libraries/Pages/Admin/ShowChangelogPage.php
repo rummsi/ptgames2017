@@ -37,6 +37,7 @@ class ShowChangelogPage extends AbstractAdminPage {
 
     function show() {
         global $lang;
+
         includeLang('changelog');
 
         $template = gettemplate('changelog_table');
@@ -53,7 +54,7 @@ class ShowChangelogPage extends AbstractAdminPage {
 
         $page .= parsetemplate(gettemplate('changelog_body'), $parse);
 
-        display($page, "Change Log");
+        display($page, "Change Log", false, '', true);
     }
 
 }
