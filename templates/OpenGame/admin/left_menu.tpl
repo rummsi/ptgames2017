@@ -16,7 +16,7 @@ parent.frames['Hauptframe'].location.replace("overview.php");
 </tr><tr>
 	<td background="{dpath}img/bg1.gif"><center>{admin}</center></td>
 </tr><tr>
-	<td><div><a href="overview.php" accesskey="v" target="{mf}">{adm_over}</a></div></td>
+	<td><div><a href="admin.php?page=overview" accesskey="v" target="{mf}">{adm_over}</a></div></td>
 </tr><tr>
 	<td><div><a href="settings.php" accesskey="e" target="{mf}">{adm_conf}</a></div></td>
 </tr><tr>
@@ -80,7 +80,7 @@ parent.frames['Hauptframe'].location.replace("overview.php");
 </tr><tr>
 	<td><div><a href="http://www.xnova-ng.org/forum/index.php" accesskey="3" target="{mf}">{adm_help}</a></div></td>
 </tr><tr>
-	<td><div><a href="../overview.php" accesskey="i" target="_top" style="color:red">{adm_back}</a></div></td>
+	<td><div><a href="game.php?page=overview" accesskey="i" target="_top" style="color:red">{adm_back}</a></div></td>
 </tr><tr>
 	<td background="{dpath}img/bg1.gif"><center>{infog}</center></td>
 </tr>
