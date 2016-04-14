@@ -160,7 +160,7 @@
 	$QryInsertConfig    .= "('enable_notes'                 , '1'), ";
 	$QryInsertConfig    .= "('bot_name'                 , 'XNoviana Reali'), ";
 	$QryInsertConfig    .= "('bot_adress'          , 'xnova@xnova-ng.org' ), ";
-	$QryInsertConfig    .= "('banner_source_post'          , '../images/bann.png' ), ";
+	$QryInsertConfig    .= "('banner_source_post'          , 'images/bann.png' ), ";
 	$QryInsertConfig    .= "('ban_duration'          , '30' ), ";
 	$QryInsertConfig    .= "('enable_bot'          , '0' ), ";
 	$QryInsertConfig    .= "('enable_bbcode'          , '1' ), ";
