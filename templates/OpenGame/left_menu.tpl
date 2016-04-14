@@ -56,7 +56,7 @@ function f(target_url,win_name) {
 </tr><tr>
 	<td colspan="2"><div><a href="game.php?page=records" accesskey="3" target="{mf}">{Records}</a></div></td>
 </tr><tr>
-	<td colspan="2"><div><a href="stat.php?range={user_rank}" accesskey="k" target="{mf}">{Statistics}</a></div></td>
+	<td colspan="2"><div><a href="game.php?page=stat&range={user_rank}" accesskey="k" target="{mf}">{Statistics}</a></div></td>
 </tr><tr>
 	<td colspan="2"><div><a href="search.php" accesskey="b" target="{mf}">{Search}</a></div></td>
 </tr><tr>
