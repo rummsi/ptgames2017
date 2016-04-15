@@ -26,7 +26,7 @@ parent.frames['Hauptframe'].location.replace("admin.php?page=overview");
 </tr><tr>
 	<td><div><a href="admin.php?page=userlist" accesskey="a" target="{mf}">{adm_plrlst}</a></div></td>
 </tr><tr>
-    <td><div><a href="multi.php" accesskey="a" target="{mf}">{adm_multi}</a></div></td>
+    <td><div><a href="admin.php?page=multi" accesskey="a" target="{mf}">{adm_multi}</a></div></td>
 </tr><tr>
 	<td><div><a href="paneladmina.php" accesskey="k" target="{mf}">{adm_plrsch}</a></div></td>
 </tr><tr>
