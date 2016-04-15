@@ -32,7 +32,7 @@ class ShowXNovaResetUniversPage extends AbstractAdminPage {
 
     function __construct() {
         parent::__construct();
-        $this->tplObj->compile_id = 'changelog';
+        $this->tplObj->compile_id = 'reset_univers';
     }
 
     function show() {
