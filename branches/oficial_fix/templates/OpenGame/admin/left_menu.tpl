@@ -34,7 +34,7 @@ parent.frames['Hauptframe'].location.replace("admin.php?page=overview");
 </tr><tr>
 	<td><div><a href="admin.php?page=variables" accesskey="k" target="{mf}">PhpInfo</a></div></td>
 </tr><tr>
-	<td><div><a href="add_money.php" accesskey="k" target="{mf}">{adm_addres}</a></div></td>
+	<td><div><a href="admin.php?page=add_money" accesskey="k" target="{mf}">{adm_addres}</a></div></td>
 </tr><tr>
 	<td style="background-color:#FFFFFF" height="1px"></td>
 </tr><tr>

@@ -1,7 +1,7 @@
 <br><br>
 <h2>{adm_am_ttle}</h2>
-<form action="add_money.php" method="post">
-<input type="hidden" name="mode" value="addit">
+<form action="admin.php?page=add_money" method="post">
+<input type="hidden" name="type" value="addit">
 <table width="305">
 <tbody>
 <tr>
