@@ -18,17 +18,17 @@
  * 
  * PTGamesPT
  * @author XNovaPT Team <xnovaptteam@gmail.com>
- * @ShowShowFlyingFleetsPage.php
+ * @ShowFlyingFleetsPage.php
  * @license http://www.gnu.org/licenses/gpl.html GNU GPLv3 License
  * @version 0.01  16/abr/2016 14:52:21
  */
 
 /**
- * Description of ShowShowFlyingFleetsPage
+ * Description of ShowFlyingFleetsPage
  *
  * @author author XNovaPT Team <xnovaptteam@gmail.com>
  */
-class ShowShowFlyingFleetsPage extends AbstractAdminPage {
+class ShowFlyingFleetsPage extends AbstractAdminPage {
 
     function __construct() {
         parent::__construct();
