@@ -32,7 +32,7 @@ class ShowMultiPage extends AbstractAdminPage {
 
     function __construct() {
         parent::__construct();
-        $this->tplObj->compile_id = 'userlist';
+        $this->tplObj->compile_id = 'multi';
     }
 
     function show() {
