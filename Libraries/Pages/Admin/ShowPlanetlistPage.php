@@ -32,7 +32,7 @@ class ShowPlanetlistPage extends AbstractAdminPage {
 
     function __construct() {
         parent::__construct();
-        $this->tplObj->compile_id = 'changelog';
+        $this->tplObj->compile_id = 'planetlist';
     }
 
     function show() {
