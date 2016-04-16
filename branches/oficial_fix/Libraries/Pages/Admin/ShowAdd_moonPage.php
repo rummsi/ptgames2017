@@ -32,7 +32,7 @@ class ShowAdd_moonPage extends AbstractAdminPage {
 
     function __construct() {
         parent::__construct();
-        $this->tplObj->compile_id = 'changelog';
+        $this->tplObj->compile_id = 'addmoon';
     }
 
     function show() {
@@ -41,7 +41,7 @@ class ShowAdd_moonPage extends AbstractAdminPage {
         if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR))) {
             includeLang('admin/addmoon');
 
-            $mode = $_POST['mode'];
+            $mode = $_POST['type'];
 
             $PageTpl = gettemplate("admin/add_moon");
             $parse = $lang;

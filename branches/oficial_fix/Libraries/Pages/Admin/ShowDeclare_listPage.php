@@ -32,7 +32,7 @@ class ShowDeclare_listPage extends AbstractAdminPage {
 
     function __construct() {
         parent::__construct();
-        $this->tplObj->compile_id = 'changelog';
+        $this->tplObj->compile_id = 'declarelist';
     }
 
     function show() {
