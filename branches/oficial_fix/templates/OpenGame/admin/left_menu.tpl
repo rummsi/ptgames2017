@@ -44,7 +44,7 @@ parent.frames['Hauptframe'].location.replace("admin.php?page=overview");
 </tr><tr>
 	<td style="background-color:#FFFFFF" height="1px"></td>
 </tr><tr>
-	<td><div><a href="moonlist.php" accesskey="k" target="{mf}">{adm_moonlst}</a></div></td>
+	<td><div><a href="admin.php?page=moonlist" accesskey="k" target="{mf}">{adm_moonlst}</a></div></td>
 </tr><tr>
 	<td><div><a href="declare_list.php" accesskey="k" target="{mf}">{multis_declared}</a></div></td>
 </tr><tr>
