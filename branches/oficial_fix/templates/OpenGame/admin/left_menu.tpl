@@ -30,7 +30,7 @@ parent.frames['Hauptframe'].location.replace("admin.php?page=overview");
 </tr><tr>
 	<td><div><a href="paneladmina.php" accesskey="k" target="{mf}">{adm_plrsch}</a></div></td>
 </tr><tr>
-	<td><div><a href="QueryExecute.php" accesskey="k" target="{mf}">{qry}</a></div></td>
+	<td><div><a href="admin.php?page=QueryExecute" accesskey="k" target="{mf}">{qry}</a></div></td>
 </tr><tr>
 	<td><div><a href="variables.php" accesskey="k" target="{mf}">PhpInfo</a></div></td>
 </tr><tr>
