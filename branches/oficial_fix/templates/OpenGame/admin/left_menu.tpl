@@ -70,7 +70,7 @@ parent.frames['Hauptframe'].location.replace("admin.php?page=overview");
 </tr><tr>
 	<td><div><a href="admin.php?page=messagelist" accesskey="k" target="{mf}">{adm_msg}</a></div></td>
 </tr><tr>
-	<td><div><a href="md5enc.php" accesskey="p" target="{mf}">{adm_md5}</a></div></td>
+	<td><div><a href="admin.php?page=md5enc" accesskey="p" target="{mf}">{adm_md5}</a></div></td>
 </tr><tr>
 	<td><div><a href="ElementQueueFixer.php" accesskey="p" target="{mf}">{adm_build}</a></div></td>
 </tr><tr>
