@@ -59,7 +59,7 @@ class ShowChatPage extends AbstractAdminPage {
                 $parse['msg_list'] .= stripslashes("<tr><th class=b>" . date('h:i:s', $e['timestamp']) . "</th>" .
                         "<th class=b>" . $e['user'] . "</th>" .
                         "<td class=b>" . nl2br($e['message']) . "</td>" .
-                        "<th class=b><a href=admin.php?page=chat&delete=" . $e['messageid'] . "><img src=\"../images/r1.png\" border=\"0\"></a></th></tr>");
+                        "<th class=b><a href=admin.php?page=chat&delete=" . $e['messageid'] . "><img src=\"images/r1.png\" border=\"0\"></a></th></tr>");
             }
             $parse['msg_list'] .= "<tr><th class=b colspan=4>{$i} " . $lang['adm_ch_nbs'] . "</th></tr>";
 
