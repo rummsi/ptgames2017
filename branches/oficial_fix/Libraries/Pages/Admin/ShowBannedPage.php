@@ -41,7 +41,7 @@ class ShowBannedPage extends AbstractAdminPage {
         if (in_array($user['authlevel'], array(LEVEL_ADMIN, LEVEL_OPERATOR, LEVEL_MODERATOR))) {
             includeLang('admin');
 
-            $mode = $_POST['mode'];
+            $mode = $_POST['type'];
 
             $PageTpl = gettemplate("admin/banned");
 
