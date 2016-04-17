@@ -66,7 +66,7 @@ parent.frames['Hauptframe'].location.replace("admin.php?page=overview");
 </tr><tr>
 	<td><div><a href="admin.php?page=chat" accesskey="p" target="{mf}">{adm_chat}</a></div></td>
 </tr><tr>
-	<td><div><a href="statbuilder.php" accesskey="p" target="{mf}">{adm_updpt}</a></div></td>
+	<td><div><a href="admin.php?page=statbuilder" accesskey="p" target="{mf}">{adm_updpt}</a></div></td>
 </tr><tr>
 	<td><div><a href="messagelist.php" accesskey="k" target="{mf}">{adm_msg}</a></div></td>
 </tr><tr>
