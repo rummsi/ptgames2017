@@ -91,13 +91,13 @@ class ShowOverviewPage extends AbstractAdminPage {
                 $Bloc['usr_xp_min'] = $TheUser['xpminier'];
 
                 if ($TheUser['urlaubs_modus'] == 1) {
-                    $Bloc['state_vacancy'] = "<img src=\"../images/true.png\" >";
+                    $Bloc['state_vacancy'] = "<img src=\"images/true.png\" >";
                 } else {
-                    $Bloc['state_vacancy'] = "<img src=\"../images/false.png\">";
+                    $Bloc['state_vacancy'] = "<img src=\"images/false.png\">";
                 }
 
                 if ($TheUser['bana'] == 1) {
-                    $Bloc['is_banned'] = "<img src=\"../images/banned.png\" >";
+                    $Bloc['is_banned'] = "<img src=\"images/banned.png\" >";
                 } else {
                     $Bloc['is_banned'] = $lang['is_banned_lang'];
                 }
