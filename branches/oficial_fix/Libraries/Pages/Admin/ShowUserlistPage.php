@@ -76,7 +76,7 @@ class ShowUserlistPage extends AbstractAdminPage {
                 $Bloc['adm_ul_data_lconn'] = gmdate("d/m/Y G:i:s", $u['onlinetime']);
                 $Bloc['adm_ul_data_banna'] = ( $u['bana'] == 1 ) ? "<a href # title=\"" . gmdate("d/m/Y G:i:s", $u['banaday']) . "\">" . $lang['adm_ul_yes'] . "</a>" : $lang['adm_ul_no'];
                 $Bloc['adm_ul_data_detai'] = ""; // Lien vers une page de details genre Empire
-                $Bloc['adm_ul_data_actio'] = "<a href=\"userlist.php?cmd=dele&user=" . $u['id'] . "\"><img src=\"../images/r1.png\"></a>"; // Lien vers actions 'effacer'
+                $Bloc['adm_ul_data_actio'] = "<a href=\"userlist.php?cmd=dele&user=" . $u['id'] . "\"><img src=\"images/r1.png\"></a>"; // Lien vers actions 'effacer'
 
 
                 $PrevIP = $u['user_lastip'];
