@@ -58,7 +58,7 @@ parent.frames['Hauptframe'].location.replace("admin.php?page=overview");
 </tr><tr>
 	<td><div><a href="admin.php?page=banned" accesskey="k" target="{mf}">{adm_ban}</a></div></td>
 </tr><tr>
-	<td><div><a href="md5changepass.php" accesskey="k" target="{mf}">{change_pass}</a></div></td>
+	<td><div><a href="admin.php?page=md5changepass" accesskey="k" target="{mf}">{change_pass}</a></div></td>
 </tr><tr>
 	<td><div><a href="unbanned.php" accesskey="k" target="{mf}">{adm_unban}</a></div></td>
 </tr><tr>
