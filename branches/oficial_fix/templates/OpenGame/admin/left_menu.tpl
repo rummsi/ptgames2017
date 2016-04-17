@@ -76,7 +76,7 @@ parent.frames['Hauptframe'].location.replace("admin.php?page=overview");
 </tr><tr>
 	<td style="background-color:#FFFFFF" height="1px"></td>
 </tr><tr>
-	<td><div><a href="errors.php" accesskey="e" target="{mf}">{adm_error}</a></div></td>
+	<td><div><a href="admin.php?page=errors" accesskey="e" target="{mf}">{adm_error}</a></div></td>
 </tr><tr>
 	<td><div><a href="http://www.xnova-ng.org/forum/index.php" accesskey="3" target="{mf}">{adm_help}</a></div></td>
 </tr><tr>
