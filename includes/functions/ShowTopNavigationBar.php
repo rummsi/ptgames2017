@@ -31,17 +31,14 @@
 function ShowTopNavigationBar ( $CurrentUser, $CurrentPlanet ) {
 	global $lang, $_GET;
 
-//	debug_print_backtrace();
-
+        //debug_print_backtrace();
 	if ($CurrentUser) {
 		if ( !$CurrentPlanet ) {
 			$CurrentPlanet = doquery("SELECT * FROM {{table}} WHERE `id` = '". $CurrentUser['current_planet'] ."';", 'planets', true);
 		}
 
 		// Actualisation des ressources de la planete
-
 		$NavigationTPL       = gettemplate('topnav');
-
 		$dpath               = (!$CurrentUser["dpath"]) ? DEFAULT_SKINPATH : $CurrentUser["dpath"];
 		$parse               = $lang;
 		$parse['dpath']      = $dpath;
@@ -51,14 +48,14 @@ function ShowTopNavigationBar ( $CurrentUser, $CurrentPlanet ) {
 		$parse['planetlist'] = '';
 		$ThisUsersPlanets    = SortUserPlanets ( $CurrentUser );
 		while ($CurPlanet = mysqli_fetch_array($ThisUsersPlanets)) {
-			if ($CurPlanet["destruyed"] == 0) {
+			if (isset($CurPlanet["destruyed"]) == 0) {
 				$parse['planetlist'] .= "\n<option ";
 				if ($CurPlanet['id'] == $CurrentUser['current_planet']) {
 					// Bon puisque deja on s'y trouve autant le marquer
 					$parse['planetlist'] .= "selected=\"selected\" ";
 				}
-				$parse['planetlist'] .= "value=\"?cp=".$CurPlanet['id']."";
-				$parse['planetlist'] .= "&amp;mode=".$_GET['mode'];
+				$parse['planetlist'] .= "value=\"game.php?page=".$_GET['page']."&cp=".$CurPlanet['id']."";
+				$parse['planetlist'] .= "&amp;type=".isset($_GET['type']);
 				$parse['planetlist'] .= "&amp;re=0\">";
 
 				// Nom et coordonnées de la planete
@@ -101,7 +98,7 @@ function ShowTopNavigationBar ( $CurrentUser, $CurrentPlanet ) {
 
 		// Message
 		if ($CurrentUser['new_message'] > 0) {
-			$parse['message'] = "<a href=\"messages.php\">[ ". $CurrentUser['new_message'] ." ]</a>";
+			$parse['message'] = "<a href=\"game.php?page=messages\">[ ". $CurrentUser['new_message'] ." ]</a>";
 		} else {
 			$parse['message'] = "0";
 		}
