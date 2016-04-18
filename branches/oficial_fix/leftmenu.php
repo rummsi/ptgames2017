@@ -46,7 +46,7 @@ function ShowLeftMenu ( $Level , $Template = 'left_menu') {
 	$parse['dpath']           = $dpath;
 	$parse['forum_url']       = $game_config['forum_url'];
 	$parse['mf']              = "_self";
-	$rank                     = doquery("SELECT `total_rank` FROM {{table}} WHERE `stat_code` = '1' AND `stat_type` = '1' AND `id_owner` = '". $user['id'] ."';",'statpoints',true);
+	$rank                     = doquery("SELECT `total_rank` FROM {{table}} WHERE `stat_code` = '1' AND `stat_type` = '1' AND `id_owner` = '". isset($user['id']) ."';",'statpoints',true);
 	$parse['user_rank']       = $rank['total_rank'];
 	if ($Level > 0) {
 		$parse['ADMIN_LINK']  = "
