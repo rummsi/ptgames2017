@@ -114,7 +114,7 @@ function display ($page, $title = '', $topnav = true, $metatags = '', $AdminPage
 
 	$DisplayPage .= StdFooter();
 	if (isset($link)) {
-        $link->close();
+		mysql_close($link);
 	}
 
 	echo $DisplayPage;

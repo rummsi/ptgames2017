@@ -38,13 +38,13 @@ $lang['cred_master']  = 'Capo';
 $lang['cred_design']  = 'Designer';
 $lang['cred_web']     = 'Webmaster';
 $lang['cred_thx']     = 'Ringraziamenti';
-$lang['cred_based']   = 'Quì è stata la base di XNova';
+$lang['cred_based']   = 'Qu&igrave; &egrave; stata la base di XNova';
 $lang['cred_start']   = 'Per l\'hosting di XNova';
 
-$lang['cred_ext']     = 'Copyright étendus';
+$lang['cred_ext']     = 'Copyright &eacute;tendus';
 $lang['cred_info']    = 'Informazioni';
-$lang['cred_infotxt'] = 'La pagina di credito non è destinata ad essere cambiata, perchè essa garantisce il diritto di usare XNova per il proprio server. Non hai il permesso di modificare il contenuto di default. Tuttavia, grazie al vasto sistema del diritto d\'autore, è possibile, mostrare il tuo nome sotto gli sviluppatori ufficiali e di proteggere la vostra innovazione.';
-$lang['cred_added']   = 'Sarà visibile sulla pagina di credito';
+$lang['cred_infotxt'] = 'La pagina di credito non &egrave; destinata ad essere cambiata, perch&egrave; essa garantisce il diritto di usare XNova per il proprio server. Non hai il permesso di modificare il contenuto di default. Tuttavia, grazie al vasto sistema del diritto d\'autore, &egrave; possibile, mostrare il tuo nome sotto gli sviluppatori ufficiali e di proteggere la vostra innovazione.';
+$lang['cred_added']   = 'Sar&agrave; visibile sulla pagina di credito';
 $lang['cred_name']    = 'Soprannomi (una riga per ogni nome utente)';
 $lang['cred_funct']   = 'Funzioni (una riga per posizione)';
 $lang['cred_save']    = 'Salvare';

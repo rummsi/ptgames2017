@@ -32,7 +32,7 @@ function GetBuildingTime ($user, $planet, $Element) {
 	global $pricelist, $resource, $reslist, $game_config;
 
 
-	$level = (isset($planet[$resource[$Element]])) ? isset($planet[$resource[$Element]]) : isset($user[$resource[$Element]]);
+	$level = ($planet[$resource[$Element]]) ? $planet[$resource[$Element]] : $user[$resource[$Element]];
 	if       (in_array($Element, $reslist['build'])) {
 		// Pour un batiment ...
 		$cost_metal   = floor($pricelist[$Element]['metal']   * pow($pricelist[$Element]['factor'], $level));
@@ -49,7 +49,7 @@ function GetBuildingTime ($user, $planet, $Element) {
 		} elseif ( $intergal_lab >= "1" ) {
 			$empire = doquery("SELECT * FROM {{table}} WHERE id_owner='". $user[id] ."';", 'planets');
 			$NbLabs = 0;
-			while ($colonie = $empire->fetch_array()) {
+			while ($colonie = mysql_fetch_array($empire)) {
 				$techlevel[$NbLabs] = $colonie[$resource['31']];
 				$NbLabs++;
 			}

@@ -32,17 +32,20 @@
 $lang['Login'] = 'Connect';
 $lang['User_name'] = 'Username:';
 $lang['Password'] = 'Password:';
+$lang['Please_Login'] = 'To continue <a href="login.php" target="_main">login...</a>';
+$lang['Please_Wait'] = 'Please wait';
 $lang['Remember_me'] = 'Remember me';
+$lang['Register'] = 'Register';
 $lang['Login_Error'] = 'Error';
-$lang['log_Board'] = 'Board';
-$lang['log_rules'] = 'Rules';
+$lang['PleaseWait'] = 'Please wait';
 
-$lang [ 'Login_FailPassword'] = 'Incorrect password<br/><a href="index.php" target="_top">Back</ a>';
-$lang [ 'Login_FailUser'] = 'This player does not exist.<br><a href=index.php>Back</ a> ';
+$lang [ 'Login_Ok'] = 'Login successful, <a href="./"><blink>redirecting ...</blink></a><br><center><img src = "images/progressbar.gif"></center> ';
+$lang [ 'Login_FailPassword'] = 'Incorrect password<br/><a href="login.php" target="_top">Back</ a>';
+$lang [ 'Login_FailUser'] = 'This player does not exist.<br><a href=login.php>Back</ a> ';
 
 $lang['log_univ'] = 'Please select a universe!';
 $lang['log_reg'] = 'Register';
-$lang['log_cont'] = 'Contact';
+$lang['log_cred'] = 'Credits';
 $lang['log_desc'] = 'is an online strategy game.  All you need to play is a browser.  Join now and discover the awesome game of';
 $lang['log_toreg'] = 'Please register';
 $lang['log_online'] = 'Player\'s online';
@@ -51,3 +54,5 @@ $lang['log_numbreg'] = 'Total registered';
 $lang['log_welcome'] = 'Welcome to';
 
 $lang['PasswordLost'] = 'Have you forgot your password?';
+
+?>

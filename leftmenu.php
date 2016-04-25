@@ -74,7 +74,7 @@ function ShowLeftMenu ( $Level , $Template = 'left_menu') {
 	if ($game_config['enable_announces'] == 1) {
 		$parse['announce_link']  = "
 		<tr>
-			<td colspan=\"2\"><div><a href=\"game.php?page=annonce\" target=\"Hauptframe\">Annonces</a></div></td>
+			<td colspan=\"2\"><div><a href=\"annonce.php\" target=\"Hauptframe\">Annonces</a></div></td>
 		</tr>";
 	} else {
 		$parse['announce_link']  = "";
@@ -91,7 +91,7 @@ function ShowLeftMenu ( $Level , $Template = 'left_menu') {
 	if ($game_config['enable_notes'] == 1) {
 		$parse['notes_link']  = "
 		<tr>
-			<td colspan=\"2\"><div><a href=\"#\" onClick=\"f(\'game.php?page=notes\', \'Report\');\" accesskey=\"n\">Notes</a></div></td>
+			<td colspan=\"2\"><div><a href=\"#\" onClick=\"f(\'notes.php\', \'Report\');\" accesskey=\"n\">Notes</a></div></td>
 		</tr>";
 	} else {
 		$parse['notes_link']  = "";

@@ -97,7 +97,7 @@ class Legacies_Empire_Shipyard
             $sql .= "{$field}='{$this->_currentPlanet[$field]}',";
         }
 
-        $escapedQueue = Database::$dbHandle->real_escape_string($this->_currentPlanet['b_hangar_id']);
+        $escapedQueue = mysql_real_escape_string($this->_currentPlanet['b_hangar_id']);
 $sql .=<<<SQL_EOF
   b_hangar_id = "{$escapedQueue}",
   b_hangar    = "{$this->_now()}"
@@ -141,7 +141,7 @@ SQL_EOF;
             );
 
         foreach ($this->_resourcesTypes as $resourceType) {
-            @$this->_currentPlanet[$resourceType] = bcsub($this->_currentPlanet[$resourceType], $resourcesUsed[$resourceType]);
+            $this->_currentPlanet[$resourceType] = bcsub($this->_currentPlanet[$resourceType], $resourcesUsed[$resourceType]);
         }
 
         return $this;

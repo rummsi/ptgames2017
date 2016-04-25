@@ -31,24 +31,10 @@
 
 $lang['ResetPass'] = "Restitution de mot-de-passe";
 $lang['TextPass1'] = "Veuillez saisir l'adresse mail de votre compte";
-$lang['TextPass2'] = "telle qu'elle est renseignée dans vos Options. C'est aussi celle que vous avez utilisée pour l'inscription. Si vous appuyez sur 'Envoyer', un nouveau mot-de-passe sera créé, vous le reçeverait alors par e-Mail à l'adresse indiquée.";
+$lang['TextPass2'] = "telle qu'elle est renseign&eacute;e dans vos Options. C'est aussi celle que vous avez utilis&eacute;e pour l'inscription. Si vous appuyez sur 'Envoyer', un nouveau mot-de-passe sera cr&eacute;&eacute;, vous le re&ccedil;everait alors par e-Mail &agrave; l'adresse indiqu&eacute;e.";
 $lang['pseudo']    = "Pseudo";
 $lang['email']    = "e-Mail";
 $lang['ButtonSendPass'] = "Envoyer";
 $lang['PassForm'] = "Formulaire";
 
-$lang['return'] = "Retour a l'accueil";
-$lang['Sender'] = "no-reply";//
-$lang['Subject'] = "Changement de mot de passe";
-$lang['No_user'] = "Cet utilisateur n'existe pas";
-$lang['Error'] = 'Erreur';
-$lang['No_mail'] = "Cet email n'est utilisé par aucun joueur";
-$lang['Enter_login_mail'] = "Veuillez entrer votre login ou votre email.";
-$lang['OK_mail_message'] = "Votre mot de passe a été modifié, veuillez trouver ci-dessous vos informations de connexion";
-$lang['password'] = "mot de passe";
-$lang ['Welcome'] = "A bientôt sur";
-$lang['From'] = "From";
-$lang['XSender'] = "X-Sender";
-$lang['Password_sent'] = "Mot de passe envoyé ! Veuillez regarder votre boite e-mail ou dans vos spam.";
-$lang['New_pass'] = "Nouveau mot de passe";
-$lang['XSender'] = "Sender";
+?>

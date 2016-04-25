@@ -37,19 +37,4 @@ $lang['email']    = "E-Mail";
 $lang['ButtonSendPass'] = "Send";
 $lang['PassForm'] = "Form";
 
-$lang['return'] = "Back to homepage";
-$lang['Sender'] = "no-reply";
-$lang['Subject'] = "Password change";
-$lang['No_user'] = "This user does not exist";
-$lang['Error'] = 'Error';
-$lang['No_mail'] = "This email address is not used by any player";
-$lang['Enter_login_mail'] = "Please enter your login or email.";
-$lang['OK_mail_message'] = "Your password has been changed, please find below your login information";
-$lang['password'] = "password";
-$lang ['Welcome'] = "See you on";
-$lang['From'] = "From";
-$lang['XSender'] = "X-Sender";
-$lang['Password_sent'] = "Password sent! Please check your inbox or your spam.";
-$lang['New_pass'] = "New password";
-$lang['XSender'] = "Sender";
-
+?>

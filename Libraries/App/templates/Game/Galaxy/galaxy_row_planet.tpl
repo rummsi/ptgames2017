@@ -1,4 +1,0 @@
-
-                                <a style="cursor: pointer;" onmouseover='return overlib("<table width=240><tr> <td class=c colspan=2>{$gl_planet} {$GalaxyRowPlanet_name} [{$Galaxy }:{$System}:{$Planet}]</td></tr><tr><th width=80><img src={$dpath}planeten/small/s_{$GalaxyRowPlanet_image}.jpg height=75 width=75 /></th><th align=left>{$MissionType6Link}{$PhalanxTypeLink}{$MissionType1Link}{$MissionType5Link}{$MissionType4Link}{$MissionType3Link}</th></tr></table>", STICKY, MOUSEOFF, DELAY, 750, CENTER, OFFSETX, -40, OFFSETY, -40 );' onmouseout='return nd();'>
-                                    <img src={$dpath}planeten/small/s_{$GalaxyRowPlanet_image}.jpg height=30 width=30>
-                                </a>

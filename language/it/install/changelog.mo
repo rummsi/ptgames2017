@@ -53,20 +53,20 @@ $lang['changelog']   = array(
 - MOD: La pagina admin possiede i link per ordinare le liste
 - FIX: L\'utilizzo di una skin diversa da quella standard, viene applicata anche nel pannello admin
 - FIX: Aggiunta delle lune nel pannello admin (di e-Zobar)
-- ADD: Modalità di trasferimento nell\'installer (di e-Zobar)',
+- ADD: Modalit&agrave; di trasferimento nell\'installer (di e-Zobar)',
 
 '0.7j' => 'Correzione di bug (di Chlorel)
 - FIX: &Egrave; possibile rimuovere una costruzione dalla coda
 - FIX: &Egrave; possibile inviare una flotta in missione Trasporto fra due pianeti
 - FIX: L\'elenco dei tasti di scelta rapida per la selezione di obiettivi funziona nuovamente
-- FIX: Non si può pi%ugrave; distruggere un edificio che non si possiede
+- FIX: Non si pu&ograve; pi%ugrave; distruggere un edificio che non si possiede
 - ADD: Un nuovo installer (di e-Zobar)
 - FIX: Correzione dei geroglifici (di e-Zobar)',
 
 '0.7i' => 'Correzione di bug (di Chlorel)
 - Eliminato il cheat +1
 - Correzione della durata dei voli / consumi di carburante nel codice PHP e codice JAVA
-- Si possono ordinare le colonie di un giocatore nel menù opzioni
+- Si possono ordinare le colonie di un giocatore nel men&ugrave; opzioni
 - Preparazione di multiskin nelle opzioni
 - Diversi sviluppi nel codice per gli Amministratori (Lista messaggi, Lista giocatori)
 - Lavori sulle skin (di e-Zobar)
@@ -97,17 +97,17 @@ $lang['changelog']   = array(
 '0.7e' => 'Varie : (di Chlorel)
 - Nuova pagina di registrazione (impostazione standard)
 - Nuova pagina dei record (messa in linea con lostile del sito)
-- Modificato kernel (non è possibile descrivere tutte le modifiche poichè molte persone non capirebbero)',
+- Modificato kernel (non &egrave; possibile descrivere tutte le modifiche poich&egrave; molte persone non capirebbero)',
 
 '0.7d' => 'Pannello admin : (di e-Zobar)
 - Migliorati alcuni moduli
-- Allineamento del menù allo stile di funzionamento del sito
-- Traduzione completa in francese di ciò che mancava (e in italiano :P)',
+- Allineamento del men&ugrave; allo stile di funzionamento del sito
+- Traduzione completa in francese di ci&ograve; che mancava (e in italiano :P)',
 
 '0.7c' => 'Statistiche : (di Chlorel)
 - Eliminazione delle chiamate aldatabase dal vecchio sistema di Statistiche
-- Bug di impossibilità di costruire difese o navi senza utilizzare metallo
-- Bug di certi buontemponi che si divertono a mettere in coda un numero enorme di navi o difese, è stato inserito un limite massimo di costruzione a 1000 difese o navi per volta !!
+- Bug di impossibilit&agrave; di costruire difese o navi senza utilizzare metallo
+- Bug di certi buontemponi che si divertono a mettere in coda un numero enorme di navi o difese, &egrave; stato inserito un limite massimo di costruzione a 1000 difese o navi per volta !!
 - Bug di errore alla selezione di un pianeta dalla combobox
 - Aggiornamento dell\'installer',
 
@@ -120,8 +120,8 @@ $lang['changelog']   = array(
 '0.7a' => 'Diversi : (di Chlorel)
 - Bug Tecnologia (la durata delle ricerche appare nuovamente quando si ritorna al Laboratorio)
 - Bug Missili (corretta la portata dei missili interplanetari ed inserito il limite di costruzione in base alla dimensione del silo missilistico)
-- Corretto il bug della portata della Falange; (non si pu� più falangiare tutta la galassia)
-- Corretto il bug del consumo di deuterio quando si passa nel menù galassia',
+- Corretto il bug della portata della Falange; (non si pu� pi&ugrave; falangiare tutta la galassia)
+- Corretto il bug del consumo di deuterio quando si passa nel men&ugrave; galassia',
 
 '0.7' => 'Edifici :
 - Riscrittura della pagina

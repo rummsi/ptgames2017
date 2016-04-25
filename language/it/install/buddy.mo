@@ -30,7 +30,7 @@
 
 $lang['Request_sent'] = 'Richiesta inviata.';
 $lang['Buddy_request'] = 'Richiesta amicizia';
-$lang['A_request_exists_already_for_this_user'] = 'Una richiesta di amicizia esiste già per questo utente';
+$lang['A_request_exists_already_for_this_user'] = 'Una richiesta di amicizia esiste gi&agrave; per questo utente';
 $lang['You_cannot_ask_yourself_for_a_request'] = 'Non puoi aggiungere te stesso come amico...';
 $lang['Buddy_list'] = 'Lista amici';
 $lang['There_is_no_request'] = 'Non ci sono richieste';

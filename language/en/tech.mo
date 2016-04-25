@@ -70,7 +70,7 @@ $lang['tech_rc'] = array (
 215 => 'Tracker',
 
 401 => 'Missile',
-402 => 'L.léger.',
+402 => 'L.l&eacute;ger.',
 403 => 'L.lourd',
 404 => 'Can.Gauss',
 405 => 'Art.ions',

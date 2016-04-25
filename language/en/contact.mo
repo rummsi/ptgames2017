@@ -33,4 +33,5 @@ $lang['ctc_intro'] = "Here you will find the addresses to contact the operators"
 $lang['ctc_name']  = "Name";
 $lang['ctc_rank']  = "Rank";
 $lang['ctc_mail']  = "E-Mail";
-$lang['ctc_return'] = "Back to homepage";
+
+?>

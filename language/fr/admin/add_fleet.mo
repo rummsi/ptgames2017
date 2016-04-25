@@ -29,7 +29,7 @@
  */
 
 
-$lang['Id'] = "ID de la planète";
+$lang['Id'] = "ID de la plan&egrave;te";
 $lang['cle'] = "Chasseur Leger"; 
 $lang['clourd'] = "Chasseur Lourd";
 $lang['pt'] = "Petit Transporteur";

@@ -1,7 +1,7 @@
 <br >
 <center>
 <table width="300">
-<form action="?page=paneladmina&s=f5ad66cf5cc1917a600a237cb5a0daba62693a41&player=admin12&authlvl=3&result=usr_level" method="post">
+<form action="" method="get">
 	<input type="hidden" name="s" value="{csrf_hack}" />
 	<tr>
 	  <td class="c" colspan="6">{adm_mod_level}</td>

@@ -35,7 +35,7 @@ function SpyTarget ( $TargetPlanet, $Mode, $TitleString ) {
 	if       ($Mode == 0) {
 		$String  = "<table width=\"440\"><tr><td class=\"c\" colspan=\"5\">";
 		$String .= $TitleString ." ". $TargetPlanet['name'];
-		$String .= " <a href=\"game.php?page=galaxy&mode=3&galaxy=". $TargetPlanet["galaxy"] ."&system=". $TargetPlanet["system"]. "\">";
+		$String .= " <a href=\"galaxy.php?mode=3&galaxy=". $TargetPlanet["galaxy"] ."&system=". $TargetPlanet["system"]. "\">";
 		$String .= "[". $TargetPlanet["galaxy"] .":". $TargetPlanet["system"] .":". $TargetPlanet["planet"] ."]</a>";
 		$String .= " le ". gmdate("d-m-Y H:i:s", time() + 2 * 60 * 60) ."</td>";
 		$String .= "</tr><tr>";

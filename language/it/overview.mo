@@ -31,8 +31,8 @@
 
 // General
 $lang['cancel']                  = "Annulla";
-$lang['Planet_menu']             = "Menù pianeta";
-$lang['Planet']                  = "Menù";
+$lang['Planet_menu']             = "Men&ugrave; pianeta";
+$lang['Planet']                  = "Men&ugrave;";
 $lang['Have_new_message']        = "Hai un nuovo messaggio";
 $lang['Have_new_messages']       = "Hai %m nuovi messaggi";
 $lang['Have_new_level_mineur']   = "Hai guadagnato un livello Minatore !";
@@ -88,8 +88,8 @@ $lang['confirmed_with_password'] = "Conferma con password";
 
 
 // Rename planet
-$lang['deletemessage_ok']    = "La colonia è stata abbandonata";
-$lang['deletemessage_wrong'] = "Il pianeta madre non può essere cancellato!";
+$lang['deletemessage_ok']    = "La colonia &egrave; stata abbandonata";
+$lang['deletemessage_wrong'] = "Il pianeta madre non pu&ograve; essere cancellato!";
 $lang['deletemessage_fail']  = "Password errata!";
 
 // Divers
@@ -111,7 +111,7 @@ $lang['ov_planet_to_target'] = "il pianeta ";
 $lang['ov_moon_to_target']   = "la luna ";
 $lang['ov_debris_to_target'] = "il campo Detriti ";
 $lang['ov_explo_to_target']  = "la posizione ";
-$lang['ov_mission']          = ". La missione è: ";
+$lang['ov_mission']          = ". La missione &egrave;: ";
 
 $lang['ov_explo_stay']       = " esplora ";
 $lang['ov_explo_mission']    = ". La missione era: ";

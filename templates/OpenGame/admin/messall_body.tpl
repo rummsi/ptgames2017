@@ -1,5 +1,5 @@
 <br><br>
-<form action="admin.php?page=messall&mode=change" method="post">
+<form action="?mode=change" method="post">
 <table width="519">
 <tbody>
 <tr>

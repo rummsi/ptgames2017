@@ -29,7 +29,7 @@
  */
 
 $lang['ctc_title'] = "Contatti";
-$lang['ctc_intro'] = "Quì si possono trovare gli indirizzi per contattare lo staff";
+$lang['ctc_intro'] = "Qu&igrave; si possono trovare gli indirizzi per contattare lo staff";
 $lang['ctc_name']  = "Nome";
 $lang['ctc_rank']  = "Rango";
 $lang['ctc_mail']  = "Email";

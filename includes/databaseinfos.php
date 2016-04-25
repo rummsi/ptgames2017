@@ -164,8 +164,7 @@
 	$QryInsertConfig    .= "('ban_duration'          , '30' ), ";
 	$QryInsertConfig    .= "('enable_bot'          , '0' ), ";
 	$QryInsertConfig    .= "('enable_bbcode'          , '1' ), ";
-	$QryInsertConfig    .= "('debug'                 , '0'), ";
-	$QryInsertConfig    .= "('secu'                 , '1') ";
+	$QryInsertConfig    .= "('debug'                 , '0') ";
 	$QryInsertConfig    .= ";";
 
 

@@ -32,9 +32,9 @@
 $lang['Production_of_resources_in_the_planet'] = 'Produzione di risorse sul pianeta  "%s"';
 $lang['Production_level'] = 'Livello di produzione';
 $lang['Basic_income'] = 'Produzione base';
-$lang['quantity'] = 'Quantità';
+$lang['quantity'] = 'Quantit&agrave;';
 $lang['level'] = 'Livello';
-$lang['Stores_capacity'] = 'Capacità di deposito';
+$lang['Stores_capacity'] = 'Capacit&agrave; di deposito';
 $lang['Widespread_production'] = 'Produzione totale';
 $lang['Daily'] = 'Risorse al giorno';
 $lang['Weekly'] = 'Risorse alla settimana';

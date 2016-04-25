@@ -43,7 +43,7 @@ $lang['searched_alliance_availables'] = 'Abbiamo trovato le alleanze seguenti:';
 $lang['alliance_has_been_maked'] = 'Alleanza creata';
 $lang['have_not_tag'] = 'Alleanza senza tag!';
 $lang['have_not_name'] = 'Alleanza senza nome';
-$lang['always_exist'] = '%s esiste già';
+$lang['always_exist'] = '%s esiste gi&agrave;';
 $lang['ally_maked'] = '%s crea';
 $lang['ally_notexist'] = 'alleanza inesistente';
 $lang['Send_circular_mail'] = 'Manda un messaggio circolare';
@@ -72,8 +72,8 @@ $lang['Circular_sended'] = 'I seguenti giocatori hanno ricevuto il messaggio';
 $lang['it_is_not_posible_to_apply'] = "Impossibile in questo modo";
 $lang['write_apply'] = "Testo della richiesta";
 $lang['your_apply'] = 'Propria richiesta';
-$lang['apply_registered'] = 'La tua richiesta � stata inoltrata. Si visualizzerà un messaggio alla risposta<br><br><a href=game.php?page=alliance>Torna indietro</a>';
-$lang['apply_cantbeadded'] = 'La richiesta non puó essere inviata!';
+$lang['apply_registered'] = 'La tua richiesta � stata inoltrata. Si visualizzer&agrave; un messaggio alla risposta<br><br><a href=alliance.php>Torna indietro</a>';
+$lang['apply_cantbeadded'] = 'La richiesta non pu&oacute; essere inviata!';
 
 $lang['Exit_of_this_alliance'] = "Esci dall\'alleanza";
 $lang['Continue'] = "continua";
@@ -93,7 +93,7 @@ $lang['Destiny'] = 'Destinatario';
 $lang['Write_to_alliance'] = 'Invia richiesta di partecipazione [%s]';
 
 $lang['There_is_no_a_text_apply'] = 'La direzione di questa alleanza non ha creato un testo';
-$lang['Waiting_a_request_text'] = 'Avete già inviato una richiesta all\'alleanza[%s]. Attendere la risposta o ritirare la domanda.';
+$lang['Waiting_a_request_text'] = 'Avete gi&agrave; inviato una richiesta all\'alleanza[%s]. Attendere la risposta o ritirare la domanda.';
 $lang['Canceled_a_request_text'] = 'L\'alleanza [%s] non ha  accettato la richiesta, � possibile inviare una nuova richiesta o creare una propria alleanza.';
 
 $lang['Online'] = 'Online';

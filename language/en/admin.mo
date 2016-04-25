@@ -38,7 +38,7 @@ $lang['not_in_vacancy']               = "Vacation mode inactive";
 $lang['is_banned_lang']               = "No";
 $lang['banned_lang']               = "Banned?"; 
 $lang['usr_current_planet']               = "Planet";
-$lang['usr_current_page']               = "Page actuellement visionée";
+$lang['usr_current_page']               = "Page actuellement vision&eacute;e";
 
 $lang['oups_youre_banned']               = "Your account has been suspended";
 $lang['user_is_banned_for']               = "You have been banned for the following reason: ";

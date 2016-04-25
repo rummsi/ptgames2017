@@ -32,18 +32,21 @@
 $lang['Login'] = 'Login';
 $lang['User_name'] = 'Nome:';
 $lang['Password'] = 'Password:';
+$lang['Please_Login'] = 'Grazie <a href="login.php" target="_main">per essersi loggato...</a>';
+$lang['Please_Wait'] = 'Attendere prego';
 $lang['Remember_me'] = 'Ricordami';
+$lang['Register'] = 'Registrazione';
 $lang['Login_Error'] = 'Errore';
-$lang['log_Board'] = 'Bordo';
-$lang['log_rules'] = 'Regole';
+$lang['PleaseWait'] = 'Attendere prego';
 
-$lang['Login_FailPassword'] = 'Password errata<br /><a href="index.php" target="_top">Retour</a>';
-$lang['Login_FailUser'] = 'Questo giocatore non esiste.<br><a href=index.php>Retour</a>';
+$lang['Login_Ok'] = 'Login avvenuto con successo, <a href="./"><blink>redirection...</blink></a><br><center><img src="images/progressbar.gif"></center>';
+$lang['Login_FailPassword'] = 'Password errata<br /><a href="login.php" target="_top">Retour</a>';
+$lang['Login_FailUser'] = 'Questo giocatore non esiste.<br><a href=login.php>Retour</a>';
 
 $lang['log_univ'] = 'Selezionare un universo!';
 $lang['log_reg'] = 'Iscrizioni';
-$lang['log_cont'] = 'Contatto';
-$lang['log_desc'] = '&egrave <strong>gioco di strategia gratuito</strong> amibentato nello spazio. Per giocare, è sufficiente un browser internet. Iscrivetevi e scoprite il fantastico mondo di';
+$lang['log_cred'] = 'Crediti';
+$lang['log_desc'] = '&egrave <strong>gioco di strategia gratuito</strong> amibentato nello spazio. Per giocare, &egrave; sufficiente un browser internet. Iscrivetevi e scoprite il fantastico mondo di';
 $lang['log_toreg'] = 'Registrati ora!';
 $lang['log_online'] = 'Giocatori online';
 $lang['log_lastreg'] = 'Ultimo iscritto';
@@ -51,3 +54,5 @@ $lang['log_numbreg'] = 'Giocatori iscritti';
 $lang['log_welcome'] = 'Benvenuti su';
 
 $lang['PasswordLost'] = 'Password dimenticata?';
+
+?>
