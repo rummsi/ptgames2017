@@ -58,8 +58,6 @@ define('DEFAULT_LANG', 'fr');
 
 include(ROOT_PATH . 'includes/debug.class.' . PHPEXT);
 $debug = new Debug();
-include(ROOT_PATH . 'db/Database_Mysqli.php');
-$mysqli = new Database_Mysqli();
 
 include(ROOT_PATH . 'includes/constants.' . PHPEXT);
 include(ROOT_PATH . 'includes/functions.' . PHPEXT);
