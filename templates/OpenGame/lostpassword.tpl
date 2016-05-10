@@ -1,7 +1,7 @@
 <center>
 <br><br>
 <h2><font size="5">{ResetPass}</font><br>{servername}</h2>
-<form action="?action=1" method="post">
+<form action="index.php?page=lostpassword&action=1" method="post">
 <table width="400">
 <tbody><tr>
 	 <td colspan="2" class="c"><b>{PassForm}</b></td>

@@ -41,7 +41,7 @@ class ShowRegPage extends AbstractIndexPage {
         $parse['gameurl'] = GAMEURL;
         $parse['password'] = $password;
         $email = parsetemplate($lang['mail_welcome'], $parse);
-        $status = mymail($emailaddress, $lang['mail_title'], $email);
+        $status = $this->mymail($emailaddress, $lang['mail_title'], $email);
         return $status;
     }
 
@@ -61,7 +61,7 @@ class ShowRegPage extends AbstractIndexPage {
         $head .= "From: $from \r\n";
         $head .= "Sender: $from \r\n";
         $head .= "Reply-To: $from \r\n";
-        $head .= "Organization: $org \r\n";
+        //$head .= "Organization: $org \r\n";
         $head .= "X-Sender: $from \r\n";
         $head .= "X-Priority: 3 \r\n";
         $body = str_replace("\r\n", "\n", $body);
@@ -73,10 +73,8 @@ class ShowRegPage extends AbstractIndexPage {
     function show() {
         global $lang, $game_config, $newpos_checked, $Time;
 
-        define('NO_MENU', true);
-
         //on demarre la session qui ne sers ici que pour le code de secu
-        session_start();
+        if(!isset($_SESSION)) { session_start(); }
 
         includeLang('reg');
 
@@ -87,7 +85,7 @@ class ShowRegPage extends AbstractIndexPage {
 
             //si la secu est active
             if ($game_config['secu'] == 1) {
-                echo $_session['secu'];
+                //echo $_SESSION['secu'];
                 if (!$_POST['secu'] || $_POST['secu'] != $_SESSION['secu']) {
                     $errorlist .= $lang['error_secu'];
                     $errors++;
@@ -105,7 +103,7 @@ class ShowRegPage extends AbstractIndexPage {
                 $errors++;
             }
 
-            if (preg_match("/[^A-z0-9_\-]/", $_POST['hplanet']) == 1) {
+            if (preg_match("/[^A-z0-9_\-]/", $_POST['planet']) == 1) {
                 $errorlist .= $lang['error_planetnum'];
                 $errors++;
             }
@@ -253,7 +251,7 @@ class ShowRegPage extends AbstractIndexPage {
                 doquery("UPDATE {{table}} SET `config_value` = `config_value` + '1' WHERE `config_name` = 'users_amount' LIMIT 1;", 'config');
 
                 $Message = $lang['thanksforregistry'];
-                if (sendpassemail($_POST['email'], "$newpass")) {
+                if ($this->sendpassemail($_POST['email'], "$newpass")) {
                     $Message .= " (" . htmlentities($_POST["email"]) . ")";
                 } else {
                     $Message .= " (" . htmlentities($_POST["email"]) . ")";
@@ -281,6 +279,7 @@ class ShowRegPage extends AbstractIndexPage {
             $parse['servername'] = '<img src="images/xnova.png" align="top" border="0" >';
             $page = parsetemplate(gettemplate('registry_form'), $parse);
         }
+        define('NO_MENU', true);
         display($page, $lang['registry'], false);
     }
 

@@ -39,7 +39,6 @@ class ShowIndexPage extends AbstractIndexPage {
         global $lang, $game_config, $dpath;
 
         define('LOGIN', true);
-        define('NO_MENU', true);
 
         includeLang('login');
 
@@ -108,6 +107,7 @@ EOF;
                 $page = $PlayersOnline['onlinenow'] . "/" . $Count['players'];
                 die($page);
             } else {
+                define('NO_MENU', true);
                 display($page, $lang['Login']);
             }
         }
