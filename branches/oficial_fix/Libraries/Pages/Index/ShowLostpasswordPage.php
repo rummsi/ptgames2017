@@ -38,8 +38,6 @@ class ShowLostpasswordPage extends AbstractIndexPage {
     function show() {
         global $lang, $game_config;
 
-        define('NO_MENU', true);
-
         $mailData = array(
             'recipient' => NULL,
             'sender' => 'no-reply',
@@ -59,7 +57,7 @@ SELECT users.email, users.username
   LIMIT 1
 EOF;
                 if (!($result = doquery($sql, 'users', true))) {
-                    message("Cet utilisateur n'existe pas", 'Erreur', 'lostpassword.php');
+                    message("Cet utilisateur n'existe pas", 'Erreur', 'index.php?page=lostpassword');
                     die();
                 }
                 list($mailData['recipient'], $username) = $result;
@@ -72,12 +70,12 @@ SELECT users.email, users.username
   LIMIT 1
 EOF;
                 if (!($result = doquery($sql, 'users', true))) {
-                    message("Cet email n'est utilisé par aucun joueur", 'Erreur', 'lostpassword.php');
+                    message("Cet email n'est utilisé par aucun joueur", 'Erreur', 'index.php?page=lostpassword');
                     die();
                 }
                 list($mailData['recipient'], $username) = $result;
             } else {
-                message('Veuillez entrer votre login ou votre email.', 'Erreur', 'lostpassword.php');
+                message('Veuillez entrer votre login ou votre email.', 'Erreur', 'index.php?page=lostpassword');
                 die();
             }
 
@@ -119,7 +117,8 @@ EOF;
 
         $parse = $lang;
         $page = parsetemplate(gettemplate('lostpassword'), $parse);
-        display($page, $lang['registry']);
+        define('NO_MENU', true);
+        display($page, $lang['ResetPass']);
     }
 
 }
