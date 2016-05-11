@@ -40,7 +40,7 @@ class ShowChangelogPage extends AbstractGamePage {
         includeLang('changelog');
 
         $template = gettemplate('changelog_table');
-
+        $body ='';
         foreach ($lang['changelog'] as $a => $b) {
             $parse['version_number'] = $a;
             $parse['description'] = nl2br($b);
@@ -51,7 +51,7 @@ class ShowChangelogPage extends AbstractGamePage {
         $parse = $lang;
         $parse['body'] = $body;
 
-        $page .= parsetemplate(gettemplate('changelog_body'), $parse);
+        $page = parsetemplate(gettemplate('changelog_body'), $parse);
 
         display($page, "Change Log");
     }
