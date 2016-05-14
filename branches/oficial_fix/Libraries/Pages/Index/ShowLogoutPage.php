@@ -32,12 +32,12 @@ class ShowLogoutPage extends AbstractIndexPage {
 
     function __construct() {
         parent::__construct();
-        $this->tplObj->compile_id = 'register';
+        $this->tplObj->compile_id = 'logout';
     }
 
     function show() {
         global $lang;
-        
+
         includeLang('logout');
 
         session_destroy();
