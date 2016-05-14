@@ -74,7 +74,9 @@ class ShowRegPage extends AbstractIndexPage {
         global $lang, $game_config, $newpos_checked, $Time;
 
         //on demarre la session qui ne sers ici que pour le code de secu
-        if(!isset($_SESSION)) { session_start(); }
+        if (!isset($_SESSION)) {
+            session_start();
+        }
 
         includeLang('reg');
 
@@ -261,26 +263,42 @@ class ShowRegPage extends AbstractIndexPage {
             }
         } elseif ($game_config['secu'] == 1) {
 
-            $parse = $lang;
             $_SESSION['nombre1'] = rand(0, 50);
             $_SESSION['nombre2'] = rand(0, 50);
             $_SESSION['secu'] = $_SESSION['nombre1'] + $_SESSION['nombre2'];
 
-            $parse['servername'] = '<img src="images/xnova.png" align="top" border="0" >';
-            $parse['code_secu'] = "<th>Securite: </th>";
-            $parse['affiche'] = $_SESSION['nombre1'] . " + " . $_SESSION['nombre2'] . " = <input name='secu' size='3' maxlength='3' type='text'>";
-            $page = parsetemplate(gettemplate('registry_form'), $parse);
+            $this->tplObj->assign(array(
+                'servername1' => '<img src="images/xnova.png" align="top" border="0" >',
+                'code_secu' => "<th>Securite: </th>",
+                'affiche' => $_SESSION['nombre1'] . " + " . $_SESSION['nombre2'] . " = <input name='secu' size='3' maxlength='3' type='text'>",
+            ));
         } else {
 
             // Afficher le formulaire d'enregistrement
-            $parse = $lang;
-            $parse['code_secu'] = "";
-            $parse['affiche'] = "";
-            $parse['servername'] = '<img src="images/xnova.png" align="top" border="0" >';
-            $page = parsetemplate(gettemplate('registry_form'), $parse);
+            $this->tplObj->assign(array(
+                'servername1' => '<img src="images/xnova.png" align="top" border="0" >',
+                'code_secu' => "",
+                'affiche' => "",
+            ));
         }
-        define('NO_MENU', true);
-        display($page, $lang['registry'], false);
+
+        $this->tplObj->assign(array(
+            'title' => $lang['registry'],
+            'registry' => $lang['registry'],
+            'form' => $lang['form'],
+            'GameName' => $lang['GameName'],
+            'neededpass' => $lang['neededpass'],
+            'EMail' => $lang['E-Mail'],
+            'MainPlanet' => $lang['MainPlanet'],
+            'Sex' => $lang['Sex'],
+            'Undefined' => $lang['Undefined'],
+            'Male' => $lang['Male'],
+            'Female' => $lang['Female'],
+            'accept' => $lang['accept'],
+            'signup' => $lang['signup'],
+        ));
+
+        $this->render('registry_form.tpl');
     }
 
 }
