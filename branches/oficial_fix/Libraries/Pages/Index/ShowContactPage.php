@@ -37,28 +37,23 @@ class ShowContactPage extends AbstractIndexPage {
 
     function show() {
         global $lang;
-        define('NO_MENU', true);
 
         includeLang('contact');
 
-        $BodyTPL = gettemplate('contact_body');
-        $RowsTPL = gettemplate('contact_body_rows');
-        $parse = $lang;
-
-        $QrySelectUser = "SELECT `username`, `email`, `authlevel` ";
-        $QrySelectUser .= "FROM {{table}} ";
-        $QrySelectUser .= "WHERE `authlevel` != '0' ORDER BY `authlevel` DESC;";
+        $QrySelectUser = "SELECT `username`, `email`, `authlevel` FROM {{table}} WHERE `authlevel` != '0' ORDER BY `authlevel` DESC;";
         $GameOps = doquery($QrySelectUser, 'users');
-        $parse['ctc_admin_list'] = '';
-        while ($Ops = mysqli_fetch_assoc($GameOps)) {
-            $bloc['ctc_data_name'] = $Ops['username'];
-            $bloc['ctc_data_auth'] = $lang['user_level'][$Ops['authlevel']];
-            $bloc['ctc_data_mail'] = "<a href=mailto:" . $Ops['email'] . ">" . $Ops['email'] . "</a>";
-            $parse['ctc_admin_list'] .= parsetemplate($RowsTPL, $bloc);
-        }
 
-        $page = parsetemplate($BodyTPL, $parse);
-        display($page, $lang['ctc_title'], false);
+        $this->tplObj->assign(array(
+            'title' => $lang['ctc_title'],
+            'ctc_title' => $lang['ctc_title'],
+            'ctc_intro' => $lang['ctc_intro'],
+            'ctc_name' => $lang['ctc_name'],
+            'ctc_rank' => $lang['ctc_rank'],
+            'ctc_mail' => $lang['ctc_mail'],
+            'GameOps' => $GameOps,
+            'user_level' => $lang['user_level'],
+        ));
+        $this->render('contact_body.tpl');
     }
 
 }
