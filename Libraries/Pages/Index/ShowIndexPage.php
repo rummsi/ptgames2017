@@ -89,17 +89,10 @@ EOF;
                 message($lang['Login_FailUser'], $lang['Login_Error']);
             }
         } else {
-            $parse = $lang;
             $Count = doquery('SELECT COUNT(DISTINCT users.id) AS `players` FROM {{table}} AS users WHERE users.authlevel < 3', 'users', true);
             $LastPlayer = doquery('SELECT users.`username` FROM {{table}} AS users ORDER BY `register_time` DESC LIMIT 1', 'users', true);
-        //    $parse['last_user'] = $LastPlayer['username'];
             $PlayersOnline = doquery("SELECT COUNT(DISTINCT id) AS `onlinenow` FROM {{table}} AS users WHERE `onlinetime` > (UNIX_TIMESTAMP()-900) AND users.authlevel < 3", 'users', true);
-        //    $parse['online_users'] = $PlayersOnline['onlinenow'];
-        //    $parse['users_amount'] = $Count['players'];
-            $parse['servername'] = $game_config['game_name'];
-        //    $parse['forum_url'] = $game_config['forum_url'];
-        //    $parse['PasswordLost'] = $lang['PasswordLost'];
-            
+
             $this->tplObj->assign(array(
                 'title' => $lang['Login'],
                 'log_univ' => $lang['log_univ'],
@@ -121,8 +114,6 @@ EOF;
                 'log_numbreg' => $lang['log_numbreg'],
                 'users_amount' => $Count['players'],
             ));
-
-            $page = parsetemplate(gettemplate('login_body'), $parse);
 
             // Test pour prendre le nombre total de joueur et le nombre de joueurs connect�s
             if (isset($_GET['ucount']) && $_GET['ucount'] == 1) {
