@@ -39,21 +39,14 @@ class ShowChangelogPage extends AbstractGamePage {
         global $lang;
         includeLang('changelog');
 
-        $template = gettemplate('changelog_table');
-        $body ='';
-        foreach ($lang['changelog'] as $a => $b) {
-            $parse['version_number'] = $a;
-            $parse['description'] = nl2br($b);
-
-            $body .= parsetemplate($template, $parse);
-        }
-
-        $parse = $lang;
-        $parse['body'] = $body;
-
-        $page = parsetemplate(gettemplate('changelog_body'), $parse);
-
-        display($page, "Change Log");
+        $this->tplObj->assign(array(
+            'title' => "Change Log",
+            'Version' => $lang['Version'],
+            'Description' => $lang['Description'],
+            'changelog' => $lang['changelog'],
+            'Description' => $lang['Description'],
+        ));
+        $this->render('changelog_body.tpl');
     }
 
 }
