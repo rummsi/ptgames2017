@@ -67,6 +67,12 @@ body
   font-family          : Tahoma,sans-serif;
 }
 
+div#menu{
+    padding-left:50px;
+    float:left;
+    position:auto;
+}
+
 body.style table {
   margin               : 0px;
 }
