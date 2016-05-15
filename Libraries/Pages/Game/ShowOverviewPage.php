@@ -68,16 +68,22 @@ class ShowOverviewPage extends AbstractGamePage {
                 } elseif ($_POST['action'] == $lang['colony_abandon']) {
                     // Cas d'abandon d'une colonie
                     // Affichage de la forme d'abandon de colonie
-                    $parse = $lang;
-                    $parse['planet_id'] = $planetrow['id'];
-                    $parse['galaxy_galaxy'] = $planetrow['galaxy'];
-                    $parse['galaxy_system'] = $planetrow['system'];
-                    $parse['galaxy_planet'] = $planetrow['planet'];
-                    $parse['planet_name'] = $planetrow['name'];
-
-                    $page .= parsetemplate(gettemplate('overview_deleteplanet'), $parse);
+                    $this->tplObj->assign(array(
+                        'title' => $lang['ov_rena_dele'],
+                        'ov_rena_dele' => $lang['ov_rena_dele'],
+                        'planet_id' => $planetrow['id'],
+                        'security_query' => $lang['security_query'],
+                        'confirm_planet_delete' => $lang['confirm_planet_delete'],
+                        'galaxy_galaxy' => $planetrow['galaxy'],
+                        'galaxy_system' => $planetrow['system'],
+                        'galaxy_planet' => $planetrow['planet'],
+                        'confirmed_with_password' => $lang['confirmed_with_password'],
+                        'password' => $lang['password'],
+                        'deleteplanet' => $lang['deleteplanet'],
+                        'colony_abandon' => $lang['colony_abandon'],
+                    ));
                     // On affiche la forme pour l'abandon de la colonie
-                    display($page, $lang['rename_and_abandon_planet']);
+                    $this->render('overview_deleteplanet.tpl');
                 } elseif ($_POST['kolonieloeschen'] == 1 && $_POST['deleteid'] == $user['current_planet']) {
                     // Controle du mot de passe pour abandon de colonie
                     if (md5($_POST['pw']) == $user["password"] && $user['id_planet'] != $user['current_planet']) {
@@ -107,17 +113,23 @@ class ShowOverviewPage extends AbstractGamePage {
                     }
                 }
 
-                $parse = $lang;
-
-                $parse['planet_id'] = $planetrow['id'];
-                $parse['galaxy_galaxy'] = $planetrow['galaxy'];
-                $parse['galaxy_system'] = $planetrow['system'];
-                $parse['galaxy_planet'] = $planetrow['planet'];
-                $parse['planet_name'] = $planetrow['name'];
-
-                $page .= parsetemplate(gettemplate('overview_renameplanet'), $parse);
+                $this->tplObj->assign(array(
+                    'title' => $lang['ov_rena_dele'],
+                    'rename_and_abandon_planet' => $lang['ov_rena_dele'],
+                    'planet_id' => $planetrow['id'],
+                    'your_planet' => $lang['your_planet'],
+                    'coords' => $lang['coords'],
+                    'name' => $lang['name'],
+                    'functions' => $lang['functions'],
+                    'galaxy_galaxy' => $planetrow['galaxy'],
+                    'galaxy_system' => $planetrow['system'],
+                    'galaxy_planet' => $planetrow['planet'],
+                    'planet_name' => $planetrow['name'],
+                    'colony_abandon' => $lang['colony_abandon'],
+                    'namer' => $lang['namer'],
+                ));
                 // On affiche la page permettant d'abandonner OU de renomme une Colonie / Planete
-                display($page, $lang['rename_and_abandon_planet']);
+                $this->render('overview_renameplanet.tpl');
                 break;
 
             default:
@@ -127,9 +139,9 @@ class ShowOverviewPage extends AbstractGamePage {
                     if ($user['new_message'] != 0) {
                         $Have_new_message .= "<tr>";
                         if ($user['new_message'] == 1) {
-                            $Have_new_message .= "<th colspan=4><a href=messages.php>" . $lang['Have_new_message'] . "</a></th>";
+                            $Have_new_message .= "<th colspan=4><a href=game.php?page=messages>" . $lang['Have_new_message'] . "</a></th>";
                         } elseif ($user['new_message'] > 1) {
-                            $Have_new_message .= "<th colspan=4><a href=messages.php>";
+                            $Have_new_message .= "<th colspan=4><a href=game.php?page=messages>";
                             $m = pretty_number($user['new_message']);
                             $Have_new_message .= str_replace('%m', $m, $lang['Have_new_messages']);
                             $Have_new_message .= "</a></th>";
@@ -247,7 +259,7 @@ class ShowOverviewPage extends AbstractGamePage {
                         PlanetResourceUpdate($user, $UserPlanet, time());
                         if ($UserPlanet["id"] != $user["current_planet"] && $UserPlanet['planet_type'] != 3) {
                             $AllPlanets .= "<th>" . $UserPlanet['name'] . "<br>";
-                            $AllPlanets .= "<a href=\"?cp=" . $UserPlanet['id'] . "&re=0\" title=\"" . $UserPlanet['name'] . "\"><img src=\"" . $dpath . "planeten/small/s_" . $UserPlanet['image'] . ".jpg\" height=\"50\" width=\"50\"></a><br>";
+                            $AllPlanets .= "<a href=\"game.php?page=overview&cp=" . $UserPlanet['id'] . "&re=0\" title=\"" . $UserPlanet['name'] . "\"><img src=\"" . $dpath . "planeten/small/s_" . $UserPlanet['image'] . ".jpg\" height=\"50\" width=\"50\"></a><br>";
                             $AllPlanets .= "<center>";
 
                             if ($UserPlanet['b_building'] != 0) {
@@ -308,9 +320,9 @@ class ShowOverviewPage extends AbstractGamePage {
                             }
 
                             $fpage[$irak['zeit']] .= "<tr><th><div id=\"bxxfs$i\" class=\"z\"></div><font color=\"lime\">" . gmdate("H:i:s", $irak['zeit'] + 1 * 60 * 60) . "</font> </th><th colspan=\"3\"><font color=\"#0099FF\">Une attaque de missiles (" . $irak['anzahl'] . ") de " . $user_planet['name'] . " ";
-                            $fpage[$irak['zeit']] .= '<a href="galaxy.php?mode=3&galaxy=' . $irak["galaxy_angreifer"] . '&system=' . $irak["system_angreifer"] . '&planet=' . $irak["planet_angreifer"] . '">[' . $irak["galaxy_angreifer"] . ':' . $irak["system_angreifer"] . ':' . $irak["planet_angreifer"] . ']</a>';
+                            $fpage[$irak['zeit']] .= '<a href="game.php?page=galaxy&type=3&galaxy=' . $irak["galaxy_angreifer"] . '&system=' . $irak["system_angreifer"] . '&planet=' . $irak["planet_angreifer"] . '">[' . $irak["galaxy_angreifer"] . ':' . $irak["system_angreifer"] . ':' . $irak["planet_angreifer"] . ']</a>';
                             $fpage[$irak['zeit']] .= ' arrive sur la plan&egrave;te' . $planet["name"] . ' ';
-                            $fpage[$irak['zeit']] .= '<a href="galaxy.php?mode=3&galaxy=' . $irak["galaxy"] . '&system=' . $irak["system"] . '&planet=' . $irak["planet"] . '">[' . $irak["galaxy"] . ':' . $irak["system"] . ':' . $irak["planet"] . ']</a>';
+                            $fpage[$irak['zeit']] .= '<a href="game.php?page=galaxy&type=3&galaxy=' . $irak["galaxy"] . '&system=' . $irak["system"] . '&planet=' . $irak["planet"] . '">[' . $irak["galaxy"] . ':' . $irak["system"] . ':' . $irak["planet"] . ']</a>';
                             $fpage[$irak['zeit']] .= '</font>';
                             $fpage[$irak['zeit']] .= InsertJavaScriptChronoApplet("fm", $Record, $time, false);
                             $fpage[$irak['zeit']] .= "</th>";
@@ -332,16 +344,14 @@ class ShowOverviewPage extends AbstractGamePage {
                         $parse['ClickBanner'] = stripslashes($game_config['OverviewClickBanner']);
                     }
                     if ($game_config['ForumBannerFrame'] == '1') {
-
                         $BannerURL = "" . dirname($_SERVER["HTTP_REFERER"]) . "/scripts/createbanner.php?id=" . $user['id'] . "";
-
                         $parse['bannerframe'] = "<th colspan=\"4\"><img src=\"scripts/createbanner.php?id=" . $user['id'] . "\"><br>" . $lang['InfoBanner'] . "<br><input name=\"bannerlink\" type=\"text\" id=\"bannerlink\" value=\"[img]" . $BannerURL . "[/img]\" size=\"62\"></th></tr>";
                     }
                     // --- Gestion de l'affichage d'une lune ---------------------------------------------------------
                     if ($lunarow['id'] <> 0) {
                         if ($planetrow['planet_type'] == 1) {
                             $lune = doquery("SELECT * FROM {{table}} WHERE `galaxy` = '" . $planetrow['galaxy'] . "' AND `system` = '" . $planetrow['system'] . "' AND `planet` = '" . $planetrow['planet'] . "' AND `planet_type` = '3'", 'planets', true);
-                            $parse['moon_img'] = "<a href=\"?cp=" . $lune['id'] . "&re=0\" title=\"" . $lune['name'] . "\"><img src=\"" . $dpath . "planeten/" . $lune['image'] . ".jpg\" height=\"50\" width=\"50\"></a>";
+                            $parse['moon_img'] = "<a href=\"game.php?page=overview&cp=" . $lune['id'] . "&re=0\" title=\"" . $lune['name'] . "\"><img src=\"" . $dpath . "planeten/" . $lune['image'] . ".jpg\" height=\"50\" width=\"50\"></a>";
                             $parse['moon'] = $lune['name'];
                         } else {
                             $parse['moon_img'] = "";
@@ -352,24 +362,8 @@ class ShowOverviewPage extends AbstractGamePage {
                         $parse['moon'] = "";
                     }
                     // Moon END
-                    $parse['planet_name'] = $planetrow['name'];
-                    $parse['planet_diameter'] = pretty_number($planetrow['diameter']);
-                    $parse['planet_field_current'] = $planetrow['field_current'];
-                    $parse['planet_field_max'] = CalculateMaxPlanetFields($planetrow);
-                    $parse['planet_temp_min'] = $planetrow['temp_min'];
-                    $parse['planet_temp_max'] = $planetrow['temp_max'];
-                    $parse['galaxy_galaxy'] = $planetrow['galaxy'];
-                    $parse['galaxy_planet'] = $planetrow['planet'];
-                    $parse['galaxy_system'] = $planetrow['system'];
                     $StatRecord = doquery("SELECT * FROM {{table}} WHERE `stat_type` = '1' AND `stat_code` = '1' AND `id_owner` = '" . $user['id'] . "';", 'statpoints', true);
 
-                    $parse['user_points'] = pretty_number($StatRecord['build_points']);
-                    $parse['user_fleet'] = pretty_number($StatRecord['fleet_points']);
-                    $parse['player_points_tech'] = pretty_number($StatRecord['tech_points']);
-                    $parse['total_points'] = pretty_number($StatRecord['total_points']);
-                    ;
-
-                    $parse['user_rank'] = $StatRecord['total_rank'];
                     $ile = $StatRecord['total_old_rank'] - $StatRecord['total_rank'];
                     if ($ile >= 1) {
                         $parse['ile'] = "<font color=lime>+" . $ile . "</font>";
@@ -378,8 +372,6 @@ class ShowOverviewPage extends AbstractGamePage {
                     } elseif ($ile == 0) {
                         $parse['ile'] = "<font color=lightblue>" . $ile . "</font>";
                     }
-                    $parse['u_user_rank'] = $StatRecord['total_rank'];
-                    $parse['user_username'] = $user['username'];
 
                     if (count($fpage) > 0) {
                         ksort($fpage);
@@ -388,22 +380,13 @@ class ShowOverviewPage extends AbstractGamePage {
                         }
                     }
 
-                    $parse['fleet_list'] = $flotten;
+                    //            $parse['fleet_list'] = $flotten;
                     $parse['energy_used'] = $planetrow["energy_max"] - $planetrow["energy_used"];
 
-                    $parse['Have_new_message'] = $Have_new_message;
-                    $parse['Have_new_level_mineur'] = $HaveNewLevelMineur;
-                    $parse['Have_new_level_raid'] = $HaveNewLevelRaid;
                     $parse['time'] = "<div id=\"dateheure\"></div>";
                     $parse['dpath'] = $dpath;
-                    $parse['planet_image'] = $planetrow['image'];
-                    $parse['anothers_planets'] = $AllPlanets;
-                    $parse['max_users'] = $game_config['users_amount'];
-
-                    $parse['metal_debris'] = pretty_number($galaxyrow['metal']);
-                    $parse['crystal_debris'] = pretty_number($galaxyrow['crystal']);
                     if (($galaxyrow['metal'] != 0 || $galaxyrow['crystal'] != 0) && $planetrow[$resource[209]] != 0) {
-                        $parse['get_link'] = " (<a href=\"quickfleet.php?mode=8&g=" . $galaxyrow['galaxy'] . "&s=" . $galaxyrow['system'] . "&p=" . $galaxyrow['planet'] . "&t=2\">" . $lang['type_mission'][8] . "</a>)";
+                        $parse['get_link'] = " (<a href=\"game.php?page=quickfleet&mode=8&g=" . $galaxyrow['galaxy'] . "&s=" . $galaxyrow['system'] . "&p=" . $galaxyrow['planet'] . "&t=2\">" . $lang['type_mission'][8] . "</a>)";
                     } else {
                         $parse['get_link'] = '';
                     }
@@ -441,7 +424,6 @@ class ShowOverviewPage extends AbstractGamePage {
                     $parse['users_amount'] = $game_config['users_amount'];
                     // Rajout d'une barre pourcentage
                     // Calcul du pourcentage de remplissage
-                    $parse['case_pourcentage'] = floor($planetrow["field_current"] / CalculateMaxPlanetFields($planetrow) * 100) . $lang['o/o'];
                     // Barre de remplissage
                     $parse['case_barre'] = floor($planetrow["field_current"] / CalculateMaxPlanetFields($planetrow) * 100) * 4.0;
                     // Couleur de la barre de remplissage
@@ -454,32 +436,103 @@ class ShowOverviewPage extends AbstractGamePage {
                         $parse['case_barre_barcolor'] = '#00C000';
                     }
                     // Mode Améliorations
-                    $parse['xpminier'] = $user['xpminier'];
-                    $parse['xpraid'] = $user['xpraid'];
-                    $parse['lvl_minier'] = $user['lvl_minier'];
-                    $parse['lvl_raid'] = $user['lvl_raid'];
 
                     $LvlMinier = $user['lvl_minier'];
                     $LvlRaid = $user['lvl_raid'];
 
-                    $parse['lvl_up_minier'] = $LvlMinier * 5000;
-                    $parse['lvl_up_raid'] = $LvlRaid * 10;
                     // Nombre de raids, pertes, etc ...
                     $parse['Raids'] = $lang['Raids'];
-                    $parse['NumberOfRaids'] = $lang['NumberOfRaids'];
                     $parse['RaidsWin'] = $lang['RaidsWin'];
                     $parse['RaidsLoose'] = $lang['RaidsLoose'];
 
-                    $parse['raids'] = $user['raids'];
-                    $parse['raidswin'] = $user['raidswin'];
-                    $parse['raidsloose'] = $user['raidsloose'];
                     // Compteur de Membres en ligne
                     $OnlineUsers = doquery("SELECT COUNT(*) FROM {{table}} WHERE onlinetime>='" . (time() - 15 * 60) . "'", 'users', 'true');
-                    $parse['NumberMembersOnline'] = $OnlineUsers[0];
 
-                    $page = parsetemplate(gettemplate('overview_body'), $parse);
-
-                    display($page, $lang['Overview']);
+                    $this->tplObj->assign(array(
+                        'title' => $lang['Overview'],
+                        'Planet_menu' => $lang['Planet_menu'],
+                        'Planet' => $lang['Planet'],
+                        'changelog' => $lang['changelog'],
+                        'Description' => $lang['Description'],
+                        'planet_name' => $planetrow['name'],
+                        'user_username' => $user['username'],
+                        'Have_new_message' => $Have_new_message,
+                        'Have_new_level_mineur' => $HaveNewLevelMineur,
+                        'Have_new_level_raid' => $HaveNewLevelRaid,
+                        'Server_time' => $lang['Server_time'],
+                        'MembersOnline' => $lang['MembersOnline'],
+                        'NumberMembersOnline' => $OnlineUsers[0],
+                        'NewsFrame' => $parse['NewsFrame'],
+                        'Events' => $lang['Events'],
+                        'fleet_list' => $flotten,
+                        'moon_img' => $parse['moon_img'],
+                        'moon' => $parse['moon'],
+                        'planet_image' => $planetrow['image'],
+                        'building' => $parse['building'],
+                        'anothers_planets' => $AllPlanets,
+                        'Diameter' => $lang['Diameter'],
+                        'planet_diameter' => pretty_number($planetrow['diameter']),
+                        'Developed_fields' => $lang['Developed_fields'],
+                        'planet_field_current' => $planetrow['field_current'],
+                        'max_eveloped_fields' => $lang['max_eveloped_fields'],
+                        'planet_field_max' => CalculateMaxPlanetFields($planetrow),
+                        'fields' => $lang['fields'],
+                        'case_barre_barcolor' => $parse['case_barre_barcolor'],
+                        'case_barre' => $parse['case_barre'],
+                        'case_pourcentage' => floor($planetrow["field_current"] / CalculateMaxPlanetFields($planetrow) * 100) . $lang['o/o'],
+                        'ov_off_level' => $lang['ov_off_level'],
+                        'ov_off_mines' => $lang['ov_off_mines'],
+                        'lvl_minier' => $user['lvl_minier'],
+                        'ov_off_raids' => $lang['ov_off_raids'],
+                        'lvl_raid' => $user['lvl_raid'],
+                        'ov_off_expe' => $lang['ov_off_expe'],
+                        'xpminier' => $user['xpminier'],
+                        'lvl_up_minier' => $LvlMinier * 5000,
+                        'xpraid' => $user['xpraid'],
+                        'lvl_up_raid' => $LvlRaid * 10,
+                        'Temperature' => $lang['Temperature'],
+                        'ov_temp_from' => $lang['ov_temp_from'],
+                        'planet_temp_min' => $planetrow['temp_min'],
+                        'ov_temp_unit' => $lang['ov_temp_unit'],
+                        'ov_temp_to' => $lang['ov_temp_to'],
+                        'planet_temp_max' => $planetrow['temp_max'],
+                        'Position' => $lang['Position'],
+                        'galaxy_galaxy' => $planetrow['galaxy'],
+                        'galaxy_system' => $planetrow['system'],
+                        'galaxy_planet' => $planetrow['planet'],
+                        'ov_local_cdr' => $lang['ov_local_cdr'],
+                        'Metal' => $lang['Metal'],
+                        'metal_debris' => pretty_number($galaxyrow['metal']),
+                        'Crystal' => $lang['Crystal'],
+                        'crystal_debris' => pretty_number($galaxyrow['crystal']),
+                        'get_link' => $parse['get_link'],
+                        'Points' => $lang['Points'],
+                        'ov_pts_build' => $lang['ov_pts_build'],
+                        'user_points' => pretty_number($StatRecord['build_points']),
+                        'ov_pts_fleet' => $lang['ov_pts_fleet'],
+                        'user_fleet' => pretty_number($StatRecord['fleet_points']),
+                        'ov_pts_reche' => $lang['ov_pts_reche'],
+                        'player_points_tech' => pretty_number($StatRecord['tech_points']),
+                        'ov_pts_total' => $lang['ov_pts_total'],
+                        'total_points' => pretty_number($StatRecord['total_points']),
+                        'Rank' => $lang['Rank'],
+                        'u_user_rank' => $StatRecord['total_rank'],
+                        'user_rank' => $StatRecord['total_rank'],
+                        'of' => $lang['of'],
+                        'max_users' => $game_config['users_amount'],
+                        'Raids' => $lang['Raids'],
+                        'NumberOfRaids' => $lang['NumberOfRaids'],
+                        'raids' => $user['raids'],
+                        'RaidsWin' => $lang['RaidsWin'],
+                        'raidswin' => $user['raidswin'],
+                        'RaidsLoose' => $lang['RaidsLoose'],
+                        'raidswin' => $user['raidswin'],
+                        'raidsloose' => $lang['raidsloose'],
+                        'bannerframe' => $parse['bannerframe'],
+                        'ExternalTchatFrame' => $parse['ExternalTchatFrame'],
+                        'ClickBanner' => $parse['ClickBanner'],
+                    ));
+                    $this->render('overview_body.tpl');
                     break;
                 }
         }
