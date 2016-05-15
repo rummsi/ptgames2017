@@ -92,7 +92,7 @@ include(ROOT_PATH . 'includes/functions/BuildingSaveUserRecord.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/RemoveBuildingFromQueue.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/CancelBuildingFromQueue.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/SetNextQueueElementOnTop.'.PHPEXT);
-include(ROOT_PATH . 'includes/functions/ShowTopNavigationBar.'.PHPEXT);
+//include(ROOT_PATH . 'includes/functions/ShowTopNavigationBar.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/SetSelectedPlanet.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/MessageForm.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/PlanetResourceUpdate.'.PHPEXT);
@@ -104,7 +104,7 @@ include(ROOT_PATH . 'includes/functions/CheckInputStrings.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/MipCombatEngine.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/DeleteSelectedUser.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/SortUserPlanets.'.PHPEXT);
-include(ROOT_PATH . 'includes/functions/BuildFleetEventTable.'.PHPEXT);
+//include(ROOT_PATH . 'includes/functions/BuildFleetEventTable.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/ResetThisFuckingCheater.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/IsVacationMode.'.PHPEXT);
 
