@@ -195,19 +195,19 @@ class ShowOverviewPage extends AbstractGamePage {
                         // Flotte a l'aller
                         $Label = "fs";
                         if ($StartTime > time()) {
-                            $fpage[$StartTime] = BuildFleetEventTable($FleetRow, 0, true, $Label, $Record);
+                            $fpage[$StartTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 0, true, $Label, $Record);
                         }
 
                         if ($FleetRow['fleet_mission'] <> 4) {
                             // Flotte en stationnement
                             $Label = "ft";
                             if ($StayTime > time()) {
-                                $fpage[$StayTime] = BuildFleetEventTable($FleetRow, 1, true, $Label, $Record);
+                                $fpage[$StayTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 1, true, $Label, $Record);
                             }
                             // Flotte au retour
                             $Label = "fe";
                             if ($EndTime > time()) {
-                                $fpage[$EndTime] = BuildFleetEventTable($FleetRow, 2, true, $Label, $Record);
+                                $fpage[$EndTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 2, true, $Label, $Record);
                             }
                         }
                     } // End While
@@ -226,13 +226,13 @@ class ShowOverviewPage extends AbstractGamePage {
 
                                 if ($StartTime > time()) {
                                     $Label = "ofs";
-                                    $fpage[$StartTime] = BuildFleetEventTable($FleetRow, 0, false, $Label, $Record);
+                                    $fpage[$StartTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 0, false, $Label, $Record);
                                 }
                                 if ($FleetRow['fleet_mission'] == 5) {
                                     // Flotte en stationnement
                                     $Label = "oft";
                                     if ($StayTime > time()) {
-                                        $fpage[$StayTime] = BuildFleetEventTable($FleetRow, 1, false, $Label, $Record);
+                                        $fpage[$StayTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 1, false, $Label, $Record);
                                     }
                                 }
                             }
