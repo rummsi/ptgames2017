@@ -104,20 +104,20 @@ require_once dirname(__FILE__) .'/common.php';
 
 					$Label = "fs";
 					if ($StartTime > time()) {
-						$fpage[$StartTime] = BuildFleetEventTable ( $FleetRow, 0, $FleetType, $Label, $Record );
+						$fpage[$StartTime] = AbstractGamePage::BuildFleetEventTable ( $FleetRow, 0, $FleetType, $Label, $Record );
 					}
 
 					if ($FleetRow['fleet_mission'] <> 4) {
 						$Label = "ft";
 						if ($StayTime > time()) {
-							$fpage[$StayTime] = BuildFleetEventTable ( $FleetRow, 1, $FleetType, $Label, $Record );
+							$fpage[$StayTime] = AbstractGamePage::BuildFleetEventTable ( $FleetRow, 1, $FleetType, $Label, $Record );
 						}
 
 						if ($FleetType == true) {
 							// On n'affiche les flottes en retour que pour les flottes du possesseur de la planete
 							$Label = "fe";
 							if ($EndTime > time()) {
-								$fpage[$EndTime]  = BuildFleetEventTable ( $FleetRow, 2, $FleetType, $Label, $Record );
+								$fpage[$EndTime]  = AbstractGamePage::BuildFleetEventTable ( $FleetRow, 2, $FleetType, $Label, $Record );
 							}
 						}
 					}
