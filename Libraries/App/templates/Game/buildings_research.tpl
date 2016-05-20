@@ -12,11 +12,11 @@
                         {if IsTechnologieAccessible($CurrentUser, $CurrentPlanet, $Tech)}
                         <tr>
                             <th class="l">
-                                <a href="infos.php?gid={$Tech}">
+                                <a href="game.php?page=infos&gid={$Tech}">
                                 <img border=0 src="{$dpath}gebaeude/{$Tech}.gif" align="top" width=120 height=120></a>
                             </th>
                             <td class="l">
-                                <a href="infos.php?gid={$Tech}">{$TechName}</a> {($CurrentUser[$resource[$Tech]] == 0) ? "" : "( {$lang_level} {$CurrentUser[$resource[$Tech]]} )"}<br>{$res_descriptions[$Tech]}<br>
+                                <a href="game.php?page=infos&gid={$Tech}">{$TechName}</a> {($CurrentUser[$resource[$Tech]] == 0) ? "" : "( {$lang_level} {$CurrentUser[$resource[$Tech]]} )"}<br>{$res_descriptions[$Tech]}<br>
                                 {GetElementPrice($CurrentUser, $CurrentPlanet, $Tech)}
                                 {ShowBuildTime(GetBuildingTime($CurrentUser, $CurrentPlanet, $Tech))}
                                 {$Rest_ress} {GetRestPrice($CurrentUser, $CurrentPlanet, $Tech, true)}

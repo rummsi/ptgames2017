@@ -11,12 +11,12 @@
                                         {$shipIdNbre = ($currentPlanet[$resource[$shipId]] == 0) ? "" : " ({$lang_dispo}: {pretty_number($currentPlanet[$resource[$shipId]])})"}
                                         <tr>
                                             <th class=l>
-                                                <a href=infos.php?gid={$shipId}>
+                                                <a href=game.php?page=infos&gid={$shipId}>
                                                     <img border=0 src="{$dpath}gebaeude/{$shipId}.gif" align=top width=120 height=120>
                                                 </a>
                                             </th>
                                             <td class=l>
-                                                <a href=infos.php?gid={$shipId}>{$lang_tech[$shipId]}</a> {$shipIdNbre}<br />
+                                                <a href=game.php?page=infos&gid={$shipId}>{$lang_tech[$shipId]}</a> {$shipIdNbre}<br />
                                                 {$res_descriptions[$shipId]}<br />
                                                 {GetElementPrice($currentUser, $currentPlanet, $shipId, false)}
                                                 {ShowBuildTime($shipyard->getBuildTime($shipId, 1))}
