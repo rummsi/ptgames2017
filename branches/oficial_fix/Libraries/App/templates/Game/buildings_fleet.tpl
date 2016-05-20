@@ -16,7 +16,7 @@
                                                 </a>
                                             </th>
                                             <td class=l>
-                                                <a href=infos.php?gid={$shipId}>{$res_fleet[$shipId]}</a> {$shipIdNbre}<br />
+                                                <a href=infos.php?gid={$shipId}>{$lang_tech[$shipId]}</a> {$shipIdNbre}<br />
                                                 {$res_descriptions[$shipId]}<br />
                                                 {GetElementPrice($currentUser, $currentPlanet, $shipId, false)}
                                                 {ShowBuildTime($shipyard->getBuildTime($shipId, 1))}
