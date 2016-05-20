@@ -128,6 +128,8 @@ $lang['ov_une_hostile']      = "Une ";
 $lang['ov_hostile']          = " hostile de ";
 $lang['ov_message']          = "Envoyer un message";
 
+$lang['Overview']            = 'Vue g&eacute;n&eacute;rale';
+$lang['o/o']                 = '%';
 // Created by Perberos. All rights reversed (C) 2006
 // Complet by XNova Team. All rights reversed (C) 2008
 ?>
