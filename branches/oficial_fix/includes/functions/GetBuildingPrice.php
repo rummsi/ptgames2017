@@ -32,7 +32,7 @@ function GetBuildingPrice ($CurrentUser, $CurrentPlanet, $Element, $Incremental 
 	global $pricelist, $resource;
 
 	if ($Incremental) {
-		$level = ($CurrentPlanet[$resource[$Element]]) ? $CurrentPlanet[$resource[$Element]] : $CurrentUser[$resource[$Element]];
+		@$level = ($CurrentPlanet[$resource[$Element]]) ? $CurrentPlanet[$resource[$Element]] : $CurrentUser[$resource[$Element]];
 	}
 
 	$array = array('metal', 'crystal', 'deuterium', 'energy_max');
