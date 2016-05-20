@@ -45,19 +45,13 @@ class ShowResearchPage extends AbstractGamePage {
         $CurrentUser = $user;
         $InResearch = $IsWorking['OnWork'];
         $ThePlanet = $IsWorking['WorkOn'];
-        
+
         includeLang('buildings');
 
-        $NoResearchMessage = "";
         $bContinue = true;
         // Deja est qu'il y a un laboratoire sur la planete ???
         if ($CurrentPlanet[$resource[31]] == 0) {
             message($lang['no_laboratory'], $lang['Research']);
-        }
-        // Ensuite ... Est ce que la labo est en cours d'upgrade ?
-        if (!CheckLabSettingsInQueue($CurrentPlanet)) {
-            $NoResearchMessage = $lang['labo_on_update'];
-            $bContinue = false;
         }
 
         // Boucle d'interpretation des eventuelles commandes
@@ -126,96 +120,34 @@ class ShowResearchPage extends AbstractGamePage {
                             $ThePlanet = $CurrentPlanet;
                         }
                     }
+
+                    $this->tplObj->assign('ThePlanet', $ThePlanet);
                 }
             } else {
                 $bContinue = false;
             }
         }
 
-        $TechRowTPL = gettemplate('buildings_research_row');
-        $TechScrTPL = gettemplate('buildings_research_script');
-
-        foreach ($lang['tech'] as $Tech => $TechName) {
-            if ($Tech > 105 && $Tech <= 199) {
-                if (IsTechnologieAccessible($CurrentUser, $CurrentPlanet, $Tech)) {
-                    $RowParse = $lang;
-                    $RowParse['dpath'] = $dpath;
-                    $RowParse['tech_id'] = $Tech;
-                    $building_level = $CurrentUser[$resource[$Tech]];
-                    $RowParse['tech_level'] = ($building_level == 0) ? "" : "( " . $lang['level'] . " " . $building_level . " )";
-                    $RowParse['tech_name'] = $TechName;
-                    $RowParse['tech_descr'] = $lang['res']['descriptions'][$Tech];
-                    $RowParse['tech_price'] = GetElementPrice($CurrentUser, $CurrentPlanet, $Tech);
-                    $SearchTime = GetBuildingTime($CurrentUser, $CurrentPlanet, $Tech);
-                    $RowParse['search_time'] = ShowBuildTime($SearchTime);
-                    $RowParse['tech_restp'] = $lang['Rest_ress'] . " " . GetRestPrice($CurrentUser, $CurrentPlanet, $Tech, true);
-                    $CanBeDone = IsElementBuyable($CurrentUser, $CurrentPlanet, $Tech);
-
-                    // Arbre de decision de ce que l'on met dans la derniere case de la ligne
-                    if (!$InResearch) {
-                        $LevelToDo = 1 + $CurrentUser[$resource[$Tech]];
-                        if ($CanBeDone) {
-                            if (!CheckLabSettingsInQueue($CurrentPlanet)) {
-                                // Le laboratoire est cours de construction ou d'evolution
-                                // Et dans la config du systeme, on ne permet pas la recherche pendant
-                                // que le labo est en construction ou evolution !
-                                if ($LevelToDo == 1) {
-                                    $TechnoLink = "<font color=#FF0000>" . $lang['Rechercher'] . "</font>";
-                                } else {
-                                    $TechnoLink = "<font color=#FF0000>" . $lang['Rechercher'] . "<br>" . $lang['level'] . " " . $LevelToDo . "</font>";
-                                }
-                            } else {
-                                $TechnoLink = "<a href=\"game.php?page=research&cmd=search&tech=" . $Tech . "\">";
-                                if ($LevelToDo == 1) {
-                                    $TechnoLink .= "<font color=#00FF00>" . $lang['Rechercher'] . "</font>";
-                                } else {
-                                    $TechnoLink .= "<font color=#00FF00>" . $lang['Rechercher'] . "<br>" . $lang['level'] . " " . $LevelToDo . "</font>";
-                                }
-                                $TechnoLink .= "</a>";
-                            }
-                        } else {
-                            if ($LevelToDo == 1) {
-                                $TechnoLink = "<font color=#FF0000>" . $lang['Rechercher'] . "</font>";
-                            } else {
-                                $TechnoLink = "<font color=#FF0000>" . $lang['Rechercher'] . "<br>" . $lang['level'] . " " . $LevelToDo . "</font>";
-                            }
-                        }
-                    } else {
-                        // Y a une construction en cours
-                        if ($ThePlanet["b_tech_id"] == $Tech) {
-                            // C'est le technologie en cours de recherche
-                            $bloc = $lang;
-                            if ($ThePlanet['id'] != $CurrentPlanet['id']) {
-                                // Ca se passe sur une autre planete
-                                $bloc['tech_time'] = $ThePlanet["b_tech"] - time();
-                                $bloc['tech_name'] = $lang['on'] . "<br>" . $ThePlanet["name"];
-                                $bloc['tech_home'] = $ThePlanet["id"];
-                                $bloc['tech_id'] = $ThePlanet["b_tech_id"];
-                            } else {
-                                // Ca se passe sur la planete actuelle
-                                $bloc['tech_time'] = $CurrentPlanet["b_tech"] - time();
-                                $bloc['tech_name'] = "";
-                                $bloc['tech_home'] = $CurrentPlanet["id"];
-                                $bloc['tech_id'] = $CurrentPlanet["b_tech_id"];
-                            }
-                            $TechnoLink = parsetemplate($TechScrTPL, $bloc);
-                        } else {
-                            // Technologie pas en cours recherche
-                            $TechnoLink = "<center>-</center>";
-                        }
-                    }
-                    $RowParse['tech_link'] = $TechnoLink;
-                    $TechnoList .= parsetemplate($TechRowTPL, $RowParse);
-                }
-            }
-        }
-
-        $PageParse = $lang;
-        $PageParse['noresearch'] = $NoResearchMessage;
-        $PageParse['technolist'] = $TechnoList;
-        $Page .= parsetemplate(gettemplate('buildings_research'), $PageParse);
-
-        display($Page, $lang['Research']);
+        $this->tplObj->assign(array(
+            'title' => "Research",
+            'CurrentPlanet' => $planetrow,
+            'labo_on_update' => $lang['labo_on_update'],
+            'lang_tech' => $lang['tech'],
+            'CurrentPlanet' => $planetrow,
+            'CurrentUser' => $user,
+            'resource' => $resource,
+            'lang_level' => $lang['level'],
+            'res_descriptions' => $lang['res']['descriptions'],
+            'Rest_ress' => $lang['Rest_ress'],
+            'InResearch' => $InResearch,
+            'Rechercher' => $lang['Rechercher'],
+            'lang_on' => $lang['on'],
+            'continue' => $lang['continue'],
+            'cancel' => $lang['cancel'],
+            'ready' => $lang['ready'],
+            'ThePlanet' => $ThePlanet,
+        ));
+        $this->render('buildings_research.tpl');
     }
 
 }
