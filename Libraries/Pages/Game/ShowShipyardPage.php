@@ -47,7 +47,7 @@ class ShowShipyardPage extends AbstractGamePage {
         $currentUser = $user;
 
         includeLang('buildings');
-        includeLang('fleet');
+        includeLang('tech');
 
         // S'il n'y a pas de Chantier
         if (!isset($currentPlanet[$resource[Legacies_Empire::ID_BUILDING_SHIPYARD]]) || $currentPlanet[$resource[Legacies_Empire::ID_BUILDING_SHIPYARD]] == 0) {
@@ -99,7 +99,7 @@ class ShowShipyardPage extends AbstractGamePage {
             'currentPlanet' => $planetrow,
             'currentUser' => $user,
             'res_descriptions' => $lang['res']['descriptions'],
-            'res_fleet' => $lang['res']['fleet'],
+            'lang_tech' => $lang['tech'],
             'data' => json_encode($data)
         ));
         $this->render('buildings_fleet.tpl');
