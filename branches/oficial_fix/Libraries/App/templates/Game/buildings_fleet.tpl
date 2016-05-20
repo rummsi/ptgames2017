@@ -16,7 +16,7 @@
                                                 </a>
                                             </th>
                                             <td class=l>
-                                                <a href=infos.php?gid={$shipId}>{$res_fleet[shipId]}</a> {$shipIdNbre}<br />
+                                                <a href=infos.php?gid={$shipId}>{$res_fleet[$shipId]}</a> {$shipIdNbre}<br />
                                                 {$res_descriptions[$shipId]}<br />
                                                 {GetElementPrice($currentUser, $currentPlanet, $shipId, false)}
                                                 {ShowBuildTime($shipyard->getBuildTime($shipId, 1))}
@@ -48,9 +48,12 @@
                 </tr>
             </table>
             {if !empty($currentPlanet['b_hangar_id'])}
-                <div>Production Actuelle:
-                    <select id="buildList" size="10"></select>
-                </div>
+                <table align="top">
+                    <tr>
+                        <td class="c" colspan=2 align="center">Production Actuelle:</td>
+                    </tr>
+                        <th class=k><select id="buildList" size="10"></select></th>
+                </table>
                 <script type="text/javascript">
                 //<![CDATA[
                 var date = new Date();
