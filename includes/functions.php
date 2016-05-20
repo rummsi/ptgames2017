@@ -99,9 +99,9 @@ function message($mes, $title = 'Error', $dest = "", $time = "3", $color = 'oran
 function display ($page, $title = '', $topnav = true, $metatags = '', $AdminPage = false) {
 	global $link, $game_config, $debug, $user, $planetrow, $InLogin;
 
-    include(ROOT_PATH . "leftmenu.php");
+ //   include(ROOT_PATH . "leftmenu.php");
     include(ROOT_PATH . "admin/leftmenu.php");
-    $Menu = ShowLeftMenu(@$user['authlevel']);
+ //   $Menu = ShowLeftMenu(@$user['authlevel']);
     $AdminMenu = ShowAdminLeftMenu(@$user['authlevel']);
     
 	if (!$AdminPage) {
