@@ -38,7 +38,7 @@ function GetBuildingPrice ($CurrentUser, $CurrentPlanet, $Element, $Incremental 
 	$array = array('metal', 'crystal', 'deuterium', 'energy_max');
 	foreach ($array as $ResType) {
 		if ($Incremental) {
-			$cost[$ResType] = floor($pricelist[$Element][$ResType] * pow($pricelist[$Element]['factor'], $level));
+			@$cost[$ResType] = floor($pricelist[$Element][$ResType] * pow($pricelist[$Element]['factor'], $level));
 		} else {
 			$cost[$ResType] = floor($pricelist[$Element][$ResType]);
 		}

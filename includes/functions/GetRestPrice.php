@@ -32,7 +32,7 @@ function GetRestPrice ($user, $planet, $Element, $userfactor = true) {
 	global $pricelist, $resource, $lang;
 
 	if ($userfactor) {
-		$level = ($planet[$resource[$Element]]) ? $planet[$resource[$Element]] : $user[$resource[$Element]];
+		@$level = ($planet[$resource[$Element]]) ? $planet[$resource[$Element]] : $user[$resource[$Element]];
 	}
 
 	$array = array(
@@ -44,7 +44,7 @@ function GetRestPrice ($user, $planet, $Element, $userfactor = true) {
 
 	$text  = "<br><font color=\"#7f7f7f\">". $lang['Rest_ress'] .": ";
 	foreach ($array as $ResType => $ResTitle) {
-		if ($pricelist[$Element][$ResType] != 0) {
+		if (@$pricelist[$Element][$ResType] != 0) {
 			$text .= $ResTitle . ": ";
 			if ($userfactor) {
 				$cost = floor($pricelist[$Element][$ResType] * pow($pricelist[$Element]['factor'], $level));

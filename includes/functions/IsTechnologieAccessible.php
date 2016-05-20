@@ -37,7 +37,7 @@ function IsTechnologieAccessible($user, $planet, $element)
 		foreach($requirements[$element] as $ReqElement => $EleLevel) {
 			if (@$user[$resource[$ReqElement]] && $user[$resource[$ReqElement]] >= $EleLevel) {
 				// break;
-			} elseif ($planet[$resource[$ReqElement]] && $planet[$resource[$ReqElement]] >= $EleLevel) {
+			} elseif (@$planet[$resource[$ReqElement]] && $planet[$resource[$ReqElement]] >= $EleLevel) {
 				$enabled = true;
 			} else {
 				return false;
