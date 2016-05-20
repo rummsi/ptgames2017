@@ -37,6 +37,7 @@ class ShowOverviewPage extends AbstractGamePage {
 
     function show() {
         global $user, $lang, $game_config, $planetrow, $dpath, $galaxyrow, $flotten;
+
         $lunarow = doquery("SELECT * FROM {{table}} WHERE `id_owner` = '" . $planetrow['id_owner'] . "' AND `galaxy` = '" . $planetrow['galaxy'] . "' AND `system` = '" . $planetrow['system'] . "' AND `lunapos` = '" . $planetrow['planet'] . "';", 'lunas', true);
 
         //CheckPlanetUsedFields ($lunarow);
@@ -44,7 +45,6 @@ class ShowOverviewPage extends AbstractGamePage {
         $_POST['deleteid'] = intval($_POST['deleteid']);
         $pl = mysqli_real_escape_string(Database::$dbHandle, isset($_GET['pl']) ? $_GET['pl'] : 0);
 
-        includeLang('resources');
         includeLang('overview');
 
         switch ($mode) {
@@ -69,20 +69,25 @@ class ShowOverviewPage extends AbstractGamePage {
                     // Cas d'abandon d'une colonie
                     // Affichage de la forme d'abandon de colonie
                     $this->tplObj->assign(array(
-                        'title' => $lang['ov_rena_dele'],
-                        'ov_rena_dele' => $lang['ov_rena_dele'],
                         'planet_id' => $planetrow['id'],
-                        'security_query' => $lang['security_query'],
-                        'confirm_planet_delete' => $lang['confirm_planet_delete'],
                         'galaxy_galaxy' => $planetrow['galaxy'],
                         'galaxy_system' => $planetrow['system'],
                         'galaxy_planet' => $planetrow['planet'],
+                        'planet_name' => $planetrow['name'],
+                    ));
+
+                    // On affiche la forme pour l'abandon de la colonie
+                    $this->tplObj->assign(array(
+                        'title' => $lang['ov_rena_dele'],
+                        'ov_rena_dele' => $lang['ov_rena_dele'],
+                        'security_query' => $lang['security_query'],
+                        'confirm_planet_delete' => $lang['confirm_planet_delete'],
                         'confirmed_with_password' => $lang['confirmed_with_password'],
                         'password' => $lang['password'],
                         'deleteplanet' => $lang['deleteplanet'],
                         'colony_abandon' => $lang['colony_abandon'],
                     ));
-                    // On affiche la forme pour l'abandon de la colonie
+
                     $this->render('overview_deleteplanet.tpl');
                 } elseif ($_POST['kolonieloeschen'] == 1 && $_POST['deleteid'] == $user['current_planet']) {
                     // Controle du mot de passe pour abandon de colonie
@@ -95,12 +100,7 @@ class ShowOverviewPage extends AbstractGamePage {
                         }
 
                         AbandonColony($user, $planetrow);
-
-                        $QryUpdateUser = "UPDATE {{table}} SET ";
-                        $QryUpdateUser .= "`current_planet` = `id_planet` ";
-                        $QryUpdateUser .= "WHERE ";
-                        $QryUpdateUser .= "`id` = '" . $user['id'] . "' LIMIT 1";
-                        doquery($QryUpdateUser, "users");
+                        doquery("UPDATE {{table}} SET `current_planet` = `id_planet` WHERE `id` = '" . $user['id'] . "' LIMIT 1", "users");
                         // Tout s'est bien pass� ! La colo a �t� effac�e !!
                         message($lang['deletemessage_ok'], $lang['colony_abandon'], 'game.php?page=overview', 3);
                     } elseif ($user['id_planet'] == $user["current_planet"]) {
@@ -114,40 +114,32 @@ class ShowOverviewPage extends AbstractGamePage {
                 }
 
                 $this->tplObj->assign(array(
-                    'title' => $lang['ov_rena_dele'],
-                    'rename_and_abandon_planet' => $lang['ov_rena_dele'],
                     'planet_id' => $planetrow['id'],
-                    'your_planet' => $lang['your_planet'],
-                    'coords' => $lang['coords'],
-                    'name' => $lang['name'],
-                    'functions' => $lang['functions'],
                     'galaxy_galaxy' => $planetrow['galaxy'],
                     'galaxy_system' => $planetrow['system'],
                     'galaxy_planet' => $planetrow['planet'],
                     'planet_name' => $planetrow['name'],
+                ));
+
+                // On affiche la page permettant d'abandonner OU de renomme une Colonie / Planete
+                $this->tplObj->assign(array(
+                    'title' => $lang['ov_rena_dele'],
+                    'rename_and_abandon_planet' => $lang['ov_rena_dele'],
+                    'your_planet' => $lang['your_planet'],
+                    'coords' => $lang['coords'],
+                    'name' => $lang['name'],
+                    'functions' => $lang['functions'],
                     'colony_abandon' => $lang['colony_abandon'],
                     'namer' => $lang['namer'],
                 ));
-                // On affiche la page permettant d'abandonner OU de renomme une Colonie / Planete
+
                 $this->render('overview_renameplanet.tpl');
                 break;
 
             default:
                 if ($user['id'] != '') {
                     // --- Gestion des messages ----------------------------------------------------------------------
-                    $Have_new_message = "";
-                    if ($user['new_message'] != 0) {
-                        $Have_new_message .= "<tr>";
-                        if ($user['new_message'] == 1) {
-                            $Have_new_message .= "<th colspan=4><a href=game.php?page=messages>" . $lang['Have_new_message'] . "</a></th>";
-                        } elseif ($user['new_message'] > 1) {
-                            $Have_new_message .= "<th colspan=4><a href=game.php?page=messages>";
-                            $m = pretty_number($user['new_message']);
-                            $Have_new_message .= str_replace('%m', $m, $lang['Have_new_messages']);
-                            $Have_new_message .= "</a></th>";
-                        }
-                        $Have_new_message .= "</tr>";
-                    }
+                    $this->tplObj->assign('user_new_message', $user['new_message']);
                     // -----------------------------------------------------------------------------------------------
                     // --- Gestion Officiers -------------------------------------------------------------------------
                     // Passage au niveau suivant, ajout du point de compétence et affichage du passage au nouveau level
@@ -155,33 +147,27 @@ class ShowOverviewPage extends AbstractGamePage {
                     $XpRaidUp = $user['lvl_raid'] * 10;
                     $XpMinier = $user['xpminier'];
                     $XPRaid = $user['xpraid'];
-
                     $LvlUpMinier = $user['lvl_minier'] + 1;
                     $LvlUpRaid = $user['lvl_raid'] + 1;
 
+                    $this->tplObj->assign(array(
+                        'XpMinierUp' => $user['lvl_minier'] * 5000,
+                        'XpRaidUp' => $user['lvl_raid'] * 10,
+                        'XpMinier' => $user['xpminier'],
+                        'XPRaid' => $user['xpraid'],
+                        'LvlUpMinier' => $user['lvl_minier'] * 5000,
+                        'LvlUpRaid' => $user['xpraid'],
+                    ));
+
                     if (($LvlUpMinier + $LvlUpRaid) <= 100) {
                         if ($XpMinier >= $XpMinierUp) {
-                            $QryUpdateUser = "UPDATE {{table}} SET ";
-                            $QryUpdateUser .= "`lvl_minier` = '" . $LvlUpMinier . "', ";
-                            $QryUpdateUser .= "`rpg_points` = `rpg_points` + 1 ";
-                            $QryUpdateUser .= "WHERE ";
-                            $QryUpdateUser .= "`id` = '" . $user['id'] . "';";
-                            doquery($QryUpdateUser, 'users');
-                            $HaveNewLevelMineur = "<tr>";
-                            $HaveNewLevelMineur .= "<th colspan=4><a href=officier." . PHPEXT . ">" . $lang['Have_new_level_mineur'] . "</a></th>";
+                            doquery("UPDATE {{table}} SET `lvl_minier` = '" . $LvlUpMinier . "', `rpg_points` = `rpg_points` + 1 WHERE `id` = '" . $user['id'] . "';", 'users');
                         }
                         if ($XPRaid >= $XpRaidUp) {
-                            $QryUpdateUser = "UPDATE {{table}} SET ";
-                            $QryUpdateUser .= "`lvl_raid` = '" . $LvlUpRaid . "', ";
-                            $QryUpdateUser .= "`rpg_points` = `rpg_points` + 1 ";
-                            $QryUpdateUser .= "WHERE ";
-                            $QryUpdateUser .= "`id` = '" . $user['id'] . "';";
-                            doquery($QryUpdateUser, 'users');
-                            $HaveNewLevelMineur = "<tr>";
-                            $HaveNewLevelMineur .= "<th colspan=4><a href=officier." . PHPEXT . ">" . $lang['Have_new_level_raid'] . "</a></th>";
+                            doquery("UPDATE {{table}} SET `lvl_raid` = '" . $LvlUpRaid . "', `rpg_points` = `rpg_points` + 1 WHERE `id` = '" . $user['id'] . "';", 'users');
                         }
                     }
-                    // -----------------------------------------------------------------------------------------------
+                    // ----------------------------------------------------------------------------------------------
                     // --- Gestion des flottes personnelles ---------------------------------------------------------
                     // Toutes de vert vetues
                     $OwnFleets = doquery("SELECT * FROM {{table}} WHERE `fleet_owner` = '" . $user['id'] . "';", 'fleets');
@@ -211,11 +197,10 @@ class ShowOverviewPage extends AbstractGamePage {
                             }
                         }
                     } // End While
-                    // -----------------------------------------------------------------------------------------------
+                    // ----------------------------------------------------------------------------------------------
                     // --- Gestion des flottes autres que personnelles ----------------------------------------------
                     // Flotte ennemies (ou amie) mais non personnelles
                     $OtherFleets = doquery("SELECT * FROM {{table}} WHERE `fleet_target_owner` = '" . $user['id'] . "';", 'fleets');
-
                     $Record = 2000;
                     while ($FleetRow = mysqli_fetch_array($OtherFleets)) {
                         if ($FleetRow['fleet_owner'] != $user['id']) {
@@ -328,25 +313,6 @@ class ShowOverviewPage extends AbstractGamePage {
                             $fpage[$irak['zeit']] .= "</th>";
                         }
                     }
-                    // -----------------------------------------------------------------------------------------------
-                    $parse = $lang;
-                    // -----------------------------------------------------------------------------------------------
-                    // News Frame ...
-                    // External Chat Frame ...
-                    // Banner ADS Google (meme si je suis contre cela)
-                    if ($game_config['OverviewNewsFrame'] == '1') {
-                        $parse['NewsFrame'] = "<tr><th>" . $lang['ov_news_title'] . "</th><th colspan=\"3\">" . stripslashes($game_config['OverviewNewsText']) . "</th></tr>";
-                    }
-                    if ($game_config['OverviewExternChat'] == '1') {
-                        $parse['ExternalTchatFrame'] = "<tr><th colspan=\"4\">" . stripslashes($game_config['OverviewExternChatCmd']) . "</th></tr>";
-                    }
-                    if ($game_config['OverviewClickBanner'] != '') {
-                        $parse['ClickBanner'] = stripslashes($game_config['OverviewClickBanner']);
-                    }
-                    if ($game_config['ForumBannerFrame'] == '1') {
-                        $BannerURL = "" . dirname($_SERVER["HTTP_REFERER"]) . "/scripts/createbanner.php?id=" . $user['id'] . "";
-                        $parse['bannerframe'] = "<th colspan=\"4\"><img src=\"scripts/createbanner.php?id=" . $user['id'] . "\"><br>" . $lang['InfoBanner'] . "<br><input name=\"bannerlink\" type=\"text\" id=\"bannerlink\" value=\"[img]" . $BannerURL . "[/img]\" size=\"62\"></th></tr>";
-                    }
                     // --- Gestion de l'affichage d'une lune ---------------------------------------------------------
                     if ($lunarow['id'] <> 0) {
                         if ($planetrow['planet_type'] == 1) {
@@ -362,7 +328,26 @@ class ShowOverviewPage extends AbstractGamePage {
                         $parse['moon'] = "";
                     }
                     // Moon END
+                    $this->tplObj->assign(array(
+                        'planet_name' => $planetrow['name'],
+                        'planet_diameter' => pretty_number($planetrow['diameter']),
+                        'planet_field_current' => $planetrow['field_current'],
+                        'planet_field_max' => CalculateMaxPlanetFields($planetrow),
+                        'planet_temp_min' => $planetrow['temp_min'],
+                        'planet_temp_max' => $planetrow['temp_max'],
+                        'galaxy_galaxy' => $planetrow['galaxy'],
+                        'galaxy_system' => $planetrow['system'],
+                        'galaxy_planet' => $planetrow['planet'],
+                    ));
                     $StatRecord = doquery("SELECT * FROM {{table}} WHERE `stat_type` = '1' AND `stat_code` = '1' AND `id_owner` = '" . $user['id'] . "';", 'statpoints', true);
+
+                    $this->tplObj->assign(array(
+                        'user_points' => pretty_number($StatRecord['build_points']),
+                        'user_fleet' => pretty_number($StatRecord['fleet_points']),
+                        'player_points_tech' => pretty_number($StatRecord['tech_points']),
+                        'total_points' => pretty_number($StatRecord['total_points']),
+                        'user_rank' => $StatRecord['total_rank'],
+                    ));
 
                     $ile = $StatRecord['total_old_rank'] - $StatRecord['total_rank'];
                     if ($ile >= 1) {
@@ -373,6 +358,11 @@ class ShowOverviewPage extends AbstractGamePage {
                         $parse['ile'] = "<font color=lightblue>" . $ile . "</font>";
                     }
 
+                    $this->tplObj->assign(array(
+                        'u_user_rank' => $StatRecord['total_rank'],
+                        'user_username' => $user['username'],
+                    ));
+
                     if (count($fpage) > 0) {
                         ksort($fpage);
                         foreach ($fpage as $time => $content) {
@@ -380,7 +370,6 @@ class ShowOverviewPage extends AbstractGamePage {
                         }
                     }
 
-                    //            $parse['fleet_list'] = $flotten;
                     $parse['energy_used'] = $planetrow["energy_max"] - $planetrow["energy_used"];
 
                     $parse['time'] = "<div id=\"dateheure\"></div>";
@@ -440,29 +429,25 @@ class ShowOverviewPage extends AbstractGamePage {
                     $LvlMinier = $user['lvl_minier'];
                     $LvlRaid = $user['lvl_raid'];
 
-                    // Nombre de raids, pertes, etc ...
-                    $parse['Raids'] = $lang['Raids'];
-                    $parse['RaidsWin'] = $lang['RaidsWin'];
-                    $parse['RaidsLoose'] = $lang['RaidsLoose'];
-
                     // Compteur de Membres en ligne
                     $OnlineUsers = doquery("SELECT COUNT(*) FROM {{table}} WHERE onlinetime>='" . (time() - 15 * 60) . "'", 'users', 'true');
 
                     $this->tplObj->assign(array(
+                        'u_user_rank' => $StatRecord['total_rank'],
+                        'user_username' => $user['username'],
+                    ));
+                    $this->tplObj->assign(array(
                         'title' => $lang['Overview'],
                         'Planet_menu' => $lang['Planet_menu'],
                         'Planet' => $lang['Planet'],
-                        'changelog' => $lang['changelog'],
-                        'Description' => $lang['Description'],
-                        'planet_name' => $planetrow['name'],
-                        'user_username' => $user['username'],
-                        'Have_new_message' => $Have_new_message,
-                        'Have_new_level_mineur' => $HaveNewLevelMineur,
-                        'Have_new_level_raid' => $HaveNewLevelRaid,
+                        'Have_new_message' => $lang['Have_new_message'],
+                        'Have_new_messages' => $lang['Have_new_messages'],
+                        'Have_new_level_mineur' => $lang['Have_new_level_mineur'],
+                        'Have_new_level_raid' => $lang['Have_new_level_raid'],
                         'Server_time' => $lang['Server_time'],
                         'MembersOnline' => $lang['MembersOnline'],
                         'NumberMembersOnline' => $OnlineUsers[0],
-                        'NewsFrame' => $parse['NewsFrame'],
+                        'NewsFrame' => $game_config['OverviewNewsFrame'],
                         'Events' => $lang['Events'],
                         'fleet_list' => $flotten,
                         'moon_img' => $parse['moon_img'],
@@ -471,11 +456,8 @@ class ShowOverviewPage extends AbstractGamePage {
                         'building' => $parse['building'],
                         'anothers_planets' => $AllPlanets,
                         'Diameter' => $lang['Diameter'],
-                        'planet_diameter' => pretty_number($planetrow['diameter']),
                         'Developed_fields' => $lang['Developed_fields'],
-                        'planet_field_current' => $planetrow['field_current'],
                         'max_eveloped_fields' => $lang['max_eveloped_fields'],
-                        'planet_field_max' => CalculateMaxPlanetFields($planetrow),
                         'fields' => $lang['fields'],
                         'case_barre_barcolor' => $parse['case_barre_barcolor'],
                         'case_barre' => $parse['case_barre'],
@@ -492,14 +474,9 @@ class ShowOverviewPage extends AbstractGamePage {
                         'lvl_up_raid' => $LvlRaid * 10,
                         'Temperature' => $lang['Temperature'],
                         'ov_temp_from' => $lang['ov_temp_from'],
-                        'planet_temp_min' => $planetrow['temp_min'],
                         'ov_temp_unit' => $lang['ov_temp_unit'],
                         'ov_temp_to' => $lang['ov_temp_to'],
-                        'planet_temp_max' => $planetrow['temp_max'],
                         'Position' => $lang['Position'],
-                        'galaxy_galaxy' => $planetrow['galaxy'],
-                        'galaxy_system' => $planetrow['system'],
-                        'galaxy_planet' => $planetrow['planet'],
                         'ov_local_cdr' => $lang['ov_local_cdr'],
                         'Metal' => $lang['Metal'],
                         'metal_debris' => pretty_number($galaxyrow['metal']),
@@ -508,16 +485,10 @@ class ShowOverviewPage extends AbstractGamePage {
                         'get_link' => $parse['get_link'],
                         'Points' => $lang['Points'],
                         'ov_pts_build' => $lang['ov_pts_build'],
-                        'user_points' => pretty_number($StatRecord['build_points']),
                         'ov_pts_fleet' => $lang['ov_pts_fleet'],
-                        'user_fleet' => pretty_number($StatRecord['fleet_points']),
                         'ov_pts_reche' => $lang['ov_pts_reche'],
-                        'player_points_tech' => pretty_number($StatRecord['tech_points']),
                         'ov_pts_total' => $lang['ov_pts_total'],
-                        'total_points' => pretty_number($StatRecord['total_points']),
                         'Rank' => $lang['Rank'],
-                        'u_user_rank' => $StatRecord['total_rank'],
-                        'user_rank' => $StatRecord['total_rank'],
                         'of' => $lang['of'],
                         'max_users' => $game_config['users_amount'],
                         'Raids' => $lang['Raids'],
@@ -527,10 +498,15 @@ class ShowOverviewPage extends AbstractGamePage {
                         'raidswin' => $user['raidswin'],
                         'RaidsLoose' => $lang['RaidsLoose'],
                         'raidswin' => $user['raidswin'],
-                        'raidsloose' => $lang['raidsloose'],
-                        'bannerframe' => $parse['bannerframe'],
-                        'ExternalTchatFrame' => $parse['ExternalTchatFrame'],
-                        'ClickBanner' => $parse['ClickBanner'],
+                        'raidsloose' => $user['raidsloose'],
+                        'bannerframe' => $game_config['ForumBannerFrame'],
+                        'ExternalTchatFrame' => $game_config['OverviewExternChat'],
+                        'OverviewExternChatCmd' => $game_config['OverviewExternChatCmd'],
+                        'ClickBanner' => $game_config['OverviewClickBanner'],
+                        'user_id' => $user['id'],
+                        'InfoBanner' => $lang['InfoBanner'],
+                        'ov_news_title' => $lang['ov_news_title'],
+                        'OverviewNewsText' => $game_config['OverviewNewsText'],
                     ));
                     $this->render('overview_body.tpl');
                     break;

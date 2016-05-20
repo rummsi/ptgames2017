@@ -8,9 +8,20 @@
                         <a href="game.php?page=overview&type=renameplanet" title="{$Planet_menu}">{$Planet} "{$planet_name}"</a> ({$user_username})
                     </td>
                 </tr>
-                {$Have_new_message}
-                {$Have_new_level_mineur}
-                {$Have_new_level_raid}
+                {if $user_new_message != 0}
+                <tr>{if $user_new_message == 1}
+                    <th colspan=4><a href=game.php?page=messages>{$Have_new_message}</a></th>
+                {else}
+                    <th colspan=4>
+                        <a href=game.php?page=messages>
+                            {str_replace('%m', pretty_number($user_new_message), $Have_new_messages)}
+                        </a>
+                    </th>
+                {/if}</tr>{/if}
+                {if ($LvlUpMinier + $LvlUpRaid) <= 100}
+                {if $XpMinier >= $XpMinierUp}<tr><th colspan=4><a href=game.php?page=officier>teste2{$Have_new_level_mineur}</a></th></tr>{/if}
+                {if $XPRaid >= $XpRaidUp}<tr><th colspan=4><a href=game.php?page=officier>{$Have_new_level_raid}teste3</a></th></tr>{/if}
+                {/if}
                 <tr>
                     <th>{$Server_time}</th>
                     <th colspan="3"><div id="dateheure"></div></th>
@@ -19,7 +30,8 @@
                     <th>{$MembersOnline}</th>
                     <th colspan="3">{$NumberMembersOnline}</th>
                 </tr>
-                {$NewsFrame}
+                {if $NewsFrame == '1'}
+                    <tr><th>{$ov_news_title}</th><th colspan="3">{stripslashes($OverviewNewsText)}</th></tr>{/if}
                 <tr><td colspan="4" class="c">{$Events}</td>
                 </tr>
                 {$fleet_list}
@@ -104,7 +116,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2" align="center" width="100%" style="background-color: transparent;">
-                                        <b>({$Rank} <a href="stat.php?range={$u_user_rank}">{$user_rank}</a> {$of} {$max_users})</b>
+                                        <b>({$Rank} <a href="game.php?page=stat&range={$u_user_rank}">{$user_rank}</a> {$of} {$max_users})</b>
                                     </td>
                                 </tr>
                             </tbody>
@@ -132,10 +144,11 @@
                         </table>
                     </th>
                 </tr>
-                {$bannerframe}
-                {$ExternalTchatFrame}
+                {if $bannerframe == '1'}
+                    <th colspan="4"><img src="scripts/createbanner.php?id={$user_id}"><br>{$InfoBanner}<br><input name="bannerlink" type="text" id="bannerlink" value="[img]{dirname($smarty.server.HTTP_REFERER)}/scripts/createbanner.php?id={$user_id}[/img]" size="62"></th></tr>{/if}
+                {if $ExternalTchatFrame == '1'}<tr><th colspan="4">{stripslashes($OverviewExternChatCmd)}</th></tr>{/if}
             </table>
             <br>
-            {$ClickBanner}
+            {if $ClickBanner != ''}{stripslashes($ClickBanner)}{/if}
             <br>
         </center>{/block}
