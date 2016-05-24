@@ -47,7 +47,7 @@ class ShowOfficierPage extends AbstractGamePage {
         }
 
         // Si recrutement d'un officier
-        if ($_GET['action'] == 2) {
+        if (isset($_GET['action']) == 2) {
             if ($CurrentUser['rpg_points'] > 0) {
                 $Selected = $_GET['offi'];
                 if (in_array($Selected, $reslist['officier'])) {
@@ -79,37 +79,30 @@ class ShowOfficierPage extends AbstractGamePage {
             } else {
                 $Message = $lang['NoPoints'];
             }
-            $MessTPL = gettemplate('message_body');
-            $parse['title'] = $lang['Officier'];
-            $parse['mes'] = $Message;
 
-            $page = parsetemplate($MessTPL, $parse);
+            $this->tplObj->assign(array(
+                'title' => $lang['Officier'],
+                'mes' => $Message,
+            ));
+
+            $this->render('message_body.tpl');
         } else {
             // Pas de recrutement d'officier
-            $PageTPL = gettemplate('officier_body');
-            $RowsTPL = gettemplate('officier_rows');
-            $parse['off_points'] = $lang['off_points'];
-            $parse['alv_points'] = $CurrentUser['rpg_points'];
-            $parse['disp_off_tbl'] = "";
-            for ($Officier = 601; $Officier <= 615; $Officier++) {
-                $Result = IsOfficierAccessible($CurrentUser, $Officier);
-                if ($Result != 0) {
-                    $bloc['off_id'] = $Officier;
-                    $bloc['off_tx_lvl'] = $lang['off_tx_lvl'];
-                    $bloc['off_lvl'] = $CurrentUser[$resource[$Officier]];
-                    $bloc['off_desc'] = $lang['Desc'][$Officier];
-                    if ($Result == 1) {
-                        $bloc['off_link'] = "<a href=\"game.php?page=officier&action=2&offi=" . $Officier . "\"><font color=\"#00ff00\">" . $lang['link'][$Officier] . "</font>";
-                    } else {
-                        $bloc['off_link'] = $lang['Maxlvl'];
-                    }
-                    $parse['disp_off_tbl'] .= parsetemplate($RowsTPL, $bloc);
-                }
-            }
-            $page = parsetemplate($PageTPL, $parse);
-        }
 
-        display($page, $lang['officier']);
+            $this->tplObj->assign(array(
+                'title' => $lang['Officier'],
+                'off_points' => $lang['off_points'],
+                'alv_points' => $CurrentUser['rpg_points'],
+                'CurrentUser' => $CurrentUser,
+                'off_tx_lvl'=>$lang['off_tx_lvl'],
+                'resource'=>$resource,
+                'off_desc'=>$lang['Desc'],
+                'lang_link'=>$lang['link'],
+                'Maxlvl'=>$lang['Maxlvl'],
+            ));
+
+            $this->render('officier_body.tpl');
+        }
     }
 
 }
