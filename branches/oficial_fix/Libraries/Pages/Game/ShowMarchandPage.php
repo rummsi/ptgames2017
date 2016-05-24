@@ -40,116 +40,133 @@ class ShowMarchandPage extends AbstractGamePage {
 
         $CurrentPlanet = $planetrow;
         $CurrentUser = $user;
-        
-	includeLang('marchand');
 
-	$parse   = $lang;
+        includeLang('marchand');
 
-	if ($_POST['ress'] != '') {
-		$PageTPL   = gettemplate('message_body');
-		$Error     = false;
-		$CheatTry  = false;
-		$Metal     = $_POST['metal'];
-		$Crystal   = $_POST['cristal'];
-		$Deuterium = $_POST['deut'];
-		if ($Metal < 0) {
-			$Metal     *= -1;
-			$CheatTry   = true;
-		}
-		if ($Crystal < 0) {
-			$Crystal   *= -1;
-			$CheatTry   = true;
-		}
-		if ($Deuterium < 0) {
-			$Deuterium *= -1;
-			$CheatTry   = true;
-		}
-		if ($CheatTry  == false) {
-			switch ($_POST['ress']) {
-				case 'metal':
-					$Necessaire   = (( $Crystal * 2) + ( $Deuterium * 4));
-					if ($CurrentPlanet['metal'] > $Necessaire) {
-						$CurrentPlanet['metal'] -= $Necessaire;
-					} else {
-						$Message = $lang['mod_ma_noten'] ." ". $lang['Metal'] ."! ";
-						$Error   = true;
-					}
-					break;
+        $parse = $lang;
 
-				case 'cristal':
-					$Necessaire   = (( $Metal * 0.5) + ( $Deuterium * 2));
-					if ($CurrentPlanet['crystal'] > $Necessaire) {
-						$CurrentPlanet['crystal'] -= $Necessaire;
-					} else {
-						$Message = $lang['mod_ma_noten'] ." ". $lang['Crystal'] ."! ";
-						$Error   = true;
-					}
-					break;
+        if (isset($_POST['ress']) != '') {
+            $PageTPL = 'message_body';
+            $Error = false;
+            $CheatTry = false;
+            $Metal = isset($_POST['metal']);
+            $Crystal = isset($_POST['cristal']);
+            $Deuterium = isset($_POST['deut']);
+            if ($Metal < 0) {
+                $Metal *= -1;
+                $CheatTry = true;
+            }
+            if ($Crystal < 0) {
+                $Crystal *= -1;
+                $CheatTry = true;
+            }
+            if ($Deuterium < 0) {
+                $Deuterium *= -1;
+                $CheatTry = true;
+            }
+            if ($CheatTry == false) {
+                switch ($_POST['ress']) {
+                    case 'metal':
+                        $Necessaire = (( $Crystal * 2) + ( $Deuterium * 4));
+                        if ($CurrentPlanet['metal'] > $Necessaire) {
+                            $CurrentPlanet['metal'] -= $Necessaire;
+                        } else {
+                            $Message = $lang['mod_ma_noten'] . " " . $lang['Metal'] . "! ";
+                            $Error = true;
+                        }
+                        break;
 
-				case 'deuterium':
-					$Necessaire   = (( $Metal * 0.25) + ( $Crystal * 0.5));
-					if ($CurrentPlanet['deuterium'] > $Necessaire) {
-						$CurrentPlanet['deuterium'] -= $Necessaire;
-					} else {
-						$Message = $lang['mod_ma_noten'] ." ". $lang['Deuterium'] ."! ";
-						$Error   = true;
-					}
-					break;
-			}
-		}
-		if ($Error == false) {
-			if ($CheatTry == true) {
-				$CurrentPlanet['metal']      = 0;
-				$CurrentPlanet['crystal']    = 0;
-				$CurrentPlanet['deuterium']  = 0;
-			} else {
-				$CurrentPlanet['metal']     += $Metal;
-				$CurrentPlanet['crystal']   += $Crystal;
-				$CurrentPlanet['deuterium'] += $Deuterium;
-			}
+                    case 'cristal':
+                        $Necessaire = (( $Metal * 0.5) + ( $Deuterium * 2));
+                        if ($CurrentPlanet['crystal'] > $Necessaire) {
+                            $CurrentPlanet['crystal'] -= $Necessaire;
+                        } else {
+                            $Message = $lang['mod_ma_noten'] . " " . $lang['Crystal'] . "! ";
+                            $Error = true;
+                        }
+                        break;
 
-			$QryUpdatePlanet  = "UPDATE {{table}} SET ";
-			$QryUpdatePlanet .= "`metal` = '".     $CurrentPlanet['metal']     ."', ";
-			$QryUpdatePlanet .= "`crystal` = '".   $CurrentPlanet['crystal']   ."', ";
-			$QryUpdatePlanet .= "`deuterium` = '". $CurrentPlanet['deuterium'] ."' ";
-			$QryUpdatePlanet .= "WHERE ";
-			$QryUpdatePlanet .= "`id` = '".        $CurrentPlanet['id']        ."';";
-			doquery ( $QryUpdatePlanet , 'planets');
-			$Message = $lang['mod_ma_done'];
-		}
-		if ($Error == true) {
-			$parse['title'] = $lang['mod_ma_error'];
-		} else {
-			$parse['title'] = $lang['mod_ma_donet'];
-		}
-		$parse['mes']   = $Message;
-	} else {
-		if ($_POST['action'] != 2) {
-			$PageTPL = gettemplate('marchand_main');
-		} else {
-			$parse['mod_ma_res']   = "1";
-			switch ($_POST['choix']) {
-				case 'metal':
-					$PageTPL = gettemplate('marchand_metal');
-					$parse['mod_ma_res_a'] = "2";
-					$parse['mod_ma_res_b'] = "4";
-					break;
-				case 'cristal':
-					$PageTPL = gettemplate('marchand_cristal');
-					$parse['mod_ma_res_a'] = "0.5";
-					$parse['mod_ma_res_b'] = "2";
-					break;
-				case 'deut':
-					$PageTPL = gettemplate('marchand_deuterium');
-					$parse['mod_ma_res_a'] = "0.25";
-					$parse['mod_ma_res_b'] = "0.5";
-					break;
-			}
-		}
-	}
+                    case 'deuterium':
+                        $Necessaire = (( $Metal * 0.25) + ( $Crystal * 0.5));
+                        if ($CurrentPlanet['deuterium'] > $Necessaire) {
+                            $CurrentPlanet['deuterium'] -= $Necessaire;
+                        } else {
+                            $Message = $lang['mod_ma_noten'] . " " . $lang['Deuterium'] . "! ";
+                            $Error = true;
+                        }
+                        break;
+                }
+            }
+            if ($Error == false) {
+                if ($CheatTry == true) {
+                    $CurrentPlanet['metal'] = 0;
+                    $CurrentPlanet['crystal'] = 0;
+                    $CurrentPlanet['deuterium'] = 0;
+                } else {
+                    $CurrentPlanet['metal'] += $Metal;
+                    $CurrentPlanet['crystal'] += $Crystal;
+                    $CurrentPlanet['deuterium'] += $Deuterium;
+                }
 
-	$Page    = parsetemplate ( $PageTPL, $parse );
-	display ( $Page, $lang['mod_marchand'], true, '', false );
-        
+                $QryUpdatePlanet = "UPDATE {{table}} SET ";
+                $QryUpdatePlanet .= "`metal` = '" . $CurrentPlanet['metal'] . "', ";
+                $QryUpdatePlanet .= "`crystal` = '" . $CurrentPlanet['crystal'] . "', ";
+                $QryUpdatePlanet .= "`deuterium` = '" . $CurrentPlanet['deuterium'] . "' ";
+                $QryUpdatePlanet .= "WHERE ";
+                $QryUpdatePlanet .= "`id` = '" . $CurrentPlanet['id'] . "';";
+                doquery($QryUpdatePlanet, 'planets');
+                $Message = $lang['mod_ma_done'];
+            }
+            if ($Error == true) {
+                $parse['title'] = $lang['mod_ma_error'];
+            } else {
+                $parse['title'] = $lang['mod_ma_donet'];
+            }
+            $this->tplObj->assign('mes', $Message);
+        } else {
+            if (isset($_POST['action']) != 2) {
+                $PageTPL = 'marchand_main';
+            } else {
+                $parse['mod_ma_res'] = "1";
+                switch ($_POST['choix']) {
+                    case 'metal':
+                        $PageTPL = 'marchand_metal';
+                        $this->tplObj->assign(array(
+                            'mod_ma_res_a' => "2",
+                            'mod_ma_res_b' => "4",
+                        ));
+                        break;
+                    case 'cristal':
+                        $PageTPL = 'marchand_cristal';
+                        $this->tplObj->assign(array(
+                            'mod_ma_res_a' => "0.5",
+                            'mod_ma_res_b' => "2",
+                        ));
+                        break;
+                    case 'deut':
+                        $PageTPL = 'marchand_deuterium';
+                        $this->tplObj->assign(array(
+                            'mod_ma_res_a' => "0.25",
+                            'mod_ma_res_b' => "0.5",
+                        ));
+                        break;
+                }
+            }
+        }
+
+        $this->tplObj->assign(array(
+            'title' => $lang['mod_marchand'],
+            'mod_ma_title' => $lang['mod_ma_title'],
+            'mod_ma_typer' => $lang['mod_ma_typer'],
+            'mod_ma_rates' => $lang['mod_ma_rates'],
+            'mod_ma_buton' => $lang['mod_ma_buton'],
+            'mod_ma_nbre' => $lang['mod_ma_nbre'],
+            'mod_ma_buton' => $lang['mod_ma_buton'],
+            'mod_ma_cours' => $lang['mod_ma_cours'],
+            'mod_ma_res' => isset($parse['mod_ma_res']),
+            'mod_ma_excha' => $lang['mod_ma_excha'],
+        ));
+        $this->render($PageTPL . '.tpl');
     }
+
 }
