@@ -531,7 +531,14 @@ class ShowFloten3Page extends AbstractGamePage {
 
         $planetrow = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $CurrentPlanet['id'] . "';", 'planets', true);
 
-        display($page, $lang['fl_title']);
+
+        $this->tplObj->assign(array(
+            'title' => $lang['fl_title'],
+            'Version' => $lang['Version'],
+            'Description' => $lang['Description'],
+            'changelog' => $lang['changelog'],
+        ));
+        $this->render('floten3_body.tpl');
     }
 
 }
