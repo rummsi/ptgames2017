@@ -56,7 +56,7 @@ include(ROOT_PATH . 'includes/functions/GetBuildingPrice.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/IsElementBuyable.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/CheckCookies.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/ChekUser.'.PHPEXT);
-include(ROOT_PATH . 'includes/functions/InsertGalaxyScripts.'.PHPEXT);
+//include(ROOT_PATH . 'includes/functions/InsertGalaxyScripts.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/GalaxyCheckFunctions.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/ShowGalaxyRows.'.PHPEXT);
 include(ROOT_PATH . 'includes/functions/GetPhalanxRange.'.PHPEXT);
