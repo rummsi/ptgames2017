@@ -65,7 +65,11 @@ function bbcode($string) {
         'sCode(\'\1\')'
     );
 
-    return preg_replace($pattern, $replace, nl2br(htmlspecialchars(stripslashes($string))));
+    return preg_replace_callback(
+            $pattern, 
+            $replace, 
+            nl2br(htmlspecialchars(stripslashes($string))));
+   // return preg_replace($pattern, $replace, nl2br(htmlspecialchars(stripslashes($string))));
 }
 
 
