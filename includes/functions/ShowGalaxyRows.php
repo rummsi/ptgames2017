@@ -73,19 +73,19 @@ function ShowGalaxyRows ($Galaxy, $System) {
 		$Result .= "\n";
 		$Result .= GalaxyRowPos        ( $Planet, $GalaxyRow );
 		$Result .= "\n";
-		$Result .= GalaxyRowPlanet     ( $GalaxyRow, $GalaxyRowPlanet, $GalaxyRowPlayer, $Galaxy, $System, $Planet, 1 );
+		$Result .= GalaxyRowPlanet     ( $GalaxyRow, @$GalaxyRowPlanet, @$GalaxyRowPlayer, $Galaxy, $System, $Planet, 1 );
 		$Result .= "\n";
-		$Result .= GalaxyRowPlanetName ( $GalaxyRow, $GalaxyRowPlanet, $GalaxyRowPlayer, $Galaxy, $System, $Planet, 1 );
+		$Result .= GalaxyRowPlanetName ( $GalaxyRow, @$GalaxyRowPlanet, @$GalaxyRowPlayer, $Galaxy, $System, $Planet, 1 );
 		$Result .= "\n";
-		$Result .= GalaxyRowMoon       ( $GalaxyRow, $GalaxyRowMoon  , $GalaxyRowPlayer, $Galaxy, $System, $Planet, 3 );
+		$Result .= GalaxyRowMoon       ( $GalaxyRow, @$GalaxyRowMoon  , @$GalaxyRowPlayer, $Galaxy, $System, $Planet, 3 );
 		$Result .= "\n";
-		$Result .= GalaxyRowDebris     ( $GalaxyRow, $GalaxyRowPlanet, $GalaxyRowPlayer, $Galaxy, $System, $Planet, 2 );
+		$Result .= GalaxyRowDebris     ( $GalaxyRow, @$GalaxyRowPlanet, @$GalaxyRowPlayer, $Galaxy, $System, $Planet, 2 );
 		$Result .= "\n";
-		$Result .= GalaxyRowUser       ( $GalaxyRow, $GalaxyRowPlanet, $GalaxyRowPlayer, $Galaxy, $System, $Planet, 0 );
+		$Result .= GalaxyRowUser       ( $GalaxyRow, @$GalaxyRowPlanet, @$GalaxyRowPlayer, $Galaxy, $System, $Planet, 0 );
 		$Result .= "\n";
-		$Result .= GalaxyRowAlly       ( $GalaxyRow, $GalaxyRowPlanet, $GalaxyRowPlayer, $Galaxy, $System, $Planet, 0 );
+		$Result .= GalaxyRowAlly       ( $GalaxyRow, @$GalaxyRowPlanet, @$GalaxyRowPlayer, $Galaxy, $System, $Planet, 0 );
 		$Result .= "\n";
-		$Result .= GalaxyRowActions    ( $GalaxyRow, $GalaxyRowPlanet, $GalaxyRowPlayer, $Galaxy, $System, $Planet, 0 );
+		$Result .= GalaxyRowActions    ( $GalaxyRow, @$GalaxyRowPlanet, @$GalaxyRowPlayer, $Galaxy, $System, $Planet, 0 );
 		$Result .= "\n";
 		$Result .= "</tr>";
 	}

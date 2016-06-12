@@ -66,7 +66,7 @@ function GalaxyRowAlly ( $GalaxyRow, $GalaxyRowPlanet, $GalaxyRowUser, $Galaxy, 
 			$Result .= "</table>\"";
 			$Result .= ", STICKY, MOUSEOFF, DELAY, 750, CENTER, OFFSETX, -40, OFFSETY, -40 );'";
 			$Result .= " onmouseout='return nd();'>";
-			if ($user['ally_id'] == $GalaxyRowPlayer['ally_id']) {
+			if ($user['ally_id'] == @$GalaxyRowPlayer['ally_id']) {
 				$Result .= "<span class=\"allymember\">". $allyquery['ally_tag'] ."</span></a>";
 			} else {
 				$Result .= $allyquery['ally_tag'] ."</a>";

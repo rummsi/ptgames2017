@@ -140,25 +140,20 @@ class ShowGalaxyPage extends AbstractGamePage {
 
         $planetcount = 0;
         $lunacount = 0;
-
-        $page = InsertGalaxyScripts($CurrentPlanet);
-
-        $page .= "<body style=\"overflow: auto;\" onUnload=\"\"><br><br>";
-        $page .= ShowGalaxySelector($galaxy, $system);
-
-        if ($mode == 2) {
-            $page .= ShowGalaxyMISelector($galaxy, $system, $planet, $CurrentPlanet['id'], $CurrentMIP);
-        }
-
-        $page .= "<table width=569><tbody>";
-
-        $page .= ShowGalaxyTitles($galaxy, $system);
-        $page .= ShowGalaxyRows($galaxy, $system);
-        $page .= ShowGalaxyFooter($galaxy, $system, $CurrentMIP, $CurrentRC, $CurrentSP);
-
-        $page .= "</tbody></table></div>";
-
-        display($page, $lang['']);
+        
+        $this->tplObj->assign(array(
+            'title' => $lang['Galaxy'],
+            'CurrentPlanet' => $CurrentPlanet,
+            'galaxy' => $galaxy,
+            'system' => $system,
+            'planet' => $planet,
+            'CurrentMIP' => $CurrentMIP,
+            'CurrentRC' => $CurrentRC,
+            'CurrentSP' => $CurrentSP,
+            'mode' => $mode,
+            'lang' => $lang,
+        ));
+        $this->render('galaxy_body.tpl');
     }
 
 }
