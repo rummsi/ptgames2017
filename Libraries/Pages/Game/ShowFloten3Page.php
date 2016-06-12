@@ -143,18 +143,18 @@ class ShowFloten3Page extends AbstractGamePage {
                     $missiontype = array(6 => $lang['type_mission'][6]);
                 }
 
-                if ($_POST['ship202'] >= 1 ||
-                        $_POST['ship203'] >= 1 ||
-                        $_POST['ship204'] >= 1 ||
-                        $_POST['ship205'] >= 1 ||
-                        $_POST['ship206'] >= 1 ||
-                        $_POST['ship207'] >= 1 ||
-                        $_POST['ship210'] >= 1 ||
-                        $_POST['ship211'] >= 1 ||
-                        $_POST['ship213'] >= 1 ||
-                        $_POST['ship214'] >= 1 ||
-                        $_POST['ship215'] >= 1 ||
-                        $_POST['ship216'] >= 1) {
+                if (@$_POST['ship202'] >= 1 ||
+                        @$_POST['ship203'] >= 1 ||
+                        @$_POST['ship204'] >= 1 ||
+                        @$_POST['ship205'] >= 1 ||
+                        @$_POST['ship206'] >= 1 ||
+                        @$_POST['ship207'] >= 1 ||
+                        @$_POST['ship210'] >= 1 ||
+                        @$_POST['ship211'] >= 1 ||
+                        @$_POST['ship213'] >= 1 ||
+                        @$_POST['ship214'] >= 1 ||
+                        @$_POST['ship215'] >= 1 ||
+                        @$_POST['ship216'] >= 1) {
                     if (!$YourPlanet) {
                         $missiontype[1] = $lang['type_mission'][1];
                         $missiontype[5] = $lang['type_mission'][5];
@@ -488,55 +488,21 @@ class ShowFloten3Page extends AbstractGamePage {
         doquery("UNLOCK TABLES", '');
 //	doquery("FLUSH TABLES", '');
         // Un peu de blabla pour l'utilisateur, affichage d'un joli tableau de la flotte expedi�e
-        $page = "<br><div><center>";
-        $page .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"1\" width=\"519\">";
-        $page .= "<tr height=\"20\">";
-        $page .= "<td class=\"c\" colspan=\"2\"><span class=\"success\">" . $lang['fl_fleet_send'] . "</span></td>";
-        $page .= "</tr><tr height=\"20\">";
-        $page .= "<th>" . $lang['fl_mission'] . "</th>";
-        $page .= "<th>" . $missiontype[$_POST['mission']] . "</th>";
-        $page .= "</tr><tr height=\"20\">";
-        $page .= "<th>" . $lang['fl_dist'] . "</th>";
-        $page .= "<th>" . pretty_number($distance) . "</th>";
-        $page .= "</tr><tr height=\"20\">";
-        $page .= "<th>" . $lang['fl_speed'] . "</th>";
-        $page .= "<th>" . pretty_number($_POST['speedallsmin']) . "</th>";
-        $page .= "</tr><tr height=\"20\">";
-        $page .= "<th>" . $lang['fl_deute_need'] . "</th>";
-        $page .= "<th>" . pretty_number($consumption) . "</th>";
-        $page .= "</tr><tr height=\"20\">";
-        $page .= "<th>" . $lang['fl_from'] . "</th>";
-        $page .= "<th>" . $_POST['thisgalaxy'] . ":" . $_POST['thissystem'] . ":" . $_POST['thisplanet'] . "</th>";
-        $page .= "</tr><tr height=\"20\">";
-        $page .= "<th>" . $lang['fl_dest'] . "</th>";
-        $page .= "<th>" . $_POST['galaxy'] . ":" . $_POST['system'] . ":" . $_POST['planet'] . "</th>";
-        $page .= "</tr><tr height=\"20\">";
-        $page .= "<th>" . $lang['fl_time_go'] . "</th>";
-        $page .= "<th>" . date("M D d H:i:s", $fleet['start_time']) . "</th>";
-        $page .= "</tr><tr height=\"20\">";
-        $page .= "<th>" . $lang['fl_time_back'] . "</th>";
-        $page .= "<th>" . date("M D d H:i:s", $fleet['end_time']) . "</th>";
-        $page .= "</tr><tr height=\"20\">";
-        $page .= "<td class=\"c\" colspan=\"2\">" . $lang['fl_title'] . "</td>";
-
-        foreach ($fleetarray as $Ship => $Count) {
-            $page .= "</tr><tr height=\"20\">";
-            $page .= "<th>" . $lang['tech'][$Ship] . "</th>";
-            $page .= "<th>" . pretty_number($Count) . "</th>";
-        }
-        $page .= "</tr></table></div></center>";
 
         // Provisoire
         sleep(1);
 
         $planetrow = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $CurrentPlanet['id'] . "';", 'planets', true);
 
-
         $this->tplObj->assign(array(
             'title' => $lang['fl_title'],
-            'Version' => $lang['Version'],
-            'Description' => $lang['Description'],
-            'changelog' => $lang['changelog'],
+            'lang' => $lang,
+            '_POST' => $_POST,
+            'missiontype' => $missiontype,
+            'distance' => $distance,
+            'consumption' => $consumption,
+            'fleet' => $fleet,
+            'fleetarray' => $fleetarray,
         ));
         $this->render('floten3_body.tpl');
     }
