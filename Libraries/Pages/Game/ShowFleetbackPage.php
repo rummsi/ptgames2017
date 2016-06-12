@@ -91,7 +91,7 @@ class ShowFleetbackPage extends AbstractGamePage {
             }
         }
 
-        message("<font color=\"" . $TxtColor . "\">" . $BoxMessage . "</font>", $BoxTitle, "fleet." . PHPEXT, 2);
+        message("<font color=\"" . $TxtColor . "\">" . $BoxMessage . "</font>", $BoxTitle, "game.php?page=fleet", 2);
     }
 
 }
