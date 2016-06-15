@@ -1,5 +1,5 @@
 
-                {if !$CurrentPlanet[$resource[$BuildID]] > 0}<br>
+                {if $CurrentPlanet[$resource[$BuildID]] > 0}<br>
                 {if $RestString['value'] != 0}{InsertJavaScriptChronoApplet("Gate", "1", $RestString['value'], true)}{/if}
                 <form action="jumpgate.php" method="post">
                     <table border="1">
