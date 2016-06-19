@@ -1,8 +1,9 @@
-<tr>
-	<td class="c" width="30">{Position}</td>
-	<td class="c" width="30">{Difference}</td>
-	<td class="c">{Player}</td>
-	<td class="c">&nbsp;</td>
-	<td class="c">{Alliance}</td>
-	<td class="c">{Points}</td>
-</tr>
+
+                <tr>
+                    <td class="c" width="30">{$lang['Position']}</td>
+                    <td class="c" width="30">{$lang['Difference']}</td>
+                    <td class="c">{$lang['Player']}</td>
+                    <td class="c">&nbsp;</td>
+                    <td class="c">{$lang['Alliance']}</td>
+                    <td class="c">{$lang['Points']}</td>
+                </tr>
