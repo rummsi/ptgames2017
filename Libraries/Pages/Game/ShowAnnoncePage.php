@@ -40,7 +40,7 @@ class ShowAnnoncePage extends AbstractGamePage {
 
         $users = doquery("SELECT * FROM {{table}} WHERE id='" . $user['id'] . "';", 'users');
         $annonce = doquery("SELECT * FROM {{table}} ", 'annonce');
-        $action = $_GET['action'];
+        $action = @$_GET['action'];
 
         if ($action == 5) {
             $metalvendre = $_POST['metalvendre'];
@@ -57,74 +57,20 @@ class ShowAnnoncePage extends AbstractGamePage {
                 $systeme = $v_annonce['system'];
             }
 
-            doquery("INSERT INTO {{table}} SET
-user='{$user}',
-galaxie='{$galaxie}',
-systeme='{$systeme}',
-metala='{$metalvendre}',
-cristala='{$cristalvendre}',
-deuta='{$deutvendre}',
-metals='{$metalsouhait}',
-cristals='{$cristalsouhait}',
-deuts='{$deutsouhait}'", "annonce");
-
-            $page2 .= <<<HTML
-<center>
-<br>
-<p>Votre Annonce a bien &eacute;t&eacute; enregistr&eacute;e !</p>
-<br><p><a href="game.php?page=annonce">Retour aux annonces</a></p>
-
-HTML;
-
-            display($page2);
+            doquery("INSERT INTO {{table}} SET user='{$user}', galaxie='{$galaxie}', systeme='{$systeme}', metala='{$metalvendre}', cristala='{$cristalvendre}', deuta='{$deutvendre}', metals='{$metalsouhait}', cristals='{$cristalsouhait}', deuts='{$deutsouhait}'", "annonce");
         }
 
         if ($action != 5) {
-            $annonce = doquery("SELECT * FROM {{table}} ORDER BY `id` DESC ", "annonce");
 
-            $page2 = "<HTML>
-<center>
-<br>
-<table width=\"600\">
-<td class=\"c\" colspan=\"10\"><font color=\"#FFFFFF\">Petites Annonces</font></td></tr>
-<tr><th colspan=\"3\">Infos de livraison</th><th colspan=\"3\">Ressources &agrave; vendre</th><th colspan=\"3\">Ressources souhait&eacute;es</th><th>Action</th></tr>
-<tr><th>Vendeur</th><th>Galaxie</th><th>Syst&egrave;me</th><th>M&eacute;tal</th><th>Cristal</th><th>Deuterium</th><th>M&eacute;tal</th><th>Cristal</th><th>Deuterium</th><th>Delet</th></tr>
-
-
-
-
-";
-            while ($b = mysqli_fetch_array($annonce)) {
-                $page2 .= '<tr><th> ';
-                $page2 .= $b["user"];
-                $page2 .= '</th><th>';
-                $page2 .= $b["galaxie"];
-                $page2 .= '</th><th>';
-                $page2 .= $b["systeme"];
-                $page2 .= '</th><th>';
-                $page2 .= $b["metala"];
-                $page2 .= '</th><th>';
-                $page2 .= $b["gcristala"];
-                $page2 .= '</th><th>';
-                $page2 .= $b["deuta"];
-                $page2 .= '</th><th>';
-                $page2 .= $b["metals"];
-                $page2 .= '</th><th>';
-                $page2 .= $b["cristals"];
-                $page2 .= '</th><th>';
-                $page2 .= $b["deuts"];
-                $page2 .= '</th><th>';
-                $page2 .= "</th></tr>";
-            }
-
-            $page2 .= "
-<tr><th colspan=\"10\" align=\"center\"><a href=\"game.php?page=annonce2&action=2\">Ajouter une Annonce</a></th></tr>
-</td>
-</table>
-</HTML>";
-
-            display($page2);
+            $this->tplObj->assign(array(
+                'annonce' => doquery("SELECT * FROM {{table}} ORDER BY `id` DESC ", "annonce"),
+            ));
         }
+        $this->tplObj->assign(array(
+            'title' => "Annonce",
+            'action' => $action,
+        ));
+        $this->render('annonce_body.tpl');
     }
 
 }
