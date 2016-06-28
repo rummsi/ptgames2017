@@ -68,5 +68,6 @@ $lang['NoteAdded'] = 'La note s\'est bien cr&eacute;ee, <a href="game.php?page=n
 $lang['NoteDeleted'] = 'La note a &eacute;t&eacute; supprim&eacute;e, <a href="game.php?page=notes"><blink>redirection...</blink></a>';
 $lang['NoteDeleteds'] = 'Les notes ont &eacute;t&eacute; supprim&eacute;, <a href="game.php?page=notes"><blink>redirection...</blink></a>';
 
+$lang['Please_Wait'] = "Patientez...";
 // Created by Perberos. All rights reversed (C) 2006 
 ?>
