@@ -42,11 +42,10 @@ class ShowAnnonce2Page extends AbstractGamePage {
 
         if ($actions == 2) {
 
-        $this->tplObj->assign(array(
-            'title' => "Annonce2",
-        ));
-        $this->render('annonce2_body.tpl');
-            display($page);
+            $this->tplObj->assign(array(
+                'title' => "Annonce2",
+            ));
+            $this->render('annonce2_body.tpl');
         }
     }
 
