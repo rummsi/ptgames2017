@@ -39,13 +39,13 @@ class ShowChatPage extends AbstractGamePage {
         global $lang, $user;
 
         includeLang('chat');
-        $BodyTPL = gettemplate('chat_body');
 
-        $nick = $user['username'];
-        $parse = $lang;
-
-        $page = parsetemplate($BodyTPL, $parse);
-        display($page, $lang['Chat'], false);
+        $this->tplObj->assign(array(
+            'title' => $lang['Chat'],
+            'lang' => $lang,
+            'nick' => $user['username'],
+        ));
+        $this->render('chat_body.tpl');
     }
 
 }
