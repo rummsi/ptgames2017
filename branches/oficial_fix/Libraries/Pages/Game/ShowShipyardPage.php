@@ -103,7 +103,6 @@ class ShowShipyardPage extends AbstractGamePage {
             'data' => json_encode($data)
         ));
         $this->render('buildings_fleet.tpl');
-        display(gettemplate('buildings_fleet'), $lang['Fleet']);
     }
 
 }
