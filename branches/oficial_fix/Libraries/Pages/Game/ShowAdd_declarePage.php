@@ -40,10 +40,7 @@ class ShowAdd_declarePage extends AbstractGamePage {
 
         includeLang('admin');
 
-        $mode = $_POST['type'];
-
-        $PageTpl = gettemplate("add_declare");
-        $parse = $lang;
+        $mode = @$_POST['type'];
 
         if ($mode == 'addit') {
             $declarator = $user['id'];
@@ -66,9 +63,12 @@ class ShowAdd_declarePage extends AbstractGamePage {
 
             AdminMessage("Merci, votre demande a ete prise en compte. Les autres joueurs que vous avez implique doivent egalement et imperativement suivre cette procedure aussi.", "Ajout");
         }
-        $Page = parsetemplate($PageTpl, $parse);
 
-        display($Page, "Declaration d\'IP partagee");
+        $this->tplObj->assign(array(
+            'title' => "Declaration d\'IP partagee",
+            'lang' => $lang,
+        ));
+        $this->render('add_declare.tpl');
     }
 
 }
