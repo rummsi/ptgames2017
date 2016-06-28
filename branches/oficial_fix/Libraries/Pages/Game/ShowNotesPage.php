@@ -38,20 +38,15 @@ class ShowNotesPage extends AbstractGamePage {
     function show() {
         global $lang, $user;
 
-        define('NO_MENU', true);
+        $this->setWindow('popup');
 
-        $dpath = (!$user["dpath"]) ? DEFAULT_SKINPATH : $user["dpath"];
-
-        $a = $_GET['a'];
-        $n = intval($_GET['n']);
-        $lang['Please_Wait'] = "Patientez...";
+        $a = @$_GET['a'];
+        $n = intval(@$_GET['n']);
 
         //lenguaje
         includeLang('notes');
 
-        $lang['PHP_SELF'] = 'game.php?page=notes';
-
-        if ($_POST["s"] == 1 || $_POST["s"] == 2) {//Edicion y agregar notas
+        if (@$_POST["s"] == 1 || @$_POST["s"] == 2) {//Edicion y agregar notas
             $time = time();
             $priority = $_POST["u"];
             $title = ($_POST["title"]) ? mysqli_real_escape_string(Database::$dbHandle, strip_tags($_POST["title"])) : $lang['NoTitle'];
@@ -75,6 +70,7 @@ class ShowNotesPage extends AbstractGamePage {
                 message($lang['NoteUpdated'], $lang['Please_Wait'], 'game.php?page=notes', "3");
             }
         } elseif ($_POST) {//Borrar
+            $deleted = 0;
             foreach ($_POST as $a => $b) {
                 /*
                   Los checkbox marcados tienen la palabra delmes seguido del id.
@@ -98,27 +94,25 @@ class ShowNotesPage extends AbstractGamePage {
                 header("Location: game.php?page=notes");
             }
         } else {//sin post...
-            if ($_GET["a"] == 1) {//crear una nueva nota.
+            if (@$_GET["a"] == 1) {//crear una nueva nota.
                 /*
                   Formulario para crear una nueva nota.
                  */
 
-                $parse = $lang;
-
-                $parse['c_Options'] = "<option value=2 selected=selected>{$lang['Important']}</option>
+                $this->tplObj->assign(array(
+                    'title' => $lang['Notes'],
+                    'lang' => $lang,
+                    'c_Options' => "<option value=2 selected=selected>{$lang['Important']}</option>
 			  <option value=1>{$lang['Normal']}</option>
-			  <option value=0>{$lang['Unimportant']}</option>";
-
-                $parse['cntChars'] = '0';
-                $parse['TITLE'] = $lang['Createnote'];
-                $parse['text'] = '';
-                $parse['title'] = '';
-                $parse['inputs'] = '<input type=hidden name=s value=1>';
-
-                $page .= parsetemplate(gettemplate('notes_form'), $parse);
-
-                display($page, $lang['Notes'], false);
-            } elseif ($_GET["a"] == 2) {//editar
+			  <option value=0>{$lang['Unimportant']}</option>",
+                    'cntChars' => '0',
+                    'TITLE' => $lang['Createnote'],
+                    'text' => '',
+                    'title1' => '',
+                    'inputs' => '<input type=hidden name=s value=1>',
+                ));
+                $this->render('notes_form.tpl');
+            } elseif (@$_GET["a"] == 2) {//editar
                 /*
                   Formulario donde se puestra la nota y se puede editar.
                  */
@@ -128,59 +122,29 @@ class ShowNotesPage extends AbstractGamePage {
                     message($lang['notpossiblethisway'], $lang['Error']);
                 }
 
-                $cntChars = strlen($note['text']);
-
                 $SELECTED[$note['priority']] = ' selected="selected"';
 
-                $parse = array_merge($note, $lang);
-
-                $parse['c_Options'] = "<option value=2{$SELECTED[2]}>{$lang['Important']}</option>
+                $this->tplObj->assign(array(
+                    'title' => $lang['Notes'],
+                    'lang' => $lang,
+                    'c_Options' => @"<option value=2{$SELECTED[2]}>{$lang['Important']}</option>
 			  <option value=1{$SELECTED[1]}>{$lang['Normal']}</option>
-			  <option value=0{$SELECTED[0]}>{$lang['Unimportant']}</option>";
-
-                $parse['cntChars'] = $cntChars;
-                $parse['TITLE'] = $lang['Editnote'];
-                $parse['inputs'] = '<input type=hidden name=s value=2><input type=hidden name=n value=' . $note['id'] . '>';
-
-                $page .= parsetemplate(gettemplate('notes_form'), $parse);
-
-                display($page, $lang['Notes'], false);
+			  <option value=0{$SELECTED[0]}>{$lang['Unimportant']}</option>",
+                    'cntChars' => strlen($note['text']),
+                    'TITLE' => $lang['Editnote'],
+                    'text' => $note['text'],
+                    'title1' => $note['title'],
+                    'inputs' => '<input type=hidden name=s value=2><input type=hidden name=n value=' . $note['id'] . '>',
+                ));
+                $this->render('notes_form.tpl');
             } else {//default
-                $notes_query = doquery("SELECT * FROM {{table}} WHERE owner={$user['id']} ORDER BY time DESC", 'notes');
-                //Loop para crear la lista de notas que el jugador tiene
-                $count = 0;
-                $parse = $lang;
-                while ($note = mysqli_fetch_array($notes_query)) {
-                    $count++;
-                    //Colorea el titulo dependiendo de la prioridad
-                    if ($note["priority"] == 0) {
-                        $parse['NOTE_COLOR'] = "lime";
-                    }//Importante
-                    elseif ($note["priority"] == 1) {
-                        $parse['NOTE_COLOR'] = "yellow";
-                    }//Normal
-                    elseif ($note["priority"] == 2) {
-                        $parse['NOTE_COLOR'] = "red";
-                    }//Sin importancia
-                    //fragmento de template
-                    $parse['NOTE_ID'] = $note['id'];
-                    $parse['NOTE_TIME'] = date("Y-m-d h:i:s", $note["time"]);
-                    $parse['NOTE_TITLE'] = $note['title'];
-                    $parse['NOTE_TEXT'] = strlen($note['text']);
-
-                    $list .= parsetemplate(gettemplate('notes_body_entry'), $parse);
-                }
-
-                if ($count == 0) {
-                    $list .= "<tr><th colspan=4>{$lang['ThereIsNoNote']}</th>\n";
-                }
-
-                $parse = $lang;
-                $parse['BODY_LIST'] = $list;
-                //fragmento de template
-                $page .= parsetemplate(gettemplate('notes_body'), $parse);
-
-                display($page, $lang['Notes'], false);
+                $this->tplObj->assign(array(
+                    'title' => $lang['Notes'],
+                    'lang' => $lang,
+                    'count' => 0,
+                    'notes_query' => doquery("SELECT * FROM {{table}} WHERE owner={$user['id']} ORDER BY time DESC", 'notes'),
+                ));
+                $this->render('notes_body.tpl');
             }
         }
     }
