@@ -72,7 +72,7 @@ $lang['Circular_sended'] = 'Les joueurs suivants ont re&ccedil;u le mail';
 $lang['it_is_not_posible_to_apply'] = "Impossible de cette mani&egrave;re";
 $lang['write_apply'] = "D&eacute;poser la candidature";
 $lang['your_apply'] = 'Votre candidature';
-$lang['apply_registered'] = 'Votre candidature a &eacute;t&eacute; sauvegard&eacute;e. Vous recevrez un message si vous &ecirc;tes accept&eacute;.<br><br><a href=alliance.php>Retour</a>';
+$lang['apply_registered'] = 'Votre candidature a &eacute;t&eacute; sauvegard&eacute;e. Vous recevrez un message si vous &ecirc;tes accept&eacute;.<br><br><a href=game.php?page=alliance>Retour</a>';
 $lang['apply_cantbeadded'] = 'La demande n\a pas aboutie, veuillez recommencer !';
 
 $lang['Exit_of_this_alliance'] = "Sortir de cette alliance";
@@ -161,9 +161,16 @@ $lang['Motive_optional'] = 'Raisons (facultatif)';
 $lang['Go_out_welldone'] = 'Voulez vous vraiment sortir de cette alliance ?';
 $lang['Want_go_out'] = 'Voulez vous sortir de cette alliance ?';
 
-
+$lang['XRequests'] = 'Candidature(s)';
 
 $lang['Denied_access'] = 'Vous ne disposez pas des droits n&eacute;cessaires !';
 
+$lang['Expel_user'] = 'Virer joueur';
+$lang['Set_range'] = 'Attribuer un rang';
+$lang['You_are_sure_want_kick_to'] = 'Etes vous sur de vouloir virer %s ?';
+$lang['Initial_page'] = 'Page Web d\'alliance';
+$lang['Alliance_information'] = "Information Alliance";
+$lang['Request_from'] = 'Candidature de %s ';
+$lang['There_is_hanging_request'] = '%n Candidature(s)';
 // Created by Ichigo. All rights reversed (C) 2006 
 ?>
