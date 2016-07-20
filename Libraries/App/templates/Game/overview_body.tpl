@@ -5,7 +5,7 @@
             <table width="519">
                 <tr>
                     <td class="c" colspan="4">
-                        <a href="game.php?page=overview&type=renameplanet" title="{$Planet_menu}">{$Planet} "{$planet_name}"</a> ({$user_username})
+                        <a href="game.php?page=planetlayer" title="{$Planet_menu}">{$Planet} "{$planet_name}"</a> ({$user_username})
                     </td>
                 </tr>
                 {if $user_new_message != 0}

@@ -1,7 +1,7 @@
 {block name="title" prepend}{/block}
 {block name="content"}        <center>
             <h1>{$ov_rena_dele}</h1>
-            <form action="game.php?page=overview&type=renameplanet&pl={$planet_id}" method="POST">
+            <form action="game.php?page=planetlayer&pl={$planet_id}" method="POST">
                 <table width="519">
                     <tr><td colspan="3" class="c">{$security_query}</td></tr>
                     <tr>
