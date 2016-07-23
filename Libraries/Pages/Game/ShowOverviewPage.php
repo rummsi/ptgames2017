@@ -215,11 +215,8 @@ class ShowOverviewPage extends AbstractGamePage {
                 'user_username' => $user['username'],
             ));
 
-
             $parse['energy_used'] = $planetrow["energy_max"] - $planetrow["energy_used"];
 
-            $parse['time'] = "<div id=\"dateheure\"></div>";
-            $parse['dpath'] = $dpath;
             if (($galaxyrow['metal'] != 0 || $galaxyrow['crystal'] != 0) && $planetrow[$resource[209]] != 0) {
                 $parse['get_link'] = " (<a href=\"game.php?page=quickfleet&mode=8&g=" . $galaxyrow['galaxy'] . "&s=" . $galaxyrow['system'] . "&p=" . $galaxyrow['planet'] . "&t=2\">" . $lang['type_mission'][8] . "</a>)";
             } else {
