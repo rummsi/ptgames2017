@@ -1,53 +1,40 @@
-        <div id="header_top">
-            <center>
-                <table class="header">
-                    <tbody>
-                        <tr class="header">
-                            <td class="header">
-                                <center>
-                                    <table class="header">
-                                        <tbody>
-                                            <tr class="header">
-                                                <td class="header"><img src="{$dpath}planeten/small/s_{$image}.jpg" height="50" width="50"></td>
-                                                <td  class="header" valign="middle">
-                                                    <select size="1" onChange="eval('location=\''+this.options[this.selectedIndex].value+'\'');">
-                                                        {$planetlist}
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </center>
-                            </td>
-                            <td class="header">
-                                <table style="width: 508px;" class="header" id="resources" padding-right="30" border="0" cellpadding="0" cellspacing="0">
-                                    <tbody>
-                                        <tr class="header">
-                                            <td class="header" align="center" width="140"><img src="{$dpath}images/metall.gif" border="0" height="22" width="42"></td>
-                                            <td class="header" align="center" width="140"><img src="{$dpath}images/kristall.gif" border="0" height="22" width="42"></td>
-                                            <td class="header" align="center" width="140"><img src="{$dpath}images/deuterium.gif" border="0" height="22" width="42"></td>
-                                            <td class="header" align="center" width="140"><img src="{$dpath}images/energie.gif" border="0" height="22" width="42"></td>
-                                            <td class="header" align="center" width="140"><img src="{$dpath}images/message.gif" border="0" height="22" width="42"></td>
-                                        </tr>
-                                        <tr class="header">
-                                            <td class="header" align="center" width="140"><i><b><font color="#ffffff">{$Metal}</font></b></i></td>
-                                            <td class="header" align="center" width="140"><i><b><font color="#ffffff">{$Crystal}</font></b></i></td>
-                                            <td class="header" align="center" width="140"><i><b><font color="#ffffff">{$Deuterium}</font></b></i></td>
-                                            <td class="header" align="center" width="140"><i><b><font color="#ffffff">{$Energy}</font></b></i></td>
-                                            <td class="header" align="center" width="140"><i><b><font color="#ffffff">{$Message}</font></b></i></td>
-                                        </tr>
-                                        <tr class="header">
-                                            <td class="header" align="center" width="140"><font>{$metal}</font></td>
-                                            <td class="header" align="center" width="140"><font>{$crystal}</font></td>
-                                            <td class="header" align="center" width="140"><font>{$deuterium}</font></td>
-                                            <td class="header" align="center" width="140"><font>{$energy}</font></td>
-                                            <td class="header" align="center" width="140"><font>{$message}</font></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </center>
-        </div>
+                        <ul id="resources">
+                            <li id="metal_box" class="metal tooltipHTML"
+                                title="{$Metal}">
+                                <div class="resourceIcon metal"></div>
+                                <span class="value">
+                                    <span id="resources_metal" class="">{$metal}</span>
+                                </span>
+                            </li>
+                            <li id="crystal_box" class="crystal tooltipHTML"
+                                title="{$Crystal}">
+                                <div class="resourceIcon crystal"></div>
+                                <span class="value">
+                                    <span id="resources_crystal" class="">{$crystal}</span>
+                                </span>
+                            </li>
+                            <li id="deuterium_box" class="deuterium tooltipHTML"
+                                title="{$Deuterium}">
+                                <div class="resourceIcon deuterium"></div>
+                                <span class="value">
+                                    <span id="resources_deuterium" class="middlemark">{$deuterium}</span>
+                                </span>
+                            </li>
+                            <li id="energy_box" class="energy tooltipHTML"
+                                title="{$Energy}">
+                                <div class="resourceIcon energy"></div>
+                                <span class="value">
+                                    <span id="resources_energy" class="">{$energy}</span>
+                                </span>
+                            </li>
+                            <li id="darkmatter_box" class="darkmatter dark_highlight_tablet tooltipHTML"
+                                title="{$Message}"
+                                data-tooltip-button="Purchase Dark Matter">
+                                <a href="https://s670-en.ogame.gameforge.com/game/index.php?page=premium&openDetail=1">
+                                    <img src="https://gf1.geo.gfsrv.net/cdnc5/401d1a91ff40dc7c8acfa4377d3d65.gif" />
+                                    <span class="value">
+                                        <span id="resources_darkmatter">{$message}</span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>

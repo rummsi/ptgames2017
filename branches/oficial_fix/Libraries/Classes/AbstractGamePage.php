@@ -54,7 +54,7 @@ abstract class AbstractGamePage {
     }
 
     protected function render($file) {
-        global $langInfos, $user, $planetrow;
+        global $langInfos, $user, $planetrow, $lang;
 
         if ($this->getWindow() !== 'ajax') {
             $this->ShowFleetDisplay();
@@ -65,6 +65,8 @@ abstract class AbstractGamePage {
         $this->tplObj->assign(array(
             'dpath' => DEFAULT_SKINPATH,
             'encoding' => $langInfos['ENCODING'],
+            'lang_user_level'=>$lang['user_level'][0],
+            'username'=>$user['username'],
         ));
 
         $this->tplObj->display('extends:layout.' . $this->getWindow() . '.tpl|' . $file);

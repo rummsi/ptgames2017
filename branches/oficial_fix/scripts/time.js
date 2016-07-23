@@ -19,11 +19,11 @@ if (jour < 10) { jour0 = "0"; }
 else { jour0 = ""; }
 if (annee < 10) { annee0 = "0"; }
 else { annee0 = ""; }
-DinaDate = "" + jour0 + jour + "/" +  mois0 + mois + "/" + annee0 + annee;
+DinaDate = "" + jour0 + jour + "." +  mois0 + mois + "." + annee0 + annee;
 total = DinaDate
 DinaHeure = heure0 + heure + ":" + min0 + min + ":" + sec0 + sec;
 total = DinaHeure
-total = "Nous sommes le " + DinaDate + " et il est " + DinaHeure + ".";
+total = DinaDate + " <span>" + DinaHeure + "</span>";
 
 document.getElementById("dateheure").innerHTML = total;
 

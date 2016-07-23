@@ -1,6 +1,5 @@
 {block name="title" prepend}{/block}
 {block name="content"}        <center>
-            <script language="JavaScript" type="text/javascript" src="scripts/time.js"></script>
             <br>
             <table width="519">
                 <tr>
@@ -20,10 +19,6 @@
                 </tr>{/if}{if ($LvlUpMinier + $LvlUpRaid) <= 100}{if $XpMinier >= $XpMinierUp}
                 <tr><th colspan=4><a href=game.php?page=officier>teste2{$Have_new_level_mineur}</a></th></tr>{/if}{if $XPRaid >= $XpRaidUp}
                 <tr><th colspan=4><a href=game.php?page=officier>{$Have_new_level_raid}teste3</a></th></tr>{/if}{/if}
-                <tr>
-                    <th>{$Server_time}</th>
-                    <th colspan="3"><div id="dateheure"></div></th>
-                </tr>
                 <tr>
                     <th>{$MembersOnline}</th>
                     <th colspan="3">{$NumberMembersOnline}</th>
