@@ -57,6 +57,7 @@ abstract class AbstractGamePage {
         global $langInfos, $user, $planetrow;
 
         if ($this->getWindow() !== 'ajax') {
+            $this->ShowFleetDisplay();
             $this->ShowLeftMenu();
             $this->ShowTopNavigationBar($user, $planetrow);
         }
@@ -85,6 +86,80 @@ abstract class AbstractGamePage {
             $queryString['mode'] = $mode;
         }
         return http_build_query($queryString);
+    }
+
+    function ShowFleetDisplay() {
+        global $lang, $user, $flotten;
+
+        includeLang('overview');
+        
+        // ----------------------------------------------------------------------------------------------
+        // --- Gestion des flottes personnelles ---------------------------------------------------------
+        // Toutes de vert vetues
+        $OwnFleets = doquery("SELECT * FROM {{table}} WHERE `fleet_owner` = '" . $user['id'] . "';", 'fleets');
+        $Record = 0;
+        while ($FleetRow = mysqli_fetch_array($OwnFleets)) {
+            $Record++;
+
+            $StartTime = $FleetRow['fleet_start_time'];
+            $StayTime = $FleetRow['fleet_end_stay'];
+            $EndTime = $FleetRow['fleet_end_time'];
+            // Flotte a l'aller
+            $Label = "fs";
+            if ($StartTime > time()) {
+                $fpage[$StartTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 0, true, $Label, $Record);
+            }
+
+            if ($FleetRow['fleet_mission'] <> 4) {
+                // Flotte en stationnement
+                $Label = "ft";
+                if ($StayTime > time()) {
+                    $fpage[$StayTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 1, true, $Label, $Record);
+                }
+                // Flotte au retour
+                $Label = "fe";
+                if ($EndTime > time()) {
+                    $fpage[$EndTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 2, true, $Label, $Record);
+                }
+            }
+        } // End While
+        // ----------------------------------------------------------------------------------------------
+        // --- Gestion des flottes autres que personnelles ----------------------------------------------
+        // Flotte ennemies (ou amie) mais non personnelles
+        $OtherFleets = doquery("SELECT * FROM {{table}} WHERE `fleet_target_owner` = '" . $user['id'] . "';", 'fleets');
+        $Record = 2000;
+        while ($FleetRow = mysqli_fetch_array($OtherFleets)) {
+            if ($FleetRow['fleet_owner'] != $user['id']) {
+                if ($FleetRow['fleet_mission'] != 8) {
+                    $Record++;
+                    $StartTime = $FleetRow['fleet_start_time'];
+                    $StayTime = $FleetRow['fleet_end_stay'];
+
+                    if ($StartTime > time()) {
+                        $Label = "ofs";
+                        $fpage[$StartTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 0, false, $Label, $Record);
+                    }
+                    if ($FleetRow['fleet_mission'] == 5) {
+                        // Flotte en stationnement
+                        $Label = "oft";
+                        if ($StayTime > time()) {
+                            $fpage[$StayTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 1, false, $Label, $Record);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (count($fpage) > 0) {
+            ksort($fpage);
+            foreach ($fpage as $time => $content) {
+                $flotten .= $content . "\n";
+            }
+        }
+        $this->tplObj->assign(array(
+            'fleet_list' => $flotten,
+                'Events' => $lang['Events'],
+        ));
     }
 
     function ShowLeftMenu() {

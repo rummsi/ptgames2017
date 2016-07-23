@@ -36,7 +36,7 @@ class ShowOverviewPage extends AbstractGamePage {
     }
 
     function show() {
-        global $user, $lang, $game_config, $planetrow, $dpath, $galaxyrow, $flotten;
+        global $user, $lang, $game_config, $planetrow, $dpath, $galaxyrow;
 
         $lunarow = doquery("SELECT * FROM {{table}} WHERE `id_owner` = '" . $planetrow['id_owner'] . "' AND `galaxy` = '" . $planetrow['galaxy'] . "' AND `system` = '" . $planetrow['system'] . "' AND `lunapos` = '" . $planetrow['planet'] . "';", 'lunas', true);
 
@@ -73,62 +73,6 @@ class ShowOverviewPage extends AbstractGamePage {
                 }
                 if ($XPRaid >= $XpRaidUp) {
                     doquery("UPDATE {{table}} SET `lvl_raid` = '" . $LvlUpRaid . "', `rpg_points` = `rpg_points` + 1 WHERE `id` = '" . $user['id'] . "';", 'users');
-                }
-            }
-            // ----------------------------------------------------------------------------------------------
-            // --- Gestion des flottes personnelles ---------------------------------------------------------
-            // Toutes de vert vetues
-            $OwnFleets = doquery("SELECT * FROM {{table}} WHERE `fleet_owner` = '" . $user['id'] . "';", 'fleets');
-            $Record = 0;
-            while ($FleetRow = mysqli_fetch_array($OwnFleets)) {
-                $Record++;
-
-                $StartTime = $FleetRow['fleet_start_time'];
-                $StayTime = $FleetRow['fleet_end_stay'];
-                $EndTime = $FleetRow['fleet_end_time'];
-                // Flotte a l'aller
-                $Label = "fs";
-                if ($StartTime > time()) {
-                    $fpage[$StartTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 0, true, $Label, $Record);
-                }
-
-                if ($FleetRow['fleet_mission'] <> 4) {
-                    // Flotte en stationnement
-                    $Label = "ft";
-                    if ($StayTime > time()) {
-                        $fpage[$StayTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 1, true, $Label, $Record);
-                    }
-                    // Flotte au retour
-                    $Label = "fe";
-                    if ($EndTime > time()) {
-                        $fpage[$EndTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 2, true, $Label, $Record);
-                    }
-                }
-            } // End While
-            // ----------------------------------------------------------------------------------------------
-            // --- Gestion des flottes autres que personnelles ----------------------------------------------
-            // Flotte ennemies (ou amie) mais non personnelles
-            $OtherFleets = doquery("SELECT * FROM {{table}} WHERE `fleet_target_owner` = '" . $user['id'] . "';", 'fleets');
-            $Record = 2000;
-            while ($FleetRow = mysqli_fetch_array($OtherFleets)) {
-                if ($FleetRow['fleet_owner'] != $user['id']) {
-                    if ($FleetRow['fleet_mission'] != 8) {
-                        $Record++;
-                        $StartTime = $FleetRow['fleet_start_time'];
-                        $StayTime = $FleetRow['fleet_end_stay'];
-
-                        if ($StartTime > time()) {
-                            $Label = "ofs";
-                            $fpage[$StartTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 0, false, $Label, $Record);
-                        }
-                        if ($FleetRow['fleet_mission'] == 5) {
-                            // Flotte en stationnement
-                            $Label = "oft";
-                            if ($StayTime > time()) {
-                                $fpage[$StayTime] = AbstractGamePage::BuildFleetEventTable($FleetRow, 1, false, $Label, $Record);
-                            }
-                        }
-                    }
                 }
             }
             // -----------------------------------------------------------------------------------------------
@@ -271,12 +215,6 @@ class ShowOverviewPage extends AbstractGamePage {
                 'user_username' => $user['username'],
             ));
 
-            if (count(@$fpage) > 0) {
-                ksort($fpage);
-                foreach ($fpage as $time => $content) {
-                    $flotten .= $content . "\n";
-                }
-            }
 
             $parse['energy_used'] = $planetrow["energy_max"] - $planetrow["energy_used"];
 
@@ -356,8 +294,6 @@ class ShowOverviewPage extends AbstractGamePage {
                 'MembersOnline' => $lang['MembersOnline'],
                 'NumberMembersOnline' => $OnlineUsers[0],
                 'NewsFrame' => $game_config['OverviewNewsFrame'],
-                'Events' => $lang['Events'],
-                'fleet_list' => $flotten,
                 'moon_img' => $parse['moon_img'],
                 'moon' => $parse['moon'],
                 'planet_image' => $planetrow['image'],
