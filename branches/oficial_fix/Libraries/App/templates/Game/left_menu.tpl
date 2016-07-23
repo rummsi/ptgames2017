@@ -30,6 +30,7 @@
                             <tr>{if $enable_marchand == 1}<td colspan="2"><div><a href="game.php?page=marchand" target="_self">Marchand</a></div></td>{/if}</tr>
                             <tr><td colspan="2" background="{$dpath}img/bg1.gif"><center>{$navig}</center></td></tr>
                             <tr><td colspan="2"><div><a href="game.php?page=alliance" accesskey="a" target="{$mf}">{$Alliance}</a></div></td></tr>
+                            <tr><td colspan="2"><div><a href="game.php?page=fleetmovement" accesskey="t" target="{$mf}">{$Fleet_Movement}</a></div></td></tr>
                             <tr><td colspan="2"><div><a href="game.php?page=fleet" accesskey="t" target="{$mf}">{$Fleet}</a></div></td></tr>
                             <tr><td colspan="2"><div><a href="game.php?page=messages" accesskey="c" target="{$mf}">{$Messages}</a></div></td></tr>
                             <tr><td colspan="2" background="{$dpath}img/bg1.gif"><center>{$observ}</center></td></tr>

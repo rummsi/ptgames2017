@@ -234,6 +234,7 @@ abstract class AbstractGamePage {
             'fleet_speed' => $game_config['fleet_speed'],
             'resource_multiplier' => $game_config['resource_multiplier'],
             'lm_tx_queue' => MAX_FLEET_OR_DEFS_PER_ROW,
+            'Fleet_Movement' => $lang['Fleet_Movement'],
         ));
     }
 

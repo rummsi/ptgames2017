@@ -53,6 +53,7 @@ $lang['Technology']   = 'Technologies';
 
 $lang['Galaxy']       = 'Galaxie';
 $lang['Fleet']        = 'Flotte';
+$lang['Fleet_Movement']= 'Mouvement de Flotte';
 
 $lang['Alliance']     = 'Alliance';
 $lang['Chat']         = 'Chat';
