@@ -250,29 +250,6 @@ abstract class AbstractGamePage {
                 $CurrentPlanet = doquery("SELECT * FROM {{table}} WHERE `id` = '" . $CurrentUser['current_planet'] . "';", 'planets', true);
             }
 
-            // Genearation de la combo des planetes du joueur
-            $parse['planetlist'] = '';
-            $ThisUsersPlanets = SortUserPlanets($CurrentUser);
-            while ($CurPlanet = mysqli_fetch_array($ThisUsersPlanets)) {
-                if (isset($CurPlanet["destruyed"]) == 0) {
-                    $parse['planetlist'] .= "\n<option ";
-                    if ($CurPlanet['id'] == $CurrentUser['current_planet']) {
-                        // Bon puisque deja on s'y trouve autant le marquer
-                        $parse['planetlist'] .= "selected=\"selected\" ";
-                    }
-                    $parse['planetlist'] .= "value=\"game.php?page=" . $_GET['page'] . "&cp=" . $CurPlanet['id'] . "";
-                    $parse['planetlist'] .= "&amp;type=" . isset($_GET['type']);
-                    $parse['planetlist'] .= "&amp;re=0\">";
-
-                    // Nom et coordonnées de la planete
-                    $parse['planetlist'] .= "" . $CurPlanet['name'];
-                    $parse['planetlist'] .= "&nbsp;[" . $CurPlanet['galaxy'] . ":";
-                    $parse['planetlist'] .= "" . $CurPlanet['system'] . ":";
-                    $parse['planetlist'] .= "" . $CurPlanet['planet'];
-                    $parse['planetlist'] .= "]&nbsp;&nbsp;</option>";
-                }
-            }
-
             $energy = pretty_number($CurrentPlanet["energy_max"] + $CurrentPlanet["energy_used"]) . "/" . pretty_number($CurrentPlanet["energy_max"]);
             // Energie
             if (($CurrentPlanet["energy_max"] + $CurrentPlanet["energy_used"]) < 0) {

@@ -33,10 +33,10 @@
                         </div>	
 {include file="topnav.tpl"}
                         <div id="message-wrapper">
-                            <!-- Neue Nachrichten-Zähler -->
-                            <a class=" comm_menu messages tooltip js_hideTipOnMobile" href="game.php?page=messages" title="0 unread message(s)">
-                                <span class="new_msg_count totalMessages noMessage news" data-new-messages="0">0</span>
-                            </a>
+                            <!-- Neue Nachrichten-Zähler -->{if $user_new_message != 0}
+                            <a class=" comm_menu messages tooltip js_hideTipOnMobile" href="game.php?page=messages" title="{if $user_new_message == 1}{$Have_new_message}{else}{str_replace('%m', pretty_number($user_new_message), $Have_new_messages)}{/if}">
+                                <span class="new_msg_count totalMessages noMessage news" data-new-messages="{pretty_number($user_new_message)}">{pretty_number($user_new_message)}</span>
+                            </a>{/if}
                             <!-- Neue Chatnachrichten-Zähler -->
                             <a class=" comm_menu chat tooltip js_hideTipOnMobile" href="game.php?page=chat" title="0 unread conversation(s)">
                                 <!-- js modification !-->
