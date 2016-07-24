@@ -60,13 +60,14 @@ abstract class AbstractGamePage {
             $this->ShowFleetDisplay();
             $this->ShowLeftMenu();
             $this->ShowTopNavigationBar($user, $planetrow);
+            $this->ShowRightMenu($user, $planetrow);
         }
 
         $this->tplObj->assign(array(
             'dpath' => DEFAULT_SKINPATH,
             'encoding' => $langInfos['ENCODING'],
-            'lang_user_level'=>$lang['user_level'][0],
-            'username'=>$user['username'],
+            'lang_user_level' => $lang['user_level'][0],
+            'username' => $user['username'],
         ));
 
         $this->tplObj->display('extends:layout.' . $this->getWindow() . '.tpl|' . $file);
@@ -94,7 +95,7 @@ abstract class AbstractGamePage {
         global $lang, $user, $flotten;
 
         includeLang('overview');
-        
+
         // ----------------------------------------------------------------------------------------------
         // --- Gestion des flottes personnelles ---------------------------------------------------------
         // Toutes de vert vetues
@@ -152,7 +153,7 @@ abstract class AbstractGamePage {
             }
         }
 
-        if (count($fpage) > 0) {
+        if (count(@$fpage) > 0) {
             ksort($fpage);
             foreach ($fpage as $time => $content) {
                 $flotten .= $content . "\n";
@@ -160,7 +161,7 @@ abstract class AbstractGamePage {
         }
         $this->tplObj->assign(array(
             'fleet_list' => $flotten,
-                'Events' => $lang['Events'],
+            'Events' => $lang['Events'],
         ));
     }
 
@@ -312,7 +313,6 @@ abstract class AbstractGamePage {
             $this->tplObj->assign(array(
                 'image' => $CurrentPlanet['image'],
                 'ThisUsersPlanets' => SortUserPlanets($CurrentUser),
-                'planetlist' => $parse['planetlist'],
                 'Metal' => $lang['Metal'],
                 'Crystal' => $lang['Crystal'],
                 'Deuterium' => $lang['Deuterium'],
@@ -475,6 +475,38 @@ abstract class AbstractGamePage {
         ));
 
         return $this->tplObj->fetch('overview_fleet_event.tpl');
+    }
+
+    function ShowRightMenu($CurrentUser, $CurrentPlanet) {
+        global $lang;
+
+            // -----------------------------------------------------------------------------------------------
+            // --- Gestion de la liste des planetes ----------------------------------------------------------
+            // Planetes ...
+            $Order = ($CurrentUser['planet_sort_order'] == 1) ? "DESC" : "ASC";
+            $Sort = $CurrentUser['planet_sort'];
+
+            $QryPlanets = "SELECT * FROM {{table}} WHERE `id_owner` = '" . $CurrentUser['id'] . "' ORDER BY ";
+            if ($Sort == 0) {
+                $QryPlanets .= "`id` " . $Order;
+            } elseif ($Sort == 1) {
+                $QryPlanets .= "`galaxy`, `system`, `planet`, `planet_type` " . $Order;
+            } elseif ($Sort == 2) {
+                $QryPlanets .= "`name` " . $Order;
+            }
+            $planets_query = doquery($QryPlanets, 'planets');
+        
+        
+
+            // Le tout passe dans la template
+            $this->tplObj->assign(array(
+                'ThisUsersPlanets' => SortUserPlanets($CurrentUser),
+                'planets_query'=>$planets_query,
+                '_GET'=>$_GET,
+                'CurrentUser' =>$CurrentUser,
+                'adm_pltlst'=>$lang['adm_pltlst'],
+                'count_planet'=>count($CurrentPlanet),
+            ));
     }
 
 }

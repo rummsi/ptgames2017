@@ -32,20 +32,6 @@
                             </ul>
                         </div>	
 {include file="topnav.tpl"}
-                        <div id="officers" class="">
-                            <table class="header">
-                                <tbody>
-                                    <tr class="header">
-                                        <td class="header"><img src="{$dpath}planeten/small/s_{$image}.jpg" height="50" width="50"></td>
-                                        <td  class="header" valign="middle">
-                                            <select size="1" onChange="eval('location=\''+this.options[this.selectedIndex].value+'\'');">
-                                                {$planetlist}
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                         <div id="message-wrapper">
                             <!-- Neue Nachrichten-Zähler -->
                             <a class=" comm_menu messages tooltip js_hideTipOnMobile" href="game.php?page=messages" title="0 unread message(s)">
@@ -105,6 +91,10 @@
                         </div>
                     </div>
                     <!-- END CONTENT AREA -->
+
+                    <!-- RIGHTMENU -->
+{include file="right_menu.tpl"}
+                    <!-- END RIGHTMENU -->
                     
                 </div><!-- box -->
             </div><!-- boxBG -->
