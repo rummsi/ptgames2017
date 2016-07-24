@@ -300,6 +300,7 @@ abstract class AbstractGamePage {
                 'deuterium' => $parse['deuterium'],
                 'energy' => $parse['energy'],
                 'message' => $parse['message'],
+                'user_new_message' => $CurrentUser['new_message'],
             ));
 
             $TopBar = parsetemplate(gettemplate('topnav'), $parse);
@@ -457,33 +458,33 @@ abstract class AbstractGamePage {
     function ShowRightMenu($CurrentUser, $CurrentPlanet) {
         global $lang;
 
-            // -----------------------------------------------------------------------------------------------
-            // --- Gestion de la liste des planetes ----------------------------------------------------------
-            // Planetes ...
-            $Order = ($CurrentUser['planet_sort_order'] == 1) ? "DESC" : "ASC";
-            $Sort = $CurrentUser['planet_sort'];
+        // -----------------------------------------------------------------------------------------------
+        // --- Gestion de la liste des planetes ----------------------------------------------------------
+        // Planetes ...
+        $Order = ($CurrentUser['planet_sort_order'] == 1) ? "DESC" : "ASC";
+        $Sort = $CurrentUser['planet_sort'];
 
-            $QryPlanets = "SELECT * FROM {{table}} WHERE `id_owner` = '" . $CurrentUser['id'] . "' ORDER BY ";
-            if ($Sort == 0) {
-                $QryPlanets .= "`id` " . $Order;
-            } elseif ($Sort == 1) {
-                $QryPlanets .= "`galaxy`, `system`, `planet`, `planet_type` " . $Order;
-            } elseif ($Sort == 2) {
-                $QryPlanets .= "`name` " . $Order;
-            }
-            $planets_query = doquery($QryPlanets, 'planets');
-        
-        
+        $QryPlanets = "SELECT * FROM {{table}} WHERE `id_owner` = '" . $CurrentUser['id'] . "' ORDER BY ";
+        if ($Sort == 0) {
+            $QryPlanets .= "`id` " . $Order;
+        } elseif ($Sort == 1) {
+            $QryPlanets .= "`galaxy`, `system`, `planet`, `planet_type` " . $Order;
+        } elseif ($Sort == 2) {
+            $QryPlanets .= "`name` " . $Order;
+        }
+        $planets_query = doquery($QryPlanets, 'planets');
 
-            // Le tout passe dans la template
-            $this->tplObj->assign(array(
-                'ThisUsersPlanets' => SortUserPlanets($CurrentUser),
-                'planets_query'=>$planets_query,
-                '_GET'=>$_GET,
-                'CurrentUser' =>$CurrentUser,
-                'adm_pltlst'=>$lang['adm_pltlst'],
-                'count_planet'=>count($CurrentPlanet),
-            ));
+
+
+        // Le tout passe dans la template
+        $this->tplObj->assign(array(
+            'ThisUsersPlanets' => SortUserPlanets($CurrentUser),
+            'planets_query' => $planets_query,
+            '_GET' => $_GET,
+            'CurrentUser' => $CurrentUser,
+            'adm_pltlst' => $lang['adm_pltlst'],
+            'count_planet' => count($CurrentPlanet),
+        ));
     }
 
 }
