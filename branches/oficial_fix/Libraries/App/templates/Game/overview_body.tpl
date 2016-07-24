@@ -6,17 +6,7 @@
                     <td class="c" colspan="4">
                         <a href="game.php?page=planetlayer" title="{$Planet_menu}">{$Planet} "{$planet_name}"</a> ({$user_username})
                     </td>
-                </tr>
-                {if $user_new_message != 0}
-                <tr>{if $user_new_message == 1}
-                    <th colspan=4><a href=game.php?page=messages>{$Have_new_message}</a></th>
-                {else}
-                    <th colspan=4>
-                        <a href=game.php?page=messages>
-                            {str_replace('%m', pretty_number($user_new_message), $Have_new_messages)}
-                        </a>
-                    </th>{/if}
-                </tr>{/if}{if ($LvlUpMinier + $LvlUpRaid) <= 100}{if $XpMinier >= $XpMinierUp}
+                </tr>{if ($LvlUpMinier + $LvlUpRaid) <= 100}{if $XpMinier >= $XpMinierUp}
                 <tr><th colspan=4><a href=game.php?page=officier>teste2{$Have_new_level_mineur}</a></th></tr>{/if}{if $XPRaid >= $XpRaidUp}
                 <tr><th colspan=4><a href=game.php?page=officier>{$Have_new_level_raid}teste3</a></th></tr>{/if}{/if}
                 <tr>

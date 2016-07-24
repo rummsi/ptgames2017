@@ -46,8 +46,6 @@ class ShowOverviewPage extends AbstractGamePage {
         includeLang('overview');
 
         if ($user['id'] != '') {
-            // --- Gestion des messages ----------------------------------------------------------------------
-            $this->tplObj->assign('user_new_message', $user['new_message']);
             // -----------------------------------------------------------------------------------------------
             // --- Gestion Officiers -------------------------------------------------------------------------
             // Passage au niveau suivant, ajout du point de compétence et affichage du passage au nouveau level
