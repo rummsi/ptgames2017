@@ -27,4 +27,4 @@
         <script type="text/javascript" src="scripts/overlib.js"></script>
         <script language="JavaScript" type="text/javascript" src="scripts/time.js"></script>
     </head>
-    <body id="overview" class="ogame lang-en no-commander no-touch">
+    <body id="overview" class="ogame lang-en no-touch">
