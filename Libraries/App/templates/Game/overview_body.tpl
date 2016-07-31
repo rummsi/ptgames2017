@@ -1,12 +1,163 @@
 {block name="title" prepend}{/block}
-{block name="content"}        <center>
+{block name="content"}
+                            <div id="planet" style="background-image:url(https://gf2.geo.gfsrv.net/cdndd/09a2a0d07394b5a7b5db40f5cbb8cc.jpg);">
+                                <div id="detailWrapper">
+                                    <div id="header_text">
+                                        <h2>
+                                            <a href="javascript:void(0);" class="openPlanetRenameGiveupBox">
+                                                <p class="planetNameOverview">{$Overview} -</p>
+                                                <span id="planetNameHeader">{$planet_name}</span>
+                                                <img class="hinted tooltip" title="{$Planet_menu}" src="{$dpath}redesign/1f57d944fff38ee51d49c027f574ef.gif" height="16" width="16">
+                                            </a>
+                                        </h2>
+                                    </div>
+                                    <div id="detail" class="detail_screen">
+                                        <div id="techDetailLoading"></div>
+                                    </div>
+                                    <div id="planetdata">
+                                        <div class="overlay"></div>
+                                        <div id="planetDetails">
+                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                <tbody><tr>
+                                                        <td class="desc">
+                                                            <span id="diameterField"></span>
+                                                        </td>
+                                                        <td class="data">
+                                                            <span id="diameterContentField"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="desc">
+                                                            <span id="temperatureField"></span>
+                                                        </td>
+                                                        <td class="data">
+                                                            <span id="temperatureContentField"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="desc">
+                                                            <span id="positionField"></span>
+                                                        </td>
+                                                        <td class="data">
+                                                            <span id="positionContentField"></span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="desc">
+                                                            <span id="scoreField"></span></td>
+                                                        <td class="data">
+                                                            <span id="scoreContentField"></span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div id="planetOptions">
+                                            <div class="planetMoveStart fleft" style="display: inline;">
+                                                <a class="tooltipLeft dark_highlight_tablet fleft" style="display: inline-block" href="game.php?page=stat" title="
+                &lt;tr&gt;
+                    &lt;th colspan='3'&gt;
+                        &lt;table border='0' width='100%'&gt;
+                            &lt;tbody&gt;
+                                &lt;tr&gt;
+                                    &lt;td align='right' width='50%' style='background-color: transparent;'&gt;&lt;b&gt;{$ov_pts_build} :&lt;/b&gt;&lt;/td&gt;
+                                    &lt;td align='left' width='50%' style='background-color: transparent;'&gt;&lt;b&gt;{$user_points}&lt;/b&gt;&lt;/td&gt;
+                                &lt;/tr&gt;
+                                &lt;tr&gt;
+                                    &lt;td align='right' width='50%' style='background-color: transparent;'&gt;&lt;b&gt;{$ov_pts_fleet} :&lt;/b&gt;&lt;/td&gt;
+                                    &lt;td align='left' width='50%' style='background-color: transparent;'&gt;&lt;b&gt;{$user_fleet}&lt;/b&gt;&lt;/td&gt;
+                                &lt;/tr&gt;
+                                &lt;tr&gt;
+                                    &lt;td align='right' width='50%' style='background-color: transparent;'&gt;&lt;b&gt;{$ov_pts_reche} :&lt;/b&gt;&lt;/td&gt;
+                                    &lt;td align='left' width='50%' style='background-color: transparent;'&gt;&lt;b&gt;{$player_points_tech}&lt;/b&gt;&lt;/td&gt;
+                                &lt;/tr&gt;
+                            &lt;/tbody&gt;
+                        &lt;/table&gt;
+                    &lt;/th&gt;
+                &lt;/tr&gt;
+                                                   " data-tooltip-button="To galaxy">
+                                                    <span class="planetMoveIcons planetMoveDefault icon"></span>
+                                                    <span class="planetMoveOverviewMoveLink">{$Points}</span>
+                                                </a>
+                                            </div>
+                                            <a class="dark_highlight_tablet float_right openPlanetRenameGiveupBox" href="javascript:void(0);">
+                                                <span class="planetMoveOverviewGivUpLink">{$Planet_menu}</span>
+                                                <span class="planetMoveIcons settings planetMoveGiveUp icon"></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="moon">            
+                                    <a href="game.php?page=overview&cp={$lune['id']}&re=0" class="tooltipBottom js_hideTipOnMobile" title="{$lune['name']}">
+                                        <img alt="Moon" src="{$dpath}planeten/{$lune['image']}.jpg">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="c-left"></div>
+                            <div class="c-right"></div>
+                            <div id="overviewBottom">
+                                <div class="content-box-s">
+                                    <div class="header">
+                                        <h3>{$Buildings}</h3>
+                                    </div>
+                                    <div class="content">
+                                        <table class="construction active" cellpadding="0" cellspacing="0">
+                                            <tbody><tr>
+                                                    <td colspan="2" class="idle">
+                                                        <a class="tooltip js_hideTipOnMobile
+                                                           " title="At the moment there is no building being built on this planet. Click here to get to resources." href="https://s671-en.ogame.gameforge.com/game/index.php?page=resources">
+                                                            No buildings in construction.<br>(To resources)                            </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody></table>
+                                    </div>
+                                    <div class="footer"></div>
+                                </div>
+                                <div class="content-box-s">
+                                    <div class="header">
+                                        <h3>{$Research}</h3>
+                                    </div>
+                                    <div class="content">    
+                                        <table class="construction active" cellpadding="0" cellspacing="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="2" class="idle">
+                                                        <a class="tooltip js_hideTipOnMobile
+                                                           " title="There is no research done at the moment. Click here to get to your research lab." href="https://s671-en.ogame.gameforge.com/game/index.php?page=research">
+                                                            There is no research in progress at the moment.<br>(To research)                            </a>
+                                                    </td>
+                                                </tr>   
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="footer"></div>
+                                </div>
+                                <div class="content-box-s">
+                                    <div class="header">
+                                        <h3>{$Shipyard}</h3>
+                                    </div>
+                                    <div class="content">    
+                                        <table class="construction active" cellpadding="0" cellspacing="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="2" class="idle">
+                                                        <a class="tooltip js_hideTipOnMobile
+                                                           " title="At the moment there are no ships or defence being built on this planet. Click here to get to the shipyard." href="https://s671-en.ogame.gameforge.com/game/index.php?page=shipyard">
+                                                            No ships/defence in construction.<br>(To shipyard)                        </a>
+
+                                                    </td>
+                                                </tr>   
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="footer"></div>
+                                </div>
+                                <div class="clearfloat"></div>
+                            </div><!-- #overviewBottom -->
+                            
+                            <center>
             <br>
-            <table width="519">
-                <tr>
-                    <td class="c" colspan="4">
-                        <a href="game.php?page=planetlayer" title="{$Planet_menu}">{$Planet} "{$planet_name}"</a> ({$user_username})
-                    </td>
-                </tr>{if ($LvlUpMinier + $LvlUpRaid) <= 100}{if $XpMinier >= $XpMinierUp}
+            <table width="519">{if ($LvlUpMinier + $LvlUpRaid) <= 100}{if $XpMinier >= $XpMinierUp}
                 <tr><th colspan=4><a href=game.php?page=officier>teste2{$Have_new_level_mineur}</a></th></tr>{/if}{if $XPRaid >= $XpRaidUp}
                 <tr><th colspan=4><a href=game.php?page=officier>{$Have_new_level_raid}teste3</a></th></tr>{/if}{/if}
                 <tr>
@@ -18,13 +169,6 @@
                     <th>{$moon_img}<br>{$moon}</th>
                     <th colspan="2"><img src="{$dpath}planeten/{$planet_image}.jpg" height="200" width="200"><br>{$building}</th>
                     <th class="s"><table class="s" align="top" border="0"><tr>{$anothers_planets}</tr></table></th>
-                </tr>
-                <tr>
-                    <th>{$Diameter}</th>
-                    <th colspan="3">
-                        {$planet_diameter} km (<a title="{$Developed_fields}">{$planet_field_current}</a> / 
-                        <a title="{$max_eveloped_fields}">{$planet_field_max}</a> {$fields})
-                    </th>
                 </tr>
                 <th>{$Developed_fields}</th>
                 <th colspan="3" align="center">
@@ -61,46 +205,8 @@
                     </th>
                 </tr>
                 <tr>
-                    <th>{$Temperature}</th>
-                    <th colspan="3">{$ov_temp_from} {$planet_temp_min}{$ov_temp_unit} {$ov_temp_to} {$planet_temp_max}{$ov_temp_unit}</th>
-                </tr>
-                <tr>
-                    <th>{$Position}</th>
-                    <th colspan="3"><a href="game.php?page=galaxy&type=0&galaxy={$galaxy_galaxy}&system={$galaxy_system}">[{$galaxy_galaxy}:{$galaxy_system}:{$galaxy_planet}]</a></th>
-                </tr>
-                <tr>
                     <th>{$ov_local_cdr}</th>
                     <th colspan="3">{$Metal} : {$metal_debris} / {$Crystal} : {$crystal_debris}{$get_link}</th>
-                </tr>
-                <tr>
-                    <th>{$Points}</th>
-                    <th colspan="3">
-                        <table border="0" width="100%">
-                            <tbody>
-                                <tr>
-                                    <td align="right" width="50%" style="background-color: transparent;"><b>{$ov_pts_build} :</b></td>
-                                    <td align="left" width="50%" style="background-color: transparent;"><b>{$user_points}</b></td>
-                                </tr>
-                                <tr>
-                                    <td align="right" width="50%" style="background-color: transparent;"><b>{$ov_pts_fleet} :</b></td>
-                                    <td align="left" width="50%" style="background-color: transparent;"><b>{$user_fleet}</b></td>
-                                </tr>
-                                <tr>
-                                    <td align="right" width="50%" style="background-color: transparent;"><b>{$ov_pts_reche} :</b></td>
-                                    <td align="left" width="50%" style="background-color: transparent;"><b>{$player_points_tech}</b></td>
-                                </tr>
-                                <tr>
-                                    <td align="right" width="50%" style="background-color: transparent;"><b>{$ov_pts_total} :</b></td>
-                                    <td align="left" width="50%" style="background-color: transparent;"><b>{$total_points}</b></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" align="center" width="100%" style="background-color: transparent;">
-                                        <b>({$Rank} <a href="game.php?page=stat&range={$u_user_rank}">{$user_rank}</a> {$of} {$max_users})</b>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </th>
                 </tr>
                 <tr>
                     <th>{$Raids}</th>

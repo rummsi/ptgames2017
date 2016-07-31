@@ -29,7 +29,7 @@
                                 <li><a href="game.php?page=add_declare" target="_blank">{$multi}</a></li>
                                 <li><a href="game.php?page=chat" target="_blank">{$Chat}</a></li>
                                 <li><a href="javascript:top.location.href='index.php?page=logout'">{$Logout}</a></li>
-                                <li class="OGameClock"><div id="dateheure"></div></li>
+                                <li class="OGameClock"></li>
                             </ul>
                         </div>
 {include file="topnav.tpl"}
