@@ -188,6 +188,8 @@ class ShowOverviewPage extends AbstractGamePage {
                 'galaxy_galaxy' => $planetrow['galaxy'],
                 'galaxy_system' => $planetrow['system'],
                 'galaxy_planet' => $planetrow['planet'],
+                '$lunarow' => doquery("SELECT * FROM {{table}} WHERE `id_owner` = '" . $planetrow['id_owner'] . "' AND `galaxy` = '" . $planetrow['galaxy'] . "' AND `system` = '" . $planetrow['system'] . "' AND `lunapos` = '" . $planetrow['planet'] . "';", 'lunas', true),
+                'lune' => doquery("SELECT * FROM {{table}} WHERE `galaxy` = '" . $planetrow['galaxy'] . "' AND `system` = '" . $planetrow['system'] . "' AND `planet` = '" . $planetrow['planet'] . "' AND `planet_type` = '3'", 'planets', true),
             ));
             $StatRecord = doquery("SELECT * FROM {{table}} WHERE `stat_type` = '1' AND `stat_code` = '1' AND `id_owner` = '" . $user['id'] . "';", 'statpoints', true);
 
@@ -274,6 +276,7 @@ class ShowOverviewPage extends AbstractGamePage {
             $OnlineUsers = doquery("SELECT COUNT(*) FROM {{table}} WHERE onlinetime>='" . (time() - 15 * 60) . "'", 'users', 'true');
 
             $this->tplObj->assign(array(
+                'user' =>$user,
                 'u_user_rank' => $StatRecord['total_rank'],
                 'user_username' => $user['username'],
             ));
