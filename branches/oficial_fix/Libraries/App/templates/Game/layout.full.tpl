@@ -59,7 +59,7 @@
                     <!-- END RIGHTMENU -->
 
                     <!-- JAVASCRIPT -->
-{include file="javascript/overview.tpl"}
+{include file="javascript/{$get_page}.tpl"}
                     <!-- END JAVASCRIPT -->
                     
                 </div><!-- box -->
