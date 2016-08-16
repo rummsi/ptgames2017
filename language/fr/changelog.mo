@@ -32,7 +32,7 @@ $lang['Version']     = 'Version';
 $lang['Description'] = 'D&eacute;scription';
 $lang['changelog']   = array(
 
-
+'0.8'=> array(
 '<font color="lime">0.8e</font>' => '- ADD : Fonction SecureArray() pour les variables POST et GET (Bono)
 - ADD : Les administrateurs choisissent desormais le fond de la baniere... (Bono)
 - ADD : Mode vacances + Production a 0 + Interdiction de construire(Prethorian)
@@ -84,7 +84,7 @@ $lang['changelog']   = array(
 - FIX: Skin sur nouvel installeur
 - DIV: Travaux esthetique sur l\'ensemble des fichiers
 - FIX: Oublie de modification d\'appel sur quelques functions nouvellement modifiees',
-
+),'0.7'=>array(
 '0.7m' => 'Correction de bugs (Chlorel)
 - ADD: Interface d\'activation de protection des plan&egrave;tes
 - FIX: Les lunes vont a nouveau au bon joueur et pas a "un" joueur quand elles sont crees depuis l\'administration
@@ -180,7 +180,7 @@ $lang['changelog']   = array(
 - Diverses retouches (Chlorel)
 - Divers debug (au fil de l\'eau) (e-Zobar)
 - Ajout de fonction sur la vue principale (Tom1991)',
-
+),'0.6'=>array(
 '0.6b' => 'Divers :
 - Correction & Ajouts de fonctions pour les officiers (Tom1991)
 - Menage dans les scripts java inclus (Chlorel)
@@ -199,18 +199,18 @@ $lang['changelog']   = array(
 - Definition nouveau protocole d\'appel, dorenavant meme sur une lune, la galaxie s\'affiche a partir de la bonne position
 - Correction des appels de recyclage
 - Ajout module "Officier" (by Tom1991)',
-
+),'0.5'=>array(
 '0.5' => 'Galaxy: (by Chlorel)
 - Decoupage ancien module
 - Modification systeme de generation des popup dans la vue de la galaxie
 - Modularisation de la generation de page',
-
+),'0.4'=>array(
 '0.4' => 'Overview: (by Chlorel)
 - Mise en forme ancien module
 - Gestion de l\'affichage des flotte personnelle 100%
 - Modification affichage des lunes quand presentes
 - Correction bug renommer les lunes (pour qu\'elles soient effectivement renomm&eacute;es)',
-
+),'0.3'=>array(
 '0.3' => 'Gestion de flottes: (by Chlorel)
 - Modification / modularisation / documentation de la boucle de gestion des vols 100%
 - Modification Mission d\'espionnage 100%
@@ -218,17 +218,17 @@ $lang['changelog']   = array(
 - Modification Mission Transport 100%
 - Modification Mission Stationnement 100%
 - Modification Mission Recyclage 100%',
-
+),'0.2'=>array(
 '0.2' => 'Corrections
 - Ajouts de la version 0.5 des Exploration (by Tom1991)
 - Modification de la boucle de controle des flottes 10% (by Chlorel)',
-
+),'0.1'=>array(
 '0.1' => 'Merge des version flotte:
 - Mise en place de la strat&eacute;gie de developpement
 - Mise en place de nouvelles pages de gestion de flotte',
-
+),'0.0'=>array(
 '0.0' => 'Version de depart:
-- Base du repack a Tom1991',
+- Base du repack a Tom1991',),
 );
 
 ?>
