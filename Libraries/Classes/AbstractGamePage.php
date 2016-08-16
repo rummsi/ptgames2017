@@ -49,7 +49,7 @@ abstract class AbstractGamePage {
         }
         $this->tplObj = new template;
         list($tplDir) = $this->tplObj->getTemplateDir();
-        $this->tplObj->setTemplateDir($tplDir . 'game/');
+        $this->tplObj->setTemplateDir($tplDir . 'Game/');
         return true;
     }
 
@@ -63,11 +63,19 @@ abstract class AbstractGamePage {
             $this->ShowRightMenu($user, $planetrow);
         }
 
+        $filename = $_GET['page'];
+        if (file_exists(realpath(ROOT_PATH . 'Libraries/App/templates/Game/javascript/'.$filename.'.tpl'))) {
+            $get_page= $filename;
+        } else {
+            $get_page ="default";
+            //echo file_exists("test.txt");
+        }
         $this->tplObj->assign(array(
             'dpath' => DEFAULT_SKINPATH,
             'encoding' => $langInfos['ENCODING'],
             'lang_user_level' => $lang['user_level'][0],
             'username' => $user['username'],
+            'get_page' => $get_page,
         ));
 
         $this->tplObj->display('extends:layout.' . $this->getWindow() . '.tpl|' . $file);
