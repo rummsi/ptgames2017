@@ -7927,7 +7927,7 @@ function openOverlay(N, G) {
     var T = openOverlay.index;
     var G = G || {};
     if ((typeof (G.type) == "undefined" || G.type != "inline") && !N.match(new RegExp("^(" + ogameUrl + "|" + startpageUrl + ")"))) {
-        window.open("redir.php?url=" + encodeURIComponent(N), "_newtab");
+        window.open(decodeURIComponent(N), "_newtab");
         return
     }
     if (typeof (G.height) == "undefined") {
