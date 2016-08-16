@@ -1,5 +1,14 @@
 
-                    <script type='text/javascript' src='https://gf1.geo.gfsrv.net/cdnc0/52431c2ea91d060d5c573e57e23fad.js'></script>
+                    <script type='text/javascript' src='scripts/PTGAMES/jQuery.js'></script>
+                    <script type='text/javascript' src='scripts/PTGAMES/jQuery_UI.js'></script>
+                    <script type='text/javascript' src='scripts/PTGAMES/AnythingSlider.js'></script>
+                    <script type='text/javascript' src='scripts/PTGAMES/jQuery BBQ.js'></script>
+                    <script type='text/javascript' src='scripts/PTGAMES/jQuery_hashchange.js'></script>
+                    <script type='text/javascript' src='scripts/PTGAMES/jQuery_Cookie_Plugin.js'></script>
+                    <script type='text/javascript' src='scripts/PTGAMES/Ogame.js'></script>
+                    <script type='text/javascript' src='scripts/PTGAMES/Select2.js'></script>
+                    <script type='text/javascript' src='scripts/PTGAMES/Spinners.js'></script>
+                    <script type='text/javascript' src='scripts/PTGAMES/jQuery_Tooltip.js'></script>
                     <script type="text/javascript">
                         var session = "4b9a3e660e5e2acede3db81dac5ca24aa1daa4df";
                         var vacation = 0;
