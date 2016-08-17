@@ -2,7 +2,7 @@
                     <script type='text/javascript' src='scripts/PTGAMES/jQuery.js'></script>
                     <script type='text/javascript' src='scripts/PTGAMES/jQuery_UI.js'></script>
                     <script type='text/javascript' src='scripts/PTGAMES/AnythingSlider.js'></script>
-                    <script type='text/javascript' src='scripts/PTGAMES/jQuery BBQ.js'></script>
+                    <script type='text/javascript' src='scripts/PTGAMES/jQuery_BBQ.js'></script>
                     <script type='text/javascript' src='scripts/PTGAMES/jQuery_hashchange.js'></script>
                     <script type='text/javascript' src='scripts/PTGAMES/jQuery_Cookie_Plugin.js'></script>
                     <script type='text/javascript' src='scripts/PTGAMES/Ogame.js'></script>
