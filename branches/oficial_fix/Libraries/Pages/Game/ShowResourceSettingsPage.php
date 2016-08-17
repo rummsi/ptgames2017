@@ -131,7 +131,7 @@ class ShowResourceSettingsPage extends AbstractGamePage {
                     } else {
                         $OptSelected = "";
                     }
-                    @$CurrRow['option'] .= "<option value=\"" . $OptValue . "\"" . $OptSelected . ">" . $OptValue . "%</option>";
+                    @$CurrRow['option'] .= "<option class=\"undermark\" value=\"" . $OptValue . "\" " . $OptSelected . ">" . $OptValue . "%</option>";
                 }
                 $CurrRow['metal_type'] = pretty_number($metal);
                 $CurrRow['crystal_type'] = pretty_number($crystal);
@@ -146,6 +146,9 @@ class ShowResourceSettingsPage extends AbstractGamePage {
                     'crystal_type' => colorNumber($CurrRow['crystal_type']),
                     'deuterium_type' => colorNumber($CurrRow['deuterium_type']),
                     'energy_type' => colorNumber($CurrRow['energy_type']),
+                    'name'=>$CurrRow['name'],
+                    'option'=>$CurrRow['option'],
+                    'CurrRow'=>$CurrRow,
                 ));
                 $parse['resource_row'] .= $this->tplObj->fetch('resources_row.tpl');
             }
@@ -256,7 +259,6 @@ class ShowResourceSettingsPage extends AbstractGamePage {
         $this->tplObj->assign(array(
             'title' => $lang['Resources'],
             'lang' => $lang,
-            'Production_of_resources_in_the_planet' => str_replace('%s', $CurrentPlanet['name'], $lang['Production_of_resources_in_the_planet']),
             'metal_basic_income' => $parse['metal_basic_income'],
             'crystal_basic_income' => $parse['crystal_basic_income'],
             'deuterium_basic_income' => $parse['deuterium_basic_income'],
@@ -268,15 +270,15 @@ class ShowResourceSettingsPage extends AbstractGamePage {
             'crystal_total' => $parse['crystal_total'],
             'deuterium_total' => $parse['deuterium_total'],
             'energy_total' => $parse['energy_total'],
-            'daily_metal' => colorNumber(pretty_number($parse['daily_metal'])),
-            'weekly_metal' => colorNumber(pretty_number($parse['weekly_metal'])),
-            'monthly_metal' => colorNumber(pretty_number($parse['monthly_metal'])),
-            'daily_crystal' => colorNumber(pretty_number($parse['daily_crystal'])),
-            'weekly_crystal' => colorNumber(pretty_number($parse['weekly_crystal'])),
-            'monthly_crystal' => colorNumber(pretty_number($parse['monthly_crystal'])),
-            'daily_deuterium' => colorNumber(pretty_number($parse['daily_deuterium'])),
-            'weekly_deuterium' => colorNumber(pretty_number($parse['weekly_deuterium'])),
-            'monthly_deuterium' => colorNumber(pretty_number($parse['monthly_deuterium'])),
+            'daily_metal' => pretty_number($parse['daily_metal']),
+            'weekly_metal' => pretty_number($parse['weekly_metal']),
+            'monthly_metal' => pretty_number($parse['monthly_metal']),
+            'daily_crystal' => pretty_number($parse['daily_crystal']),
+            'weekly_crystal' => pretty_number($parse['weekly_crystal']),
+            'monthly_crystal' => pretty_number($parse['monthly_crystal']),
+            'daily_deuterium' => pretty_number($parse['daily_deuterium']),
+            'weekly_deuterium' => pretty_number($parse['weekly_deuterium']),
+            'monthly_deuterium' => pretty_number($parse['monthly_deuterium']),
             'metal_storage' => floor($CurrentPlanet['metal'] / $CurrentPlanet['metal_max'] * 100) . $lang['o/o'],
             'crystal_storage' => floor($CurrentPlanet['crystal'] / $CurrentPlanet['crystal_max'] * 100) . $lang['o/o'],
             'deuterium_storage' => floor($CurrentPlanet['deuterium'] / $CurrentPlanet['deuterium_max'] * 100) . $lang['o/o'],

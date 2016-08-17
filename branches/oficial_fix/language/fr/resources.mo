@@ -29,7 +29,7 @@
  */
 
 
-$lang['Production_of_resources_in_the_planet'] = 'Production de mati&egrave;res premi&egrave;res sur la plan&egrave;te  "%s"';
+$lang['Production_of_resources_in_the_planet'] = 'Production de mati&egrave;res - %s';
 $lang['Production_level'] = 'Niveau de Production';
 $lang['Basic_income'] = 'Revenu de base';
 $lang['quantity'] = 'Quantit&eacute;';

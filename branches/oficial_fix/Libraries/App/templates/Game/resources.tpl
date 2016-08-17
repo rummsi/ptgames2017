@@ -1,115 +1,128 @@
 {block name="title" prepend}{/block}
-{block name="content"}        <center>
-            <br>
-            <form action="" method="post">
-                <table width="569">
-                    <tbody>
-                        <tr>
-                            <td class="c" colspan="5">{$Production_of_resources_in_the_planet}</td>
-                        </tr>
-                        <tr>
-                            <th height="22"></th>
-                            <th width="60">{$lang['Metal']}</th>
-                            <th width="60">{$lang['Crystal']}</th>
-                            <th width="60">{$lang['Deuterium']}</th>
-                            <th width="60">{$lang['Energy']}</th>
-                        </tr>
-                        <tr>
-                            <th height="22">{$lang['Basic_income']}</th>
-                            <td class="k">{$metal_basic_income}</td>
-                            <td class="k">{$crystal_basic_income}</td>
-                            <td class="k">{$deuterium_basic_income}</td>
-                            <td class="k">{$energy_basic_income}</td>
-                        </tr>
-                        {$resource_row}
-                        <tr>
-                            <th height="22">{$lang['Stores_capacity']}</th>
-                            <td class="k">{$metal_max}</td>
-                            <td class="k">{$crystal_max}</td>
-                            <td class="k">{$deuterium_max}</td>
-                            <td class="k"><font color="#00ff00">-</font></td>
-                            <td class="k"><input name="action" value="{$lang['Calcule']}" type="submit"></td>
-                        </tr>
-                        <tr>
-                            <th height="22">Total:</th>
-                            <td class="k">{$metal_total}</td>
-                            <td class="k">{$crystal_total}</td>
-                            <td class="k">{$deuterium_total}</td>
-                            <td class="k">{$energy_total}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-            <br>
-            <table width="569">
-                <tbody>
-                    <tr>
-                        <td class="c" colspan="4">{$lang['Widespread_production']}</td>
-                    </tr>
-                    <tr>
-                        <th>&nbsp;</th>
-                        <th>{$lang['Daily']}</th>
-                        <th>{$lang['Weekly']}</th>
-                        <th>{$lang['Monthly']}</th>
-                    </tr>
-                    <tr>
-                        <th>{$lang['Metal']}</th>
-                        <th>{$daily_metal}</th>
-                        <th>{$weekly_metal}</th>
-                        <th>{$monthly_metal}</th>
-                    </tr>
-                    <tr>
-                        <th>{$lang['Crystal']}</th>
-                        <th>{$daily_crystal}</th>
-                        <th>{$weekly_crystal}</th>
-                        <th>{$monthly_crystal}</th>
-                    </tr>
-                    <tr>
-                        <th>{$lang['Deuterium']}</th>
-                        <th>{$daily_deuterium}</th>
-                        <th>{$weekly_deuterium}</th>
-                        <th>{$monthly_deuterium}</th>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
-            <table width="569">
-                <tbody>
-                    <tr>
-                        <td class="c" colspan="3">{$lang['Storage_state']}</td>
-                    </tr>
-                    <tr>
-                        <th>{$lang['Metal']}</th>
-                        <th>{$metal_storage}</th>
-                        <th width="250">
-                            <div style="border: 1px solid rgb(153, 153, 255); width: 250px;">
-                                <div id="AlmMBar" style="background-color: {$metal_storage_barcolor}; width: {$metal_storage_bar}px;">
-                                    &nbsp;
-                                </div>
+{block name="content"}
+                            <div id="planet" class="shortHeader">
+                                <h2>{str_replace('%s', $CurrentPlanet['name'], $lang['Production_of_resources_in_the_planet'])}</h2>
                             </div>
-                        </th>
-                    </tr><tr>
-                        <th>{$lang['Crystal']}</th>
-                        <th>{$crystal_storage}</th>
-                        <th width="250">
-                            <div style="border: 1px solid rgb(153, 153, 255); width: 250px;">
-                                <div id="AlmCBar" style="background-color: {$crystal_storage_barcolor}; width: {$crystal_storage_bar}px; opacity: 0.98;">
-                                    &nbsp;
+                            <div class="contentRS">
+                                <div class="headerRS"><a href="game.php?page=resources" class="close_details close_ressources"></a></div>
+                                <div class="mainRS">
+                                    <form method="POST" action="#">
+                                        <input type="hidden" name="saveSettings" value="1">
+                                        <input type='hidden' name='token' value='741e46d1807538560c2b4b56362143cc' />
+                                        <table cellpadding="0" cellspacing="0" class="list listOfResourceSettingsPerPlanet" style="margin-top:0px;">
+                                            <tr>
+                                                <td colspan="7" id="factor">
+                                                    <div class="secondcol">
+                                                        <div style="width:376px; margin: 0px auto;">
+                                                            <span class="factorbutton">
+                                                                <input class="btn_blue" type="submit" value="{$lang['Calcule']}" />
+                                                            </span>
+                                                            <br class="clearfloat" />
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2"></th>
+                                                <th>{$lang['Metal']}</th>
+                                                <th>{$lang['Crystal']}</th>
+                                                <th>{$lang['Deuterium']}</th>
+                                                <th>{$lang['Energy']}</th>
+                                                <th></th>
+                                            </tr>
+                                            <tr class="alt">
+                                                <td colspan="2" class="label">{$lang['Basic_income']}</td>
+                                                <td class="undermark textRight">
+                                                    <span class="tooltipCustom" title="{$metal_basic_income}">{$metal_basic_income}</span>
+                                                </td>
+                                                <td class="undermark textRight">
+                                                    <span class="tooltipCustom" title="{$crystal_basic_income}">{$crystal_basic_income}</span>
+                                                </td>
+                                                <td class="normalmark textRight">
+                                                    <span class="tooltipCustom" title="{$deuterium_basic_income}">{$deuterium_basic_income}</span>
+                                                </td>
+                                                <td class="normalmark textRight">
+                                                    <span class="tooltipCustom" title="{$energy_basic_income}">{$energy_basic_income}</span>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            {$resource_row}
+                                            <tr class="">
+                                                <td colspan="2" class="label">Total:</td>
+                                                <td class="normalmark left2">
+                                                    <span class="tooltipCustom" title="">{$metal_total}</span>
+                                                </td>
+                                                <td class="normalmark left2">
+                                                    <span class="tooltipCustom" title="">{$crystal_total}</span>
+                                                </td>
+                                                <td class="normalmark left2">
+                                                    <span class="tooltipCustom" title="">{$deuterium_total}</span>
+                                                </td>
+                                                <td class="normalmark left2">
+                                                    <span class="tooltipCustom" title="">{$energy_total}</span>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr class="">
+                                                <td colspan="2" class="label">{$lang['Stores_capacity']}</td>
+                                                <td class="normalmark left2">
+                                                    <span class="tooltipCustom" title="{pretty_number($CurrentPlanet['metal_max'])}">{$metal_max}</span>
+                                                </td>
+                                                <td class="normalmark left2">
+                                                    <span class="tooltipCustom" title="{pretty_number($CurrentPlanet['crystal_max'])}">{$crystal_max}</span>
+                                                </td>
+                                                <td class="normalmark left2">
+                                                    <span class="tooltipCustom" title="{pretty_number($CurrentPlanet['deuterium_max'])}">{$deuterium_max}</span>
+                                                </td>
+                                                <td>-</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr class="summary alt">
+                                                <td colspan="2" class="label"><em>{$lang['Daily']}:</em></td>
+                                                <td class="undermark">
+                                                    <span class="tooltipCustom" title="{$daily_metal}">{colorNumber($daily_metal)}</span>
+                                                </td>
+                                                <td class="undermark">
+                                                    <span class="tooltipCustom" title="{$daily_metal}">{colorNumber($daily_crystal)}</span>
+                                                </td>
+                                                <td class="undermark">
+                                                    <span class="tooltipCustom" title="{$daily_crystal}">{colorNumber($daily_deuterium)}</span>
+                                                </td>
+                                                <td class="undermark"></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr class="">
+                                                <td colspan="2" class="label"><em>{$lang['Weekly']}:</em></td>
+                                                <td class="undermark">
+                                                    <span class="tooltipCustom" title="{$weekly_metal}">{colorNumber($weekly_metal)}</span>
+                                                </td>
+                                                <td class="undermark">
+                                                    <span class="tooltipCustom" title="{$weekly_crystal}">{colorNumber($weekly_crystal)}</span>
+                                                </td>
+                                                <td class="undermark">
+                                                    <span class="tooltipCustom" title="{$weekly_deuterium}">{colorNumber($weekly_deuterium)}</span>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr class="alt">
+                                                <td colspan="2" class="label"><em>{$lang['Monthly']}:</em></td>
+                                                <td class="undermark">
+                                                    <span class="tooltipCustom" title="{$monthly_metal}">{colorNumber($monthly_metal)}</span>
+                                                </td>
+                                                <td class="undermark">
+                                                    <span class="tooltipCustom" title="{$monthly_crystal}">{colorNumber($monthly_crystal)}</span>
+                                                </td>
+                                                <td class="undermark">
+                                                    <span class="tooltipCustom" title="{$monthly_deuterium}">{colorNumber($monthly_deuterium)}</span>
+                                                </td>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </form>
                                 </div>
+                                <div class="footerRS"></div>
                             </div>
-                        </th>
-                    </tr><tr>
-                        <th>{$lang['Deuterium']}</th>
-                        <th>{$deuterium_storage}</th>
-                        <th width="250">
-                            <div style="border: 1px solid rgb(153, 153, 255); width: 250px;">
-                                <div id="AlmDBar" style="background-color: {$deuterium_storage_barcolor}; width: {$deuterium_storage_bar}px;">
-                                &nbsp;
-                                </div>
-                            </div>
-                        </th>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
-        </center>{/block}
+                            <br class="clearfloat" />{/block}
