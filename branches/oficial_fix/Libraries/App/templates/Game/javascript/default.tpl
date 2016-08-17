@@ -76,10 +76,10 @@
                             "darkMatter": "Dark Matter",
                         };
                         var constants = {
-                            "espionage": 6,
-                            "missleattack": 10,
-                            "language": "en",
-                            "name": "671"
+                            "espionage": {$user['spio_anz']},
+                            "missleattack": {$CurrentPlanet['interplanetary_misil']},
+                            "language": "{$user['lang']}",
+                            "name": "{$servername}"
                         };
                         var userData = {
                             "id": "{$user['id']}"
@@ -138,40 +138,40 @@
                             reloadResources({
                                 "metal": {
                                     "resources": {
-                                        "actualFormat": "{$metal}",
-                                        "actual": 1931058,
-                                        "max": 9820000,
-                                        "production": 12.561096964245
+                                        "actualFormat": "{pretty_number($CurrentPlanet["metal"])}",
+                                        "actual": {$CurrentPlanet['metal']},
+                                        "max": {$CurrentPlanet['metal_max']},
+                                        "production": {$CurrentPlanet['metal_perhour']}
                                     },
-                                    "tooltip": "{$Metal}|<table class=\"resourceTooltip\">\n            <tr>\n                <th>Available:<\/th>\n                <td><span class=\"\">{$metal}<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Storage capacity:<\/th>\n                <td><span class=\"\">9.820.000<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Current production:<\/th>\n                <td><span class=\"undermark\">+45.220<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Den Capacity:<\/th>\n                <td><span class=\"middlemark\">101.942<\/span><\/td>\n            <\/tr>\n        <\/table>",
+                                    "tooltip": "{$Metal}|<table class=\"resourceTooltip\">\n            <tr>\n                <th>Available:<\/th>\n                <td><span class=\"\">{pretty_number($CurrentPlanet["metal"])}<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Storage capacity:<\/th>\n                <td><span class=\"\">{pretty_number($CurrentPlanet["metal_max"])}<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Current production:<\/th>\n                <td><span class=\"undermark\">{pretty_number($CurrentPlanet["metal_perhour"])}<\/span><\/td>\n            <\/tr>\n            <tr>\n                <\/tr>\n        <\/table>",
                                     "class": ""
                                 },
                                 "crystal": {
                                     "resources": {
-                                        "actualFormat": "{$crystal}",
-                                        "actual": 961480,
-                                        "max": 9820000,
-                                        "production": 6.246770525411
+                                        "actualFormat": "{pretty_number($CurrentPlanet["crystal"])}",
+                                        "actual": {$CurrentPlanet['crystal']},
+                                        "max": {$CurrentPlanet['crystal_max']},
+                                        "production": {$CurrentPlanet['crystal_perhour']}
                                     },
-                                    "tooltip": "{$Crystal}|<table class=\"resourceTooltip\">\n            <tr>\n                <th>Available:<\/th>\n                <td><span class=\"\">961.480<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Storage capacity:<\/th>\n                <td><span class=\"\">9.820.000<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Current production:<\/th>\n                <td><span class=\"undermark\">+22.488<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Den Capacity:<\/th>\n                <td><span class=\"middlemark\">52.003<\/span><\/td>\n            <\/tr>\n        <\/table>",
+                                    "tooltip": "{$Crystal}|<table class=\"resourceTooltip\">\n            <tr>\n                <th>Available:<\/th>\n                <td><span class=\"\">{pretty_number($CurrentPlanet["crystal"])}<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Storage capacity:<\/th>\n                <td><span class=\"\">{pretty_number($CurrentPlanet["crystal_max"])}<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Current production:<\/th>\n                <td><span class=\"undermark\">{pretty_number($CurrentPlanet["crystal_perhour"])}<\/span><\/td>\n            <\/tr>\n            <tr>\n                <\/tr>\n        <\/table>",
                                     "class": ""
                                 },
                                 "deuterium": {
                                     "resources": {
-                                        "actualFormat": "{$deuterium}",
-                                        "actual": 384286,
-                                        "max": 5355000,
-                                        "production": 2.4950980767579
+                                        "actualFormat": "{pretty_number($CurrentPlanet["deuterium"])}",
+                                        "actual": {$CurrentPlanet['deuterium']},
+                                        "max": {$CurrentPlanet['deuterium_max']},
+                                        "production": {$CurrentPlanet['deuterium_perhour']}
                                     },
-                                    "tooltip": "{$Deuterium}|<table class=\"resourceTooltip\">\n            <tr>\n                <th>Available:<\/th>\n                <td><span class=\"\">384.286<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Storage capacity:<\/th>\n                <td><span class=\"\">5.355.000<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Current production:<\/th>\n                <td><span class=\"undermark\">+8.982<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Den Capacity:<\/th>\n                <td><span class=\"middlemark\">21.360<\/span><\/td>\n            <\/tr>\n        <\/table>",
+                                    "tooltip": "{$Deuterium}|<table class=\"resourceTooltip\">\n            <tr>\n                <th>Available:<\/th>\n                <td><span class=\"\">{pretty_number($CurrentPlanet["deuterium"])}<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Storage capacity:<\/th>\n                <td><span class=\"\">{pretty_number($CurrentPlanet["deuterium_max"])}<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Current production:<\/th>\n                <td><span class=\"undermark\">{pretty_number($CurrentPlanet["deuterium_perhour"])}<\/span><\/td>\n            <\/tr>\n            <tr>\n                <\/tr>\n        <\/table>",
                                     "class": ""
                                 },
                                 "energy": {
                                     "resources": {
                                         "actual": -158,
-                                        "actualFormat": "{$energy_used}"
+                                        "actualFormat": "{$CurrentPlanet["energy_used"]}"
                                     },
-                                    "tooltip": "{$Energy}|<table class=\"resourceTooltip\">\n            <tr>\n                <th>Available:<\/th>\n                <td><span class=\"overmark\">-158<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Current production:<\/th>\n                <td><span class=\"undermark\">+9.200<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Consumption:<\/th>\n                <td><span class=\"overmark\">{$energy_used}<\/span><\/td>\n            <\/tr>\n        <\/table>",
+                                    "tooltip": "{$Energy}|<table class=\"resourceTooltip\">\n            <tr>\n                <th>Available:<\/th>\n                <td><span class=\"overmark\">{pretty_number($CurrentPlanet["energy_max"] + $CurrentPlanet["energy_used"])}<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Current production:<\/th>\n                <td><span class=\"undermark\">{pretty_number($CurrentPlanet["energy_max"])}<\/span><\/td>\n            <\/tr>\n            <tr>\n                <th>Consumption:<\/th>\n                <td><span class=\"overmark\">{$CurrentPlanet["energy_used"]}<\/span><\/td>\n            <\/tr>\n        <\/table>",
                                     "class": "overmark"
                                 },
                                 "darkmatter": {

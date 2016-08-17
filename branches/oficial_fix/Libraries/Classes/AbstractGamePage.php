@@ -303,14 +303,10 @@ abstract class AbstractGamePage {
                 'Deuterium' => $lang['Deuterium'],
                 'Energy' => $lang['Energy'],
                 'Message' => $lang['Message'],
-                'metal' => $metal,
-                'crystal' => $crystal,
-                'deuterium' => $deuterium,
-                'energy' => $energy,
                 'message' => $parse['message'],
                 'user_new_message' => $CurrentUser['new_message'],
-                'energy_used'=>$CurrentPlanet["energy_used"],
                 'user'=> $CurrentUser,
+                'CurrentPlanet'=>$CurrentPlanet,
             ));
 
             $TopBar = parsetemplate(gettemplate('topnav'), $parse);
