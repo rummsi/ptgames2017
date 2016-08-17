@@ -18,17 +18,17 @@
  * 
  * PTGamesPT
  * @author XNovaPT Team <xnovaptteam@gmail.com>
- * @ShowResourcesPage.php
+ * @ShowResourceSettingsPage.php
  * @license http://www.gnu.org/licenses/gpl.html GNU GPLv3 License
  * @version 0.01  10/abr/2016 18:14:14
  */
 
 /**
- * Description of ShowResourcesPage
+ * Description of ShowResourceSettingsPage
  *
  * @author author XNovaPT Team <xnovaptteam@gmail.com>
  */
-class ShowResourcesPage extends AbstractGamePage {
+class ShowResourceSettingsPage extends AbstractGamePage {
 
     function __construct() {
         parent::__construct();

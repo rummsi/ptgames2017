@@ -12,11 +12,11 @@
                             </li>
                             <li>
                                 <span class="menu_icon">
-                                    <a href="game.php?page=resources" class="tooltipRight js_hideTipOnMobile " target="_self" title="{$Resources}">
+                                    <a href="game.php?page=resourceSettings" class="tooltipRight js_hideTipOnMobile " target="_self" title="{$Resources}">
                                         <div class="menuImage resources"></div>
                                     </a>
                                 </span>
-                                <a class="menubutton " href="game.php?page=buildings" accesskey="b" target="_self" >
+                                <a class="menubutton " href="game.php?page=resources" accesskey="b" target="_self" >
                                     <span class="textlabel">{$Buildings}</span>
                                 </a>
                             </li>{if $enable_marchand == 1}
