@@ -116,7 +116,12 @@
                             </li>{/if}
                         </ul>
                         <div class="adviceWrapper">
-                            <div id="advice-bar">
+                            <div id="advice-bar">{if !$user['urlaubs_modus'] == 0}
+                                <a href="game.php?page=preferences&selectedTab=3&openGroup=0" 
+                                        class="tooltipHTML tooltipRight advice"
+                                        title="Vacation Mode|This account is in vacation mode till at least 18.08.2016 11:09:38.">
+                                    <img src="https://gf2.geo.gfsrv.net/cdnaa/992972c34e4757cd146f4358360c02.gif" height="32" width="32" />
+                                </a>{/if}
                             </div>
                         </div>
                         <div id="toolLinksWrapper">
