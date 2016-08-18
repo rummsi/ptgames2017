@@ -37,7 +37,7 @@
                                             &lt;a href=&quot;game.php?page=defense&amp;cp={$UserPlanet['id']}&quot;&gt;Defence&lt;/a&gt;&lt;br/&gt;
                                             &lt;a href=&quot;game.php?page=fleet1&amp;cp={$UserPlanet['id']}&quot;&gt;Fleet&lt;/a&gt;&lt;br/&gt;
                                             &lt;a href=&quot;game.php?page=galaxy&amp;cp={$UserPlanet['id']}&amp;galaxy={$UserPlanet['galaxy']}&amp;system={$UserPlanet['system']}&amp;position={$UserPlanet['planet']}&quot;&gt;Galaxy&lt;/a&gt;"
-                                            href="game.php?page=overview&cp={$UserPlanet['id']}">
+                                            href="game.php?page=overview&cp={$UserPlanet['id']}&re=0">
                                             <img src="{$dpath}planeten/small/s_{$UserPlanet['image']}.jpg" width="16" height="16" alt="" class="icon-moon"/>
                                         </a>
                                     </div>{/if}{/while}

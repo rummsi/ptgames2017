@@ -284,8 +284,6 @@ class ShowOverviewPage extends AbstractGamePage {
                 'title' => $lang['Overview'],
                 'Planet_menu' => $lang['Planet_menu'],
                 'Planet' => $lang['Planet'],
-                'Have_new_message' => $lang['Have_new_message'],
-                'Have_new_messages' => $lang['Have_new_messages'],
                 'Have_new_level_mineur' => $lang['Have_new_level_mineur'],
                 'Have_new_level_raid' => $lang['Have_new_level_raid'],
                 'Server_time' => $lang['Server_time'],

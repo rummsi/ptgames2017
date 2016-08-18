@@ -1,7 +1,7 @@
 
                         <div id="message-wrapper">
                             <!-- Neue Nachrichten-Zähler -->{if $user_new_message != 0}
-                            <a class=" comm_menu messages tooltip js_hideTipOnMobile" href="game.php?page=messages" title="{if $user_new_message == 1}{$Have_new_message}{else}{str_replace('%m', pretty_number($user_new_message), $Have_new_messages)}{/if}">
+                            <a class=" comm_menu messages tooltip js_hideTipOnMobile" href="game.php?page=messages" title="{if $user_new_message == 1}{$lang['Have_new_message']}{else}{str_replace('%m', pretty_number($user_new_message), $lang['Have_new_messages'])}{/if}">
                                 <span class="new_msg_count totalMessages {if $user_new_message == 0}noMessage {/if}news" data-new-messages="{pretty_number($user_new_message)}">{pretty_number($user_new_message)}</span>
                             </a>{/if}
                             <!-- Neue Chatnachrichten-Zähler -->

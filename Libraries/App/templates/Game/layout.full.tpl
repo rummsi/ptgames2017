@@ -37,7 +37,7 @@
                         <div id="helper">
                             <a class="tooltip" href="game.php?page=tutorial" title="Tutorial overview"></a>
                         </div>
-                        <div id="selectedPlanetName" class="textCenter">Colony</div>
+                        <div id="selectedPlanetName" class="textCenter">{$CurrentPlanet['name']}</div>
                     </div><!-- Info -->
                     <!-- END HEADER -->
 
