@@ -18,17 +18,17 @@
  * 
  * PTGamesPT
  * @author XNovaPT Team <xnovaptteam@gmail.com>
- * @ShowOptionsPage.php
+ * @ShowPreferencesPage.php
  * @license http://www.gnu.org/licenses/gpl.html GNU GPLv3 License
  * @version 0.01  14/abr/2016 22:27:07
  */
 
 /**
- * Description of ShowOptionsPage
+ * Description of ShowPreferencesPage
  *
  * @author author XNovaPT Team <xnovaptteam@gmail.com>
  */
-class ShowOptionsPage extends AbstractGamePage {
+class ShowPreferencesPage extends AbstractGamePage {
 
     function __construct() {
         parent::__construct();
