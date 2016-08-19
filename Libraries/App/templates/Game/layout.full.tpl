@@ -25,7 +25,7 @@
                                 </li>{/if}
                                 <li><a href="game.php?page=stat" accesskey="k">{$Statistics}</a>({$user_rank})</li>
                                 <li><a class="overlay" href="game.php?page=search&ajax=1" data-overlay-title="Search Universe" data-overlay-close="__default closeSearch" data-overlay-class="search" accesskey="b">{$Search}</a></li>
-                                <li><a href="game.php?page=options" accesskey="o">{$Options}</a></li>
+                                <li><a href="game.php?page=preferences" accesskey="o">{$Options}</a></li>
                                 <li><a href="game.php?page=add_declare" target="_blank">{$multi}</a></li>
                                 <li><a href="game.php?page=chat" target="_blank">{$Chat}</a></li>
                                 <li><a href="javascript:top.location.href='index.php?page=logout'">{$Logout}</a></li>
