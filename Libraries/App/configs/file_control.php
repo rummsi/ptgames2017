@@ -27,3 +27,8 @@ include(ROOT_PATH . 'Libraries/Classes/Game.php');
 include(ROOT_PATH . 'Libraries/Classes/Template.php');
 include(ROOT_PATH . 'Libraries/Classes/HTTP.php');
 
+require realpath(ROOT_PATH . 'Libraries/Tracy/tracy.php');
+use Tracy\Debugger;
+
+Debugger::enable();
+//Debugger::$strictMode = TRUE;
